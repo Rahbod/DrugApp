@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">app</string>
+    <string name="enable_wifi">دستگاه شما به اینترنت دسترسی ندارد. آیا مایل هستید که Wi-Fi را فعال کنید؟</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="permission_required">لطفا دسترسی به میکروفن را فعال کنید</string>
+    <string name="input_something">Please input something to speak!</string>
+    <string name="repeat">Repeat please</string>
+    <string name="speech_not_available">Speech recognition is not available on this device. Do you want to install Google app to have speech recognition?</string>
+    <string name="enable_google_voice_typing">Please enable Google Voice Typing to use speech recognition!</string>
+</resources>

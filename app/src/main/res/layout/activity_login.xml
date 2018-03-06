@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="110dp"
+            android:layout_height="115dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90dp"
+            android:divider="@android:color/holo_blue_light"
+            android:transitionName="logoTrans"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp">
+
+            <ImageView
+                android:layout_width="63dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart" />
+
+        </android.support.v7.widget.CardView>
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/text_view"
+            android:text="سینا دارو"
+            android:textColor="@color/sina"
+            android:textSize="25dp" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/text_view"
+            android:text="داروهای ژنریک ایران"
+            android:textColor="@color/Gray"
+            android:textSize="11dp" />
+
+        <com.example.behnam.fonts.ButtonFont
+            android:id="@+id/btnActivation"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:layout_above="@+id/btnLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_button_gradient"
+            android:text="فعال سازی"
+            android:textColor="@color/white" />
+
+        <com.example.behnam.fonts.ButtonFont
+            android:id="@+id/btnLogin"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="90dp"
+            android:background="@drawable/shape_button_stroke"
+            android:text="ورود"
+            android:textColor="@color/blue2" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

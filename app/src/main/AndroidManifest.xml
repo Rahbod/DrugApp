@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.behnam.app">
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".controller.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/heart"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/heart"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ActivityLogin"></activity>
+        <activity
+            android:name=".ActivityActiv"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityLog"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityHome"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActivityReminderStep2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ActivityErrorReport"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".ActivityInterferenceStep1"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".ActivityAbout" />
+        <activity
+            android:name=".ActivityReminderStep1"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ActivityInterferenceStep2"></activity>
+    </application>
+
+</manifest>
