@@ -20,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterInterferenceStep1;
+import com.example.behnam.app.adapter.AdapterInterferenceStep2;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -57,6 +59,8 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
                 onBackPressed();
             }
         });
+
+        SessionManager.getExtrasPref(this).remove("selectedIDs");
 
         dbHelper = new DbHelper(getApplicationContext());
         //        search

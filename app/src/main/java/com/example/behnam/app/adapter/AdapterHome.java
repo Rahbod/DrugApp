@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.behnam.app.ActivityErrorReport;
@@ -17,10 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHolder> {
+public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHolder> implements SectionIndexer {
 
     Context context;
     List<Drug> drugList ;
+    private List<String> mDataArray;
+    private ArrayList<Integer> mSectionPositions;
 
     public AdapterHome(Context context, List<Drug> drugList) {
         this.context = context;
@@ -71,6 +74,30 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
     @Override
     public int getItemCount() {
         return drugList.size() ;
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = mDataArray.size(); i < size; i++) {
+            String section = String.valueOf(mDataArray.get(i).charAt(0)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSectionPositions.get(sectionIndex);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     class drugListViewHolder extends RecyclerView.ViewHolder

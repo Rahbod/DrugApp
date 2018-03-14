@@ -5,7 +5,7 @@ package com.example.behnam.app.database;
  */
 
 public class Drug {
-    int  id ;
+    int id;
     String name;
     String brand;
     String pregnancy;
@@ -13,20 +13,21 @@ public class Drug {
     String kids;
     String seniors;
     String how_to_use;
-    String product ;
+    String product;
     String pharmacodynamic;
-    String usage ;
-    String prohibition ;
-    String caution ;
+    String usage;
+    String prohibition;
+    String caution;
     String dose_adjustment;
     String complication;
-    String interference ;
+    String interference;
     String effect_on_test;
-    String over_dose ;
-    String description ;
-    String relation_with_food ;
-    int status ;
-    String last_modified ;
+    String over_dose;
+    String description;
+    String relation_with_food;
+    int status;
+    String last_modified;
+    boolean checked = false;
 
     public Drug() {
 
@@ -255,5 +256,13 @@ public class Drug {
 
     public void setLast_modified(String last_modified) {
         this.last_modified = last_modified;
+    }
+
+    public void setChecked(boolean state) {
+        this.checked = state;
+    }
+
+    public boolean getChecked() {
+        return this.checked;
     }
 }

@@ -1,17 +1,24 @@
 package com.example.behnam.app.helper;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -148,7 +155,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_DRUGS, new String[]{KEY_ID_DRUG, KEY_NAME_DRUG, KEY_BRAND, KEY_PREGNANCY
                 , KEY_LACTATION, KEY_KIDS, KEY_SENIORS, KEY_HOW_TO_USE, KEY_PRODUCT, KEY_PHARMACODYNAMIC, KEY_USAGE, KEY_PROHIBITION
                 , KEY_CAUTION, KEY_DOSE_ADJUSTMENT, KEY_COMPLICATION, KEY_INTERFERENCE, KEY_EFFECT_ON_TEST, KEY_OVER_DOSE, KEY_DESCRIPTION
-                , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED}, KEY_ID_DRUG + ":?", new String[]{String.valueOf(id)}, null, null, null, null);
+                , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED}, KEY_ID_DRUG + " = ?", new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
         Drug drug = new Drug(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)
@@ -207,10 +214,63 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public long getCount(String table){
+    public long getCount(String table) {
         db = this.getReadableDatabase();
         long count = DatabaseUtils.queryNumEntries(db, table);
         db.close();
         return count;
+    }
+
+    public JSONObject checkInterference(int id, String[] selectedIDs) {
+        String[] params = new String[selectedIDs.length + 1];
+        params[0] = String.valueOf(id);
+        for (int i = 0; i < selectedIDs.length; i++)
+            params[i + 1] = selectedIDs[i];
+        db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=? AND " + KEY_TYPE + "=1 AND " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_TYPE + "=0 AND " + KEY_DRUG_ID + " IN (" + makePlaceholders(selectedIDs.length) + "));";
+        Cursor cursor = db.rawQuery(sql, params);
+        JSONObject output = new JSONObject();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=?", new String[]{params[0]});
+        StringBuilder test = new StringBuilder();
+        for (int i=0;i<params.length;i++)
+            test.append("##").append(params[i]);
+        Log.e("masoud", sql);
+        Log.e("masoud", test.toString());
+        Log.e("masoud", String.valueOf(cursor.getCount()));
+        if (c.moveToFirst()) {
+            while (c.moveToNext()) {
+                // selectedIDs =>  [1,2,6,4]
+                // cursor => [2,4]
+                // خروجی
+                // {"1": false, "2": true, "6": false, "4":true}
+                for (int i = 0; i < selectedIDs.length; i++) {
+                    Boolean hasInterference = false;
+                    Log.e("rrrrrr", c.getString(Integer.parseInt("id")));
+                    if (String.valueOf(c.getString(c.getColumnIndex("id"))) == selectedIDs[i])
+                        hasInterference = true;
+                    try {
+                        output.put(selectedIDs[i], hasInterference);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        cursor.close();
+        return output;
+    }
+
+    String makePlaceholders(int len) {
+        if (len < 1) {
+            // It will lead to an invalid query anyway ..
+            throw new RuntimeException("No placeholders");
+        } else {
+            StringBuilder sb = new StringBuilder(len * 2 - 1);
+            sb.append("?");
+            for (int i = 1; i < len; i++) {
+                sb.append(",?");
+            }
+            return sb.toString();
+        }
     }
 }
