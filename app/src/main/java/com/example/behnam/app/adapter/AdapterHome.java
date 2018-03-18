@@ -3,6 +3,7 @@ package com.example.behnam.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,36 +39,37 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
     }
 
     @Override
-    public void onBindViewHolder(drugListViewHolder holder, int position) {
-        final int pos = position;
+    public void onBindViewHolder(drugListViewHolder holder, final int position) {
         holder.drugName.setText(drugList.get(position).getName());
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("TAG", "PPPPPPPPPPPPPPPPPPP "+drugList.get(position).getName() );
                 Intent intent = new Intent(context,ActivityErrorReport.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("brand",drugList.get(pos).getBrand());
-                intent.putExtra("name",drugList.get(pos).getName());
-                intent.putExtra("pregnancy",drugList.get(pos).getPregnancy());
-                intent.putExtra("lactation",drugList.get(pos).getLactation());
-                intent.putExtra("kids",drugList.get(pos).getKids());
-                intent.putExtra("seniors",drugList.get(pos).getSeniors());
-                intent.putExtra("how_to_use",drugList.get(pos).getHow_to_use());
-                intent.putExtra("product",drugList.get(pos).getProduct());
-                intent.putExtra("pharmacodynamic",drugList.get(pos).getPharmacodynamic());
-                intent.putExtra("usage",drugList.get(pos).getUsage());
-                intent.putExtra("prohibition",drugList.get(pos).getProhibition());
-                intent.putExtra("caution",drugList.get(pos).getCaution());
-                intent.putExtra("dose_adjustment",drugList.get(pos).getDose_adjustment());
-                intent.putExtra("complication",drugList.get(pos).getComplication());
-                intent.putExtra("interference",drugList.get(pos).getInterference());
-                intent.putExtra("effect_on_test",drugList.get(pos).getEffect_on_test());
-                intent.putExtra("overdose",drugList.get(pos).getOver_dose());
-                intent.putExtra("description",drugList.get(pos).getDescription());
-                intent.putExtra("relation_with_food",drugList.get(pos).getRelation_with_food());
-                intent.putExtra("status",drugList.get(pos).getStatus());
-                intent.putExtra("last_modified",drugList.get(pos).getLast_modified());
-                context.startActivity(intent);
+                intent.putExtra("id",drugList.get(position).getId());
+                intent.putExtra("brand",drugList.get(position).getBrand());
+                intent.putExtra("name",drugList.get(position).getName());
+                intent.putExtra("pregnancy",drugList.get(position).getPregnancy());
+                intent.putExtra("lactation",drugList.get(position).getLactation());
+                intent.putExtra("kids",drugList.get(position).getKids());
+                intent.putExtra("seniors",drugList.get(position).getSeniors());
+                intent.putExtra("how_to_use",drugList.get(position).getHow_to_use());
+                intent.putExtra("product",drugList.get(position).getProduct());
+                intent.putExtra("pharmacodynamic",drugList.get(position).getPharmacodynamic());
+                intent.putExtra("usage",drugList.get(position).getUsage());
+                intent.putExtra("prohibition",drugList.get(position).getProhibition());
+                intent.putExtra("caution",drugList.get(position).getCaution());
+                intent.putExtra("dose_adjustment",drugList.get(position).getDose_adjustment());
+                intent.putExtra("complication",drugList.get(position).getComplication());
+                intent.putExtra("interference",drugList.get(position).getInterference());
+                intent.putExtra("effect_on_test",drugList.get(position).getEffect_on_test());
+                intent.putExtra("overdose",drugList.get(position).getOver_dose());
+                intent.putExtra("description",drugList.get(position).getDescription());
+                intent.putExtra("relation_with_food",drugList.get(position).getRelation_with_food());
+                intent.putExtra("status",drugList.get(position).getStatus());
+                intent.putExtra("last_modified",drugList.get(position).getLast_modified());
+//                context.startActivity(intent);
             }
         });
     }

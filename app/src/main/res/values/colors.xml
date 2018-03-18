@@ -10,4 +10,6 @@
     <color name="blue2">#31a9ff</color>
     <color name="red">#ff432a</color>
     <color name="green">#49bd1b</color>
+    <color name="mdtp_accent_color">#009688</color>
+    <color name="mdtp_accent_color_dark">#00796b</color>
 </resources>

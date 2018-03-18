@@ -11,6 +11,7 @@ import android.util.Log;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Reminder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_DRUGS = "drugs";
     private static final String TABLE_CATEGORY_DRUG = "category_drug";
     private static final String TABLE_INDEX = "indexes";
+    private static final String TABLE_REMINDER = "reminders";
 
     private static final String KEY_ID_CATEGORY = "id";
     private static final String KEY_NAME_CATEGORY = "name";
@@ -62,7 +64,13 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_RELATION_WITH_FOOD = "relation_with_food";
     private static final String KEY_STATUS = "status";
     private static final String KEY_LAST_MODIFIED = "last_modified";
+    private static final String FAVORITE = "favorite";
 
+
+    private static final String KEY_ID_REMINDER = "id";
+    private static final String KEY_START_TIME = "start_time";
+    private static final String KEY_COUNT = "use_count";
+    private static final String KEY_PERIOD_TIME = "period_time";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -92,12 +100,17 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_PROHIBITION + " TEXT ," + KEY_CAUTION + " TEXT ," + KEY_DOSE_ADJUSTMENT + " TEXT , "
                 + KEY_COMPLICATION + " TEXT , " + KEY_INTERFERENCE + " TEXT , " + KEY_EFFECT_ON_TEST + " TEXT , "
                 + KEY_OVER_DOSE + " TEXT , " + KEY_DESCRIPTION + " TEXT , " + KEY_RELATION_WITH_FOOD + " TEXT , "
-                + KEY_STATUS + " INTEGER , " + KEY_LAST_MODIFIED + " TEXT"
+                + KEY_STATUS + " INTEGER , " + KEY_LAST_MODIFIED + " TEXT , " + FAVORITE + " INTEGER DEFAULT 0"
                 + ")";
+
+        String CREATE_TABLE_REMINDERS = "CREATE TABLE IF NOT EXISTS " + TABLE_REMINDER + " ( "
+                + KEY_ID_REMINDER + " INTEGER , " + KEY_DRUG_ID + " INTEGER , "
+                + KEY_START_TIME + " INTEGER , " + KEY_COUNT + " INTEGER , " + KEY_PERIOD_TIME + " INTEGER " + ")";
 
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
         db.execSQL(CREATE_TABLE_CATEGORY_DRUG);
+        db.execSQL(CREATE_TABLE_REMINDERS);
     }
 
     @Override
@@ -106,6 +119,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
         onCreate(db);
     }
 
@@ -117,6 +131,49 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_CATEGORIES, null, values);
         db.close();
+    }
+
+    public void addReminder(Reminder reminder) {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_DRUG_ID, reminder.getDrugId());
+        values.put(KEY_START_TIME, reminder.getStart_time());
+        values.put(KEY_COUNT, reminder.getCount());
+        values.put(KEY_PERIOD_TIME, reminder.getPeriod_time());
+
+        db.insert(TABLE_REMINDER, null, values);
+        db.close();
+    }
+
+    public Reminder getReminder(int id) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = "+id,null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        return new Reminder(cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4));
+    }
+
+    public List<Reminder> getAllReminder() {
+        List<Reminder> reminderList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_REMINDER;
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Reminder reminder = new Reminder();
+                reminder.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                reminder.setDrugId(cursor.getInt(1));
+                reminder.setStart_time(cursor.getInt(2));
+                reminder.setCount(cursor.getInt(3));
+                reminder.setPeriod_time(cursor.getInt(4));
+
+                reminderList.add(reminder);
+            }
+            while (cursor.moveToNext());
+        }
+        return reminderList;
     }
 
     public void addDrug(Drug drug) {
@@ -289,4 +346,20 @@ public class DbHelper extends SQLiteOpenHelper {
         cursor.close();
         return conflicts;
     }
+
+    public void updateDrug(int id) {
+        db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT favorite FROM drugs WHERE id = " + id, null);
+        ContentValues contentValues = new ContentValues();
+        if (cursor.moveToFirst()) {
+            if (cursor.getInt(cursor.getColumnIndex("favorite")) == 0) {
+                contentValues.put("favorite", 1);
+                db.update(TABLE_DRUGS, contentValues, null, null);
+            } else {
+                contentValues.put("favorite", 0);
+                db.update(TABLE_DRUGS, contentValues, null, null);
+            }
+        }
+    }
+
 }

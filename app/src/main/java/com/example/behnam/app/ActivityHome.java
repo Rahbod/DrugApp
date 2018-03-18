@@ -37,6 +37,7 @@ import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.SessionManager;
+import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -259,7 +260,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ActivityHome.this,MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
@@ -282,7 +283,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
         }
     }
-
     private void closeNv() {
         new Handler().postDelayed(new Runnable() {
             @Override
