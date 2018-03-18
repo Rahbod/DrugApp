@@ -199,7 +199,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList));
+        mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList, this));
 
 
 //
