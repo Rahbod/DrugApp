@@ -11,6 +11,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.behnam.app.ActivityErrorReport;
+import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
 

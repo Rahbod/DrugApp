@@ -45,36 +45,6 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/rel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relReminder"
-                android:layout_marginTop="20dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp">
-
-                <com.example.behnam.fonts.FontTextView
-                    android:id="@+id/txt1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="20dp"
-                    android:text="موضوع"
-                    android:textColor="@color/Gray"
-                    android:textSize="14dp" />
-
-                <com.example.behnam.fonts.EditTextFont
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/edit_text_border"
-                    android:textSize="13dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/rel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +63,7 @@
                     android:textSize="14dp" />
 
                 <com.example.behnam.fonts.EditTextFont
+                    android:id="@+id/etReport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt2"
@@ -107,7 +78,7 @@
             </RelativeLayout>
 
             <com.example.behnam.fonts.ButtonFont
-                android:id="@+id/button"
+                android:id="@+id/btnSave"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"

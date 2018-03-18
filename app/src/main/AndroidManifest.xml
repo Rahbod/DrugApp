@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityLogin"></activity>
+        <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
             android:windowSoftInputMode="stateHidden" />
@@ -23,7 +23,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityHome"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,18 +35,18 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityErrorReport"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityInterferenceStep1"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".ActivityAbout" />
         <activity
             android:name=".ActivityReminderStep1"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ActivityInterferenceStep2"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ActivityInterferenceStep2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ActivityInterferenceStep3"></activity>
     </application>
 
 </manifest>

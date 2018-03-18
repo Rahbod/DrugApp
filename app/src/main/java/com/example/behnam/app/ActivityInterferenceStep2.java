@@ -4,6 +4,7 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -40,7 +41,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityInterferenceStep2 extends AppCompatActivity implements SpeechDelegate {
 
@@ -108,23 +111,23 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
             @Override
             public void onClick(View v) {
                 String selectedIDs = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs");
-
                 int mainID = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getInt("mainID");
-                List<String> listCategoryDrug =new ArrayList<>();
                 JSONArray temp = null;
                 try {
                     temp = new JSONArray(selectedIDs);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String[] selectedIDsArr = new String[0];
+                String selectedIDsArr;
                 try {
-                    selectedIDsArr = temp.join(",").split(",");
+                    selectedIDsArr = temp.join(",");
+                    JSONObject conflicts = dbHelper.checkInterference(mainID, selectedIDsArr);
+                    SessionManager.getExtrasPref(ActivityInterferenceStep2.this).putExtra("conflicts", String.valueOf(conflicts));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                JSONObject jsonObject = dbHelper.checkInterference(mainID, selectedIDsArr);
-                Log.e("aaa", String.valueOf(jsonObject));
+                Intent intent = new Intent(ActivityInterferenceStep2.this, ActivityInterferenceStep3.class);
+                startActivity(intent);
             }
         });
 
