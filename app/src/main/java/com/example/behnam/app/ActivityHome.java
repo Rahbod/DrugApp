@@ -114,10 +114,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.e("beh", response.toString());
                     try {
                         if (response.getBoolean("status")) {
-
                             JSONArray jsonArray = response.getJSONArray("drugs");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -138,6 +136,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
+                            Log.e("cutegory=", response.toString());
                             JSONArray jsonArray = response.getJSONArray("categories");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -158,13 +157,14 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
+                            Log.e("categoryDrug=", response.toString());
                             JSONArray jsonArray = response.getJSONArray("list");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                             }
-                            
+
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {

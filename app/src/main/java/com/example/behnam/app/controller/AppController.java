@@ -131,6 +131,7 @@ public class AppController extends Application {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json");
+                    headers.put("Cache-Control", "no-cache");
                     String token = Base64.encodeToString(
                             (CLIENT_ID + ":" + CLIENT_SECRET).getBytes(),
                             Base64.NO_WRAP);

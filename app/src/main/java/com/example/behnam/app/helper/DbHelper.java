@@ -1,6 +1,5 @@
 package com.example.behnam.app.helper;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -222,6 +221,47 @@ public class DbHelper extends SQLiteOpenHelper {
         return drug;
     }
 
+    public List<Drug> getDrugs(JSONArray ids) {
+        db = this.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("SELECT * FROM "+TABLE_DRUGS+" WHERE "+KEY_ID_DRUG+" IN ("+ ids.join(",") +")", null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        List<Drug> drugList = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                drug.setName(cursor.getString(1));
+                drug.setBrand(cursor.getString(2));
+                drug.setPregnancy(cursor.getString(3));
+                drug.setLactation(cursor.getString(4));
+                drug.setKids(cursor.getString(5));
+                drug.setSeniors(cursor.getString(6));
+                drug.setHow_to_use(cursor.getString(7));
+                drug.setProduct(cursor.getString(8));
+                drug.setPharmacodynamic(cursor.getString(9));
+                drug.setUsage(cursor.getString(10));
+                drug.setProhibition(cursor.getString(11));
+                drug.setCaution(cursor.getString(12));
+                drug.setDose_adjustment(cursor.getString(13));
+                drug.setComplication(cursor.getString(14));
+                drug.setInterference(cursor.getString(15));
+                drug.setEffect_on_test(cursor.getString(16));
+                drug.setOver_dose(cursor.getString(17));
+                drug.setDescription(cursor.getString(18));
+                drug.setRelation_with_food(cursor.getString(19));
+                drug.setStatus(Integer.parseInt(cursor.getString(20)));
+                drug.setLast_modified(cursor.getString(21));
+                drugList.add(drug);
+            }
+        }
+        return drugList;
+    }
+
     public List<Drug> getAllDrugs() {
         List<Drug> drugList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_DRUGS;
@@ -278,57 +318,33 @@ public class DbHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public JSONObject checkInterference(int id, String[] selectedIDs) {
-        String[] params = new String[selectedIDs.length + 1];
-        params[0] = String.valueOf(id);
-        for (int i = 0; i < selectedIDs.length; i++)
-            params[i + 1] = selectedIDs[i];
+    public JSONObject checkInterference(int id, String selectedIDs) {
+        String[] idsArray = selectedIDs.split(",");
         db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=? AND " + KEY_TYPE + "=1 AND " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_TYPE + "=0 AND " + KEY_DRUG_ID + " IN (" + makePlaceholders(selectedIDs.length) + "));";
-        Cursor cursor = db.rawQuery(sql, params);
-        JSONObject output = new JSONObject();
-        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=?", new String[]{params[0]});
-        StringBuilder test = new StringBuilder();
-        for (int i=0;i<params.length;i++)
-            test.append("##").append(params[i]);
-        Log.e("masoud", sql);
-        Log.e("masoud", test.toString());
-        Log.e("masoud", String.valueOf(cursor.getCount()));
-        if (c.moveToFirst()) {
-            while (c.moveToNext()) {
-                // selectedIDs =>  [1,2,6,4]
-                // cursor => [2,4]
-                // خروجی
-                // {"1": false, "2": true, "6": false, "4":true}
-                for (int i = 0; i < selectedIDs.length; i++) {
-                    Boolean hasInterference = false;
-                    Log.e("rrrrrr", c.getString(Integer.parseInt("id")));
-                    if (String.valueOf(c.getString(c.getColumnIndex("id"))) == selectedIDs[i])
-                        hasInterference = true;
-                    try {
-                        output.put(selectedIDs[i], hasInterference);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+        String sql = "SELECT * FROM "+TABLE_DRUGS+" d INNER JOIN "+TABLE_CATEGORY_DRUG+" cd  ON d."+KEY_ID_DRUG+" = cd."+KEY_DRUG_ID+" " +
+                "WHERE cd.category_id IN (" +
+                "SELECT category_id FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=" + String.valueOf(id) + " AND " + KEY_TYPE + "=1 AND " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_TYPE + "=0 AND " + KEY_DRUG_ID + " IN (" + selectedIDs + "))" +
+                ") and d."+KEY_ID_DRUG+" <> " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        ArrayList<Integer> nID = new ArrayList<>(cursor.getCount());
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                nID.add(cursor.getInt(cursor.getColumnIndex("id")));
+            }
+        }
+        JSONObject conflicts = new JSONObject();
+        for (int i = 0; i < idsArray.length; i++) {
+            Boolean hasInterference = false;
+            if (nID.contains(Integer.parseInt(idsArray[i])))
+                hasInterference = true;
+            try {
+                conflicts.put(idsArray[i], hasInterference);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
         cursor.close();
-        return output;
-    }
-
-    String makePlaceholders(int len) {
-        if (len < 1) {
-            // It will lead to an invalid query anyway ..
-            throw new RuntimeException("No placeholders");
-        } else {
-            StringBuilder sb = new StringBuilder(len * 2 - 1);
-            sb.append("?");
-            for (int i = 1; i < len; i++) {
-                sb.append(",?");
-            }
-            return sb.toString();
-        }
+        return conflicts;
     }
 
     public void updateDrug(int id) {
