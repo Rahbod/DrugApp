@@ -46,7 +46,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         final FontTextView date = findViewById(R.id.date_picker);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { 
                 PersianCalendar now = new PersianCalendar();
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                  @Override
