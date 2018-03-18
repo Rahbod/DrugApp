@@ -34,6 +34,7 @@ import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.SessionManager;
+import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -114,7 +115,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+                                dbHelper.addDrug(new Drug(object.getInt("id"),object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
                             }
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
@@ -228,7 +229,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ActivityHome.this,MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
@@ -251,7 +252,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
         }
     }
-
     private void closeNv() {
         new Handler().postDelayed(new Runnable() {
             @Override

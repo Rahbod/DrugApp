@@ -27,9 +27,14 @@ public class Drug {
     String relation_with_food ;
     int status ;
     String last_modified ;
+    int favorite;
 
     public Drug() {
 
+    }
+
+    public Drug(int favorite) {
+        this.favorite = favorite;
     }
 
     public Drug(int id, String name, String brand, String pregnancy, String lactation, String kids, String seniors, String how_to_use, String product, String pharmacodynamic, String usage, String prohibition, String caution, String dose_adjustment, String complication, String interference, String effect_on_test, String over_dose, String description, String relation_with_food, int status, String last_modified) {
@@ -255,5 +260,13 @@ public class Drug {
 
     public void setLast_modified(String last_modified) {
         this.last_modified = last_modified;
+    }
+
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
     }
 }

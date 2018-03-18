@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
+import com.example.behnam.app.ActivityReminderStep2;
+
 public class FontTextView extends android.support.v7.widget.AppCompatTextView {
     public FontTextView(Context context) {
         super(context);

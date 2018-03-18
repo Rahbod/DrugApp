@@ -81,7 +81,6 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
 
         drawerLayout = findViewById(R.id.DrawerLayout);
 
-
         DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recHome);
         drugList = dbHelper.getAllDrugs();

@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="20dp"
-                    android:text="بازه زمانی"
+                    android:text=" شروع"
                     android:textColor="@color/Gray"
                     android:textSize="12dp" />
 
@@ -100,14 +100,13 @@
                     android:orientation="horizontal"
                     android:weightSum="9">
 
-                    <com.example.behnam.fonts.EditTextFont
-                        android:id="@+id/etHour"
+                    <com.example.behnam.fonts.FontTextView
+                        android:id="@+id/date_picker"
+                        android:background="@drawable/edit_text_border"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:background="@drawable/edit_text_border"
-                        android:inputType="number"
-                        android:maxLength="2"
+                        android:hint="تاریخ"
                         android:textAlignment="center"
                         android:textSize="13dp" />
 
@@ -116,21 +115,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:text="  :"
                         android:textSize="21dp"
                         android:textColor="@color/sina"/>
-
-                    <com.example.behnam.fonts.EditTextFont
-                        android:id="@+id/etMinute"
+                    <com.example.behnam.fonts.FontTextView
+                        android:id="@+id/time_picker"
+                        android:background="@drawable/edit_text_border"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:background="@drawable/edit_text_border"
-                        android:inputType="number"
-                        android:maxLength="2"
+                        android:hint="زمان"
                         android:textAlignment="center"
                         android:textSize="13dp" />
-
                 </LinearLayout>
 
             </RelativeLayout>
@@ -144,7 +139,41 @@
                 android:paddingRight="50dp">
 
                 <com.example.behnam.fonts.FontTextView
-                    android:id="@+id/txt2"
+                    android:id="@+id/tv_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp"
+                    android:text="دوره مصرف"
+                    android:textColor="@color/Gray"
+                    android:textSize="12dp" />
+
+                <com.example.behnam.fonts.EditTextFont
+                    android:id="@+id/et_period"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_period"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_text_border"
+                    android:textSize="13dp"
+                    android:hint="هر چند ساعت؟"
+                    android:inputType="number"
+                    android:textColor="@color/sina"
+                    android:gravity="right"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel2"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp">
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -154,17 +183,17 @@
                     android:textSize="12dp" />
 
                 <com.example.behnam.fonts.EditTextFont
+                    android:id="@+id/et_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txt2"
+                    android:layout_below="@+id/tv_count"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_text_border"
                     android:textSize="13dp"
                     android:inputType="number"
-                    android:textAlignment="center"
+                    android:gravity="right"
                     android:textColor="@color/sina"/>
-
             </RelativeLayout>
 
             <com.example.behnam.fonts.ButtonFont
@@ -172,7 +201,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/rel2"
+                android:layout_below="@id/rel3"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="50dp"

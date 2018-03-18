@@ -8,4 +8,6 @@
     <color name="Gray">#a3a5a7</color>
     <color name="blue">#2bd0ff</color>
     <color name="blue2">#31a9ff</color>
+    <color name="mdtp_accent_color">#009688</color>
+    <color name="mdtp_accent_color_dark">#00796b</color>
 </resources>
