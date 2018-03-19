@@ -348,19 +348,34 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void updateDrug(int id) {
         db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT favorite FROM drugs WHERE id = " + id, null);
+        Cursor cursor = db.rawQuery("SELECT " + FAVORITE + " FROM " + TABLE_DRUGS + " WHERE id =" + id, null);
         ContentValues contentValues = new ContentValues();
         if (cursor.moveToFirst()) {
             if (cursor.getInt(cursor.getColumnIndex("favorite")) == 0) {
                 contentValues.put("favorite", 1);
-                db.update(TABLE_DRUGS, contentValues, null, null);
+                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
             } else {
                 contentValues.put("favorite", 0);
-                db.update(TABLE_DRUGS, contentValues, null, null);
+                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
             }
         }
     }
 
+    public List<Drug> getFavorite() {
+        List<Drug> listFavorite = new ArrayList<>();
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + FAVORITE + " =1", null);
+        if (cursor.moveToFirst()) {
+            do {
+                Drug drug = new Drug();
+                drug.setFavorite(cursor.getInt(cursor.getColumnIndex(FAVORITE)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                listFavorite.add(drug);
+            }
+            while (cursor.moveToNext());
+        }
+        return listFavorite;
+    }
     public List<Category> getCategoriesByDrug(int id) {
         List<Category> categoryList = new ArrayList<>();
 //        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";

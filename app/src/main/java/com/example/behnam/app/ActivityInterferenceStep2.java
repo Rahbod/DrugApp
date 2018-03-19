@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterInterferenceStep2;
@@ -49,8 +50,9 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
 
     private RecyclerView recyclerView;
     private EditText etSearch;
-    private ImageView btnListen;
+    private ImageView btnListen, btnBack;
     private EditText text;
+    private TextView txtName, txtBrand;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<Drug> drugList;
@@ -61,6 +63,24 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference_step_2);
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        Bundle bundle = getIntent().getExtras();
+        String strName = bundle.getString("name");
+        String strBrand = bundle.getString("brand");
+
+        txtName = findViewById(R.id.txtName);
+        txtBrand = findViewById(R.id.txtBrand);
+
+        txtName.setText(strName);
+        txtBrand.setText(strBrand);
 
         floatButton = findViewById(R.id.floatButton);
 

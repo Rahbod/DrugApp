@@ -265,14 +265,19 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item4:
-                shareApplication();
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
                 break;
             case R.id.item5:
+                shareApplication();
+                break;
+            case R.id.item6:
                 Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
                 startActivity(goToErrorReport);
                 closeNv();
                 break;
-            case R.id.item6:
+            case R.id.item7:
                 Intent goToAbout = new Intent(this, ActivityAbout.class);
                 startActivity(goToAbout);
                 closeNv();
