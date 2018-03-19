@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.behnam.app.ActivityAbout">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="167dp"
+        android:background="@drawable/background_gradient">
+
+        <ImageView
+            android:id="@+id/btnOpenNvDraw"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/menu_icon" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/title_program"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:text="سینا دارو"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <com.example.behnam.fonts.FontTextViewBold
+            android:id="@+id/name_drug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_program"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="ABACAVIR SULFATE"
+            android:textColor="@color/mdtp_background_color"
+            android:textSize="18dp" />
+
+        <com.example.behnam.fonts.ButtonFont
+            android:id="@+id/add"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="75dp"
+            android:background="@drawable/shape_button_stroke"
+            android:text="ارسال به دوستان"
+            android:textColor="@color/blue2"
+            android:textSize="10dp" />
+
+        <com.example.behnam.fonts.ButtonFont
+            android:id="@+id/send"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="100dp"
+            android:layout_height="28dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="75dp"
+            android:background="@drawable/shape_button_stroke"
+            android:text="افزودن به سبد دارو"
+            android:textColor="@color/blue2"
+            android:textSize="10dp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/brand_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="نام تجاری :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/brand_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brand_name"
+                    android:layout_marginRight="7dp"
+                    android:gravity="right"
+                    android:text="ABACAVIR"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/healling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/brand_value"
+                    android:text="طبقه بندی درمانی :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/healling_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/healling"
+                    android:layout_marginRight="7dp"
+                    android:text="آنتی بیوتیک"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/pharma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/healling_value"
+                    android:text="طبقه‌بندي فارماكولوژيك :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/pharma_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pharma"
+                    android:layout_marginRight="7dp"
+                    android:text="آنتی بیوتیک"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/sickness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/pharma_value"
+                    android:text="طبقه بندی بیماری :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/sickness_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sickness"
+                    android:layout_marginRight="7dp"
+                    android:text="سرماخوردگی"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/pregnancy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/sickness_value"
+                    android:text="مصرف در دوران بارداري :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/pregnancy_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pregnancy"
+                    android:layout_marginRight="7dp"
+                    android:text="گروه C"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/loctation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/pregnancy_value"
+                    android:text="مصرف در دوران شيردهي :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/loctation_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/loctation"
+                    android:layout_marginRight="7dp"
+                    android:text="در زنان شیرده قابل استفاده است"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/kids"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/loctation_value"
+                    android:text="راهنماي مصرف در كودكان :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/kids_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/kids"
+                    android:layout_marginRight="7dp"
+                    android:text="در زنان شیرده قابل استفاده است."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/senior"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/kids_value"
+                    android:text="راهنماي مصرف در سالمندان :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/senior_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/senior"
+                    android:layout_marginRight="7dp"
+                    android:text="ثرثرثرsgmsg spfkbk عوارض جانبی در سالمندان باشید."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/how_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/senior_value"
+                    android:text="راه مصرف :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/how_use_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/senior_value"
+                    android:layout_marginRight="7dp"
+                    android:layout_toLeftOf="@id/how_use"
+                    android:text="IV"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/how_use_value"
+                    android:text="فرآورده‌هاي دارويي :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/product_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/product"
+                    android:layout_marginRight="7dp"
+                    android:gravity="right"
+                    android:text="Oral solution	 	20mg/ml"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/pharmacodynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/product_value"
+                    android:text="فارماكوديناميك  :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/pharmacodynamic_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pharmacodynamic"
+                    android:layout_marginRight="7dp"
+                    android:text="- متابوليسم: توسط الكل دهيدروژناز و گلوكورونيل ترانسفراز به دو متابوليت غيرفعال تبديل مي‌شود."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/usage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/pharmacodynamic_value"
+                    android:text="موارد مصرف و دوزاژ :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/usage_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/usage"
+                    android:layout_marginRight="7dp"
+                    android:text="آرتريت روماتوئيد، آرتريت پسورياتيك، اسپونديليت آنكيلوزان"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/prohibition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/usage_value"
+                    android:text="موارد منع مصرف :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/prohibition_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/prohibition"
+                    android:layout_marginRight="7dp"
+                    android:text="در بيماراني كه نسبت به آداليموماب و يا اجزاي آن حساسيت زيادي دارند و بيماران دچار كاهش سطح ايمني يا عفونت فعال، وخيم يا موضعي منع مصرف دارد."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/caution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/prohibition_value"
+                    android:text="موارد احتياط :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/caution_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/caution"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/caution_value"
+                    android:text="تعديل دوزاژ :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/dose_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dose"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/complication"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/dose_value"
+                    android:text="عوارض جانبی :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/complication_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/complication"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/interferences"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/dose_value"
+                    android:text="تداخلات دارویی :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/interferences_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/complication"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/effect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/interferences_value"
+                    android:text="اثر بر روي تست‌هاي آزمايشگاهي :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/effect_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/effect"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/over_dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/effect_value"
+                    android:text="اوردوز و درمان :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/over_dose_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/over_dose"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/over_dose_value"
+                    android:text="اطلاعات كلي براي بيمار، پرستار و پزشك :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/description_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/relation_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/description_value" 
+                    android:text="رابطه مصرف دارو همراه با غذا :"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/relation_food_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relation_food"
+                    android:layout_marginRight="7dp"
+                    android:text="اختلالات روانى، بيمارى كليوى يا كبدى، سابقه تشنج، ادم محيطى، هيپوتانسيون ارتوستاتيك، سايكوز شديد، اكزما، تماس با سرخجه."
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

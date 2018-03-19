@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.behnam.app.ActivityErrorReport;
 import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.R;
+import com.example.behnam.app.ViewDrug;
 import com.example.behnam.app.database.Drug;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
             @Override
             public void onClick(View v) {
                 Log.e("TAG", "PPPPPPPPPPPPPPPPPPP "+drugList.get(position).getName() );
-                Intent intent = new Intent(context,ActivityErrorReport.class);
+                Intent intent = new Intent(context,ViewDrug.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id",drugList.get(position).getId());
                 intent.putExtra("brand",drugList.get(position).getBrand());
@@ -69,7 +70,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
                 intent.putExtra("relation_with_food",drugList.get(position).getRelation_with_food());
                 intent.putExtra("status",drugList.get(position).getStatus());
                 intent.putExtra("last_modified",drugList.get(position).getLast_modified());
-//                context.startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }
