@@ -99,7 +99,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/brand_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/healling_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pharma_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/sickness_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pregnancy_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/loctation_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/kids_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -240,13 +240,13 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/senior_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/senior"
                     android:layout_marginRight="7dp"
-                    android:text="ثرثرثرsgmsg spfkbk عوارض جانبی در سالمندان باشید."
+                    android:text="عوارض جانبی در سالمندان باشید."
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
@@ -260,7 +260,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/how_use_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/product_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -302,7 +302,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pharmacodynamic_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/usage_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/prohibition_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -363,7 +363,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/caution_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -383,7 +383,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/dose_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -403,7 +403,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/complication_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -423,7 +423,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/interferences_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -443,7 +443,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/effect_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -463,7 +463,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/over_dose_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -483,7 +483,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/description_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -498,12 +498,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/description_value" 
+                    android:layout_below="@id/description_value"
                     android:text="رابطه مصرف دارو همراه با غذا :"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18dp" />
 
-                <com.example.behnam.fonts.FontTextView
+                <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/relation_food_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

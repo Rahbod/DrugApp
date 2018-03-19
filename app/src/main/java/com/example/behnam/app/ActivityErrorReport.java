@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.DbHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.example.behnam.app.ActivityReminderStep2.isAppAvailable;
 
@@ -21,7 +27,6 @@ public class ActivityErrorReport extends AppCompatActivity {
     DbHelper dbHelper ;
     String appName = "org.telegram.messenger";
     Button telegramBtn, favoriteBtn ;
-    ImageView btnBack;
 
     private ImageView btnBack;
     private Button btnSave;

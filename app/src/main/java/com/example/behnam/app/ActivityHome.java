@@ -9,12 +9,12 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -28,14 +28,12 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
-import com.example.behnam.app.adapter.AdapterHome;
+import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
-import com.example.behnam.app.fastscroll.AlphabetItem;
-import com.example.behnam.app.fastscroll.DataHelper;
-import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.controller.AppController;
+import com.example.behnam.app.fastscroll.AlphabetItem;
+import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
@@ -79,7 +77,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         dbHelper = new DbHelper(getApplicationContext());
 
 
-
 //        search
         etSearch = findViewById(R.id.editTextSearchHome);
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -120,14 +117,13 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getInt("id"),object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
                             }
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
 
@@ -136,7 +132,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
-                            Log.e("cutegory=", response.toString());
+                            Log.e("category=", response.toString());
                             JSONArray jsonArray = response.getJSONArray("categories");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -260,7 +256,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                startActivity(new Intent(ActivityHome.this,MapActivity.class));
+                startActivity(new Intent(ActivityHome.this, MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
@@ -283,6 +279,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
         }
     }
+
     private void closeNv() {
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -91,6 +91,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                            persianDate = new PersianDate();
                            persianDate.setShYear(y);
                            persianDate.setShMonth(m);
+                           persianDate.setShDay(d);
                            persianDate.setHour(h);
                            persianDate.setMinute(mm);
                            persianDate.setSecond(0);
