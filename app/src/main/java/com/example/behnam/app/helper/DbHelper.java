@@ -148,7 +148,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public Reminder getReminder(int id) {
         db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = "+id,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id, null);
         if (cursor != null)
             cursor.moveToFirst();
         return new Reminder(cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4));
@@ -225,7 +225,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
         Cursor cursor = null;
         try {
-            cursor = db.rawQuery("SELECT * FROM "+TABLE_DRUGS+" WHERE "+KEY_ID_DRUG+" IN ("+ ids.join(",") +")", null);
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (" + ids.join(",") + ")", null);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -321,10 +321,10 @@ public class DbHelper extends SQLiteOpenHelper {
     public JSONObject checkInterference(int id, String selectedIDs) {
         String[] idsArray = selectedIDs.split(",");
         db = this.getReadableDatabase();
-        String sql = "SELECT * FROM "+TABLE_DRUGS+" d INNER JOIN "+TABLE_CATEGORY_DRUG+" cd  ON d."+KEY_ID_DRUG+" = cd."+KEY_DRUG_ID+" " +
+        String sql = "SELECT * FROM " + TABLE_DRUGS + " d INNER JOIN " + TABLE_CATEGORY_DRUG + " cd  ON d." + KEY_ID_DRUG + " = cd." + KEY_DRUG_ID + " " +
                 "WHERE cd.category_id IN (" +
                 "SELECT category_id FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=" + String.valueOf(id) + " AND " + KEY_TYPE + "=1 AND " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_TYPE + "=0 AND " + KEY_DRUG_ID + " IN (" + selectedIDs + "))" +
-                ") and d."+KEY_ID_DRUG+" <> " + id;
+                ") and d." + KEY_ID_DRUG + " <> " + id;
         Cursor cursor = db.rawQuery(sql, null);
         ArrayList<Integer> nID = new ArrayList<>(cursor.getCount());
         if (cursor.getCount() > 0) {
@@ -349,17 +349,32 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void updateDrug(int id) {
         db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT favorite FROM drugs WHERE id = " + id, null);
+        Cursor cursor = db.rawQuery("SELECT " + FAVORITE + " FROM " + TABLE_DRUGS + " WHERE id =" + id, null);
         ContentValues contentValues = new ContentValues();
         if (cursor.moveToFirst()) {
             if (cursor.getInt(cursor.getColumnIndex("favorite")) == 0) {
                 contentValues.put("favorite", 1);
-                db.update(TABLE_DRUGS, contentValues, null, null);
+                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
             } else {
                 contentValues.put("favorite", 0);
-                db.update(TABLE_DRUGS, contentValues, null, null);
+                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
             }
         }
     }
 
+    public List<Drug> getFavorite() {
+        List<Drug> listFavorite = new ArrayList<>();
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + FAVORITE + " =1", null);
+        if (cursor.moveToFirst()) {
+            do {
+                Drug drug = new Drug();
+                drug.setFavorite(cursor.getInt(cursor.getColumnIndex(FAVORITE)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                listFavorite.add(drug);
+            }
+            while (cursor.moveToNext());
+        }
+        return listFavorite;
+    }
 }
