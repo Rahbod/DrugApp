@@ -68,13 +68,12 @@
         <activity
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".ViewDrug"></activity>
-            android:label="@string/title_activity_map" />
         <activity
-            android:name=".ActivityInterferenceStep2"
-            android:windowSoftInputMode="stateHidden" />
+            android:name=".ViewDrug"
+            android:label="@string/title_activity_map" />
+
         <activity android:name=".ActivityInterferenceStep3" />
-        <activity android:name=".ActivityFavorite"></activity>
+        <activity android:name=".ActivityFavorite" />
     </application>
 
 </manifest>
