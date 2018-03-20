@@ -56,18 +56,16 @@ import java.util.List;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
-    ImageView imgOpenNvDraw;
-    AdapterAlphabetIndexFastScroll adapterHome;
-    EditText etSearch;
-    DrawerLayout drawerLayout;
-    List<Drug> drugList = new ArrayList<>();
-    DbHelper dbHelper;
-
+    private ImageView imgOpenNvDraw;
+    private AdapterAlphabetIndexFastScroll adapterHome;
+    private EditText etSearch;
+    private DrawerLayout drawerLayout;
+    private List<Drug> drugList = new ArrayList<>();
+    private DbHelper dbHelper;
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
-
     private List<AlphabetItem> mAlphabetItems;
 
     @Override
@@ -77,7 +75,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.navigation_view);
 
         dbHelper = new DbHelper(getApplicationContext());
-
 
 
 //        search
@@ -120,7 +117,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getInt("id"),object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
                             }
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
@@ -201,15 +198,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList, this));
 
-
-//
-//        DbHelper dbHelper = new DbHelper(this);
-//        drugList = dbHelper.getAllDrugs();
-//        adapterHome = new AdapterHome(this, drugList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapterHome);
-
-
 //        voiceSearch
 
         final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -260,7 +248,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                startActivity(new Intent(ActivityHome.this,MapActivity.class));
+                startActivity(new Intent(ActivityHome.this, MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
@@ -288,6 +276,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
         }
     }
+
     private void closeNv() {
         new Handler().postDelayed(new Runnable() {
             @Override
