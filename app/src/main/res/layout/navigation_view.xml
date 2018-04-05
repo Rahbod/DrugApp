@@ -109,6 +109,28 @@
                         android:id="@+id/item4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="12dp"
+                        android:onClick="openNv">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/star_icon" />
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="20dp"
+                            android:text="سبد داروهای من"
+                            android:textColor="@color/sina" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/item5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="12dp"
                         android:gravity="right"
@@ -129,7 +151,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/item5"
+                        android:id="@+id/item6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -152,7 +174,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/item6"
+                        android:id="@+id/item7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="25dp"

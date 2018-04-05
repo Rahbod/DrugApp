@@ -54,18 +54,16 @@ import java.util.List;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
-    ImageView imgOpenNvDraw;
-    AdapterAlphabetIndexFastScroll adapterHome;
-    EditText etSearch;
-    DrawerLayout drawerLayout;
-    List<Drug> drugList = new ArrayList<>();
-    DbHelper dbHelper;
-
+    private ImageView imgOpenNvDraw;
+    private AdapterAlphabetIndexFastScroll adapterHome;
+    private EditText etSearch;
+    private DrawerLayout drawerLayout;
+    private List<Drug> drugList = new ArrayList<>();
+    private DbHelper dbHelper;
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
-
     private List<AlphabetItem> mAlphabetItems;
 
     @Override
@@ -110,15 +108,13 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.e("beh", response.toString());
                     try {
                         if (response.getBoolean("status")) {
-
                             JSONArray jsonArray = response.getJSONArray("drugs");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getInt("id"),object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
                             }
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
@@ -134,6 +130,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
+                            Log.e("cutegory=", response.toString());
                             JSONArray jsonArray = response.getJSONArray("categories");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -154,13 +151,14 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
+                            Log.e("categoryDrug=", response.toString());
                             JSONArray jsonArray = response.getJSONArray("list");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                             }
-                            
+
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {
@@ -195,16 +193,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList));
-
-
-//
-//        DbHelper dbHelper = new DbHelper(this);
-//        drugList = dbHelper.getAllDrugs();
-//        adapterHome = new AdapterHome(this, drugList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapterHome);
-
+        mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList, this));
 
 //        voiceSearch
 
@@ -256,7 +245,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                startActivity(new Intent(ActivityHome.this,MapActivity.class));
+                startActivity(new Intent(ActivityHome.this, MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
@@ -265,20 +254,26 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item4:
-                shareApplication();
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
                 break;
             case R.id.item5:
+                shareApplication();
+                break;
+            case R.id.item6:
                 Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
                 startActivity(goToErrorReport);
                 closeNv();
                 break;
-            case R.id.item6:
+            case R.id.item7:
                 Intent goToAbout = new Intent(this, ActivityAbout.class);
                 startActivity(goToAbout);
                 closeNv();
                 break;
         }
     }
+
     private void closeNv() {
         new Handler().postDelayed(new Runnable() {
             @Override

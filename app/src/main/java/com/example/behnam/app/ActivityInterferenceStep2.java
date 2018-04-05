@@ -4,6 +4,7 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterInterferenceStep2;
@@ -40,14 +42,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityInterferenceStep2 extends AppCompatActivity implements SpeechDelegate {
 
     private RecyclerView recyclerView;
     private EditText etSearch;
-    private ImageView btnListen;
+    private ImageView btnListen, btnBack;
     private EditText text;
+    private TextView txtName, txtBrand;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<Drug> drugList;
@@ -58,6 +63,24 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference_step_2);
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        Bundle bundle = getIntent().getExtras();
+        String strName = bundle.getString("name");
+        String strBrand = bundle.getString("brand");
+
+        txtName = findViewById(R.id.txtName);
+        txtBrand = findViewById(R.id.txtBrand);
+
+        txtName.setText(strName);
+        txtBrand.setText(strBrand);
 
         floatButton = findViewById(R.id.floatButton);
 
@@ -108,23 +131,23 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
             @Override
             public void onClick(View v) {
                 String selectedIDs = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs");
-
                 int mainID = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getInt("mainID");
-                List<String> listCategoryDrug =new ArrayList<>();
                 JSONArray temp = null;
                 try {
                     temp = new JSONArray(selectedIDs);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String[] selectedIDsArr = new String[0];
+                String selectedIDsArr;
                 try {
-                    selectedIDsArr = temp.join(",").split(",");
+                    selectedIDsArr = temp.join(",");
+                    JSONObject conflicts = dbHelper.checkInterference(mainID, selectedIDsArr);
+                    SessionManager.getExtrasPref(ActivityInterferenceStep2.this).putExtra("conflicts", String.valueOf(conflicts));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                JSONObject jsonObject = dbHelper.checkInterference(mainID, selectedIDsArr);
-                Log.e("aaa", String.valueOf(jsonObject));
+                Intent intent = new Intent(ActivityInterferenceStep2.this, ActivityInterferenceStep3.class);
+                startActivity(intent);
             }
         });
 
