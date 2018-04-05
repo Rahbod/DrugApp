@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -12,6 +13,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -25,7 +27,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
@@ -53,6 +54,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     private ImageView imgOpenNvDraw;
@@ -66,14 +69,33 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<AlphabetItem> mAlphabetItems;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setContentView(R.layout.navigation_view);
-
         dbHelper = new DbHelper(getApplicationContext());
+
+        //help screen voice
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isFirstRun = sharedPreferences.getBoolean("firstRun", true);
+        if (isFirstRun) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
+            btnListen = findViewById(R.id.imgVoice);
+            new GuideView.Builder(this)
+                    .setTitle("جستجوی صوتی")
+                    .setTitleTextSize(25)
+                    .setContentText("جهت جستجوی داروی مورد نظر کافیست نام آن را تلفظ کنید.")
+                    .setContentTextSize(18)
+                    .setDismissType(GuideView.DismissType.anywhere)
+                    .setTargetView(btnListen)
+                    .build()
+                    .show();
+        }
 
         // search
         etSearch = findViewById(R.id.editTextSearchHome);

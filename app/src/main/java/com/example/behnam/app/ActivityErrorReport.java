@@ -25,7 +25,7 @@ import static com.example.behnam.app.ActivityReminderStep2.isAppAvailable;
 
 public class ActivityErrorReport extends AppCompatActivity {
     DbHelper dbHelper ;
-    String appName = "org.telegram.messenger";
+//    String appName = "org.telegram.messenger";
     Button telegramBtn, favoriteBtn ;
 
     private String appName = "org.telegram.messenger";
@@ -38,13 +38,13 @@ public class ActivityErrorReport extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error_report);
 
-        telegramBtn= findViewById(R.id.telegram);
-        favoriteBtn= findViewById(R.id.favorite);
+//        telegramBtn= findViewById(R.id.telegram);
+//        favoriteBtn= findViewById(R.id.favorite);
         etReport = findViewById(R.id.etReport);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-
-        telegramBtn= findViewById(R.id.telegram);
-        favoriteBtn= findViewById(R.id.favorite);
+//
+//        telegramBtn= findViewById(R.id.telegram);
+//        favoriteBtn= findViewById(R.id.favorite);
 
         btnBack = findViewById(R.id.btnBack);
         dbHelper = new DbHelper(getApplicationContext());

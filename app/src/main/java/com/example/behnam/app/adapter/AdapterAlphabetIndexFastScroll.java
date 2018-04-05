@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityViewDrug;
+import com.example.behnam.app.ViewDrug;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
