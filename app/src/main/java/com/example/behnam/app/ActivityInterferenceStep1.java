@@ -3,10 +3,14 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Process;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,10 +87,10 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
         });
 
         DbHelper dbHelper = new DbHelper(this);
-        List<Drug> drugs = dbHelper.getAllDrugs();
+        drugList = dbHelper.getAllDrugs();
 
         RecyclerView recyclerView = findViewById(R.id.recDrugInterAction);
-        adapter = new AdapterInterferenceStep1(this, drugs);
+        adapter = new AdapterInterferenceStep1(this, drugList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -125,8 +129,11 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else
-                            Toast.makeText(ActivityInterferenceStep1.this, R.string.permission_required, Toast.LENGTH_LONG).show();
+                        else {
+                            ActivityCompat.requestPermissions(ActivityInterferenceStep1.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    1);
+                        }
                     }
                 }
             });

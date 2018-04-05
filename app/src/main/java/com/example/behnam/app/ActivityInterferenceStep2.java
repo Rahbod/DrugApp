@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Process;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -185,8 +186,11 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else
-                            Toast.makeText(ActivityInterferenceStep2.this, R.string.permission_required, Toast.LENGTH_LONG).show();
+                        else{
+                            ActivityCompat.requestPermissions(ActivityInterferenceStep2.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    1);
+                        }
                     }
                 }
             });
