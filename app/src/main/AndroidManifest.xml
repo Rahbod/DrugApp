@@ -74,6 +74,15 @@
 
         <activity android:name=".ActivityInterferenceStep3" />
         <activity android:name=".ActivityFavorite" />
+        <service
+            android:name=".service.ReminderService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".service.BroadcastReceivers"
+            android:enabled="true"
+            android:exported="false"></receiver>
     </application>
 
 </manifest>
