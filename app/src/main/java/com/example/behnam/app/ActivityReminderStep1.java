@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Process;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -124,8 +125,10 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else
-                            Toast.makeText(ActivityReminderStep1.this, R.string.permission_required, Toast.LENGTH_LONG).show();
+                        else{
+                            ActivityCompat.requestPermissions(ActivityReminderStep1.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    1);}
                     }
                 }
             });

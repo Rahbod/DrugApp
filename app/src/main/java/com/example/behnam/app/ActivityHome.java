@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Process;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -175,6 +176,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         //Recycler view data
         DbHelper dbHelper = new DbHelper(this);
         drugList = dbHelper.getAllDrugs();
+        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
         //Alphabet fast scroller data
         mAlphabetItems = new ArrayList<>();
@@ -184,7 +186,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             if (name == null || name.getName().isEmpty())
                 continue;
 
-//            Drug word = name.substring(0, 1);
             String word = name.getName().substring(0, 1);
             if (!strAlphabets.contains(word)) {
                 strAlphabets.add(word);
@@ -193,7 +194,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new AdapterAlphabetIndexFastScroll(drugList, this));
+        mRecyclerView.setAdapter(adapterHome);
 
 //        voiceSearch
 
@@ -229,8 +230,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else
-                            Toast.makeText(ActivityHome.this, R.string.permission_required, Toast.LENGTH_LONG).show();
+                        else {
+                            ActivityCompat.requestPermissions(ActivityHome.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    1);
+                        }
                     }
                 }
             });
