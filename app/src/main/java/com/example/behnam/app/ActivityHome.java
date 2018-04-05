@@ -28,11 +28,9 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
-import com.example.behnam.app.adapter.AdapterHome;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.fastscroll.AlphabetItem;
-import com.example.behnam.app.fastscroll.DataHelper;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.controller.AppController;
@@ -78,9 +76,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
         dbHelper = new DbHelper(getApplicationContext());
 
-
-
-//        search
+        // search
         etSearch = findViewById(R.id.editTextSearchHome);
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override

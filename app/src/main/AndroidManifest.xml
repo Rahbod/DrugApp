@@ -21,7 +21,7 @@
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityLogin"></activity>
+        <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
             android:windowSoftInputMode="stateHidden" />
@@ -42,15 +42,17 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityErrorReport"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityInterferenceStep1"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityAbout" />
         <activity
             android:name=".ActivityReminderStep1"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ActivityInterferenceStep2" android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".ActivityInterferenceStep2"
+            android:windowSoftInputMode="stateHidden" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -65,7 +67,17 @@
 
         <activity
             android:name=".map.MapActivity"
-            android:label="@string/title_activity_map"></activity>
+            android:label="@string/title_activity_map" />
+
+        <service
+            android:name=".service.ReminderService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".service.BroadcastReceivers"
+            android:enabled="true"
+            android:exported="false"></receiver>
     </application>
 
 </manifest>
