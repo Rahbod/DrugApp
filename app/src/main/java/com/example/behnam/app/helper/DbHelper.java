@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -376,5 +375,25 @@ public class DbHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
         return listFavorite;
+    }
+    public List<Category> getCategoriesByDrug(int id) {
+        List<Category> categoryList = new ArrayList<>();
+//        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id+" AND type = 0)";
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        Log.e("moein", String.valueOf(cursor.getCount()));
+        if(cursor.moveToFirst())
+        {
+            do{
+                Category category = new Category();
+                category.setId(cursor.getInt(0));
+                category.setName(cursor.getString(1));
+                category.setType(cursor.getInt(2));
+                categoryList.add(category);
+            }
+            while (cursor.moveToNext());
+        }
+        return categoryList;
     }
 }

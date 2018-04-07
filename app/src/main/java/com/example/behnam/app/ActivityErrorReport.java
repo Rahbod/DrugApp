@@ -24,6 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ActivityErrorReport extends AppCompatActivity {
+    DbHelper dbHelper ;
+//    String appName = "org.telegram.messenger";
+    Button telegramBtn, favoriteBtn ;
 
     private String appName = "org.telegram.messenger";
     private ImageView btnBack;
@@ -35,11 +38,43 @@ public class ActivityErrorReport extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error_report);
 
+//        telegramBtn= findViewById(R.id.telegram);
+//        favoriteBtn= findViewById(R.id.favorite);
         etReport = findViewById(R.id.etReport);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+//
+//        telegramBtn= findViewById(R.id.telegram);
+//        favoriteBtn= findViewById(R.id.favorite);
 
         btnBack = findViewById(R.id.btnBack);
+        dbHelper = new DbHelper(getApplicationContext());
 
+        telegramBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final boolean isAppInstalled = isAppAvailable(ActivityErrorReport.this, appName);
+                if (isAppInstalled)
+                {
+                    Intent myIntent = new Intent(Intent.ACTION_SEND);
+                    myIntent.setType("text/plain");
+                    myIntent.setPackage(appName);
+                    myIntent.putExtra(Intent.EXTRA_TEXT, "متن تلگرام");//
+                    startActivity(Intent.createChooser(myIntent, "Share with"));
+                }
+                else
+                {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.telegram.messenger"));
+                    startActivity(i);
+                }
+            }
+        });
+        favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                dbHelper.updateDrug();
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

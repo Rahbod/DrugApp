@@ -3,7 +3,6 @@ package com.example.behnam.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +10,16 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.behnam.app.R;
+import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.ViewDrug;
+import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.helper.DbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Behnam on 3/7/2018.
- */
 
 public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<AdapterAlphabetIndexFastScroll.ListViewHollder>
         implements SectionIndexer {
@@ -30,6 +27,8 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
     private ArrayList<Integer> mSectionPositions;
     private List<Drug> drugList;
     private Context context;
+    DbHelper dbHelper ;
+    List<Category>categoryList = new ArrayList<>();
 
     public AdapterAlphabetIndexFastScroll(List<Drug> dataset){
         drugList = dataset;
