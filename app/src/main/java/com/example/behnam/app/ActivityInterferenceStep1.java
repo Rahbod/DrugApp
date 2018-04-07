@@ -3,13 +3,10 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Process;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.example.behnam.app.adapter.AdapterInterferenceStep1;
-import com.example.behnam.app.adapter.AdapterInterferenceStep2;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
@@ -37,6 +34,8 @@ import net.gotev.speech.SpeechUtil;
 import net.gotev.speech.ui.SpeechProgressView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ActivityInterferenceStep1 extends AppCompatActivity implements SpeechDelegate {
@@ -54,7 +53,7 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interference_step_1);
+        setContentView(R.layout.activity_interference_step1);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +87,14 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
 
         DbHelper dbHelper = new DbHelper(this);
         drugList = dbHelper.getAllDrugs();
+
+//        sort item
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
 
         RecyclerView recyclerView = findViewById(R.id.recDrugInterAction);
         adapter = new AdapterInterferenceStep1(this, drugList);
@@ -124,6 +131,11 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relInter1);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {

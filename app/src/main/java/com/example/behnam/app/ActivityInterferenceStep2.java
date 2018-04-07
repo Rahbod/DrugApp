@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Process;
@@ -21,8 +20,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +44,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class ActivityInterferenceStep2 extends AppCompatActivity implements SpeechDelegate {
 
@@ -53,7 +54,7 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
     private EditText etSearch;
     private ImageView btnListen, btnBack;
     private EditText text;
-    private TextView txtName, txtBrand;
+    private TextView txtName;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<Drug> drugList;
@@ -63,7 +64,9 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interference_step_2);
+        setContentView(R.layout.activity_interference_step2);
+
+
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -73,15 +76,11 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
             }
         });
 
-        Bundle bundle = getIntent().getExtras();
-        String strName = bundle.getString("name");
-        String strBrand = bundle.getString("brand");
+        String name = SessionManager.getExtrasPref(this).getString("mainName");
 
         txtName = findViewById(R.id.txtName);
-        txtBrand = findViewById(R.id.txtBrand);
 
-        txtName.setText(strName);
-        txtBrand.setText(strBrand);
+        txtName.setText(name);
 
         floatButton = findViewById(R.id.floatButton);
 
@@ -110,47 +109,55 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
 
         drugList = dbHelper.getAllDrugs();
 
+//        sort item
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
+        // Remove selected drug from list
+        for (int i=0;i<drugList.size();i++)
+            if(drugList.get(i).getId() == SessionManager.getExtrasPref(this).getInt("mainID"))
+                drugList.remove(i);
+
         // Set linear recyclerView adapter
         recyclerView = findViewById(R.id.recDrugInteraction2);
         adapter = new AdapterInterferenceStep2(this, drugList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && floatButton.getVisibility() == View.VISIBLE) {
-                    floatButton.hide();
-                } else if (dy < 0 && floatButton.getVisibility() != View.VISIBLE) {
-                    floatButton.show();
-                }
-            }
-        });
 
 //        floatingButtonClick
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selectedIDs = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs");
-                int mainID = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getInt("mainID");
-                JSONArray temp = null;
-                try {
-                    temp = new JSONArray(selectedIDs);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs").isEmpty() |
+                        SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs") == "[]") {
+                    Toast.makeText(ActivityInterferenceStep2.this, "دارویی برای بررسی انتخاب نشده است.", Toast.LENGTH_LONG).show();
+                } else {
+                    String selectedIDs = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs");
+                    int mainID = SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getInt("mainID");
+                    JSONArray temp = null;
+                    try {
+                        temp = new JSONArray(selectedIDs);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String selectedIDsArr;
+                    try {
+                        selectedIDsArr = temp.join(",");
+                        JSONObject conflicts = dbHelper.checkInterference(mainID, selectedIDsArr);
+                        SessionManager.getExtrasPref(ActivityInterferenceStep2.this).putExtra("conflicts", String.valueOf(conflicts));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(ActivityInterferenceStep2.this, ActivityInterferenceStep3.class);
+                    startActivity(intent);
                 }
-                String selectedIDsArr;
-                try {
-                    selectedIDsArr = temp.join(",");
-                    JSONObject conflicts = dbHelper.checkInterference(mainID, selectedIDsArr);
-                    SessionManager.getExtrasPref(ActivityInterferenceStep2.this).putExtra("conflicts", String.valueOf(conflicts));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Intent intent = new Intent(ActivityInterferenceStep2.this, ActivityInterferenceStep3.class);
-                startActivity(intent);
             }
         });
+
 
         //        voiceSearch
 
@@ -181,12 +188,17 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relInter2);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else{
+                        else {
                             ActivityCompat.requestPermissions(ActivityInterferenceStep2.this,
                                     new String[]{Manifest.permission.RECORD_AUDIO},
                                     1);

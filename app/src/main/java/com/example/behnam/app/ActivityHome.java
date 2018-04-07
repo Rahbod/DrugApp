@@ -23,8 +23,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -51,6 +54,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
@@ -66,6 +71,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<AlphabetItem> mAlphabetItems;
+    private static final int time = 2000;
+    private static long BackPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +107,18 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.RIGHT);
+                //                    hide keyboard
+                RelativeLayout mainLayout = findViewById(R.id.relHome);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+
             }
         });
 
@@ -176,6 +194,15 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         //Recycler view data
         DbHelper dbHelper = new DbHelper(this);
         drugList = dbHelper.getAllDrugs();
+
+//        sort item
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
         //Alphabet fast scroller data
@@ -225,6 +252,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relHome);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {
@@ -358,7 +390,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     public void onSpeechPartialResults(List<String> results) {
         text.setText("");
         for (String partial : results) {
-            text.append(partial + " ");
+            text.append(partial + "");
         }
     }
 
@@ -396,5 +428,17 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else if (time + BackPressed > System.currentTimeMillis()) {
+            super.onBackPressed();
+        } else
+            Toast.makeText(this, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
+
+        BackPressed = System.currentTimeMillis();
     }
 }
