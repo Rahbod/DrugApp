@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterInterferenceStep3;
 import com.example.behnam.app.database.Drug;
@@ -18,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class ActivityInterferenceStep3 extends AppCompatActivity {
     private AdapterInterferenceStep3 adapter;
     private List<Drug> list;
     private ImageView btnBack;
+    TextView txtInterference3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,12 @@ public class ActivityInterferenceStep3 extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        String name = SessionManager.getExtrasPref(this).getString("mainName");
+
+        txtInterference3 = findViewById(R.id.txtInterference3);
+        txtInterference3.setText(name);
+
 
         DbHelper dbHelper = new DbHelper(this);
 
@@ -60,6 +70,15 @@ public class ActivityInterferenceStep3 extends AppCompatActivity {
             arrayKey.put(strKey);
         }
         list = dbHelper.getDrugs(arrayKey);
+
+//        sort item
+        Collections.sort(list, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         adapter = new AdapterInterferenceStep3(this, list);
         recyclerView.setAdapter(adapter);
     }

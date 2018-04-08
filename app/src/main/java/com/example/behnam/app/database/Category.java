@@ -9,6 +9,9 @@ public class Category {
     String name;
     int type;
 
+    public Category() {
+    }
+
     public Category(String name, int type) {
         this.name = name;
         this.type = type;

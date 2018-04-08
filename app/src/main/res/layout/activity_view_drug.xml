@@ -9,17 +9,18 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="167dp"
-        android:background="@drawable/background_gradient">
+        android:background="@drawable/background_gradient"
+        android:layoutDirection="ltr">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="14dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView

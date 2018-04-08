@@ -68,11 +68,9 @@
         <activity
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity
-            android:name=".ViewDrug"
-            android:label="@string/title_activity_map" />
-
+        <activity android:name=".ActivityViewDrug" />
         <activity android:name=".ActivityInterferenceStep3" />
+        <activity android:name=".ActivityFavorite" />
         <activity android:name=".ActivityFavorite" />
         <service
             android:name=".service.ReminderService"

@@ -2,6 +2,7 @@ package com.example.behnam.app.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.R;
+import com.example.behnam.app.ViewDrug;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.SessionManager;
 
@@ -40,7 +42,7 @@ public class AdapterInterferenceStep3 extends RecyclerView.Adapter<AdapterInterf
     }
 
     @Override
-    public void onBindViewHolder(listViewHolder holder, int position) {
+    public void onBindViewHolder(listViewHolder holder, final int position) {
         holder.txt.setText(list.get(position).getName());
         String conflicts = SessionManager.getExtrasPref(context).getString("conflicts");
         JSONObject conflictsObj = new JSONObject();
@@ -58,6 +60,15 @@ public class AdapterInterferenceStep3 extends RecyclerView.Adapter<AdapterInterf
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        holder.lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(),ViewDrug.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id",list.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

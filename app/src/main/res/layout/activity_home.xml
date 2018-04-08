@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -18,11 +19,11 @@
 
         <ImageView
             android:id="@+id/btnOpenNvDraw"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:padding="13dp"
             android:src="@drawable/menu_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -39,7 +40,7 @@
     <RelativeLayout
         android:id="@+id/relReminder"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/actionBarDrug"
         android:background="@drawable/background_gradient"
         app:layout_scrollFlags="scroll|enterAlways" />
@@ -77,6 +78,8 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/edit_text_radius"
                 android:hint="جستجو کنید..."
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:lines="1"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
@@ -100,12 +103,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cardView"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         app:setIndexBarCornerRadius="15"
         app:setIndexBarTextColor="@color/white"
-        android:background="@drawable/background_radius"
         app:setIndexTextSize="12"
         app:setIndexbarMargin="0"
         app:setIndexbarWidth="15"
@@ -118,6 +120,19 @@
         android:layout_centerVertical="true"
         android:layout_weight="0.45"
         android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loading_drugs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="درحال بارگذاری اطلاعات"
+            android:visibility="gone" />
 
         <net.gotev.speech.ui.SpeechProgressView
             android:id="@+id/progressBarHome"
