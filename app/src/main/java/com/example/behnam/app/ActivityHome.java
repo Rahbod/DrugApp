@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Response;
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
@@ -38,6 +40,7 @@ import com.example.behnam.app.fastscroll.AlphabetItem;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
+import com.example.behnam.fonts.FontTextView;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -57,26 +60,33 @@ import java.util.List;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
-
     private ImageView imgOpenNvDraw;
     private AdapterAlphabetIndexFastScroll adapterHome;
     private EditText etSearch;
     private DrawerLayout drawerLayout;
     private List<Drug> drugList = new ArrayList<>();
+    List<Drug> list = new ArrayList<>();
     private DbHelper dbHelper;
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<AlphabetItem> mAlphabetItems;
+    FontTextView loadingText;
+    ProgressBar progressBar;
     SharedPreferences sharedPreferences;
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setContentView(R.layout.navigation_view);
+
+        mRecyclerView = findViewById(R.id.fast_scroller_recycler);
         dbHelper = new DbHelper(getApplicationContext());
+        loadingText = findViewById(R.id.loading_text);
+        progressBar = findViewById(R.id.loading_drugs);
 
         //help screen voice
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -125,20 +135,48 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 drawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
-
-        if (!SessionManager.getExtrasPref(this).getBoolean("primitiveRecordsExists")) {
-
+        long countDrug = dbHelper.countDrug();
+        if (countDrug == 0) {
+            progressBar.setVisibility(View.VISIBLE);
+            loadingText.setVisibility(View.VISIBLE);
+        }
             AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getBoolean("status")) {
+                            progressBar.setVisibility(View.GONE);
+                            loadingText.setVisibility(View.GONE);
                             JSONArray jsonArray = response.getJSONArray("drugs");
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+                                list.add(new Drug(object.getString("name")));
                             }
+
+                            DbHelper dbHelper = new DbHelper(getApplicationContext());
+                            drugList = dbHelper.getAllDrugs();
+
+                            //Recycler view data
+                            adapterHome = new AdapterAlphabetIndexFastScroll(drugList, getApplicationContext());
+
+                            //Alphabet fast scroller data
+                            mAlphabetItems = new ArrayList<>();
+                            List<String> strAlphabets = new ArrayList<>();
+                            for (int i = 0; i < drugList.size(); i++) {
+                                Drug name = drugList.get(i);
+                                if (name == null || name.getName().isEmpty())
+                                    continue;
+                                String word = name.getName().substring(0, 1);
+                                if (!strAlphabets.contains(word)) {
+                                    strAlphabets.add(word);
+                                    mAlphabetItems.add(new AlphabetItem(i, word, false));
+                                }
+                            }
+                            mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            mRecyclerView.setAdapter(adapterHome);
+
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {
@@ -167,7 +205,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }
             });
 
-
             AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -180,23 +217,20 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                             }
-
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             });
 
-        }
+        //}
 
-        RecyclerView mRecyclerView = findViewById(R.id.fast_scroller_recycler);
-
-        //Recycler view data
         DbHelper dbHelper = new DbHelper(this);
         drugList = dbHelper.getAllDrugs();
+
+        //Recycler view data
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
         //Alphabet fast scroller data
@@ -418,4 +452,5 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 })
                 .show();
     }
+
 }

@@ -100,12 +100,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cardView"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
+        android:background="@drawable/background_radius"
+        android:visibility="visible"
         app:setIndexBarCornerRadius="15"
         app:setIndexBarTextColor="@color/white"
-        android:background="@drawable/background_radius"
         app:setIndexTextSize="12"
         app:setIndexbarMargin="0"
         app:setIndexbarWidth="15"
@@ -118,6 +119,19 @@
         android:layout_centerVertical="true"
         android:layout_weight="0.45"
         android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loading_drugs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="درحال بارگذاری اطلاعات"
+            android:visibility="gone" />
 
         <net.gotev.speech.ui.SpeechProgressView
             android:id="@+id/progressBarHome"
