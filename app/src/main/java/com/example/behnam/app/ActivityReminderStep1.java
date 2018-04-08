@@ -17,8 +17,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterReminder;
@@ -33,6 +35,8 @@ import net.gotev.speech.SpeechUtil;
 import net.gotev.speech.ui.SpeechProgressView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDelegate {
@@ -85,6 +89,16 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recHome);
         drugList = dbHelper.getAllDrugs();
+
+
+//        sort item
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         adapterHome = new AdapterReminder(this, drugList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setAdapter(adapterHome);
@@ -120,6 +134,12 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+//                    hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relRem);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {

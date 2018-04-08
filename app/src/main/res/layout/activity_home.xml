@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/relHome"
     tools:context="com.example.behnam.app.ActivityHome">
 
     <!--actionBar-->
@@ -18,11 +19,11 @@
 
         <ImageView
             android:id="@+id/btnOpenNvDraw"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="13dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:src="@drawable/menu_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -39,7 +40,7 @@
     <RelativeLayout
         android:id="@+id/relReminder"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/actionBarDrug"
         android:background="@drawable/background_gradient"
         app:layout_scrollFlags="scroll|enterAlways" />
@@ -81,7 +82,9 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:textColor="@color/sina"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
 
             <ImageView
                 android:id="@+id/imgVoice"
@@ -100,11 +103,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cardView"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/background_radius"
-        android:visibility="visible"
         app:setIndexBarCornerRadius="15"
         app:setIndexBarTextColor="@color/white"
         app:setIndexTextSize="12"

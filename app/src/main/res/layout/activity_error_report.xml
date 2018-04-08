@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     tools:context="com.example.behnam.app.ActivityErrorReport">
 
     <!--actionBar-->
@@ -16,11 +17,12 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -58,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="20dp"
-                    android:text="متن"
+                    android:text="متن گزارش"
                     android:textColor="@color/Gray"
                     android:textSize="14dp" />
 

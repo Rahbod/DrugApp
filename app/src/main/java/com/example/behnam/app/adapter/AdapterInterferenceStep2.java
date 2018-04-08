@@ -1,7 +1,9 @@
 package com.example.behnam.app.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ public class AdapterInterferenceStep2 extends RecyclerView.Adapter<AdapterInterf
         this.context = context;
         this.drugList = drugList;
     }
+
     @Override
     public drugListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search_interference, parent, false);

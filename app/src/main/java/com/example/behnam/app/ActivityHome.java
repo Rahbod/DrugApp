@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -26,8 +27,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ProgressBar;
 
 import com.android.volley.Response;
@@ -55,11 +60,14 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
+
     private ImageView imgOpenNvDraw;
     private AdapterAlphabetIndexFastScroll adapterHome;
     private EditText etSearch;
@@ -76,6 +84,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
     RecyclerView mRecyclerView;
+    private static final int time = 2000;
+    private static long BackPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +94,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.navigation_view);
 
         mRecyclerView = findViewById(R.id.fast_scroller_recycler);
+
         dbHelper = new DbHelper(getApplicationContext());
         loadingText = findViewById(R.id.loading_text);
         progressBar = findViewById(R.id.loading_drugs);
@@ -132,7 +143,18 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.RIGHT);
+                //                    hide keyboard
+                RelativeLayout mainLayout = findViewById(R.id.relHome);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+
             }
         });
         long countDrug = dbHelper.countDrug();
@@ -205,6 +227,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }
             });
 
+
             AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -217,6 +240,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                             }
+
                             SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {
@@ -231,6 +255,15 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         drugList = dbHelper.getAllDrugs();
 
         //Recycler view data
+
+//        sort item
+        Collections.sort(drugList, new Comparator<Drug>() {
+            @Override
+            public int compare(Drug o1, Drug o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
         //Alphabet fast scroller data
@@ -280,6 +313,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relHome);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {
@@ -413,7 +451,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     public void onSpeechPartialResults(List<String> results) {
         text.setText("");
         for (String partial : results) {
-            text.append(partial + " ");
+            text.append(partial + "");
         }
     }
 
@@ -453,4 +491,15 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 .show();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else if (time + BackPressed > System.currentTimeMillis()) {
+            super.onBackPressed();
+        } else
+            Toast.makeText(this, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
+
+        BackPressed = System.currentTimeMillis();
+    }
 }

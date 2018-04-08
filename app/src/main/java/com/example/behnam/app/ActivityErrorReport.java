@@ -1,27 +1,27 @@
 package com.example.behnam.app;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.example.behnam.app.controller.AppController;
-import com.example.behnam.app.helper.DbHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static com.example.behnam.app.ActivityReminderStep2.isAppAvailable;
 
 public class ActivityErrorReport extends AppCompatActivity {
     DbHelper dbHelper ;
@@ -106,6 +106,12 @@ public class ActivityErrorReport extends AppCompatActivity {
                         }
                     });
                 } else {
+                    etReport.setText("");
+                    //  hide keyboard
+                    RelativeLayout mainLayout = findViewById(R.id.relHome);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etReport.getWindowToken(), 0);
+
                     JSONObject params = new JSONObject();
                     JSONObject jsonObject = new JSONObject();
                     try {
@@ -124,10 +130,15 @@ public class ActivityErrorReport extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                Log.e("response", response.toString());
                                 if (response.getBoolean("status")) {
-                                    String massage = response.getString("message");
-                                    Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
+                                    final String massage = response.getString("message");
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }, 250);
+
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

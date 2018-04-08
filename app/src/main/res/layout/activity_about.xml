@@ -16,11 +16,12 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -33,5 +34,15 @@
             android:textSize="18dp" />
 
     </RelativeLayout>
+
+    <com.example.behnam.fonts.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="متن درباره سینا دارو"
+        android:textColor="@color/sina"
+        android:textSize="13dp"
+        android:layout_below="@+id/actionBarErrorReport"
+        android:layout_alignParentRight="true"
+        />
 
 </RelativeLayout>

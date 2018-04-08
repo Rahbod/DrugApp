@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/relInter1"
     tools:context="com.example.behnam.app.ActivityInterferenceStep1">
 
     <!--actionBar-->
@@ -15,11 +16,12 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -96,7 +98,9 @@
                 android:lines="1"
                 android:paddingRight="5dp"
                 android:textColor="@color/sina"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
 
             <ImageView
                 android:id="@+id/imgVoiceDrugInterAction"

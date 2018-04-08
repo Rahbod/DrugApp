@@ -18,11 +18,12 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -42,25 +43,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/radius_shape">
+            android:background="@drawable/background_gradient">
 
             <com.example.behnam.fonts.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="بررسی تداخل دارویی"
+                android:text="نتیجه بررسی تداخل دارویی"
                 android:textColor="@color/white"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"/>
 
             <com.example.behnam.fonts.FontTextViewBold
+                android:id="@+id/txtInterference3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ALMOTRIPTAN"
                 android:textColor="@color/white"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:textSize="23dp"/>
+                android:textSize="23dp"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
