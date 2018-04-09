@@ -56,12 +56,10 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return drugList.size() ;
     }
-
     @Override
     public Object[] getSections() {
         List<String> sections = new ArrayList<>(26);
@@ -75,12 +73,10 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         }
         return sections.toArray(new String[0]);
     }
-
     @Override
     public int getPositionForSection(int sectionIndex) {
         return mSectionPositions.get(sectionIndex);
     }
-
     @Override
     public int getSectionForPosition(int position) {
         return 0;

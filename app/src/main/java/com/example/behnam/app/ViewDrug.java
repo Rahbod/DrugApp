@@ -2,12 +2,10 @@ package com.example.behnam.app;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 
@@ -21,7 +19,6 @@ public class ViewDrug extends AppCompatActivity {
             how_use_value, product_value, pharmacodynamic_value, usage_value, prohibition_value, caution_value, dose_value,
             complication_value, interferences_value, effect_value, over_dose_value, description_value, relation_food_value;
     private TextView name_drug;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

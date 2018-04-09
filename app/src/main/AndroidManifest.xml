@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.behnam.app">
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission
         android:name="com.example.behnam.app.map.permission.MAPS_RECEIVE"
@@ -71,16 +73,19 @@
         <activity android:name=".ActivityViewDrug" />
         <activity android:name=".ActivityInterferenceStep3" />
         <activity android:name=".ActivityFavorite" />
-        <activity android:name=".ActivityFavorite" />
+
         <service
             android:name=".service.ReminderService"
             android:enabled="true"
             android:exported="false" />
 
-        <receiver
-            android:name=".service.BroadcastReceivers"
-            android:enabled="true"
-            android:exported="false" />
+        <receiver android:name=".service.BroadcastReceivers">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
