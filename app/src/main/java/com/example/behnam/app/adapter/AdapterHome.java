@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityViewDrug;
+import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
@@ -93,7 +93,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         drugListViewHolder(View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.txt);
-            rel = itemView.findViewById(R.id.relativeLayoutRecHome);
+            rel = itemView.findViewById(R.id.relativeLayoutRechome);
         }
     }
     public void filterList(ArrayList<Drug> filterdNames) {

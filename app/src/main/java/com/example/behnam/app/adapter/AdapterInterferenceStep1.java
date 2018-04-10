@@ -70,7 +70,7 @@ public class AdapterInterferenceStep1 extends RecyclerView.Adapter<AdapterInterf
             super(itemView);
 
             drugName = itemView.findViewById(R.id.txt);
-            relativeLayoutRec = itemView.findViewById(R.id.relativeLayoutRecHome);
+            relativeLayoutRec = itemView.findViewById(R.id.relativeLayoutRechome);
         }
     }
 

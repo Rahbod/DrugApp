@@ -1,6 +1,5 @@
 package com.example.behnam.app.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.R;
-import com.example.behnam.app.ViewDrug;
+import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.SessionManager;
 
@@ -63,7 +62,7 @@ public class AdapterInterferenceStep3 extends RecyclerView.Adapter<AdapterInterf
         holder.lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context.getApplicationContext(),ViewDrug.class);
+                Intent intent = new Intent(context.getApplicationContext(),ActivityViewDrug.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id",list.get(position).getId());
                 context.startActivity(intent);
