@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.SessionManager;
@@ -45,22 +46,29 @@ public class AdapterInterferenceStep2 extends RecyclerView.Adapter<AdapterInterf
             holder.txtChar.setBackgroundResource(R.drawable.checked2);
             holder.txtChar.setText("");
         } else {
+            holder.txtChar.setVisibility(View.VISIBLE);
             holder.txtChar.setBackgroundResource(R.drawable.shape_circle);
             holder.txtChar.setText(String.valueOf(holder.chName));
+            holder.anim.setVisibility(View.INVISIBLE);
         }
 
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!idsList.contains(String.valueOf(drugList.get(position).getId()))) {
+                    holder.anim.setVisibility(View.VISIBLE);
+                    holder.anim.playAnimation();
                     idsList.add(String.valueOf(drugList.get(position).getId()));
                     drugList.get(position).setChecked(true);
                 } else {
+                    holder.txtChar.setBackgroundResource(R.drawable.shape_circle);
                     idsList.remove(String.valueOf(drugList.get(position).getId()));
+                    holder.txtChar.setText(String.valueOf(holder.chName));
                     drugList.get(position).setChecked(false);
+                    holder.anim.setVisibility(View.INVISIBLE);
                 }
                 SessionManager.getExtrasPref(context).putExtra("selectedIDs", idsList.toString());
-                notifyDataSetChanged();
+
             }
         });
     }
@@ -75,11 +83,13 @@ public class AdapterInterferenceStep2 extends RecyclerView.Adapter<AdapterInterf
         LinearLayout rel;
         String strName;
         char chName;
+        LottieAnimationView anim;
 
         drugListViewHolder(View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.txt);
             txtChar = itemView.findViewById(R.id.txtChar);
+            anim = itemView.findViewById(R.id.anim);
             rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
 

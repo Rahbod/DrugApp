@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityViewDrug;
+import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
@@ -56,12 +56,10 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return drugList.size() ;
     }
-
     @Override
     public Object[] getSections() {
         List<String> sections = new ArrayList<>(26);
@@ -75,12 +73,10 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         }
         return sections.toArray(new String[0]);
     }
-
     @Override
     public int getPositionForSection(int sectionIndex) {
         return mSectionPositions.get(sectionIndex);
     }
-
     @Override
     public int getSectionForPosition(int position) {
         return 0;
@@ -93,7 +89,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         drugListViewHolder(View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.txt);
-            rel = itemView.findViewById(R.id.relativeLayoutRecHome);
+            rel = itemView.findViewById(R.id.relativeLayoutRechome);
         }
     }
     public void filterList(ArrayList<Drug> filterdNames) {

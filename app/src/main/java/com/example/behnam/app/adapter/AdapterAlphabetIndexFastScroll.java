@@ -3,7 +3,6 @@ package com.example.behnam.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityViewDrug;
-import com.example.behnam.app.ViewDrug;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
@@ -27,10 +25,10 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
     private ArrayList<Integer> mSectionPositions;
     private List<Drug> drugList;
     private Context context;
-    DbHelper dbHelper ;
-    List<Category>categoryList = new ArrayList<>();
+    DbHelper dbHelper;
+    List<Category> categoryList = new ArrayList<>();
 
-    public AdapterAlphabetIndexFastScroll(List<Drug> dataset){
+    public AdapterAlphabetIndexFastScroll(List<Drug> dataset) {
         drugList = dataset;
     }
 
@@ -51,11 +49,11 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        Intent intent = new Intent(context.getApplicationContext(),ViewDrug.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(context, ActivityViewDrug.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("id",drugList.get(position).getId());
-                        context.startActivity(intent);
-                    }
+                context.startActivity(intent);
+            }
         });
     }
 
@@ -94,12 +92,14 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
 
         TextView txt;
         RelativeLayout rel;
+
         public ListViewHollder(View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);
-            rel = itemView.findViewById(R.id.relativeLayoutRecHome);
+            rel = itemView.findViewById(R.id.relativeLayoutRechome);
         }
     }
+
     public void filterList(ArrayList<Drug> filterdNames) {
         this.drugList = filterdNames;
         notifyDataSetChanged();
