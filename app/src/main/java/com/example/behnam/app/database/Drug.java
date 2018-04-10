@@ -27,6 +27,8 @@ public class Drug {
     String relation_with_food;
     int status;
     String last_modified;
+    String category_name;
+    int category_type;
     boolean checked = false;
     int favorite;
 
@@ -89,6 +91,32 @@ public class Drug {
         this.relation_with_food = relation_with_food;
         this.status = status;
         this.last_modified = last_modified;
+    }
+
+    public Drug(String name, String brand, String pregnancy, String lactation, String kids, String seniors, String how_to_use, String product, String pharmacodynamic, String usage, String prohibition, String caution, String dose_adjustment, String complication, String interference, String effect_on_test, String over_dose, String description, String relation_with_food, int status, String last_modified, String category_name, int category_type) {
+        this.name = name;
+        this.brand = brand;
+        this.pregnancy = pregnancy;
+        this.lactation = lactation;
+        this.kids = kids;
+        this.seniors = seniors;
+        this.how_to_use = how_to_use;
+        this.product = product;
+        this.pharmacodynamic = pharmacodynamic;
+        this.usage = usage;
+        this.prohibition = prohibition;
+        this.caution = caution;
+        this.dose_adjustment = dose_adjustment;
+        this.complication = complication;
+        this.interference = interference;
+        this.effect_on_test = effect_on_test;
+        this.over_dose = over_dose;
+        this.description = description;
+        this.relation_with_food = relation_with_food;
+        this.status = status;
+        this.last_modified = last_modified;
+        this.category_name = category_name;
+        this.category_type = category_type;
     }
 
     public int getId() {

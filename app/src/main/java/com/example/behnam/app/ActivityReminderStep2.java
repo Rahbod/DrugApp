@@ -21,15 +21,12 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import saman.zamani.persiandate.PersianDate;
 
 public class ActivityReminderStep2 extends AppCompatActivity {
-    List<Reminder> reminderList = new ArrayList<>();
     PersianDate persianDate;
-    EditTextFont period, count;
+    EditTextFont txtPeriod, txtCount;
     ButtonFont buttonRegister;
     DbHelper dbHelper;
     long timeStamps = 0;
@@ -43,8 +40,8 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         setContentView(R.layout.activity_reminder_step_2);
         context = this;
         dbHelper = new DbHelper(getApplicationContext());
-        period = findViewById(R.id.et_period);
-        count = findViewById(R.id.et_count);
+        txtPeriod = findViewById(R.id.et_period);
+        txtCount = findViewById(R.id.et_count);
         Intent intent = getIntent();
         final int drugId = intent.getIntExtra("id", 0);
         final FontTextView date = findViewById(R.id.date_picker);
@@ -64,7 +61,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                                                                                          dateCalendar.set(Calendar.MINUTE, 0);
                                                                                          dateCalendar.set(Calendar.SECOND, 0);
                                                                                          dateCalendar.set(Calendar.MILLISECOND, 0);
-                                                                                         Log.e("TAG", persianDate.getTime().toString() + "/////" + dateCalendar.getTimeInMillis());
                                                                                          if (dateCalendar.getTimeInMillis() < persianDate.getTime()) {
                                                                                              y = year;
                                                                                              m = monthOfYear + 1;
@@ -119,13 +115,15 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reminderList = dbHelper.getAllReminder();
-                dbHelper.addReminder(new Reminder(drugId, timeStamps / 1000, Integer.parseInt(count.getText().toString()), Integer.parseInt(period.getText().toString())));
+                int count = Integer.parseInt(txtCount.getText().toString()),
+                    period = Integer.parseInt(txtPeriod.getText().toString());
+                dbHelper.addReminder(new Reminder(drugId, timeStamps / 1000, count, period));
 
                 // Start service
                 Intent serviceIntent = new Intent(context, ReminderService.class);
                 serviceIntent.putExtra("startTime", timeStamps / 1000);
-                startActivity(serviceIntent);
+                serviceIntent.putExtra("period", period);
+                startService(serviceIntent);
             }
         });
     }
