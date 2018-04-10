@@ -261,6 +261,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return drugList;
     }
 
+    public long countDrug()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, TABLE_DRUGS);
+        db.close();
+        return count;
+    }
+
     public List<Drug> getAllDrugs() {
         List<Drug> drugList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_DRUGS;
