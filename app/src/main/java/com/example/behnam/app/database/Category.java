@@ -12,7 +12,8 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, int type) {
+    public Category(int id, String name, int type) {
+        this.id = id;
         this.name = name;
         this.type = type;
     }

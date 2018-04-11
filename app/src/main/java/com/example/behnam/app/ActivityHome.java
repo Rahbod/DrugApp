@@ -94,8 +94,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.navigation_view);
 
         //Register Receiver
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        this.registerReceiver(new BroadcastReceivers(), intentFilter);
+//        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+//        this.registerReceiver(new BroadcastReceivers(), intentFilter);
         dbHelper = new DbHelper(this);
 
         loadingText = findViewById(R.id.loading_text);
@@ -564,7 +564,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
+                                dbHelper.addCategory(new Category(object.getInt("id"), object.getString("name"), object.getInt("type")));
                             }
                             SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
                         }
@@ -586,7 +586,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                                 object = jsonArray.getJSONObject(i);
                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                             }
-
                             SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
                         }
                     } catch (JSONException e) {

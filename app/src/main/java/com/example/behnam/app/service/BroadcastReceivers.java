@@ -13,6 +13,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        Log.e("TAG", "onReceive: broadcast!!!!!!!!" );
         final String action = intent.getAction();
         assert action != null;
         if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
