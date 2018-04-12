@@ -357,10 +357,10 @@ public class ActivityViewDrug extends AppCompatActivity {
                     case "27":
                         description_value.setHtml(descriptionGroup[26] + "<br>" + textDescription);
                         break;
-//                        case "28":
-//                            description_value.setHtml(descriptionGroup[27] + "<br>" + textDescription);
-//                            break;
-                } 
+                        case "28":
+                            description_value.setHtml(descriptionGroup[27] + "<br>" + textDescription);
+                            break;
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
