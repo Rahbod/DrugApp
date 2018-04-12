@@ -360,9 +360,9 @@ public class ActivityViewDrug extends AppCompatActivity {
 //                        case "28":
 //                            description_value.setHtml(descriptionGroup[27] + "<br>" + textDescription);
 //                            break;
-                }
+                } 
             }
-        } catch (JSONException e) { 
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         if (!drug.getRelation_with_food().isEmpty()) {
