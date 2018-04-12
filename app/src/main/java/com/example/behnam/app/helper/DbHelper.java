@@ -211,7 +211,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 , KEY_PHARMACODYNAMIC, KEY_USAGE, KEY_PROHIBITION, KEY_CAUTION, KEY_DOSE_ADJUSTMENT
                 , KEY_COMPLICATION, KEY_INTERFERENCE, KEY_EFFECT_ON_TEST, KEY_OVER_DOSE, KEY_DESCRIPTION
                 , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED}, KEY_ID_DRUG + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        Log.e("moeins", "getDrug: " + cursor.getCount());
         cursor.moveToFirst();
         Drug drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)
                 , cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12)
