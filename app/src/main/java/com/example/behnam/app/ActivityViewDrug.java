@@ -2,6 +2,7 @@ package com.example.behnam.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -141,30 +142,31 @@ public class ActivityViewDrug extends AppCompatActivity {
         if (!drug.getBrand().isEmpty()) {
             brand_title.setVisibility(View.VISIBLE);
             brand_value.setVisibility(View.VISIBLE);
+            brand_value.setHtml(drug.getBrand());
         }
 
-        brand_value.setHtml(drug.getBrand());
-
         categoryList = dbHelper.getCategories(ID);
-
         for (int i = 0; i < categoryList.size(); i++) {
-            if (categoryList.get(i).getType() == 0) {
+            if (categoryList.get(i).getType() == 0 && !categoryList.get(i).getName().isEmpty()) {
                 healling_title.setVisibility(View.VISIBLE);
                 healling_value.setVisibility(View.VISIBLE);
                 heallingStr += "," + categoryList.get(i).getName();
                 heallingStr = heallingStr.startsWith(",") ? heallingStr.substring(1) : heallingStr;
+                healling_value.setHtml(heallingStr);
             }
             if (categoryList.get(i).getType() == 1) {
                 pharma_title.setVisibility(View.VISIBLE);
                 pharma_value.setVisibility(View.VISIBLE);
                 pharmaStr += "," + categoryList.get(i).getName();
                 pharmaStr = pharmaStr.startsWith(",") ? pharmaStr.substring(1) : pharmaStr;
+                pharma_value.setHtml(pharmaStr);
             }
             if (categoryList.get(i).getType() == 2) {
                 sickness_title.setVisibility(View.VISIBLE);
                 sickness_value.setVisibility(View.VISIBLE);
                 sicknessStr += "," + categoryList.get(i).getName();
                 sicknessStr = sicknessStr.startsWith(",") ? sicknessStr.substring(1) : sicknessStr;
+                sickness_value.setHtml(sicknessStr);
             }
         }
 
@@ -172,7 +174,7 @@ public class ActivityViewDrug extends AppCompatActivity {
             JSONObject jsonPregnancy = new JSONObject(drug.getPregnancy());
             String groupPregnancy = jsonPregnancy.getString("group");
             String textPregnancy = jsonPregnancy.getString("text");
-            groupPregnancy = groupPregnancy.trim();
+            groupPregnancy=groupPregnancy.trim();
             if (!groupPregnancy.isEmpty()) {
                 pregnancy_title.setVisibility(View.VISIBLE);
                 pregnancy_value.setVisibility(View.VISIBLE);
