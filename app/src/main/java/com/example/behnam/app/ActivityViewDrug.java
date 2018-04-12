@@ -362,7 +362,7 @@ public class ActivityViewDrug extends AppCompatActivity {
 //                            break;
                 }
             }
-        } catch (JSONException e) {
+        } catch (JSONException e) { 
             e.printStackTrace();
         }
         if (!drug.getRelation_with_food().isEmpty()) {
