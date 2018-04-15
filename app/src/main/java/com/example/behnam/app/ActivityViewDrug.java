@@ -12,8 +12,11 @@ import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextViewBold;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.sufficientlysecure.htmltextview.ClickableTableSpan;
+import org.sufficientlysecure.htmltextview.DrawTableLinkSpan;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -21,13 +24,14 @@ import java.util.List;
 
 public class ActivityViewDrug extends AppCompatActivity {
     private String pregnancyGroup[] = new String[6];
-    private String descriptionGroup[] = new String[27];
+    String s = "";
+    private String descriptionGroup[] = new String[28];
     private String heallingStr = "", pharmaStr = "", sicknessStr = "";
     private ImageView btnBack;
     List<Category> categoryList = new ArrayList<>();
     private DbHelper dbHelper;
     private HtmlTextView brand_value, healling_value, pharma_value, sickness_value, pregnancy_value,
-            loctation_value, kids_value, senior_value, how_use_value, product_value,
+            lactation_value, kids_value, senior_value, how_use_value, product_value,
             pharmacodynamic_value, usage_value, prohibition_value, caution_value, dose_value, complication_value,
             interferences_value, effect_value, over_dose_value, description_value, relation_food_value;
     private FontTextViewBold brand_title, healling_title, pharma_title, sickness_title, pregnancy_title, loctation_title,
@@ -35,6 +39,22 @@ public class ActivityViewDrug extends AppCompatActivity {
             dose_title, complication_title, interferences_title, description_title, caution_title, effect_title,
             over_dose_title, relation_food_title;
     private TextView name_drug;
+
+    class ClickableTableSpanImpl extends ClickableTableSpan {
+        @Override
+        public ClickableTableSpan newInstance() {
+            return new ClickableTableSpanImpl();
+        }
+        @Override
+        public void onClick(View widget) {
+            Bundle bundle = new Bundle();
+            bundle.putString("table", getTableHtml());
+
+            TableFragment viewFragment = new TableFragment();
+            viewFragment.setArguments(bundle);
+            viewFragment.show(getFragmentManager(),"Fragment");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +103,15 @@ public class ActivityViewDrug extends AppCompatActivity {
         descriptionGroup[24] = "توضیحات 25";
         descriptionGroup[25] = "توضیحات 26";
         descriptionGroup[26] = "توضیحات 27";
-//        descriptionGroup[27] = "توضیحات 28";
+        descriptionGroup[27] = "توضیحات 28";
 
         name_drug = findViewById(R.id.name_drug);
         brand_value = findViewById(R.id.brand_value);
-
         healling_value = findViewById(R.id.healling_value);
         pharma_value = findViewById(R.id.pharma_value);
         sickness_value = findViewById(R.id.sickness_value);
         pregnancy_value = findViewById(R.id.pregnancy_value);
-        loctation_value = findViewById(R.id.loctation_value);
+        lactation_value = findViewById(R.id.loctation_value);
         kids_value = findViewById(R.id.kids_value);
         senior_value = findViewById(R.id.senior_value);
         how_use_value = findViewById(R.id.how_use_value);
@@ -175,6 +194,14 @@ public class ActivityViewDrug extends AppCompatActivity {
             String groupPregnancy = jsonPregnancy.getString("group");
             String textPregnancy = jsonPregnancy.getString("text");
             groupPregnancy=groupPregnancy.trim();
+            pregnancy_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan pregTableLinkSpan = new DrawTableLinkSpan();
+            pregTableLinkSpan.setTableLinkText("مشاهده جدول");
+            pregnancy_value.setDrawTableLinkSpan(pregTableLinkSpan);
+            pregTableLinkSpan.setTextColor(R.color.table_link);
+            pregTableLinkSpan.setTextSize(20);
+
+            pregnancy_value.setDrawTableLinkSpan(pregTableLinkSpan);
             if (!groupPregnancy.isEmpty()) {
                 pregnancy_title.setVisibility(View.VISIBLE);
                 pregnancy_value.setVisibility(View.VISIBLE);
@@ -203,66 +230,155 @@ public class ActivityViewDrug extends AppCompatActivity {
             e.printStackTrace();
         }
         if (!drug.getKids().isEmpty()) {
+            kids_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan kidsTableLinkSpan = new DrawTableLinkSpan();
+            kidsTableLinkSpan.setTableLinkText("مشاهده جدول");
+            kids_value.setDrawTableLinkSpan(kidsTableLinkSpan);
+            kidsTableLinkSpan.setTextColor(R.color.table_link);
+            kidsTableLinkSpan.setTextSize(20);
             kids_title.setVisibility(View.VISIBLE);
             kids_value.setVisibility(View.VISIBLE);
             kids_value.setHtml(drug.getKids());
         }
         if (!drug.getSeniors().isEmpty()) {
+            senior_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan seniorTableLinkSpan = new DrawTableLinkSpan();
+            seniorTableLinkSpan.setTableLinkText("مشاهده جدول");
+            senior_value.setDrawTableLinkSpan(seniorTableLinkSpan);
+            seniorTableLinkSpan.setTextColor(R.color.table_link);
+            seniorTableLinkSpan.setTextSize(20);
             senior_title.setVisibility(View.VISIBLE);
             senior_value.setVisibility(View.VISIBLE);
             senior_value.setHtml(drug.getSeniors());
         }
         if (!drug.getHow_to_use().isEmpty()) {
+            how_use_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan how_useTableLinkSpan = new DrawTableLinkSpan();
+            how_useTableLinkSpan.setTableLinkText("مشاهده جدول");
+            how_use_value.setDrawTableLinkSpan(how_useTableLinkSpan);
+            how_useTableLinkSpan.setTextColor(R.color.table_link);
+            how_useTableLinkSpan.setTextSize(20);
             how_use_title.setVisibility(View.VISIBLE);
             how_use_value.setVisibility(View.VISIBLE);
             how_use_value.setHtml(drug.getHow_to_use());
         }
         if (!drug.getProduct().isEmpty()) {
+            product_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan productTableLinkSpan = new DrawTableLinkSpan();
+            productTableLinkSpan.setTableLinkText("مشاهده جدول");
+            product_value.setDrawTableLinkSpan(productTableLinkSpan);
+            productTableLinkSpan.setTextColor(R.color.table_link);
+            productTableLinkSpan.setTextSize(20);
             product_title.setVisibility(View.VISIBLE);
             product_value.setVisibility(View.VISIBLE);
             product_value.setHtml(drug.getProduct());
         }
         if (!drug.getPharmacodynamic().isEmpty()) {
+            pharmacodynamic_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan pharmacodynamicTableLinkSpan = new DrawTableLinkSpan();
+            pharmacodynamicTableLinkSpan.setTableLinkText("مشاهده جدول");
+            pharmacodynamic_value.setDrawTableLinkSpan(pharmacodynamicTableLinkSpan);
+            pharmacodynamicTableLinkSpan.setTextColor(R.color.table_link);
+            pharmacodynamicTableLinkSpan.setTextSize(20);
             pharmacodynamic_title.setVisibility(View.VISIBLE);
             pharmacodynamic_value.setVisibility(View.VISIBLE);
             pharmacodynamic_value.setHtml(drug.getPharmacodynamic());
         }
         if (!drug.getUsage().isEmpty()) {
+            usage_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan usageTableLinkSpan = new DrawTableLinkSpan();
+            usageTableLinkSpan.setTableLinkText("مشاهده جدول");
+            usage_value.setDrawTableLinkSpan(usageTableLinkSpan);
+            usageTableLinkSpan.setTextColor(R.color.table_link);
+            usageTableLinkSpan.setTextSize(20);
             usage_title.setVisibility(View.VISIBLE);
             usage_value.setVisibility(View.VISIBLE);
             usage_value.setHtml(drug.getUsage());
         }
         if (!drug.getProhibition().isEmpty()) {
+            prohibition_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan prohibitionTableLinkSpan = new DrawTableLinkSpan();
+            prohibitionTableLinkSpan.setTableLinkText("مشاهده جدول");
+            prohibition_value.setDrawTableLinkSpan(prohibitionTableLinkSpan);
+            prohibitionTableLinkSpan.setTextColor(R.color.table_link);
+            prohibitionTableLinkSpan.setTextSize(20);
             prohibition_title.setVisibility(View.VISIBLE);
             prohibition_value.setVisibility(View.VISIBLE);
             prohibition_value.setHtml(drug.getProhibition());
         }
+        if (!drug.getLactation().isEmpty()) {
+            lactation_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan lactationTableLinkSpan = new DrawTableLinkSpan();
+            lactationTableLinkSpan.setTableLinkText("مشاهده جدول");
+            lactation_value.setDrawTableLinkSpan(lactationTableLinkSpan);
+            lactationTableLinkSpan.setTextColor(R.color.table_link);
+            lactationTableLinkSpan.setTextSize(20);
+            loctation_title.setVisibility(View.VISIBLE);
+            lactation_value.setVisibility(View.VISIBLE);
+            lactation_value.setHtml(drug.getLactation());
+        }
         if (!drug.getCaution().isEmpty()) {
+            caution_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan cautionTableLinkSpan = new DrawTableLinkSpan();
+            cautionTableLinkSpan.setTableLinkText("مشاهده جدول");
+            caution_value.setDrawTableLinkSpan(cautionTableLinkSpan);
+            cautionTableLinkSpan.setTextColor(R.color.table_link);
+            cautionTableLinkSpan.setTextSize(20);
             caution_title.setVisibility(View.VISIBLE);
             caution_value.setVisibility(View.VISIBLE);
             caution_value.setHtml(drug.getCaution());
         }
         if (!drug.getDose_adjustment().isEmpty()) {
+            dose_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan doseTableLinkSpan = new DrawTableLinkSpan();
+            doseTableLinkSpan.setTableLinkText("مشاهده جدول");
+            dose_value.setDrawTableLinkSpan(doseTableLinkSpan);
+            doseTableLinkSpan.setTextColor(R.color.table_link);
+            doseTableLinkSpan.setTextSize(20);
             dose_title.setVisibility(View.VISIBLE);
             dose_value.setVisibility(View.VISIBLE);
             dose_value.setHtml(drug.getDose_adjustment());
         }
         if (!drug.getComplication().isEmpty()) {
+            complication_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan complicationTableLinkSpan = new DrawTableLinkSpan();
+            complicationTableLinkSpan.setTableLinkText("مشاهده جدول");
+            complication_value.setDrawTableLinkSpan(complicationTableLinkSpan);
+            complicationTableLinkSpan.setTextColor(R.color.table_link);
+            complicationTableLinkSpan.setTextSize(20);
             complication_title.setVisibility(View.VISIBLE);
             complication_value.setVisibility(View.VISIBLE);
             complication_value.setHtml(drug.getComplication());
         }
         if (!drug.getInterference().isEmpty()) {
+            interferences_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan interferencesTableLinkSpan = new DrawTableLinkSpan();
+            interferencesTableLinkSpan.setTableLinkText("مشاهده جدول");
+            interferences_value.setDrawTableLinkSpan(interferencesTableLinkSpan);
+            interferencesTableLinkSpan.setTextColor(R.color.table_link);
+            interferencesTableLinkSpan.setTextSize(20);
             interferences_title.setVisibility(View.VISIBLE);
             interferences_value.setVisibility(View.VISIBLE);
             interferences_value.setHtml(drug.getInterference());
         }
         if (!drug.getEffect_on_test().isEmpty()) {
+            effect_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan effectTableLinkSpan = new DrawTableLinkSpan();
+            effectTableLinkSpan.setTableLinkText("مشاهده جدول");
+            effect_value.setDrawTableLinkSpan(effectTableLinkSpan);
+            effectTableLinkSpan.setTextColor(R.color.table_link);
+            effectTableLinkSpan.setTextSize(20);
             effect_title.setVisibility(View.VISIBLE);
             effect_value.setVisibility(View.VISIBLE);
             effect_value.setHtml(drug.getEffect_on_test());
         }
         if (!drug.getOver_dose().isEmpty()) {
+            over_dose_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan over_doseTableLinkSpan = new DrawTableLinkSpan();
+            over_doseTableLinkSpan.setTableLinkText("مشاهده جدول");
+            over_dose_value.setDrawTableLinkSpan(over_doseTableLinkSpan);
+            over_doseTableLinkSpan.setTextColor(R.color.table_link);
+            over_doseTableLinkSpan.setTextSize(20);
             over_dose_title.setVisibility(View.VISIBLE);
             over_dose_value.setVisibility(View.VISIBLE);
             over_dose_value.setHtml(drug.getOver_dose());
@@ -270,102 +386,42 @@ public class ActivityViewDrug extends AppCompatActivity {
 
         try {
             JSONObject jsonObject = new JSONObject(drug.getDescription());
+            JSONArray jsonArray = jsonObject.getJSONArray("code");
             String codeDescription = jsonObject.getString("code");
             String textDescription = jsonObject.getString("text");
-            if (!codeDescription.isEmpty()) {
+            if (!codeDescription.isEmpty() || !textDescription.isEmpty()) {
+                description_value.setClickableTableSpan(new ClickableTableSpanImpl());
+                DrawTableLinkSpan descriptionTableLinkSpan = new DrawTableLinkSpan();
+                descriptionTableLinkSpan.setTableLinkText("مشاهده جدول");
+                description_value.setDrawTableLinkSpan(descriptionTableLinkSpan);
+                descriptionTableLinkSpan.setTextColor(R.color.table_link);
+                descriptionTableLinkSpan.setTextSize(20);
                 description_title.setVisibility(View.VISIBLE);
                 description_value.setVisibility(View.VISIBLE);
-                switch (codeDescription) {
-                    case "1":
-                        description_value.setHtml(descriptionGroup[0] + "<br>" + textDescription);
-                        break;
-                    case "2":
-                        description_value.setHtml(descriptionGroup[1] + "<br>" + textDescription);
-                        break;
-                    case "3":
-                        description_value.setHtml(descriptionGroup[2] + "<br>" + textDescription);
-                        break;
-                    case "4":
-                        description_value.setHtml(descriptionGroup[3] + "<br>" + textDescription);
-                        break;
-                    case "5":
-                        description_value.setHtml(descriptionGroup[4] + "<br>" + textDescription);
-                        break;
-                    case "6":
-                        description_value.setHtml(descriptionGroup[5] + "<br>" + textDescription);
-                        break;
-                    case "7":
-                        description_value.setHtml(descriptionGroup[6] + "<br>" + textDescription);
-                        break;
-                    case "8":
-                        description_value.setHtml(descriptionGroup[7] + "<br>" + textDescription);
-                        break;
-                    case "9":
-                        description_value.setHtml(descriptionGroup[8] + "<br>" + textDescription);
-                        break;
-                    case "10":
-                        description_value.setHtml(descriptionGroup[9] + "<br>" + textDescription);
-                        break;
-                    case "11":
-                        description_value.setHtml(descriptionGroup[10] + "<br>" + textDescription);
-                        break;
-                    case "12":
-                        description_value.setHtml(descriptionGroup[11] + "<br>" + textDescription);
-                        break;
-                    case "13":
-                        description_value.setHtml(descriptionGroup[12] + "<br>" + textDescription);
-                        break;
-                    case "14":
-                        description_value.setHtml(descriptionGroup[13] + "<br>" + textDescription);
-                        break;
-                    case "15":
-                        description_value.setHtml(descriptionGroup[14] + "<br>" + textDescription);
-                        break;
-                    case "16":
-                        description_value.setHtml(descriptionGroup[15] + "<br>" + textDescription);
-                        break;
-                    case "17":
-                        description_value.setHtml(descriptionGroup[16] + "<br>" + textDescription);
-                        break;
-                    case "18":
-                        description_value.setHtml(descriptionGroup[17] + "<br>" + textDescription);
-                        break;
-                    case "19":
-                        description_value.setHtml(descriptionGroup[18] + "<br>" + textDescription);
-                        break;
-                    case "20":
-                        description_value.setHtml(descriptionGroup[19] + "<br>" + textDescription);
-                        break;
-                    case "21":
-                        description_value.setHtml(descriptionGroup[20] + "<br>" + textDescription);
-                        break;
-                    case "22":
-                        description_value.setHtml(descriptionGroup[21] + "<br>" + textDescription);
-                        break;
-                    case "23":
-                        description_value.setHtml(descriptionGroup[22] + "<br>" + textDescription);
-                        break;
-                    case "24":
-                        description_value.setHtml(descriptionGroup[23] + "<br>" + textDescription);
-                        break;
-                    case "25":
-                        description_value.setHtml(descriptionGroup[24] + "<br>" + textDescription);
-                        break;
-                    case "26":
-                        description_value.setHtml(descriptionGroup[25] + "<br>" + textDescription);
-                        break;
-                    case "27":
-                        description_value.setHtml(descriptionGroup[26] + "<br>" + textDescription);
-                        break;
-                        case "28":
-                            description_value.setHtml(descriptionGroup[27] + "<br>" + textDescription);
-                            break;
+                if(codeDescription.isEmpty())
+                {
+                    description_value.setHtml(textDescription);
+                }
+                else
+                {
+                    for (int i=0 ; i<jsonArray.length();i++)
+                    {
+                        String codes = jsonArray.getString(i);
+                        s += descriptionGroup[Integer.parseInt(codes)-1]+ "<br>";
+                    }
+                    description_value.setHtml(s+"<br>"+textDescription);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         if (!drug.getRelation_with_food().isEmpty()) {
+            relation_food_value.setClickableTableSpan(new ClickableTableSpanImpl());
+            DrawTableLinkSpan relation_foodTableLinkSpan = new DrawTableLinkSpan();
+            relation_foodTableLinkSpan.setTableLinkText("مشاهده جدول");
+            relation_food_value.setDrawTableLinkSpan(relation_foodTableLinkSpan);
+            relation_foodTableLinkSpan.setTextColor(R.color.table_link);
+            relation_foodTableLinkSpan.setTextSize(20);
             relation_food_title.setVisibility(View.VISIBLE);
             relation_food_value.setVisibility(View.VISIBLE);
             relation_food_value.setHtml(drug.getRelation_with_food());

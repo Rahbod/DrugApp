@@ -16,11 +16,11 @@
             android:id="@+id/btnBack"
             android:layout_width="50dp"
             android:layout_height="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -87,475 +87,515 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_height="match_parent">
 
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/brand_name"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
-                    android:text="نام تجاری :"
+                    android:background="@color/title_view_drug"
+                    android:text="نام تجاری"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/brand_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/brand_name"
-                    android:layout_marginRight="7dp"
                     android:gravity="right"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
-                    android:visibility="gone"
                     android:id="@+id/healling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/brand_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="طبقه بندی درمانی :"
+                    android:text="طبقه بندی درمانی"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/healling_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/healling"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/pharma"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/healling_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="طبقه‌بندي فارماكولوژيك :"
+                    android:text="طبقه‌بندي فارماكولوژيك"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pharma_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/pharma"
+                    android:padding="10dp"
                     android:layout_marginRight="7dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/sickness"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/pharma_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="طبقه بندی بیماری :"
+                    android:text="طبقه بندی بیماری"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/sickness_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/sickness"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/pregnancy"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/sickness_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="مصرف در دوران بارداري :"
+                    android:text="مصرف در دوران بارداري"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pregnancy_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/pregnancy"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/loctation"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/pregnancy_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="مصرف در دوران شيردهي :"
+                    android:text="مصرف در دوران شيردهي"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/loctation_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/loctation"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/kids"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/loctation_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="راهنماي مصرف در كودكان :"
+                    android:text="راهنماي مصرف در كودكان"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/kids_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/kids"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/senior"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/kids_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="راهنماي مصرف در سالمندان :"
+                    android:text="راهنماي مصرف در سالمندان"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/senior_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/senior"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/how_use"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/senior_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="راه مصرف :"
+                    android:text="راه مصرف"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/how_use_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/senior_value"
-                    android:layout_marginRight="7dp"
-                    android:layout_toLeftOf="@id/how_use"
+                    android:layout_below="@id/how_use"
+                    android:padding="10dp"
+                    android:gravity="right"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/product"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/how_use_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="فرآورده‌هاي دارويي :"
+                    android:text="فرآورده‌هاي دارويي"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/product_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/product"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:gravity="right"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/pharmacodynamic"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/product_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="فارماكوديناميك  :"
+                    android:text="فارماكوديناميك"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/pharmacodynamic_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/pharmacodynamic"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/usage"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/pharmacodynamic_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="موارد مصرف و دوزاژ :"
+                    android:text="موارد مصرف و دوزاژ"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/usage_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/usage"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/prohibition"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/usage_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="موارد منع مصرف :"
+                    android:text="موارد منع مصرف"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/prohibition_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prohibition"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/caution"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/prohibition_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="موارد احتياط :"
+                    android:text="موارد احتياط"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/caution_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/caution"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/dose"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/caution_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="تعديل دوزاژ :"
+                    android:text="تعديل دوزاژ"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/dose_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dose"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/complication"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/dose_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="عوارض جانبی :"
+                    android:text="عوارض جانبی"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/complication_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/complication"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/interferences"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/complication_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="تداخلات دارویی :"
+                    android:text="تداخلات دارویی"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/interferences_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/interferences"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/effect"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/interferences_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="اثر بر روي تست‌هاي آزمايشگاهي :"
+                    android:text="اثر بر روي تست‌هاي آزمايشگاهي"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/effect_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/effect"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/over_dose"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/effect_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="اوردوز و درمان :"
+                    android:text="اوردوز و درمان"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/over_dose_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/over_dose"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/description"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/over_dose_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="اطلاعات كلي براي بيمار، پرستار و پزشك :"
+                    android:text="اطلاعات كلي براي بيمار، پرستار و پزشك"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/description_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/description"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/relation_food"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/description_value"
+                    android:background="@color/title_view_drug"
+                    android:padding="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="رابطه مصرف دارو همراه با غذا :"
+                    android:text="رابطه مصرف دارو همراه با غذا"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/relation_food_value"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/relation_food"
-                    android:layout_marginRight="7dp"
+                    android:padding="10dp"
                     android:textColor="@color/sina"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </RelativeLayout>
