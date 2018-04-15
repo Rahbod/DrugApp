@@ -51,7 +51,6 @@ public class ReminderService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         assert alarmManager != null;
         alarmManager.set(AlarmManager.RTC_WAKEUP, startTime.getTimeInMillis(), pendingIntent);
-        Log.e("maosud", "service...");
 
         return START_STICKY;
     }
