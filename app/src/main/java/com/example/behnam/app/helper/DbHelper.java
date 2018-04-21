@@ -261,8 +261,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return drugList;
     }
 
-    public long countDrug()
-    {
+    public long countDrug() {
         SQLiteDatabase db = this.getReadableDatabase();
         long count = DatabaseUtils.queryNumEntries(db, TABLE_DRUGS);
         db.close();
@@ -361,10 +360,10 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             if (cursor.getInt(cursor.getColumnIndex("favorite")) == 0) {
                 contentValues.put("favorite", 1);
-                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
+                db.update(TABLE_DRUGS, contentValues, "id = " + id, null);
             } else {
                 contentValues.put("favorite", 0);
-                db.update(TABLE_DRUGS, contentValues, "id = "+id, null);
+                db.update(TABLE_DRUGS, contentValues, "id = " + id, null);
             }
         }
     }
@@ -384,16 +383,16 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return listFavorite;
     }
+
     public List<Category> getCategoriesByDrug(int id) {
         List<Category> categoryList = new ArrayList<>();
 //        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
-        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id+" AND type = 0)";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND type = 0)";
         db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = db.rawQuery(query, null);
         Log.e("moein", String.valueOf(cursor.getCount()));
-        if(cursor.moveToFirst())
-        {
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 Category category = new Category();
                 category.setId(cursor.getInt(0));
                 category.setName(cursor.getString(1));

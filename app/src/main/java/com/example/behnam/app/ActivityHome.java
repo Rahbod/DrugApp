@@ -80,8 +80,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private List<AlphabetItem> mAlphabetItems;
-    FontTextView loadingText;
-    ProgressBar progressBar;
+
+
     SharedPreferences sharedPreferences;
     RecyclerView mRecyclerView;
     private static final int time = 2000;
@@ -97,9 +97,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         this.registerReceiver(new BroadcastReceivers(), intentFilter);
         dbHelper = new DbHelper(this);
-
-        loadingText = findViewById(R.id.loading_text);
-        progressBar = findViewById(R.id.loading_drugs);
 
         //help screen voice
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -145,10 +142,13 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //                    hide keyboard
-                RelativeLayout mainLayout = findViewById(R.id.relHome);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                }
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -158,161 +158,41 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }, 100);
             }
         });
-        long countDrug = dbHelper.countDrug();
-        if (countDrug == 0) {
-            progressBar.setVisibility(View.VISIBLE);
-            loadingText.setVisibility(View.VISIBLE);
-        }
-        showDrugs(this);
-//            AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            progressBar.setVisibility(View.GONE);
-//                            loadingText.setVisibility(View.GONE);
-//                            JSONArray jsonArray = response.getJSONArray("drugs");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
-//                                list.add(new Drug(object.getString("name")));
-//                            }
-//
-//                            DbHelper dbHelper = new DbHelper(getApplicationContext());
-//                            drugList = dbHelper.getAllDrugs();
-//
-//                            //Recycler view data
-//                            adapterHome = new AdapterAlphabetIndexFastScroll(drugList, getApplicationContext());
-//
-//                            //Alphabet fast scroller data
-//                            mAlphabetItems = new ArrayList<>();
-//                            List<String> strAlphabets = new ArrayList<>();
-//                            for (int i = 0; i < drugList.size(); i++) {
-//                                Drug name = drugList.get(i);
-//                                if (name == null || name.getName().isEmpty())
-//                                    continue;
-//                                String word = name.getName().substring(0, 1);
-//                                if (!strAlphabets.contains(word)) {
-//                                    strAlphabets.add(word);
-//                                    mAlphabetItems.add(new AlphabetItem(i, word, false));
-//                                }
-//                            }
-//                            mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//                            mRecyclerView.setAdapter(adapterHome);
-//
-//                            SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//
-//            AppController.getInstance().sendRequest("android/api/category", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            Log.e("category=", response.toString());
-//                            JSONArray jsonArray = response.getJSONArray("categories");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
-//                            }
-//                            SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//
-//
-//            AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            Log.e("categoryDrug=", response.toString());
-//                            JSONArray jsonArray = response.getJSONArray("list");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
-//                            }
-//
-//                            SessionManager.getExtrasPref(ActivityHome.this).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        //}
-//
-//        DbHelper dbHelper = new DbHelper(this);
-//        drugList = dbHelper.getAllDrugs();
-//
-//        //Recycler view data
-//
-////        sort item
-//        Collections.sort(drugList, new Comparator<Drug>() {
-//            @Override
-//            public int compare(Drug o1, Drug o2) {
-//                return o1.getName().compareTo(o2.getName());
-//            }
-//        });
-//
-//        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
-//
-//        //Alphabet fast scroller data
-//        mAlphabetItems = new ArrayList<>();
-//        List<String> strAlphabets = new ArrayList<>();
-//        for (int i = 0; i < drugList.size(); i++) {
-//            Drug name = drugList.get(i);
-//            if (name == null || name.getName().isEmpty())
-//                continue;
-//
-//            String word = name.getName().substring(0, 1);
-//            if (!strAlphabets.contains(word)) {
-//                strAlphabets.add(word);
-//                mAlphabetItems.add(new AlphabetItem(i, word, false));
-//            }
+//        long countDrug = dbHelper.countDrug();
+//        if (countDrug == 0) {
+//            progressBar.setVisibility(View.VISIBLE);
+//            loadingText.setVisibility(View.VISIBLE);
 //        }
-//
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.setAdapter(adapterHome);
+        showDrugs(this);
 
-//        voiceSearch
-        final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (wifiManager != null)
-                                wifiManager.setWifiEnabled(true);
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
-        } else {
-            btnListen = findViewById(R.id.imgVoice);
-            text = findViewById(R.id.editTextSearchHome);
-            progress = findViewById(R.id.progressBarHome);
+        btnListen = findViewById(R.id.imgVoice);
+        text = findViewById(R.id.editTextSearchHome);
+        progress = findViewById(R.id.progressBarHome);
 
-            Speech.init(this, getPackageName());
+        Speech.init(this, getPackageName());
 
-            btnListen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        btnListen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //        voiceSearch
+                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
+                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (wifiManager != null)
+                                        wifiManager.setWifiEnabled(true);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).show();
+                } else {
 //                    hide keyboard
                     RelativeLayout mainLayout = findViewById(R.id.relHome);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -330,8 +210,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                         }
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     public void openNv(View view) {
@@ -503,98 +383,86 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     }
 
     public void showDrugs(final Context context) {
-        loadingText = ((ActivityHome) context).getWindow().getDecorView().findViewById(R.id.loading_text);
-        progressBar = ((ActivityHome) context).getWindow().getDecorView().findViewById(R.id.loading_drugs);
         mRecyclerView = ((ActivityHome) context).getWindow().getDecorView().findViewById(R.id.fast_scroller_recycler);
-        final DbHelper dbHelper = new DbHelper(context);
-        if (!SessionManager.getExtrasPref(context).getBoolean("primitiveRecordsExists")) {
-            AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        if (response.getBoolean("status")) {
-                            progressBar.setVisibility(View.GONE);
-                            loadingText.setVisibility(View.GONE);
-                            JSONArray jsonArray = response.getJSONArray("drugs");
-                            JSONObject object;
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
-                                list.add(new Drug(object.getString("name")));
-                            }
+        DbHelper dbHelper = new DbHelper(context);
+//        if (!SessionManager.getExtrasPref(context).getBoolean("primitiveRecordsExists")) {
+//            AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    try {
+//                        if (response.getBoolean("status")) {
+//                            progressBar.setVisibility(View.GONE);
+//                            loadingText.setVisibility(View.GONE);
+//                            JSONArray jsonArray = response.getJSONArray("drugs");
+//                            JSONObject object;
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                object = jsonArray.getJSONObject(i);
+//                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
+//                                list.add(new Drug(object.getString("name")));
+//                            }
+//
+//
+//
+//
+//
+//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//
+//            AppController.getInstance().sendRequest("android/api/category", null, new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    try {
+//                        if (response.getBoolean("status")) {
+//                            Log.e("category=", response.toString());
+//                            JSONArray jsonArray = response.getJSONArray("categories");
+//                            JSONObject object;
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                object = jsonArray.getJSONObject(i);
+//                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
+//                            }
+//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//
+//            AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    try {
+//                        if (response.getBoolean("status")) {
+//                            Log.e("categoryDrug=", response.toString());
+//                            JSONArray jsonArray = response.getJSONArray("list");
+//                            JSONObject object;
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                object = jsonArray.getJSONObject(i);
+//                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
+//                            }
+//
+//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
 
-                            DbHelper dbHelper = new DbHelper(context);
-                            drugList = dbHelper.getAllDrugs();
 
-                            //Recycler view data
-                            adapterHome = new AdapterAlphabetIndexFastScroll(drugList, context);
+        drugList = dbHelper.getAllDrugs();
 
-                            //Alphabet fast scroller data
-                            mAlphabetItems = new ArrayList<>();
-                            List<String> strAlphabets = new ArrayList<>();
-                            for (int i = 0; i < drugList.size(); i++) {
-                                Drug name = drugList.get(i);
-                                if (name == null || name.getName().isEmpty())
-                                    continue;
-                                String word = name.getName().substring(0, 1);
-                                if (!strAlphabets.contains(word)) {
-                                    strAlphabets.add(word);
-                                    mAlphabetItems.add(new AlphabetItem(i, word, false));
-                                }
-                            }
+        //Recycler view data
+        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, context);
 
-                            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                            mRecyclerView.setAdapter(adapterHome);
-
-                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            AppController.getInstance().sendRequest("android/api/category", null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        if (response.getBoolean("status")) {
-                            Log.e("category=", response.toString());
-                            JSONArray jsonArray = response.getJSONArray("categories");
-                            JSONObject object;
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                object = jsonArray.getJSONObject(i);
-                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
-                            }
-                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        if (response.getBoolean("status")) {
-                            Log.e("categoryDrug=", response.toString());
-                            JSONArray jsonArray = response.getJSONArray("list");
-                            JSONObject object;
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                object = jsonArray.getJSONObject(i);
-                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
-                            }
-
-                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setAdapter(adapterHome);
 
         drugList = dbHelper.getAllDrugs();
 

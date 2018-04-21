@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.behnam.app.ActivityHome;
+import com.example.behnam.app.ActivitySplashScreen;
+import com.example.behnam.app.helper.Components;
 
 public class BroadcastReceivers extends BroadcastReceiver {
 
@@ -17,8 +19,8 @@ public class BroadcastReceivers extends BroadcastReceiver {
         assert action != null;
         if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             Toast.makeText(context, "You are online!", Toast.LENGTH_SHORT).show();
-            ActivityHome activityHome = new ActivityHome();
-            activityHome.showDrugs(context);
+            Components components = new Components();
+            components.getDrugs(context);
         }
     }
 }

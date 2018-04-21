@@ -1,0 +1,89 @@
+package com.example.behnam.app;
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.helper.Components;
+import com.example.behnam.app.helper.DbHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import at.grabner.circleprogress.CircleProgressView;
+
+public class ActivitySplashScreen extends AppCompatActivity {
+
+    private LottieAnimationView animSplashScreen;
+    private TextView txtNameLogo;
+    private CircleProgressView progressBarSplash;
+    private List<Drug> list = new ArrayList<>();
+    private List<Drug> drugList = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash_screen);
+
+        //        Lottie anim
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                animSplashScreen = findViewById(R.id.animSplashScreen);
+                animSplashScreen.playAnimation();
+
+            }
+        }, 300);
+
+        //        anim name
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                txtNameLogo = findViewById(R.id.txtNameSplash);
+                txtNameLogo.setVisibility(View.VISIBLE);
+                Animation fadeText = AnimationUtils.loadAnimation(ActivitySplashScreen.this, R.anim.fade_anim);
+                fadeText.setStartOffset(200);
+                fadeText.setDuration(700);
+                txtNameLogo.setAnimation(fadeText);
+            }
+        }, 1050);
+
+//        anim progressBar
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBarSplash = findViewById(R.id.progressBarSplash);
+                progressBarSplash.setVisibility(View.VISIBLE);
+                Animation fadeProgress = AnimationUtils.loadAnimation(ActivitySplashScreen.this, R.anim.fade_anim);
+                fadeProgress.setStartOffset(200);
+                fadeProgress.setDuration(700);
+                progressBarSplash.setAnimation(fadeProgress);
+                progressBarSplash.spin();
+            }
+        }, 1750);
+
+
+//      Intent to Home activity
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Components components = new Components();
+                components.getDrugs(ActivitySplashScreen.this);
+                DbHelper db = new DbHelper(ActivitySplashScreen.this);
+                Log.e("dddddd", String.valueOf(db.getCount("drugs")));
+//                move to home activity
+//                Intent intent = new Intent(ActivitySplashScreen.this, ActivityHome.class);
+//                startActivity(intent);
+//                finish();
+            }
+        }, 3000);
+    }
+}

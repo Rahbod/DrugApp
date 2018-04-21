@@ -33,11 +33,7 @@
         <activity
             android:name=".ActivityHome"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ActivityReminderStep2"
@@ -45,8 +41,7 @@
         <activity
             android:name=".ActivityErrorReport"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ActivityViewDrug" />
+        <activity android:name=".ActivityViewDrug" />
         <activity
             android:name=".ActivityInterferenceStep1"
             android:windowSoftInputMode="stateHidden" />
@@ -68,7 +63,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <!--<activity android:name=".ActivityInterferenceStep3"></activity>-->
+        <!-- <activity android:name=".ActivityInterferenceStep3"></activity> -->
         <activity
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map" />
@@ -82,11 +77,20 @@
 
         <receiver android:name=".service.BroadcastReceivers">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ActivitySplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
