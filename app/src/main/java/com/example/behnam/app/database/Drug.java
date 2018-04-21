@@ -27,6 +27,8 @@ public class Drug {
     String relation_with_food;
     int status;
     String last_modified;
+    String category_name;
+    int category_type;
     boolean checked = false;
     int favorite;
 
@@ -41,6 +43,8 @@ public class Drug {
     public Drug(String name) {
         this.name = name;
     }
+
+
 
     public Drug(int id, String name, String brand, String pregnancy, String lactation, String kids, String seniors, String how_to_use, String product, String pharmacodynamic, String usage, String prohibition, String caution, String dose_adjustment, String complication, String interference, String effect_on_test, String over_dose, String description, String relation_with_food, int status, String last_modified) {
         this.id = id;

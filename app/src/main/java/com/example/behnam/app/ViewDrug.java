@@ -8,13 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.behnam.app.R;
+import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
-public class ViewDrug extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class ViewDrug extends AppCompatActivity {
+    List<Category> categoryList = new ArrayList<>();
     private ImageView btnBack;
     private DbHelper dbHelper;
     private HtmlTextView brand_value, healling_value, pharma_value, sickness_value, pregnancy_value, loctation_value, kids_value, senior_value,
@@ -63,6 +67,11 @@ public class ViewDrug extends AppCompatActivity {
 
         dbHelper = new DbHelper(this);
         Drug drug = dbHelper.getDrug(ID);
+
+
+        categoryList = dbHelper.getCategories(ID);
+        Log.e("TAG", "onCreate: "+categoryList.size());
+
 
         name_drug.setText(drug.getName());
         brand_value.setHtml(drug.getName());

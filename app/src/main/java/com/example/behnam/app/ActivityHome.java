@@ -94,8 +94,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.navigation_view);
 
         //Register Receiver
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        this.registerReceiver(new BroadcastReceivers(), intentFilter);
+//        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+//        this.registerReceiver(new BroadcastReceivers(), intentFilter);
         dbHelper = new DbHelper(this);
 
         //help screen voice

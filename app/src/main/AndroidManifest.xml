@@ -70,6 +70,9 @@
         <activity android:name=".ActivityInterferenceStep3" />
         <activity android:name=".ActivityFavorite" />
 
+        <activity android:name=".ActivityReminderDialog"
+            android:theme="@android:style/Theme.Dialog" />
+
         <service
             android:name=".service.ReminderService"
             android:enabled="true"
