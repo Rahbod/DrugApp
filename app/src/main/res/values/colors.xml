@@ -14,4 +14,5 @@
     <color name="mdtp_accent_color">#009688</color>
     <color name="mdtp_accent_color_dark">#00796b</color>
     <color name="title_view_drug">#d0ecff</color>
+    <color name="black">#000000</color>
 </resources>

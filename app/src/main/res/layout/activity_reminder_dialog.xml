@@ -1,16 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:gravity="center"
     android:layout_height="match_parent"
-    android:background="@drawable/reminder_dialog_bg"
-    tools:context="com.example.behnam.app.ActivityHome" >
+    tools:context="com.example.behnam.app.ActivityHome"
+    android:background="@drawable/radius"
+    >
 
-    <TextView
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MASOUD"/>
+        android:gravity="center"
+        android:text=" زمان مصرف داروی "
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"/>
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:text="xxxx"
+        android:textSize="25sp"
+        android:layout_alignParentRight="true"/>
 
+    <TextView
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line2"
+        android:gravity="center"
+        android:text=" فرا رسیده است. "
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"/>
 
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/blue2"
+        android:layout_alignParentLeft="true"
+        android:gravity="left"
+        android:text="باشه"
+        android:textSize="15dp"/>
 </RelativeLayout>

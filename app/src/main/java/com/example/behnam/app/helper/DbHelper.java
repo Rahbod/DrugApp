@@ -68,6 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_START_TIME = "start_time";
     private static final String KEY_COUNT = "use_count";
     private static final String KEY_PERIOD_TIME = "period_time";
+    private static final String KEY_ROW_COUNT = "row_count";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -101,8 +102,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 + ")";
 
         String CREATE_TABLE_REMINDERS = "CREATE TABLE IF NOT EXISTS " + TABLE_REMINDER + " ( "
-                + KEY_ID_REMINDER + " INTEGER , " + KEY_DRUG_ID + " INTEGER , "
-                + KEY_START_TIME + " INTEGER , " + KEY_COUNT + " INTEGER , " + KEY_PERIOD_TIME + " INTEGER " + ")";
+                + KEY_ID_REMINDER + " INTEGER PRIMARY KEY AUTOINCREMENT , " + KEY_DRUG_ID + " INTEGER , "
+                + KEY_START_TIME + " INTEGER , " + KEY_COUNT + " INTEGER , " + KEY_PERIOD_TIME + " INTEGER , " + KEY_ROW_COUNT + " INTEGER DEFAULT 0 )";
 
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
@@ -147,9 +148,10 @@ public class DbHelper extends SQLiteOpenHelper {
     public Reminder getReminder(int id) {
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id, null);
-        if (cursor != null)
+        Log.e("cursor", "getttttt " + cursor.getCount());
+        if (cursor.getCount() != 0)
             cursor.moveToFirst();
-        return new Reminder(cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getInt(4));
+        return new Reminder(cursor.getInt(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
     }
 
     public List<Reminder> getAllReminder() {
@@ -166,6 +168,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 reminder.setStart_time(cursor.getInt(2));
                 reminder.setCount(cursor.getInt(3));
                 reminder.setPeriod_time(cursor.getInt(4));
+                reminder.setRow_count(cursor.getInt(5));
 
                 reminderList.add(reminder);
             }
@@ -418,5 +421,45 @@ public class DbHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
         return categoryList;
+    }
+
+    public Reminder countDrugReminder(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_REMINDER + " where id = " + id, null);
+        cursor.moveToFirst();
+        return new Reminder(Integer.parseInt(cursor.getString(0))
+                , Integer.parseInt(cursor.getString(1))
+                , Integer.parseInt(cursor.getString(2))
+                , Integer.parseInt(cursor.getString(3))
+                , Integer.parseInt(cursor.getString(4))
+                , Integer.parseInt(cursor.getString(5)));
+
+    }
+
+    public List<Reminder> getAllCountDrugReminder() {
+        List<Reminder> reminderList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select " + KEY_COUNT + " from " + TABLE_REMINDER, null);
+        Reminder reminder = new Reminder();
+        if (cursor.moveToFirst()) {
+            while (cursor.moveToNext()) {
+                reminder.setId(Integer.parseInt(cursor.getString(0)));
+                reminder.setDrugId(Integer.parseInt(cursor.getString(1)));
+                reminder.setStart_time(Integer.parseInt(cursor.getString(2)));
+                reminder.setCount(Integer.parseInt(cursor.getString(3)));
+                reminder.setPeriod_time(Integer.parseInt(cursor.getString(4)));
+                reminder.setRow_count(Integer.parseInt(cursor.getString(5)));
+
+                reminderList.add(reminder);
+            }
+        }
+        return reminderList;
+    }
+
+    public int incrementRowCountReminder(int val, int id) {
+        db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_ROW_COUNT, val);
+        return db.update(TABLE_REMINDER, contentValues, " id = ?", new String[]{String.valueOf(id)});
     }
 }

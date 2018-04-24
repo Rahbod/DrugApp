@@ -6,10 +6,41 @@ public class Reminder {
     private long start_time;
     private int count;
     private int period_time;
+    private int row_count;
+
+    public int getRow_count() {
+        return row_count;
+    }
+
+    public void setRow_count(int row_count) {
+        this.row_count = row_count;
+    }
 
     public Reminder() {
     }
-        public Reminder(int id, int drug_id, long start_time, int count, int period_time) {
+
+    public Reminder(int row_count) {
+        this.row_count = row_count;
+    }
+
+    public Reminder(int drugId, long start_time, int count, int period_time, int row_count) {
+        this.drugId = drugId;
+        this.start_time = start_time;
+        this.count = count;
+        this.period_time = period_time;
+        this.row_count = row_count;
+    }
+
+    public Reminder(int id, int drugId, long start_time, int count, int period_time, int row_count) {
+        this.id = id;
+        this.drugId = drugId;
+        this.start_time = start_time;
+        this.count = count;
+        this.period_time = period_time;
+        this.row_count = row_count;
+    }
+
+    public Reminder(int id, int drug_id, long start_time, int count, int period_time) {
         this.id = id;
         this.drugId = drug_id;
         this.start_time = start_time;
