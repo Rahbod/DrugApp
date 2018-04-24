@@ -43,4 +43,5 @@ dependencies {
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'org.sufficientlysecure:html-textview:3.5'
+    compile 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
 }

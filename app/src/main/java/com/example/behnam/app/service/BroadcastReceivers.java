@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.ActivityReminderDialog;
+import com.example.behnam.app.ActivitySplashScreen;
+import com.example.behnam.app.helper.Components;
 
 public class BroadcastReceivers extends BroadcastReceiver {
 
