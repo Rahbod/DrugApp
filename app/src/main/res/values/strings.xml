@@ -9,4 +9,5 @@
     <string name="speech_not_available">Speech recognition is not available on this device. Do you want to install Google app to have speech recognition?</string>
     <string name="enable_google_voice_typing">Please enable Google Voice Typing to use speech recognition!</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

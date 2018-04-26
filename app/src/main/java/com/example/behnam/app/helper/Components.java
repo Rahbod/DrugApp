@@ -64,20 +64,21 @@ public class Components extends AppController {
             AppController.getInstance().sendRequest("android/api/category", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    try {
-                        if (response.getBoolean("status")) {
-                            Log.e("category=", response.toString());
-                            JSONArray jsonArray = response.getJSONArray("categories");
-                            JSONObject object;
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                object = jsonArray.getJSONObject(i);
-                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
-                            }
-                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", false);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                    معین
+//                      try {
+//                        if (response.getBoolean("status")) {
+//                            Log.e("category=", response.toString());
+//                            JSONArray jsonArray = response.getJSONArray("categories");
+//                            JSONObject object;
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                object = jsonArray.getJSONObject(i);
+//                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
+//                            }
+//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", false);
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             });
 

@@ -1,12 +1,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
+        android:id="@+id/layout_map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_no_connection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/no_wifi_icon" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="دستگاه شما برای یافتن مکان مورد نظر به اینترنت متصل نیست ." />
+
+        <com.example.behnam.fonts.ButtonFont
+            android:id="@+id/btn_connection_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="80dp"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_button_gradient"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="اتصال به اینترنت" />
+
+    </LinearLayout>
 </LinearLayout>

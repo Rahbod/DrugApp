@@ -80,9 +80,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 DbHelper db = new DbHelper(ActivitySplashScreen.this);
                 Log.e("dddddd", String.valueOf(db.getCount("drugs")));
 //                move to home activity
-//                Intent intent = new Intent(ActivitySplashScreen.this, ActivityHome.class);
-//                startActivity(intent);
-//                finish();
+                Intent intent = new Intent(ActivitySplashScreen.this, ActivityHome.class);
+                startActivity(intent);
+                finish();
             }
         }, 3000);
     }

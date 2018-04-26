@@ -1,26 +1,37 @@
 package com.example.behnam.app.map;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.behnam.app.R;
+import com.example.behnam.fonts.ButtonFont;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -40,6 +51,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     double latitude;
     double longitude;
     private int PROXIMITY_RADIUS = 10000;
+
+    LinearLayout linearLayoutNoConnection;
+    LinearLayout linearLayoutMap;
+
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -49,7 +64,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        Log.e("onCreate000000000000", "onCreate: " );
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -91,8 +106,27 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        Log.e("onMapReady0000000000", "@@@@@@@@@ " );
+        Log.e("mohammadmoien", "onMapReady: "+latitude+"////"+longitude );
+        linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
+        linearLayoutMap = findViewById(R.id.layout_map);
         if (hasInternetConnection(this)) {
+//            //check gps enabled
+            LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("مکان یاب دستگاه شما غیرفعال است . برای یافتن مکان مورد نظر باید فعال گردد.")
+                        .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface d, int id) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            }
+                        });
+                builder.create().show();
+            }
+
+            linearLayoutNoConnection.setVisibility(View.GONE);
+            linearLayoutMap.setVisibility(View.VISIBLE);
+
             mMap = googleMap;
             GoogleMapOptions options = new GoogleMapOptions();
             options.mapType(GoogleMap.MAP_TYPE_TERRAIN);
@@ -113,21 +147,25 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             if (mCurrLocationMarker != null) {
                 mCurrLocationMarker.remove();
             }
-            String url = getUrl(latitude, longitude, "pharmacy");
-            Log.e("masoud", url);
-            Object[] DataTransfer = new Object[2];
-            DataTransfer[0] = mMap;
-            DataTransfer[1] = url;
-            Log.e("onClick", url);
-            GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-            getNearbyPlacesData.execute(DataTransfer);
+
+        } else {
+            linearLayoutNoConnection.setVisibility(View.VISIBLE);
+            linearLayoutMap.setVisibility(View.GONE);
+            ButtonFont connectButton = findViewById(R.id.btn_connection_wifi);
+            connectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(true);
+                    linearLayoutNoConnection.setVisibility(View.GONE);
+                    linearLayoutMap.setVisibility(View.VISIBLE);
+                }
+            });
         }
-        else
-            Toast.makeText(getApplicationContext(), "No internet access. Please check it.", Toast.LENGTH_LONG).show();
     }
 
-
     protected synchronized void buildGoogleApiClient() {
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -138,6 +176,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnected(Bundle bundle) {
+        Log.e("onConnected000000000000", "@@@@@@@@@ " );
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -150,14 +189,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         Log.e("moein", mLocationRequest + "66666");
     }
 
-    private String getUrl(double latitude, double longitude, String nearbyPlace) {
+    private String getUrl(double latitude, double longitude) {
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
-        googlePlacesUrl.append("&type=").append(nearbyPlace);
+        googlePlacesUrl.append("&type=").append("pharmacy");
         googlePlacesUrl.append("&sensor=true");
-//        googlePlacesUrl.append("&key=" + "AIzaSyDVH7xfYRTDsx6M1olc384-f8pvDaBbIeY");
-        googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
+        googlePlacesUrl.append("&key=" + "AIzaSyDNuH43i_mAdjcPwxankfBjGolfhotfSv8");
         Log.e("getUrl", googlePlacesUrl.toString());
         return (googlePlacesUrl.toString());
     }
@@ -169,16 +207,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.e("onLocationChanged00000", "@@@@@@@@@ " );
         Log.e("onLocationChanged", "entered");
-
         mLastLocation = location;
+        Log.e("TAG", "@@@@@@@@@@@@@@@@qq" + mLastLocation.getLatitude() + "////" + mLastLocation.getLongitude());
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
 
         //Place current location marker
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
+        latitude = mLastLocation.getLatitude();
+        longitude = mLastLocation.getLongitude();
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -191,6 +230,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
         Log.e("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
+
+        String url = getUrl(latitude, longitude);
+        Log.e("masoud", url);
+        Object[] DataTransfer = new Object[2];
+        DataTransfer[0] = mMap;
+        DataTransfer[1] = url;
+        Log.e("onClick", url);
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        getNearbyPlacesData.execute(DataTransfer);
 
         //stop location updates
         if (mGoogleApiClient != null) {
@@ -214,7 +262,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             // Asking user if explanation is needed
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
@@ -235,7 +282,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
+        Log.e("PermissionsResult", "000000000@@@@@@@@@ " );
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -278,4 +325,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
         return false;
     }
+//    public static boolean isLocationEnabled(Context context) {
+//        int locationMode = 0;
+//        String locationProviders;
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            try {
+//                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+//
+//            } catch (Settings.SettingNotFoundException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+//            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+//
+//        } else {
+//            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+//            return !TextUtils.isEmpty(locationProviders);
+//        }
+//    }
 }
