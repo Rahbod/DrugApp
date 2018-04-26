@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.behnam.app.ActivityHome;
@@ -35,12 +34,13 @@ public class BroadcastReceivers extends BroadcastReceiver {
             case Intent.ACTION_BOOT_COMPLETED:
             case TelephonyManager.ACTION_PHONE_STATE_CHANGED:
             case "BROADCAST_RESTART_APP":
-                Log.e("mamad", "onReceive: " + action);
                 Intent intentService = new Intent(context, ReminderService.class);
-                //int idReminder = intent.getIntExtra("idReminder", 0);
+                int reminderID = intent.getIntExtra("reminderID", 0);
+
+                intentService.putExtra("reminderID", reminderID);
                 Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
+                reminderDialog.putExtra("reminderID", reminderID);
                 reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //reminderDialog.putExtra("idReminder_activity", idReminder);
                 context.startService(intentService);
                 context.startActivity(reminderDialog);
                 break;

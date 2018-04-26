@@ -21,7 +21,10 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import saman.zamani.persiandate.PersianDate;
 
 public class ActivityReminderStep2 extends AppCompatActivity {
@@ -101,6 +104,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                                                            if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
                                                                time.setText(String.valueOf(hourOfDay + ":" + minute));
                                                                timeStamps = persianDate.getTime();
+                                                               Log.e("timestapm", "tttiii"+timeStamps );
                                                            } else
                                                                Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                        }
@@ -116,13 +120,17 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int count = Integer.parseInt(txtCount.getText().toString()),
-                    period = Integer.parseInt(txtPeriod.getText().toString());
-                dbHelper.addReminder(new Reminder(drugId, timeStamps / 1000, count, period));
+                        period = Integer.parseInt(txtPeriod.getText().toString());
+                dbHelper.addReminder(new Reminder(drugId, timeStamps , count, period));
+
+                //last id
+                List<Reminder> reminderList =  dbHelper.getAllReminder();
+                int id = reminderList.get(reminderList.size() - 1).getId();
 
                 // Start service
-                Intent serviceIntent = new Intent(context, ReminderService.class);
-                serviceIntent.putExtra("startTime", timeStamps / 1000);
-                serviceIntent.putExtra("period", period);
+                Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);
+                serviceIntent.putExtra("reminderID", id);
+                Log.e("TAG", " drimdrim"+id );
                 startService(serviceIntent);
             }
         });
