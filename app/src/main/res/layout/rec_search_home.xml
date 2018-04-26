@@ -22,7 +22,6 @@
         android:layout_height="0.5dp"
         android:layout_below="@+id/txt"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:background="@color/Gray" />
 
 </RelativeLayout>

@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relRem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/relRem"
     tools:context="com.example.behnam.app.ActivityHome">
 
     <!--actionBar-->
@@ -20,11 +20,12 @@
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="50dp"
-            android:layout_height="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/background_focus"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -79,13 +80,13 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/edit_text_radius"
                 android:hint="جستجو کنید..."
-                android:lines="1"
-                android:paddingRight="8dp"
-                android:paddingLeft="8dp"
-                android:textColor="@color/sina"
-                android:textSize="13dp"
                 android:imeOptions="actionDone"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:lines="1"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/sina"
+                android:textSize="13dp" />
 
             <ImageView
                 android:id="@+id/imgVoice"
@@ -115,14 +116,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.45"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <net.gotev.speech.ui.SpeechProgressView
             android:id="@+id/progressBarHome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
     </LinearLayout>
 

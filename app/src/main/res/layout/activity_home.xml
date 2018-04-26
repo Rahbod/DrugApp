@@ -24,7 +24,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:padding="13dp"
-            android:src="@drawable/menu_icon" />
+            android:src="@drawable/menu_icon"
+            android:background="@drawable/background_focus"/>
 
         <com.example.behnam.fonts.FontTextView
             android:layout_width="wrap_content"
@@ -60,7 +61,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:paddingRight="10dp">
 
             <ImageView
@@ -71,7 +72,7 @@
                 android:src="@drawable/search_icon" />
 
             <com.example.behnam.fonts.EditTextFont
-                android:id="@+id/editTextSearchHome"
+                android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
@@ -88,10 +89,12 @@
 
             <ImageView
                 android:id="@+id/imgVoice"
-                android:layout_width="18dp"
-                android:layout_height="28dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:background="@drawable/background_focus_voice"
                 android:src="@drawable/microphone_icon" />
 
         </RelativeLayout>
@@ -103,12 +106,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/cardView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         app:setIndexBarCornerRadius="15"
         app:setIndexBarTextColor="@color/white"
         app:setIndexTextSize="12"
+        android:layout_marginRight="10dp"
         app:setIndexbarMargin="0"
         app:setIndexbarWidth="15"
         app:setPreviewPadding="0" />

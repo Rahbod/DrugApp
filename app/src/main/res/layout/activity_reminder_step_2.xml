@@ -16,11 +16,12 @@
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="50dp"
-            android:layout_height="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/background_focus"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -103,10 +104,10 @@
 
                     <com.example.behnam.fonts.FontTextView
                         android:id="@+id/date_picker"
-                        android:background="@drawable/edit_text_border"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:background="@drawable/edit_text_border"
                         android:hint="تاریخ"
                         android:textAlignment="center"
                         android:textSize="13dp" />
@@ -116,14 +117,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:textSize="21dp"
-                        android:textColor="@color/sina"/>
+                        android:textColor="@color/sina"
+                        android:textSize="21dp" />
+
                     <com.example.behnam.fonts.FontTextView
                         android:id="@+id/time_picker"
-                        android:background="@drawable/edit_text_border"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
+                        android:background="@drawable/edit_text_border"
                         android:hint="زمان"
                         android:textAlignment="center"
                         android:textSize="13dp" />
@@ -157,11 +159,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_text_border"
-                    android:textSize="13dp"
+                    android:gravity="right"
                     android:hint="هر چند ساعت؟"
                     android:inputType="number"
                     android:textColor="@color/sina"
-                    android:gravity="right"/>
+                    android:textSize="13dp" />
 
             </RelativeLayout>
 
@@ -191,10 +193,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_text_border"
-                    android:textSize="13dp"
-                    android:inputType="number"
                     android:gravity="right"
-                    android:textColor="@color/sina"/>
+                    android:inputType="number"
+                    android:textColor="@color/sina"
+                    android:textSize="13dp" />
             </RelativeLayout>
 
             <com.example.behnam.fonts.ButtonFont

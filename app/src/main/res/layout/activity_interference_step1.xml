@@ -17,12 +17,13 @@
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="50dp"
-            android:layout_height="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/back_icon" />
+            android:src="@drawable/back_icon"
+            android:background="@drawable/background_focus"/>
 
         <com.example.behnam.fonts.FontTextView
             android:layout_width="wrap_content"
@@ -120,8 +121,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/relDrug"
         android:layout_marginTop="35dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:orientation="vertical"
         android:weightSum="10">
 

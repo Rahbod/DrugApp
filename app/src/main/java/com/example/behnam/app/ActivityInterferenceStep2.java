@@ -18,12 +18,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +49,6 @@ import java.util.List;
 public class ActivityInterferenceStep2 extends AppCompatActivity implements SpeechDelegate {
 
     private RecyclerView recyclerView;
-    private EditText etSearch;
     private ImageView btnListen, btnBack;
     private EditText text;
     private TextView txtName;
@@ -66,8 +63,7 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference_step2);
 
-
-
+        text = findViewById(R.id.editTextDrugInterferenceStep2);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,9 +80,8 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
 
         floatButton = findViewById(R.id.floatButton);
 
-        //        search
-        etSearch = findViewById(R.id.editTextDrugInterferenceStep2);
-        etSearch.addTextChangedListener(new TextWatcher() {
+        //search
+        text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -118,8 +113,8 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
         });
 
         // Remove selected drug from list
-        for (int i=0;i<drugList.size();i++)
-            if(drugList.get(i).getId() == SessionManager.getExtrasPref(this).getInt("mainID"))
+        for (int i = 0; i < drugList.size(); i++)
+            if (drugList.get(i).getId() == SessionManager.getExtrasPref(this).getInt("mainID"))
                 drugList.remove(i);
 
         // Set linear recyclerView adapter
@@ -180,7 +175,6 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
                     }).show();
         } else {
             btnListen = findViewById(R.id.imgVoiceDrugInterferenceStep2);
-            text = findViewById(R.id.editTextDrugInterferenceStep2);
             progress = findViewById(R.id.progressDrugInterferenceStep2);
 
             Speech.init(this, getPackageName());
@@ -188,10 +182,13 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    hide keyboard
-                    RelativeLayout mainLayout = findViewById(R.id.relInter2);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+                    //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
 
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();

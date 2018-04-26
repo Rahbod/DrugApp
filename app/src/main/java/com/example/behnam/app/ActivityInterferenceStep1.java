@@ -43,7 +43,6 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
     private ImageView btnBack;
     private DbHelper dbHelper;
     private AdapterInterferenceStep1 adapter;
-    private EditText etSearch;
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
@@ -55,6 +54,7 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference_step1);
 
+        text = findViewById(R.id.editTextSearchDrugInteraction);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +67,7 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
 
         dbHelper = new DbHelper(getApplicationContext());
         //        search
-        etSearch = findViewById(R.id.editTextSearchDrugInteraction);
-        etSearch.addTextChangedListener(new TextWatcher() {
+        text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -123,7 +122,6 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
                     }).show();
         } else {
             btnListen = findViewById(R.id.imgVoiceDrugInterAction);
-            text = findViewById(R.id.editTextSearchDrugInteraction);
             progress = findViewById(R.id.progressDrugInterAction);
 
             Speech.init(this, getPackageName());
@@ -131,10 +129,13 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    hide keyboard
-                    RelativeLayout mainLayout = findViewById(R.id.relInter1);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+                    //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
 
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();

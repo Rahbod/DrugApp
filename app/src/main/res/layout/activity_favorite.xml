@@ -13,18 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/background_gradient"
-        app:layout_scrollFlags="scroll"
         android:elevation="3dp"
+        app:layout_scrollFlags="scroll"
         tools:targetApi="lollipop">
 
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="50dp"
-            android:layout_height="60dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="20dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/background_focus"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
@@ -44,6 +45,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/actionBarDrug"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
