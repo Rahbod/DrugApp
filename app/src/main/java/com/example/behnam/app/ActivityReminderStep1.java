@@ -52,11 +52,13 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
     private SpeechProgressView progress;
     private Boolean speechInitialized = false;
     private ConnectivityManager connectivityManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_step_1);
 
+        text = findViewById(R.id.editTextSearchReminder);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +68,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         });
 
         //        search
-        etSearch = findViewById(R.id.editTextSearchReminder);
-        etSearch.addTextChangedListener(new TextWatcher() {
+        text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -121,12 +122,12 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                     })
                     .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {}
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
                     }).show();
         } else {
-            btnListen =findViewById(R.id.imgVoice);
-            text =findViewById(R.id.editTextSearchReminder);
-            progress =findViewById(R.id.progressBarHome);
+            btnListen = findViewById(R.id.imgVoice);
+            progress = findViewById(R.id.progressBarHome);
 
             Speech.init(this, getPackageName());
             speechInitialized = true;
@@ -134,30 +135,34 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-//                    hide keyboard
-                    RelativeLayout mainLayout = findViewById(R.id.relRem);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
 
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
-                        else{
+                        else {
                             ActivityCompat.requestPermissions(ActivityReminderStep1.this,
                                     new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);}
+                                    1);
+                        }
                     }
                 }
             });
         }
     }
-    private void filter(String str){
+
+    private void filter(String str) {
         ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : drugList){
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())){
+        for (Drug drug : drugList) {
+            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
             }
         }
@@ -179,7 +184,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         progress.setVisibility(View.VISIBLE);
         try {
             Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress,ActivityReminderStep1.this);
+            Speech.getInstance().startListening(progress, ActivityReminderStep1.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();

@@ -25,12 +25,6 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
     private ArrayList<Integer> mSectionPositions;
     private List<Drug> drugList;
     private Context context;
-    DbHelper dbHelper;
-    List<Category> categoryList = new ArrayList<>();
-
-    public AdapterAlphabetIndexFastScroll(List<Drug> dataset) {
-        drugList = dataset;
-    }
 
     public AdapterAlphabetIndexFastScroll(List<Drug> drugList, Context context) {
         this.drugList = drugList;
@@ -39,7 +33,7 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
 
     @Override
     public ListViewHollder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search_home, parent, false);
         return new ListViewHollder(view);
     }
 
@@ -50,8 +44,7 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityViewDrug.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("id",drugList.get(position).getId());
+                intent.putExtra("id", drugList.get(position).getId());
                 context.startActivity(intent);
             }
         });
@@ -88,12 +81,12 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         return 0;
     }
 
-    public class ListViewHollder extends RecyclerView.ViewHolder {
+    class ListViewHollder extends RecyclerView.ViewHolder {
 
         TextView txt;
         RelativeLayout rel;
 
-        public ListViewHollder(View itemView) {
+        ListViewHollder(View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);
             rel = itemView.findViewById(R.id.relativeLayoutRechome);

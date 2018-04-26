@@ -37,6 +37,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
     @Override
     public drugListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search,parent,false);
+        view.setHovered(true);
         return new drugListViewHolder(view);
     }
 
@@ -46,9 +47,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("TAG", "PPPPPPPPPPPPPPPPPPP "+drugList.get(position).getName() );
                 dbHelper.getCategoriesByDrug(drugList.get(position).getId());
-                Log.e("TAG55555555555", String.valueOf(categoryList.size()));
                 Intent intent = new Intent(context,ActivityViewDrug.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id",drugList.get(position).getId());

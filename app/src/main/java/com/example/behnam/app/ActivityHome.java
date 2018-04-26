@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -23,29 +22,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.Response;
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
-import com.example.behnam.app.controller.AppController;
-import com.example.behnam.app.database.Category;
-import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.fastscroll.AlphabetItem;
+import com.example.behnam.app.helper.Components;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
-import com.example.behnam.app.service.BroadcastReceivers;
-import com.example.behnam.fonts.FontTextView;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -53,10 +44,6 @@ import net.gotev.speech.SpeechDelegate;
 import net.gotev.speech.SpeechRecognitionNotAvailable;
 import net.gotev.speech.SpeechUtil;
 import net.gotev.speech.ui.SpeechProgressView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,11 +57,9 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     private ImageView imgOpenNvDraw;
     private AdapterAlphabetIndexFastScroll adapterHome;
-    private EditText etSearch;
     private DrawerLayout drawerLayout;
     private List<Drug> drugList = new ArrayList<>();
     List<Drug> list = new ArrayList<>();
-    private DbHelper dbHelper;
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
@@ -93,10 +78,13 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.activity_home);
         setContentView(R.layout.navigation_view);
 
-        //Register Receiver
-//        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-//        this.registerReceiver(new BroadcastReceivers(), intentFilter);
-        dbHelper = new DbHelper(this);
+        text = findViewById(R.id.editTextSearch);
+
+        //finish splash screen
+        ActivitySplashScreen.activitySplashScreen.finish();
+
+        if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
+            Components.downloadData(this, "first");
 
         //help screen voice
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -118,8 +106,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         // search
-        etSearch = findViewById(R.id.editTextSearchHome);
-        etSearch.addTextChangedListener(new TextWatcher() {
+        text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -142,11 +129,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //                    hide keyboard
+                //hide keyboard
                 Class<? extends View.OnClickListener> view = this.getClass();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
                 }
 
@@ -158,15 +145,10 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }, 100);
             }
         });
-//        long countDrug = dbHelper.countDrug();
-//        if (countDrug == 0) {
-//            progressBar.setVisibility(View.VISIBLE);
-//            loadingText.setVisibility(View.VISIBLE);
-//        }
+
         showDrugs(this);
 
         btnListen = findViewById(R.id.imgVoice);
-        text = findViewById(R.id.editTextSearchHome);
         progress = findViewById(R.id.progressBarHome);
 
         Speech.init(this, getPackageName());
@@ -193,10 +175,13 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                                 }
                             }).show();
                 } else {
-//                    hide keyboard
-                    RelativeLayout mainLayout = findViewById(R.id.relHome);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+//                  //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
 
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
@@ -282,15 +267,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         adapterHome.filterList(filterDrug);
     }
 
-    //    voiceSearch
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (speechInitialized)
-//            Speech.getInstance().shutdown();
-//    }
-
     private void onRecordAudioPermissionGranted() {
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
@@ -312,7 +288,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     public void onSpeechRmsChanged(float value) {
-        //Log.d(getClass().getSimpleName(), "Speech recognition rms is now " + value +  "dB");
     }
 
     @Override
@@ -372,8 +347,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            drawerLayout.closeDrawer(Gravity.LEFT);
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            drawerLayout.closeDrawer(Gravity.RIGHT);
         } else if (time + BackPressed > System.currentTimeMillis()) {
             super.onBackPressed();
         } else
@@ -385,76 +360,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     public void showDrugs(final Context context) {
         mRecyclerView = ((ActivityHome) context).getWindow().getDecorView().findViewById(R.id.fast_scroller_recycler);
         DbHelper dbHelper = new DbHelper(context);
-//        if (!SessionManager.getExtrasPref(context).getBoolean("primitiveRecordsExists")) {
-//            AppController.getInstance().sendRequest("android/api/list", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            progressBar.setVisibility(View.GONE);
-//                            loadingText.setVisibility(View.GONE);
-//                            JSONArray jsonArray = response.getJSONArray("drugs");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified")));
-//                                list.add(new Drug(object.getString("name")));
-//                            }
-//
-//
-//
-//
-//
-//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//
-//            AppController.getInstance().sendRequest("android/api/category", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            Log.e("category=", response.toString());
-//                            JSONArray jsonArray = response.getJSONArray("categories");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addCategory(new Category(object.getString("name"), object.getInt("type")));
-//                            }
-//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//
-//            AppController.getInstance().sendRequest("android/api/categoryDrug", null, new Response.Listener<JSONObject>() {
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    try {
-//                        if (response.getBoolean("status")) {
-//                            Log.e("categoryDrug=", response.toString());
-//                            JSONArray jsonArray = response.getJSONArray("list");
-//                            JSONObject object;
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                object = jsonArray.getJSONObject(i);
-//                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
-//                            }
-//
-//                            SessionManager.getExtrasPref(context).putExtra("primitiveRecordsExists", true);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }
-
 
         drugList = dbHelper.getAllDrugs();
 

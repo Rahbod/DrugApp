@@ -1,22 +1,16 @@
 package com.example.behnam.app;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.Components;
-import com.example.behnam.app.helper.DbHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import at.grabner.circleprogress.CircleProgressView;
 
@@ -25,13 +19,15 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private LottieAnimationView animSplashScreen;
     private TextView txtNameLogo;
     private CircleProgressView progressBarSplash;
-    private List<Drug> list = new ArrayList<>();
-    private List<Drug> drugList = new ArrayList<>();
+
+    public static Activity activitySplashScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        activitySplashScreen = this;
 
         //        Lottie anim
         new Handler().postDelayed(new Runnable() {
@@ -70,19 +66,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
             }
         }, 1750);
 
-
-//      Intent to Home activity
+        //Intent to Home activity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Components components = new Components();
-                components.getDrugs(ActivitySplashScreen.this);
-                DbHelper db = new DbHelper(ActivitySplashScreen.this);
-                Log.e("dddddd", String.valueOf(db.getCount("drugs")));
-//                move to home activity
-                Intent intent = new Intent(ActivitySplashScreen.this, ActivityHome.class);
-                startActivity(intent);
-                finish();
+                //download database
+                Components.downloadData(ActivitySplashScreen.this, "first");
+
             }
         }, 3000);
     }
