@@ -132,8 +132,7 @@ public class Components extends AppController {
                 }else
                     getDrugs(context);
             }
-        } else
-            if (type.equals("complete")) {
+        } else if (type.equals("complete")) {
             // download complete data
         }
     }
