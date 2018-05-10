@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.behnam.app">
 
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -43,6 +43,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityViewDrug" />
         <activity
+            android:name=".ReminderListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".ActivityInterferenceStep1"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityAbout" />
@@ -77,14 +80,13 @@
             android:name=".service.ReminderService"
             android:enabled="true"
             android:exported="false" />
-
-        <receiver android:name=".service.BroadcastReceivers"
+        <receiver
+            android:name=".service.BroadcastReceivers"
             android:enabled="true">
             <intent-filter>
                 <action
                     android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
-
             </intent-filter>
         </receiver>
 
@@ -107,5 +109,4 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-
 </manifest>

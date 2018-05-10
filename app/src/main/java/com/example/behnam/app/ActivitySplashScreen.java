@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,7 +72,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 //download database
-                Components.downloadData(ActivitySplashScreen.this, "first");
+                //Components.downloadData(ActivitySplashScreen.this, "first");
+                startActivity(new Intent(ActivitySplashScreen.this,ActivityHome.class));
 
             }
         }, 3000);

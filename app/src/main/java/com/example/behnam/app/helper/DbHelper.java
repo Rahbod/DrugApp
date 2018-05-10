@@ -148,10 +148,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public Reminder getReminder(int id) {
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id, null);
-        Log.e("cursor", "getttttt " + cursor.getCount());
-        if (cursor.getCount() != 0)
+        Log.e("cursor", "getttttt " + cursor.getCount() + "///" + id);
+        if (cursor.getCount() != 0) {
             cursor.moveToFirst();
-        return new Reminder(cursor.getInt(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+            return new Reminder(cursor.getInt(0), cursor.getInt(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
+        } else
+            return null;
     }
 
     public List<Reminder> getAllReminder() {
@@ -403,6 +405,27 @@ public class DbHelper extends SQLiteOpenHelper {
         return listFavorite;
     }
 
+
+    public List<Category> getHeallingByDrugs(int id) {
+        List<Category> categoryList = new ArrayList<>();
+//        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " +KEY_TYPE_CATEGORY + " = 1 and "+ KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND type = 0)";
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Log.e("mooooooooa", String.valueOf(cursor.getCount()));
+        if (cursor.moveToFirst()) {
+            do {
+                Category category = new Category();
+                category.setId(cursor.getInt(0));
+                category.setName(cursor.getString(1));
+                category.setType(cursor.getInt(2));
+                categoryList.add(category);
+            }
+            while (cursor.moveToNext());
+        }
+        return categoryList;
+    }
+
     public List<Category> getCategoriesByDrug(int id) {
         List<Category> categoryList = new ArrayList<>();
 //        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
@@ -461,5 +484,9 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ROW_COUNT, val);
         return db.update(TABLE_REMINDER, contentValues, " id = ?", new String[]{String.valueOf(id)});
+    }
+
+    public void deleteReminder(int id) {
+        db.execSQL("DELETE FROM " + TABLE_REMINDER + " WHERE id=" + id);
     }
 }

@@ -81,7 +81,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         text = findViewById(R.id.editTextSearch);
 
         //finish splash screen
-        ActivitySplashScreen.activitySplashScreen.finish();
+//        ActivitySplashScreen.activitySplashScreen.finish();
 
         if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
             Components.downloadData(this, "first");
@@ -145,14 +145,10 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }, 100);
             }
         });
-
         showDrugs(this);
-
         btnListen = findViewById(R.id.imgVoice);
         progress = findViewById(R.id.progressBarHome);
-
         Speech.init(this, getPackageName());
-
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +220,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 shareApplication();
                 break;
             case R.id.item6:
-                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+//                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+                Intent goToErrorReport = new Intent(this, ReminderListActivity.class);
                 startActivity(goToErrorReport);
                 closeNv();
                 break;
