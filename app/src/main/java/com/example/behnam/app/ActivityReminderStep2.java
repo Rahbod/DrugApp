@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -135,7 +136,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                                                            if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
                                                                time.setText(String.valueOf(hourOfDay + ":" + minute));
                                                                timeStamps = persianDate.getTime();
-                                                               Log.e("timestapm", "tttiii"+timeStamps );
+                                                               Log.e("timestapm", "tttiii" + timeStamps);
                                                            } else
                                                                Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                        }
@@ -152,10 +153,10 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             public void onClick(View v) {
                 int count = Integer.parseInt(txtCount.getText().toString()),
                         period = Integer.parseInt(txtPeriod.getText().toString());
-                dbHelper.addReminder(new Reminder(drugId, timeStamps , count, period));
+                dbHelper.addReminder(new Reminder(drugId, timeStamps, count, period));
 
                 //last id
-                List<Reminder> reminderList =  dbHelper.getAllReminder();
+                List<Reminder> reminderList = dbHelper.getAllReminder();
                 int id = reminderList.get(reminderList.size() - 1).getId();
 
                 // Start service
