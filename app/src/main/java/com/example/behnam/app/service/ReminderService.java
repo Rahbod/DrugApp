@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
@@ -16,6 +15,10 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class ReminderService extends Service {
+    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings"; // Here you need to define the  package name
+
+    private static final String SCREEN_CLASS_NAME = "com.android.settings.RunningServices"; // Here you need to define the class name but NOTICE!! you need to define its full name including  package name
+
     private static WeakReference<ReminderService> instance;
 
     @Nullable
@@ -36,45 +39,36 @@ public class ReminderService extends Service {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int reminderID = intent.getIntExtra("reminderID", 0);
-        boolean shouldClose = intent.getBooleanExtra("close", false);
-        if (shouldClose) {
+
+        if (reminderID <= 0) {
             this.stopSelf();
         } else {
-            if (reminderID == 0) {
-                Log.e("TAG", "onStartCommand: ");
-            } else {
-                DbHelper dbHelper = new DbHelper(getApplicationContext());
-                intent.putExtra("reminderID", intent.getIntExtra("reminderID", 0));
+            DbHelper dbHelper = new DbHelper(getApplicationContext());
+            intent.putExtra("reminderID", intent.getIntExtra("reminderID", 0));
 
-                if (dbHelper.getReminder(reminderID) != null) {
-                    Reminder reminder = dbHelper.getReminder(reminderID);
-                    int runsNum = reminder.getRow_count();
-                    Calendar alarmTime = Calendar.getInstance();
-                    if (runsNum != reminder.getCount()) {
-                        Intent broadcastIntent = new Intent(getApplicationContext(), BroadcastReceivers.class);
-                        broadcastIntent.setAction("BROADCAST_RESTART_APP");
-                        broadcastIntent.putExtra("reminderID", reminderID);
+            if (dbHelper.getReminder(reminderID) != null) {
+                Reminder reminder = dbHelper.getReminder(reminderID);
+                int runsNum = reminder.getRowCount();
+                Calendar alarmTime = Calendar.getInstance();
+                if (runsNum != reminder.getCount()) {
+                    Intent broadcastIntent = new Intent(getApplicationContext(), BroadcastReceivers.class);
+                    broadcastIntent.setAction("BROADCAST_RESTART_APP");
+                    broadcastIntent.putExtra("reminderID", reminderID);
+                    broadcastIntent.putExtra("startID", startId);
 
-                        //create id for request code
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminderID, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        long now = Calendar.getInstance().getTimeInMillis();
-                        if (runsNum == 0) {
-                            alarmTime.add(Calendar.SECOND, (int) ((reminder.getStart_time() - now) / 1000));
-                        } else {
-                            //long nextTime = reminder.getPeriod_time() * (1000);
-                            alarmTime.add(Calendar.SECOND, 10);
-                        }
-                        dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                    //create id for request code
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminderID, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    long now = Calendar.getInstance().getTimeInMillis();
+                    if (runsNum == 0) {
+                        alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
+                    } else {
+                        alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
                     }
+                    dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                 }
             }
         }
         return START_STICKY;
-    }
-
-    @Override
-    public void onDestroy() {
-        this.stopSelf();
     }
 }

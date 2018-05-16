@@ -12,23 +12,23 @@ public class Drug {
     String lactation;
     String kids;
     String seniors;
-    String how_to_use;
+    String howToUse;
     String product;
     String pharmacodynamic;
     String usage;
     String prohibition;
     String caution;
-    String dose_adjustment;
+    String doseAdjustment;
     String complication;
     String interference;
-    String effect_on_test;
-    String over_dose;
+    String effectOnTest;
+    String overDose;
     String description;
-    String relation_with_food;
+    String relationWithFood;
     int status;
-    String last_modified;
-    String category_name;
-    int category_type;
+    String lastModified;
+    String categoryName;
+    int categoryType;
     boolean checked = false;
     int favorite;
 
@@ -44,9 +44,7 @@ public class Drug {
         this.name = name;
     }
 
-
-
-    public Drug(int id, String name, String brand, String pregnancy, String lactation, String kids, String seniors, String how_to_use, String product, String pharmacodynamic, String usage, String prohibition, String caution, String dose_adjustment, String complication, String interference, String effect_on_test, String over_dose, String description, String relation_with_food, int status, String last_modified) {
+    public Drug(int id, String name, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -54,45 +52,45 @@ public class Drug {
         this.lactation = lactation;
         this.kids = kids;
         this.seniors = seniors;
-        this.how_to_use = how_to_use;
+        this.howToUse = howToUse;
         this.product = product;
         this.pharmacodynamic = pharmacodynamic;
         this.usage = usage;
         this.prohibition = prohibition;
         this.caution = caution;
-        this.dose_adjustment = dose_adjustment;
+        this.doseAdjustment = doseAdjustment;
         this.complication = complication;
         this.interference = interference;
-        this.effect_on_test = effect_on_test;
-        this.over_dose = over_dose;
+        this.effectOnTest = effectOnTest;
+        this.overDose = overDose;
         this.description = description;
-        this.relation_with_food = relation_with_food;
+        this.relationWithFood = relationWithFood;
         this.status = status;
-        this.last_modified = last_modified;
+        this.lastModified = lastModified;
     }
 
-    public Drug(String name, String brand, String pregnancy, String lactation, String kids, String seniors, String how_to_use, String product, String pharmacodynamic, String usage, String prohibition, String caution, String dose_adjustment, String complication, String interference, String effect_on_test, String over_dose, String description, String relation_with_food, int status, String last_modified) {
+    public Drug(String name, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
         this.name = name;
         this.brand = brand;
         this.pregnancy = pregnancy;
         this.lactation = lactation;
         this.kids = kids;
         this.seniors = seniors;
-        this.how_to_use = how_to_use;
+        this.howToUse = howToUse;
         this.product = product;
         this.pharmacodynamic = pharmacodynamic;
         this.usage = usage;
         this.prohibition = prohibition;
         this.caution = caution;
-        this.dose_adjustment = dose_adjustment;
+        this.doseAdjustment = doseAdjustment;
         this.complication = complication;
         this.interference = interference;
-        this.effect_on_test = effect_on_test;
-        this.over_dose = over_dose;
+        this.effectOnTest = effectOnTest;
+        this.overDose = overDose;
         this.description = description;
-        this.relation_with_food = relation_with_food;
+        this.relationWithFood = relationWithFood;
         this.status = status;
-        this.last_modified = last_modified;
+        this.lastModified = lastModified;
     }
 
     public int getId() {
@@ -151,12 +149,12 @@ public class Drug {
         this.seniors = seniors;
     }
 
-    public String getHow_to_use() {
-        return how_to_use;
+    public String getHowToUse() {
+        return howToUse;
     }
 
-    public void setHow_to_use(String how_to_use) {
-        this.how_to_use = how_to_use;
+    public void setHowToUse(String howToUse) {
+        this.howToUse = howToUse;
     }
 
     public String getProduct() {
@@ -199,12 +197,12 @@ public class Drug {
         this.caution = caution;
     }
 
-    public String getDose_adjustment() {
-        return dose_adjustment;
+    public String getDoseAdjustment() {
+        return doseAdjustment;
     }
 
-    public void setDose_adjustment(String dose_adjustment) {
-        this.dose_adjustment = dose_adjustment;
+    public void setDoseAdjustment(String doseAdjustment) {
+        this.doseAdjustment = doseAdjustment;
     }
 
     public String getComplication() {
@@ -223,20 +221,20 @@ public class Drug {
         this.interference = interference;
     }
 
-    public String getEffect_on_test() {
-        return effect_on_test;
+    public String getEffectOnTest() {
+        return effectOnTest;
     }
 
-    public void setEffect_on_test(String effect_on_test) {
-        this.effect_on_test = effect_on_test;
+    public void setEffectOnTest(String effectOnTest) {
+        this.effectOnTest = effectOnTest;
     }
 
-    public String getOver_dose() {
-        return over_dose;
+    public String getOverDose() {
+        return overDose;
     }
 
-    public void setOver_dose(String over_dose) {
-        this.over_dose = over_dose;
+    public void setOverDose(String overDose) {
+        this.overDose = overDose;
     }
 
     public String getDescription() {
@@ -247,12 +245,12 @@ public class Drug {
         this.description = description;
     }
 
-    public String getRelation_with_food() {
-        return relation_with_food;
+    public String getRelationWithFood() {
+        return relationWithFood;
     }
 
-    public void setRelation_with_food(String relation_with_food) {
-        this.relation_with_food = relation_with_food;
+    public void setRelationWithFood(String relationWithFood) {
+        this.relationWithFood = relationWithFood;
     }
 
     public int getStatus() {
@@ -263,12 +261,12 @@ public class Drug {
         this.status = status;
     }
 
-    public String getLast_modified() {
-        return last_modified;
+    public String getLastModified() {
+        return lastModified;
     }
 
-    public void setLast_modified(String last_modified) {
-        this.last_modified = last_modified;
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
     }
 
     public void setChecked(boolean state) {

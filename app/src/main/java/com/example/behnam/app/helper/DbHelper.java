@@ -136,10 +136,10 @@ public class DbHelper extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(KEY_DRUG_ID, reminder.getDrugId());
-        values.put(KEY_START_TIME, reminder.getStart_time());
+        values.put(KEY_DRUG_ID, reminder.getDrugID());
+        values.put(KEY_START_TIME, reminder.getStartTime());
         values.put(KEY_COUNT, reminder.getCount());
-        values.put(KEY_PERIOD_TIME, reminder.getPeriod_time());
+        values.put(KEY_PERIOD_TIME, reminder.getPeriodTime());
 
         db.insert(TABLE_REMINDER, null, values);
         db.close();
@@ -151,6 +151,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.e("cursor", "getttttt " + cursor.getCount() + "///" + id);
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();
+            Log.e("TAG", "@@@@@getReminder"+id );
             return new Reminder(cursor.getInt(0), cursor.getInt(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
         } else
             return null;
@@ -166,11 +167,11 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 Reminder reminder = new Reminder();
                 reminder.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                reminder.setDrugId(cursor.getInt(1));
-                reminder.setStart_time(cursor.getInt(2));
+                reminder.setDrugID(cursor.getInt(1));
+                reminder.setStartTime(cursor.getInt(2));
                 reminder.setCount(cursor.getInt(3));
-                reminder.setPeriod_time(cursor.getInt(4));
-                reminder.setRow_count(cursor.getInt(5));
+                reminder.setPeriodTime(cursor.getInt(4));
+                reminder.setRowCount(cursor.getInt(5));
 
                 reminderList.add(reminder);
             }
@@ -189,21 +190,21 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_LACTATION, drug.getLactation());
         values.put(KEY_KIDS, drug.getKids());
         values.put(KEY_SENIORS, drug.getSeniors());
-        values.put(KEY_HOW_TO_USE, drug.getHow_to_use());
+        values.put(KEY_HOW_TO_USE, drug.getHowToUse());
         values.put(KEY_PRODUCT, drug.getProduct());
         values.put(KEY_PHARMACODYNAMIC, drug.getPharmacodynamic());
         values.put(KEY_USAGE, drug.getUsage());
         values.put(KEY_PROHIBITION, drug.getProhibition());
         values.put(KEY_CAUTION, drug.getCaution());
-        values.put(KEY_DOSE_ADJUSTMENT, drug.getDose_adjustment());
+        values.put(KEY_DOSE_ADJUSTMENT, drug.getDoseAdjustment());
         values.put(KEY_COMPLICATION, drug.getComplication());
         values.put(KEY_INTERFERENCE, drug.getInterference());
-        values.put(KEY_EFFECT_ON_TEST, drug.getEffect_on_test());
-        values.put(KEY_OVER_DOSE, drug.getOver_dose());
+        values.put(KEY_EFFECT_ON_TEST, drug.getEffectOnTest());
+        values.put(KEY_OVER_DOSE, drug.getOverDose());
         values.put(KEY_DESCRIPTION, drug.getDescription());
-        values.put(KEY_RELATION_WITH_FOOD, drug.getRelation_with_food());
+        values.put(KEY_RELATION_WITH_FOOD, drug.getRelationWithFood());
         values.put(KEY_STATUS, drug.getStatus());
-        values.put(KEY_LAST_MODIFIED, drug.getLast_modified());
+        values.put(KEY_LAST_MODIFIED, drug.getLastModified());
 
         db.insert(TABLE_DRUGS, null, values);
         db.close();
@@ -262,21 +263,21 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setLactation(cursor.getString(4));
                 drug.setKids(cursor.getString(5));
                 drug.setSeniors(cursor.getString(6));
-                drug.setHow_to_use(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(7));
                 drug.setProduct(cursor.getString(8));
                 drug.setPharmacodynamic(cursor.getString(9));
                 drug.setUsage(cursor.getString(10));
                 drug.setProhibition(cursor.getString(11));
                 drug.setCaution(cursor.getString(12));
-                drug.setDose_adjustment(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(13));
                 drug.setComplication(cursor.getString(14));
                 drug.setInterference(cursor.getString(15));
-                drug.setEffect_on_test(cursor.getString(16));
-                drug.setOver_dose(cursor.getString(17));
+                drug.setEffectOnTest(cursor.getString(16));
+                drug.setOverDose(cursor.getString(17));
                 drug.setDescription(cursor.getString(18));
-                drug.setRelation_with_food(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(19));
                 drug.setStatus(Integer.parseInt(cursor.getString(20)));
-                drug.setLast_modified(cursor.getString(21));
+                drug.setLastModified(cursor.getString(21));
                 drugList.add(drug);
             }
         }
@@ -305,21 +306,21 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setLactation(cursor.getString(4));
                 drug.setKids(cursor.getString(5));
                 drug.setSeniors(cursor.getString(6));
-                drug.setHow_to_use(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(7));
                 drug.setProduct(cursor.getString(8));
                 drug.setPharmacodynamic(cursor.getString(9));
                 drug.setUsage(cursor.getString(10));
                 drug.setProhibition(cursor.getString(11));
                 drug.setCaution(cursor.getString(12));
-                drug.setDose_adjustment(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(13));
                 drug.setComplication(cursor.getString(14));
                 drug.setInterference(cursor.getString(15));
-                drug.setEffect_on_test(cursor.getString(16));
-                drug.setOver_dose(cursor.getString(17));
+                drug.setEffectOnTest(cursor.getString(16));
+                drug.setOverDose(cursor.getString(17));
                 drug.setDescription(cursor.getString(18));
-                drug.setRelation_with_food(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(19));
                 drug.setStatus(Integer.parseInt(cursor.getString(20)));
-                drug.setLast_modified(cursor.getString(21));
+                drug.setLastModified(cursor.getString(21));
                 drugList.add(drug);
             }
             while (cursor.moveToNext());
@@ -330,8 +331,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void addCategoryDrug(CategoryDrug categoryDrug) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CATEGORY_ID, categoryDrug.getCategory_id());
-        values.put(KEY_DRUG_ID, categoryDrug.getDrug_id());
+        values.put(KEY_CATEGORY_ID, categoryDrug.getCategoryID());
+        values.put(KEY_DRUG_ID, categoryDrug.getDrugID());
         values.put(KEY_TYPE, categoryDrug.getType());
 
         db.insert(TABLE_CATEGORY_DRUG, null, values);
@@ -392,7 +393,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<Drug> getFavorite() {
         List<Drug> listFavorite = new ArrayList<>();
         db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + FAVORITE + " =1", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + FAVORITE + " = 1", null);
         if (cursor.moveToFirst()) {
             do {
                 Drug drug = new Drug();
@@ -467,11 +468,11 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             while (cursor.moveToNext()) {
                 reminder.setId(Integer.parseInt(cursor.getString(0)));
-                reminder.setDrugId(Integer.parseInt(cursor.getString(1)));
-                reminder.setStart_time(Integer.parseInt(cursor.getString(2)));
+                reminder.setDrugID(Integer.parseInt(cursor.getString(1)));
+                reminder.setStartTime(Integer.parseInt(cursor.getString(2)));
                 reminder.setCount(Integer.parseInt(cursor.getString(3)));
-                reminder.setPeriod_time(Integer.parseInt(cursor.getString(4)));
-                reminder.setRow_count(Integer.parseInt(cursor.getString(5)));
+                reminder.setPeriodTime(Integer.parseInt(cursor.getString(4)));
+                reminder.setRowCount(Integer.parseInt(cursor.getString(5)));
 
                 reminderList.add(reminder);
             }

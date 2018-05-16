@@ -207,8 +207,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item3:
-                Intent goToReminder = new Intent(this, ActivityReminderStep1.class);
-                startActivity(goToReminder);
+                Intent goToErrorReport = new Intent(this, ReminderListActivity.class);
+                startActivity(goToErrorReport);
                 closeNv();
                 break;
             case R.id.item4:
@@ -221,8 +221,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
             case R.id.item6:
 //                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
-                Intent goToErrorReport = new Intent(this, ReminderListActivity.class);
-                startActivity(goToErrorReport);
+
                 closeNv();
                 break;
             case R.id.item7:

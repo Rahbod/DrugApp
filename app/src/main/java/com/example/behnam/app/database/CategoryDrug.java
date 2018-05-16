@@ -1,30 +1,30 @@
 package com.example.behnam.app.database;
 
 public class CategoryDrug {
-    int drug_id;
-    int category_id;
+    int drugID;
+    int categoryID;
     int type;
 
-    public CategoryDrug(int drug_id, int category_id, int type) {
-        this.drug_id = drug_id;
-        this.category_id = category_id;
+    public CategoryDrug(int drugID, int categoryID, int type) {
+        this.drugID = drugID;
+        this.categoryID = categoryID;
         this.type = type;
     }
 
-    public int getDrug_id() {
-        return drug_id;
+    public int getDrugID() {
+        return drugID;
     }
 
-    public void setDrug_id(int drug_id) {
-        this.drug_id = drug_id;
+    public void setDrugID(int drug_id) {
+        this.drugID = drug_id;
     }
 
-    public int getCategory_id() {
-        return category_id;
+    public int getCategoryID() {
+        return categoryID;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryID(int category_id) {
+        this.categoryID = category_id;
     }
 
     public int getType() {

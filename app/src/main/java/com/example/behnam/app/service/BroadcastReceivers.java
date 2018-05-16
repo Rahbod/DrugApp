@@ -36,17 +36,16 @@ public class BroadcastReceivers extends BroadcastReceiver {
                 break;
 //            case Intent.ACTION_BOOT_COMPLETED:
             case "BROADCAST_RESTART_APP":
-                //context.stopService(new Intent(context,ReminderService.class));
-//                Intent intentService = new Intent(context, ReminderService.class);
-                context.stopService(new Intent(context.getApplicationContext(),ReminderService.class));
-                int reminderID = intent.getIntExtra("reminderID", 0);
-                if (reminderID > 0) {
-                    Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
-                    reminderDialog.putExtra("reminderID", reminderID);
-                    reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    intentService.putExtra("reminderID", reminderID);
-                    //context.startService(intentService);
-                    context.startActivity(reminderDialog);
+                if (intent != null && context != null) {
+                    context.stopService(new Intent(context.getApplicationContext(), ReminderService.class));
+                    int reminderID = intent.getIntExtra("reminderID", 0);
+                    if (reminderID > 0) {
+                        Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
+                        reminderDialog.putExtra("reminderID", reminderID);
+                        reminderDialog.putExtra("startID",intent.getIntExtra("startID",1000));
+                        reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(reminderDialog);
+                    }
                 }
                 break;
         }

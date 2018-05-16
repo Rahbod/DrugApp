@@ -35,11 +35,8 @@ public class ActivityFavorite extends AppCompatActivity {
         });
 
         DbHelper dbHelper = new DbHelper(this);
-        dbHelper.updateDrug(56);
-        dbHelper.updateDrug(60);
-        dbHelper.updateDrug(53);
-
         list = dbHelper.getFavorite();
+
         adapter = new AdapterFavorite(this, list);
         recyclerView = findViewById(R.id.recFavorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
