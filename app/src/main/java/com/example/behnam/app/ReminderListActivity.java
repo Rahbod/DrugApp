@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -42,15 +43,22 @@ public class ReminderListActivity extends AppCompatActivity {
         floatAddReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ReminderListActivity.this,ActivityReminderStep1.class));
+                startActivity(new Intent(ReminderListActivity.this, ActivityReminderStep1.class));
             }
         });
 
         dbHelper = new DbHelper(this);
         reminderList = dbHelper.getAllReminder();
-        Log.e("TAG", "@@@@@@@@@@@@@@@"+reminderList.size());
         adapterListReminder = new AdapterListReminder(reminderList, this, dbHelper);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapterListReminder);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            startActivity(new Intent(ReminderListActivity.this,ActivityHome.class));
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

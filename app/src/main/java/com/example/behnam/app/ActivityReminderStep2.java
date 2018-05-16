@@ -162,6 +162,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 serviceIntent.putExtra("reminderID", id);
                 startService(serviceIntent);
                 startActivity(new Intent(ActivityReminderStep2.this, ReminderListActivity.class));
+                finish();
             }
         });
     }

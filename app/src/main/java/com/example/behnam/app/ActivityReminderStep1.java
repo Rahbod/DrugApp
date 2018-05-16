@@ -6,22 +6,21 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Process;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterReminder;
 import com.example.behnam.app.database.Drug;
@@ -89,9 +88,8 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
 
         DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recHome);
-        drugList = dbHelper.getAllDrugs();
-
-
+        drugList = dbHelper.getAllDrugsNotInReminder();
+        
 //        sort item
         Collections.sort(drugList, new Comparator<Drug>() {
             @Override
@@ -254,4 +252,13 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                 })
                 .show();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
