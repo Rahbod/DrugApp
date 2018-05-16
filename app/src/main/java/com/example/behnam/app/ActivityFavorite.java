@@ -38,18 +38,22 @@ public class ActivityFavorite extends AppCompatActivity {
 
         dbHelper = new DbHelper(this);
 
-//        list = dbHelper.getFavorite();
-//        adapter = new AdapterFavorite(this, list);
-//        recyclerView = findViewById(R.id.recFavorite);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        if (list.isEmpty()) {
-//            LinearLayout linFavorite = findViewById(R.id.linFavorite);
-//            linFavorite.setVisibility(View.VISIBLE);
-//        } else {
-//            recyclerView.setVisibility(View.VISIBLE);
-//            recyclerView.setAdapter(adapter);
-//        }
+        list = dbHelper.getFavorite();
+        adapter = new AdapterFavorite(this, list);
+        recyclerView = findViewById(R.id.recFavorite);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        setBackGround();
+    }
+
+    public void setBackGround() {
+        if (list.isEmpty()) {
+            LinearLayout linFavorite = findViewById(R.id.linFavorite);
+            linFavorite.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
