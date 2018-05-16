@@ -169,9 +169,6 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         adapterHome.filterList(filterDrug);
     }
 
-
-//    voiceSearch
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

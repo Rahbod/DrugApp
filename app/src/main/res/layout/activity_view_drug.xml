@@ -45,34 +45,41 @@
             android:textColor="@color/mdtp_background_color"
             android:textSize="18dp" />
 
-        <com.example.behnam.fonts.ButtonFont
-            android:id="@+id/add"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="28dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="75dp"
-            android:background="@drawable/shape_button_stroke"
-            android:text="ارسال به دوستان"
-            android:textColor="@color/blue2"
-            android:textSize="10dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_drug"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
 
-        <com.example.behnam.fonts.ButtonFont
-            android:id="@+id/send"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="28dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="75dp"
-            android:background="@drawable/shape_button_stroke"
-            android:text="افزودن به سبد دارو"
-            android:textColor="@color/blue2"
-            android:textSize="10dp" />
+            <com.example.behnam.fonts.ButtonFont
+                android:id="@+id/send"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="100dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:background="@drawable/background_button"
+                android:text="ارسال به دوستان"
+                android:textColor="@color/blue2"
+                android:textSize="10dp" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="1dp" />
+
+            <com.example.behnam.fonts.ButtonFont
+                android:id="@+id/add"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="100dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:background="@drawable/background_button"
+                android:text="افزودن به سبد دارو"
+                android:textColor="@color/blue2"
+                android:textSize="10dp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

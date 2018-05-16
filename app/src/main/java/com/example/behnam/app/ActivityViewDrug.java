@@ -2,8 +2,8 @@ package com.example.behnam.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +45,7 @@ public class ActivityViewDrug extends AppCompatActivity {
         public ClickableTableSpan newInstance() {
             return new ClickableTableSpanImpl();
         }
+
         @Override
         public void onClick(View widget) {
             Bundle bundle = new Bundle();
@@ -52,7 +53,7 @@ public class ActivityViewDrug extends AppCompatActivity {
 
             TableFragment viewFragment = new TableFragment();
             viewFragment.setArguments(bundle);
-            viewFragment.show(getFragmentManager(),"Fragment");
+            viewFragment.show(getFragmentManager(), "Fragment");
         }
     }
 
@@ -151,10 +152,43 @@ public class ActivityViewDrug extends AppCompatActivity {
         relation_food_title = findViewById(R.id.relation_food);
 
         Bundle bundle = getIntent().getExtras();
-        int ID = bundle.getInt("id");
+        final int ID = bundle.getInt("id");
 
         dbHelper = new DbHelper(this);
         Drug drug = dbHelper.getDrug(ID);
+
+        //check exists to favorite and set text button
+        final Button btnAdd = findViewById(R.id.add);
+        if (dbHelper.checkFavorite(ID)) {
+            btnAdd.setBackgroundResource(R.drawable.background_button_selected);
+            btnAdd.setText("حذف از سبد دارو");
+            btnAdd.setTextColor(getResources().getColor(R.color.white));
+        } else{
+            btnAdd.setBackgroundResource(R.drawable.background_button);
+            btnAdd.setText("اضافه به سبد دارو");
+            btnAdd.setTextColor(getResources().getColor(R.color.blue2));
+        }
+
+
+        //add to favorite
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!dbHelper.checkFavorite(ID)) {
+                    dbHelper.bookMark(ID);
+                    btnAdd.setText("حذف از سبد دارو");
+                    btnAdd.setBackgroundResource(R.drawable.background_button_selected);
+                    btnAdd.setTextColor(getResources().getColor(R.color.white));
+                } else {
+                    dbHelper.bookMark(ID);
+                    btnAdd.setText("اضافه به سبد دارو");
+                    btnAdd.setBackgroundResource(R.drawable.background_button);
+                    btnAdd.setTextColor(getResources().getColor(R.color.blue2));
+                }
+
+            }
+
+        });
 
         name_drug.setText(drug.getName());
 
@@ -193,7 +227,7 @@ public class ActivityViewDrug extends AppCompatActivity {
             JSONObject jsonPregnancy = new JSONObject(drug.getPregnancy());
             String groupPregnancy = jsonPregnancy.getString("group");
             String textPregnancy = jsonPregnancy.getString("text");
-            groupPregnancy=groupPregnancy.trim();
+            groupPregnancy = groupPregnancy.trim();
             pregnancy_value.setClickableTableSpan(new ClickableTableSpanImpl());
             DrawTableLinkSpan pregTableLinkSpan = new DrawTableLinkSpan();
             pregTableLinkSpan.setTableLinkText("مشاهده جدول");
@@ -398,18 +432,14 @@ public class ActivityViewDrug extends AppCompatActivity {
                 descriptionTableLinkSpan.setTextSize(20);
                 description_title.setVisibility(View.VISIBLE);
                 description_value.setVisibility(View.VISIBLE);
-                if(codeDescription.isEmpty())
-                {
+                if (codeDescription.isEmpty()) {
                     description_value.setHtml(textDescription);
-                }
-                else
-                {
-                    for (int i=0 ; i<jsonArray.length();i++)
-                    {
+                } else {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         String codes = jsonArray.getString(i);
-                        s += descriptionGroup[Integer.parseInt(codes)-1]+ "<br>";
+                        s += descriptionGroup[Integer.parseInt(codes) - 1] + "<br>";
                     }
-                    description_value.setHtml(s+"<br>"+textDescription);
+                    description_value.setHtml(s + "<br>" + textDescription);
                 }
             }
         } catch (JSONException e) {

@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 
 import com.android.volley.Response;
 import com.example.behnam.app.ActivityHome;
@@ -26,6 +27,8 @@ import com.example.behnam.app.service.BroadcastReceivers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.zip.Inflater;
 
 public class Components extends AppController {
     public static void getDrugs(final Context context) {
@@ -121,6 +124,9 @@ public class Components extends AppController {
                     context.getApplicationContext().registerReceiver(new BroadcastReceivers(), intentFilter);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = LayoutInflater.from(context);
+
+                    builder.setView(inflater.inflate(R.layout.wifi_dialog, null));
                     builder.setMessage(R.string.enable_wifi).setCancelable(false)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
@@ -129,11 +135,10 @@ public class Components extends AppController {
                                         wifiManager.setWifiEnabled(true);
                                 }
                             }).show();
-                }else
+                } else
                     getDrugs(context);
-            }
-        } else
-            if (type.equals("complete")) {
+            } else getDrugs(context);
+        } else if (type.equals("complete")) {
             // download complete data
         }
     }

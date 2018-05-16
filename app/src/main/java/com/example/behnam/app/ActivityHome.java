@@ -59,7 +59,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private AdapterAlphabetIndexFastScroll adapterHome;
     private DrawerLayout drawerLayout;
     private List<Drug> drugList = new ArrayList<>();
-    List<Drug> list = new ArrayList<>();
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;

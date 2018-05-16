@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,11 +64,10 @@ public class ViewDrug extends AppCompatActivity {
         relation_food_value = findViewById(R.id.relation_food_value);
 
         Bundle bundle = getIntent().getExtras();
-        int ID = bundle.getInt("id");
+        final int ID = bundle.getInt("id");
 
         dbHelper = new DbHelper(this);
         Drug drug = dbHelper.getDrug(ID);
-
 
         categoryList = dbHelper.getCategories(ID);
         Log.e("TAG", "onCreate: "+categoryList.size());

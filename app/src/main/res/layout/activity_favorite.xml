@@ -9,7 +9,7 @@
     <!--actionBar-->
     <RelativeLayout
 
-        android:id="@+id/actionBarDrug"
+        android:id="@+id/actionBarFavorite"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/background_gradient"
@@ -39,12 +39,44 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/linFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/basket_icon" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txtFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/actionBarFavorite"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="دارویی در سبد موجود نیست"
+            android:textColor="#bbbbbb"
+            android:textSize="16dp" />
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recFavorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/actionBarDrug"
+        android:layout_below="@+id/actionBarFavorite"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>
