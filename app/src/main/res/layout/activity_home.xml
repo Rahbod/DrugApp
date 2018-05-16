@@ -11,7 +11,7 @@
     <!--actionBar-->
     <RelativeLayout
 
-        android:id="@+id/actionBarDrug"
+        android:id="@+id/actionBarFavorite"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/background_gradient"
@@ -42,7 +42,7 @@
         android:id="@+id/relReminder"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_below="@+id/actionBarDrug"
+        android:layout_below="@+id/actionBarFavorite"
         android:background="@drawable/background_gradient"
         app:layout_scrollFlags="scroll|enterAlways"/>
 

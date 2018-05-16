@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.behnam.app.adapter.AdapterFavorite;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityFavorite extends AppCompatActivity {
@@ -21,6 +21,8 @@ public class ActivityFavorite extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Drug> list;
     private AdapterFavorite adapter;
+    private DbHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +36,36 @@ public class ActivityFavorite extends AppCompatActivity {
             }
         });
 
-        DbHelper dbHelper = new DbHelper(this);
-        list = dbHelper.getFavorite();
+        dbHelper = new DbHelper(this);
 
+//        list = dbHelper.getFavorite();
+//        adapter = new AdapterFavorite(this, list);
+//        recyclerView = findViewById(R.id.recFavorite);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        if (list.isEmpty()) {
+//            LinearLayout linFavorite = findViewById(R.id.linFavorite);
+//            linFavorite.setVisibility(View.VISIBLE);
+//        } else {
+//            recyclerView.setVisibility(View.VISIBLE);
+//            recyclerView.setAdapter(adapter);
+//        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        list = dbHelper.getFavorite();
         adapter = new AdapterFavorite(this, list);
         recyclerView = findViewById(R.id.recFavorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
 
+        if (list.isEmpty()) {
+            LinearLayout linFavorite = findViewById(R.id.linFavorite);
+            linFavorite.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setAdapter(adapter);
+        }
     }
 }

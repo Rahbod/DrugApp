@@ -2,8 +2,8 @@ package com.example.behnam.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -158,14 +158,40 @@ public class ActivityViewDrug extends AppCompatActivity {
         final DbHelper dbHelper = new DbHelper(this);
         Drug drug = dbHelper.getDrug(ID);
 
-        nameDrug.setText(drug.getName());
+        //check exists to favorite and set text button
+        final Button btnAdd = findViewById(R.id.add);
+        if (dbHelper.checkFavorite(ID)) {
+            btnAdd.setBackgroundResource(R.drawable.background_button_selected);
+            btnAdd.setText("حذف از سبد دارو");
+            btnAdd.setTextColor(getResources().getColor(R.color.white));
+        } else{
+            btnAdd.setBackgroundResource(R.drawable.background_button);
+            btnAdd.setText("اضافه به سبد دارو");
+            btnAdd.setTextColor(getResources().getColor(R.color.blue2));
+        }
 
-        btnFavorite.setOnClickListener(new View.OnClickListener() {
+
+        //add to favorite
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHelper.updateDrug(ID);
+                if (!dbHelper.checkFavorite(ID)) {
+                    dbHelper.bookMark(ID);
+                    btnAdd.setText("حذف از سبد دارو");
+                    btnAdd.setBackgroundResource(R.drawable.background_button_selected);
+                    btnAdd.setTextColor(getResources().getColor(R.color.white));
+                } else {
+                    dbHelper.bookMark(ID);
+                    btnAdd.setText("اضافه به سبد دارو");
+                    btnAdd.setBackgroundResource(R.drawable.background_button);
+                    btnAdd.setTextColor(getResources().getColor(R.color.blue2));
+                }
+
             }
+
         });
+
+        nameDrug.setText(drug.getName());
 
         if (!drug.getBrand().isEmpty()) {
             brandTitle.setVisibility(View.VISIBLE);
@@ -215,7 +241,6 @@ public class ActivityViewDrug extends AppCompatActivity {
                 pregnancyTitle.setVisibility(View.VISIBLE);
                 pregnancyValue.setVisibility(View.VISIBLE);
                 String strPregnancy = "";
-                Log.e("mohammadmoien", "@@@@@@ ");
                 if (groupPregnancy.contains("A"))
                     strPregnancy += pregnancyGroup[0] + " <br> ";
 

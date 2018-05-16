@@ -50,7 +50,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_step_2);
 
-        btnBack = findViewById(R.id.btnBack);
+        ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,9 +131,11 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                                                            Calendar timeCalender = Calendar.getInstance();
                                                            timeCalender.set(Calendar.SECOND, 0);
                                                            timeCalender.set(Calendar.MILLISECOND, 0);
+                                                           Log.e("TAG", persianDate.getTime().toString() + "/////" + timeCalender.getTimeInMillis());
                                                            if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
                                                                time.setText(String.valueOf(hourOfDay + ":" + minute));
                                                                timeStamps = persianDate.getTime();
+                                                               Log.e("timestapm", "tttiii"+timeStamps );
                                                            } else
                                                                Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                        }
@@ -150,10 +152,10 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             public void onClick(View v) {
                 int count = Integer.parseInt(txtCount.getText().toString()),
                         period = Integer.parseInt(txtPeriod.getText().toString());
-                dbHelper.addReminder(new Reminder(drugId, timeStamps, count, period));
+                dbHelper.addReminder(new Reminder(drugId, timeStamps , count, period));
 
                 //last id
-                List<Reminder> reminderList = dbHelper.getAllReminder();
+                List<Reminder> reminderList =  dbHelper.getAllReminder();
                 int id = reminderList.get(reminderList.size() - 1).getId();
 
                 // Start service
@@ -174,5 +176,4 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             return false;
         }
     }
-
 }

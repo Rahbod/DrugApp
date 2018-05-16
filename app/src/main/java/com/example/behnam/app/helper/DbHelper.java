@@ -375,7 +375,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return conflicts;
     }
 
-    public void updateDrug(int id) {
+    public void bookMark(int id) {
         db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + FAVORITE + " FROM " + TABLE_DRUGS + " WHERE id =" + id, null);
         ContentValues contentValues = new ContentValues();
@@ -390,6 +390,11 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkFavorite(int id) {
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + FAVORITE + " FROM " + TABLE_DRUGS + " WHERE id =" + id, null);
+        return cursor.moveToFirst() && cursor.getInt(cursor.getColumnIndex("favorite")) == 1;
+    }
     public List<Drug> getFavorite() {
         List<Drug> listFavorite = new ArrayList<>();
         db = this.getReadableDatabase();
@@ -399,6 +404,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 Drug drug = new Drug();
                 drug.setFavorite(cursor.getInt(cursor.getColumnIndex(FAVORITE)));
                 drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
                 listFavorite.add(drug);
             }
             while (cursor.moveToNext());
