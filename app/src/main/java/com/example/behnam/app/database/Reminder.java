@@ -2,57 +2,57 @@ package com.example.behnam.app.database;
 
 public class Reminder {
     private int id;
-    private int drugId;
-    private long start_time;
+    private int drugID;
+    private long startTime;
     private int count;
-    private int period_time;
-    private int row_count;
+    private int periodTime;
+    private int rowCount;
 
-    public int getRow_count() {
-        return row_count;
+    public int getRowCount() {
+        return rowCount;
     }
 
-    public void setRow_count(int row_count) {
-        this.row_count = row_count;
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
     }
 
     public Reminder() {
     }
 
-    public Reminder(int row_count) {
-        this.row_count = row_count;
+    public Reminder(int rowCount) {
+        this.rowCount = rowCount;
     }
 
-    public Reminder(int drugId, long start_time, int count, int period_time, int row_count) {
-        this.drugId = drugId;
-        this.start_time = start_time;
+    public Reminder(int drugID, long startTime, int count, int periodTime, int rowCount) {
+        this.drugID = drugID;
+        this.startTime = startTime;
         this.count = count;
-        this.period_time = period_time;
-        this.row_count = row_count;
+        this.periodTime = periodTime;
+        this.rowCount = rowCount;
     }
 
-    public Reminder(int id, int drugId, long start_time, int count, int period_time, int row_count) {
+    public Reminder(int id, int drugID, long startTime, int count, int periodTime, int rowCount) {
         this.id = id;
-        this.drugId = drugId;
-        this.start_time = start_time;
+        this.drugID = drugID;
+        this.startTime = startTime;
         this.count = count;
-        this.period_time = period_time;
-        this.row_count = row_count;
+        this.periodTime = periodTime;
+        this.rowCount = rowCount;
     }
 
-    public Reminder(int id, int drug_id, long start_time, int count, int period_time) {
+    public Reminder(int id, int drugID, long startTime, int count, int periodTime) {
         this.id = id;
-        this.drugId = drug_id;
-        this.start_time = start_time;
+        this.drugID = drugID;
+        this.startTime = startTime;
         this.count = count;
-        this.period_time = period_time;
+        this.periodTime = periodTime;
     }
 
-    public Reminder(int drug_id, long start_time, int count, int period_time) {
-        this.drugId = drug_id;
-        this.start_time = start_time;
+    public Reminder(int drugID, long startTime, int count, int periodTime) {
+        this.drugID = drugID;
+        this.startTime = startTime;
         this.count = count;
-        this.period_time = period_time;
+        this.periodTime = periodTime;
     }
 
     public int getId() {
@@ -63,20 +63,20 @@ public class Reminder {
         this.id = id;
     }
 
-    public int getDrugId() {
-        return drugId;
+    public int getDrugID() {
+        return drugID;
     }
 
-    public void setDrugId(int drug_id) {
-        this.drugId = drug_id;
+    public void setDrugID(int drug_id) {
+        this.drugID = drug_id;
     }
 
-    public long getStart_time() {
-        return start_time;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(long start_time) {
-        this.start_time = start_time;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public int getCount() {
@@ -87,11 +87,11 @@ public class Reminder {
         this.count = count;
     }
 
-    public int getPeriod_time() {
-        return period_time;
+    public int getPeriodTime() {
+        return periodTime;
     }
 
-    public void setPeriod_time(int period_time) {
-        this.period_time = period_time;
+    public void setPeriodTime(int periodTime) {
+        this.periodTime = periodTime;
     }
 }

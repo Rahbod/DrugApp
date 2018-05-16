@@ -1,45 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.behnam.app.ReminderListActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".ReminderListActivity">
 
     <RelativeLayout
-        android:id="@+id/actionBarDrug"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/background_gradient"
-        android:elevation="3dp"
-        app:layout_scrollFlags="scroll"
-        tools:targetApi="lollipop">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/background_focus"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@drawable/back_icon" />
+        <RelativeLayout
+            android:id="@+id/actionBarDrug"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/background_gradient"
+            android:elevation="3dp"
+            app:layout_scrollFlags="scroll"
+            tools:targetApi="lollipop">
 
-        <com.example.behnam.fonts.FontTextView
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/background_focus"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:src="@drawable/back_icon" />
+
+            <com.example.behnam.fonts.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="لیست یادآور مصرف دارو"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_reminder_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_add_reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="لیست یادآور مصرف دارو"
-            android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/white"
+            android:src="@drawable/ic_plus"
+            app:backgroundTint="@color/blue"
+            app:borderWidth="1dp"
+            app:rippleColor="@color/sina" />
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_reminder_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

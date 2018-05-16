@@ -89,7 +89,7 @@ public class ViewDrug extends AppCompatActivity {
         }
 
         senior_value.setHtml(drug.getSeniors());
-        how_use_value.setHtml(drug.getHow_to_use());
+        how_use_value.setHtml(drug.getHowToUse());
         product_value.setHtml(drug.getProduct());
         pharmacodynamic_value.setHtml(drug.getPharmacodynamic());
         usage_value.setHtml(drug.getUsage());
@@ -103,8 +103,8 @@ public class ViewDrug extends AppCompatActivity {
 
         effect_value.setHtml(drug.getInterference());
 
-        over_dose_value.setHtml(drug.getOver_dose());
+        over_dose_value.setHtml(drug.getOverDose());
         description_value.setHtml(drug.getDescription());
-        relation_food_value.setHtml(drug.getRelation_with_food());
+        relation_food_value.setHtml(drug.getRelationWithFood());
     }
 }
