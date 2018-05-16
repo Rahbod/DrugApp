@@ -85,23 +85,23 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                                                                                      @Override
                                                                                      public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                                                                         persianDate = new PersianDate();
-                                                                                         persianDate.setShYear(year);
-                                                                                         persianDate.setShMonth(monthOfYear + 1);
-                                                                                         persianDate.setShDay(dayOfMonth);
-                                                                                         Calendar dateCalendar = Calendar.getInstance();
-                                                                                         dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
-                                                                                         dateCalendar.set(Calendar.MINUTE, 0);
-                                                                                         dateCalendar.set(Calendar.SECOND, 0);
-                                                                                         dateCalendar.set(Calendar.MILLISECOND, 0);
-                                                                                         if (dateCalendar.getTimeInMillis() < persianDate.getTime()) {
-                                                                                             y = year;
-                                                                                             m = monthOfYear + 1;
-                                                                                             d = dayOfMonth;
-                                                                                             date.setText(String.valueOf(y + "/" + m + "/" + d));
-                                                                                             time.setEnabled(true);
-                                                                                         } else
-                                                                                             Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
+                 persianDate = new PersianDate();
+                 persianDate.setShYear(year);
+                 persianDate.setShMonth(monthOfYear + 1);
+                 persianDate.setShDay(dayOfMonth);
+                 Calendar dateCalendar = Calendar.getInstance();
+                 dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                 dateCalendar.set(Calendar.MINUTE, 0);
+                 dateCalendar.set(Calendar.SECOND, 0);
+                 dateCalendar.set(Calendar.MILLISECOND, 0);
+                 if (dateCalendar.getTimeInMillis() < persianDate.getTime()) {
+                     y = year;
+                     m = monthOfYear + 1;
+                     d = dayOfMonth;
+                     date.setText(String.valueOf(y + "/" + m + "/" + d));
+                     time.setEnabled(true);
+                 } else
+                     Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                                                      }
                                                                                  }, now.getPersianYear(),
                         now.getPersianMonth(),
@@ -119,25 +119,23 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 tpd = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
                                                        @Override
                                                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                                                           tpd.setThemeDark(false);
-                                                           h = hourOfDay;
-                                                           mm = minute;
-                                                           persianDate = new PersianDate();
-                                                           persianDate.setShYear(y);
-                                                           persianDate.setShMonth(m);
-                                                           persianDate.setHour(h);
-                                                           persianDate.setMinute(mm);
-                                                           persianDate.setSecond(0);
-                                                           Calendar timeCalender = Calendar.getInstance();
-                                                           timeCalender.set(Calendar.SECOND, 0);
-                                                           timeCalender.set(Calendar.MILLISECOND, 0);
-                                                           Log.e("TAG", persianDate.getTime().toString() + "/////" + timeCalender.getTimeInMillis());
-                                                           if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
-                                                               time.setText(String.valueOf(hourOfDay + ":" + minute));
-                                                               timeStamps = persianDate.getTime();
-                                                               Log.e("timestapm", "tttiii"+timeStamps );
-                                                           } else
-                                                               Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
+                   tpd.setThemeDark(false);
+                   h = hourOfDay;
+                   mm = minute;
+                   persianDate = new PersianDate();
+                   persianDate.setShYear(y);
+                   persianDate.setShMonth(m);
+                   persianDate.setHour(h);
+                   persianDate.setMinute(mm);
+                   persianDate.setSecond(0);
+                   Calendar timeCalender = Calendar.getInstance();
+                   timeCalender.set(Calendar.SECOND, 0);
+                   timeCalender.set(Calendar.MILLISECOND, 0);
+                   if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
+                       time.setText(String.valueOf(hourOfDay + ":" + minute));
+                       timeStamps = persianDate.getTime();
+                   } else
+                       Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                        }
                                                    },
                         now.get(PersianCalendar.HOUR_OF_DAY),

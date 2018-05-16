@@ -49,20 +49,20 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
                 builder.setMessage("آیا میخواهید یادآور داروی مورد نظر خود را حذف کنید؟ ").setPositiveButton("باشه", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//                        Intent broadIntent = new Intent(context, BroadcastReceivers.class);
-//                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, reminderList.get(position).getId(), broadIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                        alarmManager.cancel(pendingIntent);
+                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                        Intent serviceIntent = new Intent(context, ReminderService.class);
+                        PendingIntent pendingIntent = PendingIntent.getService(context, reminderList.get(position).getId(), serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarmManager.cancel(pendingIntent);
 //                        Log.e("TAG", "@@@@cancelalarm " + reminderList.get(position).getId());
-                        Intent intent = new Intent(context, BroadcastReceivers.class);
-                        intent.putExtra("close", true);
-                        context.stopService(intent);
-                        Log.e("TAG", "@@@@stopservice " + reminderList.get(position).getId());
-//                        dbHelper.deleteReminder(reminderList.get(position).getId());
-//                        reminderList.remove(position);
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, reminderList.size());
-//                        notifyDataSetChanged();
+//                        Intent intent = new Intent(context, BroadcastReceivers.class);
+//                        intent.putExtra("close", true);
+//                        context.stopService(intent);
+//                        Log.e("TAG", "@@@@stopservice " + reminderList.get(position).getId());
+                        dbHelper.deleteReminder(reminderList.get(position).getId());
+                        reminderList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, reminderList.size());
+                        notifyDataSetChanged();
 
                         //context.stopService(new Intent(context,ReminderService.class));
                         //context.stopService(new Intent(context, ReminderService.class));

@@ -35,7 +35,7 @@ public class ActivityReminderDialog extends Activity {
         
         Intent intentService = new Intent(ActivityReminderDialog.this, ReminderService.class);
         intentService.putExtra("reminderID", reminderID);
-        startService(intentService); 
+        startService(intentService);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
