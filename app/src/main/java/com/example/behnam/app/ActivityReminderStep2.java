@@ -5,24 +5,27 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.behnam.app.database.Category;
+import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.ButtonFont;
 import com.example.behnam.fonts.EditTextFont;
 import com.example.behnam.fonts.FontTextView;
+import com.example.behnam.fonts.FontTextViewBold;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,10 +36,14 @@ public class ActivityReminderStep2 extends AppCompatActivity {
     EditTextFont txtPeriod, txtCount;
     ButtonFont buttonRegister;
     DbHelper dbHelper;
+    ImageView btnBack;
+    Drug drug;
     long timeStamps = 0;
     TimePickerDialog tpd;
     int y = 0, m = 0, d = 0, h = 0, mm = 0;
     Context context;
+    FontTextView brandDrug;
+    FontTextViewBold nameDrug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +62,22 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         dbHelper = new DbHelper(getApplicationContext());
         txtPeriod = findViewById(R.id.et_period);
         txtCount = findViewById(R.id.et_count);
+        brandDrug = findViewById(R.id.txtBrand);
+        nameDrug = findViewById(R.id.txtName);
         Intent intent = getIntent();
         final int drugId = intent.getIntExtra("id", 0);
+        drug = dbHelper.getDrug(drugId);
+        List<Category> categoryList = new ArrayList<>();
+        categoryList = dbHelper.getHeallingByDrugs(drugId);
+        String category[] = new String[categoryList.size()];
+        for (int i = 0; i < categoryList.size(); i++) {
+            category[i] = categoryList.get(i).getName();
+        }
+        brandDrug.setText(Arrays.toString(category).replaceAll("\\[|\\]", ""));
+        nameDrug.setText(drug.getName());
         final FontTextView date = findViewById(R.id.date_picker);
+        final TextView time = findViewById(R.id.time_picker);
+        time.setEnabled(false);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +99,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                                                                                              m = monthOfYear + 1;
                                                                                              d = dayOfMonth;
                                                                                              date.setText(String.valueOf(y + "/" + m + "/" + d));
+                                                                                             time.setEnabled(true);
                                                                                          } else
                                                                                              Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                                                      }
@@ -90,7 +111,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 datePickerDialog.show(getFragmentManager(), "tpd");
             }
         });
-        final TextView time = findViewById(R.id.time_picker);
+
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,8 +161,8 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 // Start service
                 Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);
                 serviceIntent.putExtra("reminderID", id);
-                Log.e("TAG", " drimdrim"+id );
                 startService(serviceIntent);
+                startActivity(new Intent(ActivityReminderStep2.this, ReminderListActivity.class));
             }
         });
     }

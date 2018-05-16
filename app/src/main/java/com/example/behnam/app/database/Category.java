@@ -1,9 +1,5 @@
 package com.example.behnam.app.database;
 
-/**
- * Created by moien on 08/02/2018.
- */
-
 public class Category {
     int id;
     String name;

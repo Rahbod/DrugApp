@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.ActivityReminderDialog;
 import com.example.behnam.app.helper.Components;
 
@@ -16,7 +15,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-
+        Log.e("mohammadmoien", "111111111111");
         final String action = intent.getAction();
         assert action != null;
         switch (action) {
@@ -32,17 +31,23 @@ public class BroadcastReceivers extends BroadcastReceiver {
 
             // Reminder broadcasts
             case Intent.ACTION_BOOT_COMPLETED:
+                break;
             case TelephonyManager.ACTION_PHONE_STATE_CHANGED:
+                break;
+//            case Intent.ACTION_BOOT_COMPLETED:
             case "BROADCAST_RESTART_APP":
-                Intent intentService = new Intent(context, ReminderService.class);
+                //context.stopService(new Intent(context,ReminderService.class));
+//                Intent intentService = new Intent(context, ReminderService.class);
+                context.stopService(new Intent(context.getApplicationContext(),ReminderService.class));
                 int reminderID = intent.getIntExtra("reminderID", 0);
-
-                intentService.putExtra("reminderID", reminderID);
-                Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
-                reminderDialog.putExtra("reminderID", reminderID);
-                reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startService(intentService);
-                context.startActivity(reminderDialog);
+                if (reminderID > 0) {
+                    Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
+                    reminderDialog.putExtra("reminderID", reminderID);
+                    reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intentService.putExtra("reminderID", reminderID);
+                    //context.startService(intentService);
+                    context.startActivity(reminderDialog);
+                }
                 break;
         }
     }
