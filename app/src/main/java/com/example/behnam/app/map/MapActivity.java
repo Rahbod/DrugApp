@@ -64,17 +64,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        Log.e("onCreate000000000000", "onCreate: " );
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
 
         //Check if Google Play Services Available or not
         if (!CheckGooglePlayServices()) {
-            Log.e("onCreate", "Finishing test case since Google Play Services are not available");
             finish();
         } else {
-            Log.e("onCreate", "Google Play Services available.");
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -106,8 +103,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.e("onMapReady0000000000", "@@@@@@@@@ " );
-        Log.e("mohammadmoien", "onMapReady: "+latitude+"////"+longitude );
         linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
         linearLayoutMap = findViewById(R.id.layout_map);
         if (hasInternetConnection(this)) {
@@ -176,7 +171,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.e("onConnected000000000000", "@@@@@@@@@ " );
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
@@ -186,7 +180,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
-        Log.e("moein", mLocationRequest + "66666");
     }
 
     private String getUrl(double latitude, double longitude) {
@@ -196,7 +189,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         googlePlacesUrl.append("&type=").append("pharmacy");
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + "AIzaSyDNuH43i_mAdjcPwxankfBjGolfhotfSv8");
-        Log.e("getUrl", googlePlacesUrl.toString());
         return (googlePlacesUrl.toString());
     }
 
@@ -207,10 +199,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("onLocationChanged00000", "@@@@@@@@@ " );
-        Log.e("onLocationChanged", "entered");
         mLastLocation = location;
-        Log.e("TAG", "@@@@@@@@@@@@@@@@qq" + mLastLocation.getLatitude() + "////" + mLastLocation.getLongitude());
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -229,23 +218,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
-        Log.e("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
-
         String url = getUrl(latitude, longitude);
-        Log.e("masoud", url);
         Object[] DataTransfer = new Object[2];
         DataTransfer[0] = mMap;
         DataTransfer[1] = url;
-        Log.e("onClick", url);
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         getNearbyPlacesData.execute(DataTransfer);
 
         //stop location updates
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            Log.e("onLocationChanged", "Removing Location Updates");
         }
-        Log.e("onLocationChanged", "Exit");
     }
 
     @Override
@@ -282,7 +265,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.e("PermissionsResult", "000000000@@@@@@@@@ " );
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.

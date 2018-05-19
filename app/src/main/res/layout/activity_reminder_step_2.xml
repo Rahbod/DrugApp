@@ -109,6 +109,8 @@
                         android:layout_weight="4"
                         android:background="@drawable/edit_text_border"
                         android:hint="تاریخ"
+                        android:ellipsize="start"
+                        android:gravity="center_horizontal"
                         android:textAlignment="center"
                         android:textSize="13dp" />
 

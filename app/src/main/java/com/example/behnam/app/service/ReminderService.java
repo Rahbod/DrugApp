@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
@@ -33,11 +34,11 @@ public class ReminderService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         instance = new WeakReference<>(this);
         // Convert start time to second
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
         int reminderID = intent.getIntExtra("reminderID", 0);
 
         if (reminderID <= 0) {
@@ -54,15 +55,16 @@ public class ReminderService extends Service {
                     Intent broadcastIntent = new Intent(getApplicationContext(), BroadcastReceivers.class);
                     broadcastIntent.setAction("BROADCAST_RESTART_APP");
                     broadcastIntent.putExtra("reminderID", reminderID);
-                    broadcastIntent.putExtra("startID", startId);
 
                     //create id for request code
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminderID, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.cancel(PendingIntent.getBroadcast(this, reminderID, broadcastIntent, 0));
                     long now = Calendar.getInstance().getTimeInMillis();
                     if (runsNum == 0) {
                         alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
                     } else {
-                        alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
+//                        alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
+                        alarmTime.add(Calendar.SECOND, 6);
                     }
                     dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);

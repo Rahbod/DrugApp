@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         txtCount = findViewById(R.id.et_count);
         brandDrug = findViewById(R.id.txtBrand);
         nameDrug = findViewById(R.id.txtName);
+
         Intent intent = getIntent();
         final int drugId = intent.getIntExtra("id", 0);
         drug = dbHelper.getDrug(drugId);
@@ -100,11 +102,12 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                      m = monthOfYear + 1;
                      d = dayOfMonth;
                      date.setText(String.valueOf(y + "/" + m + "/" + d));
+                     date.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                      time.setEnabled(true);
                  } else
                      Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
-                                                                                     }
-                                                                                 }, now.getPersianYear(),
+             }
+         }, now.getPersianYear(),
                         now.getPersianMonth(),
                         now.getPersianDay());
                 now.getTimeInMillis();
@@ -134,6 +137,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                    timeCalender.set(Calendar.MILLISECOND, 0);
                    if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
                        time.setText(String.valueOf(hourOfDay + ":" + minute));
+                       time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                        timeStamps = persianDate.getTime();
                    } else
                        Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
@@ -146,23 +150,88 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             }
         });
         buttonRegister = findViewById(R.id.button);
+
+
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int count = Integer.parseInt(txtCount.getText().toString()),
-                        period = Integer.parseInt(txtPeriod.getText().toString());
-                dbHelper.addReminder(new Reminder(drugId, timeStamps, count, period));
 
-                //last id
-                List<Reminder> reminderList = dbHelper.getAllReminder();
-                int id = reminderList.get(reminderList.size() - 1).getId();
+                txtPeriod.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                // Start service
-                Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);
-                serviceIntent.putExtra("reminderID", id);
-                startService(serviceIntent);
-                startActivity(new Intent(ActivityReminderStep2.this, ReminderListActivity.class));
-                finish();
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if(!txtPeriod.getText().toString().equals(""))
+                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        else
+                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                    }
+                });
+                txtCount.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if(!txtCount.getText().toString().equals(""))
+                            txtCount.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        else
+                            txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                    }
+                });
+
+                if(!txtCount.getText().toString().equals(""))
+                    txtCount.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                if (!txtCount.getText().toString().equals("") && !txtPeriod.getText().toString().equals("") && !date.getText().equals("") && !time.getText().equals("")) {
+                    int count = Integer.parseInt(txtCount.getText().toString()),
+                            period = Integer.parseInt(txtPeriod.getText().toString());
+                    dbHelper.addReminder(new Reminder(drugId, timeStamps, count, period));
+
+                    //last id
+                    List<Reminder> reminderList = dbHelper.getAllReminder();
+                    int id = reminderList.get(reminderList.size() - 1).getId();
+
+                    // Start service
+                    Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);
+                    serviceIntent.putExtra("reminderID", id);
+                    startService(serviceIntent);
+                    startActivity(new Intent(ActivityReminderStep2.this, ReminderListActivity.class));
+                    Toast.makeText(ActivityReminderStep2.this, "یادآور مورد نظر ثبت گردید.", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    if (date.getText().equals("")) {
+                        date.requestFocus();
+                        date.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_atten, 0);
+                        Toast.makeText(ActivityReminderStep2.this, "تاریخ نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
+                    } else if (time.getText().equals("")) {
+                        time.requestFocus();
+                        Toast.makeText(ActivityReminderStep2.this, "زمان نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
+                        time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_atten, 0, 0, 0);
+                    } else if (txtPeriod.getText().toString().equals("")) {
+                        txtPeriod.requestFocus();
+                        Toast.makeText(ActivityReminderStep2.this, "دوره مصرف نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
+                        txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                    } else if (txtCount.getText().toString().equals("")) {
+                        txtCount.requestFocus();
+                        Toast.makeText(ActivityReminderStep2.this, "تعداد مصرف نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
+                        txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                    }
+                }
             }
         });
     }

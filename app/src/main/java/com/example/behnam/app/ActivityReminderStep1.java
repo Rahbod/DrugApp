@@ -89,7 +89,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recHome);
         drugList = dbHelper.getAllDrugsNotInReminder();
-        
+
 //        sort item
         Collections.sort(drugList, new Comparator<Drug>() {
             @Override
@@ -102,7 +102,6 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setAdapter(adapterHome);
         recyclerView.setLayoutManager(layoutManager);
-
 
 //        voiceSearch
 

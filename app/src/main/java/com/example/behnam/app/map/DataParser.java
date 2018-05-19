@@ -16,12 +16,9 @@ class DataParser {
         JSONObject jsonObject;
 
         try {
-            Log.e("Places00", "parse "+ jsonData);
             jsonObject = new JSONObject(jsonData);
-            Log.e("moein", String.valueOf(jsonObject));
             jsonArray = jsonObject.getJSONArray("results");
         } catch (JSONException e) {
-            Log.e("Places", "parse error");
             e.printStackTrace();
         }
         return getPlaces(jsonArray);
@@ -31,16 +28,11 @@ class DataParser {
         int placesCount = jsonArray.length();
         List<HashMap<String, String>> placesList = new ArrayList<>();
         HashMap<String, String> placeMap;
-        Log.e("Places", "getPlaces");
-
         for (int i = 0; i < placesCount; i++) {
             try {
                 placeMap = getPlace((JSONObject) jsonArray.get(i));
                 placesList.add(placeMap);
-                Log.e("Places", "Adding places");
-
             } catch (JSONException e) {
-                Log.e("Places", "Error in Adding places");
                 e.printStackTrace();
             }
         }
@@ -54,8 +46,6 @@ class DataParser {
         String latitude;
         String longitude;
         String reference;
-
-        Log.e("getPlace", "Entered");
 
         try {
             if (!googlePlaceJson.isNull("name")) {
@@ -72,9 +62,7 @@ class DataParser {
             googlePlaceMap.put("lat", latitude);
             googlePlaceMap.put("lng", longitude);
             googlePlaceMap.put("reference", reference);
-            Log.e("getPlace", "Putting Places");
         } catch (JSONException e) {
-            Log.e("getPlace", "Error");
             e.printStackTrace();
         }
         return googlePlaceMap;

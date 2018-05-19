@@ -12,7 +12,6 @@ import java.net.URL;
 
 class DownloadUrl {
     public String readUrl(String strUrl) throws IOException {
-        Log.e("mamade", "readUrl: "+strUrl );
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
@@ -38,7 +37,6 @@ class DownloadUrl {
             }
 
             data = sb.toString();
-            Log.e("downloadUrl", data.toString());
             br.close();
 
         } catch (Exception e) {

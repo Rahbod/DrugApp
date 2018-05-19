@@ -24,12 +24,10 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
     @Override
     protected String doInBackground(Object... params) {
         try {
-            Log.e("GetNearbyPlacesData", "doInBackground entered");
             mMap = (GoogleMap) params[0];
             url = (String) params[1];
             DownloadUrl downloadUrl = new DownloadUrl();
             googlePlacesData = downloadUrl.readUrl(url);
-            Log.e("GooglePlacesReadTask", "doInBackground Exit");
         } catch (Exception e) {
             Log.e("GooglePlacesReadTask", e.toString());
         }
@@ -38,17 +36,14 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Log.e("GooglePlacesReadTask", "onPostExecute Entered" +result);
         List<HashMap<String, String>> nearbyPlacesList = null;
         DataParser dataParser = new DataParser();
         nearbyPlacesList =  dataParser.parse(result);
         ShowNearbyPlaces(nearbyPlacesList);
-        Log.e("GooglePlacesReadTask", "onPostExecute Exit");
     }
 
     private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
         for (int i = 0; i < nearbyPlacesList.size(); i++) {
-            Log.e("onPostExecute","Entered into showing locations");
             MarkerOptions markerOptions = new MarkerOptions();
             HashMap<String, String> googlePlace = nearbyPlacesList.get(i);
             double lat = Double.parseDouble(googlePlace.get("lat"));

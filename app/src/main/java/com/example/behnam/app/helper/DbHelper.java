@@ -148,10 +148,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public Reminder getReminder(int id) {
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id, null);
-        Log.e("cursor", "getttttt " + cursor.getCount() + "///" + id);
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();
-            Log.e("TAG", "@@@@@getReminder" + id);
             return new Reminder(cursor.getInt(0), cursor.getInt(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5));
         } else
             return null;
@@ -453,11 +451,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Category> getHeallingByDrugs(int id) {
         List<Category> categoryList = new ArrayList<>();
-//        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
-        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = 1 and " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND type = 0)";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = 0 and " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND "+ KEY_TYPE +" = 0)";
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Log.e("mooooooooa", String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {
                 Category category = new Category();
@@ -473,11 +469,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Category> getCategoriesByDrug(int id) {
         List<Category> categoryList = new ArrayList<>();
-//        String query = "SELECT * FROM "+TABLE_CATEGORIES + " WHERE ( SELECT " + KEY_CATEGORY_ID  + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID +" = " +id +" and "+ KEY_TYPE + " = 0 ) ";
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND type = 0)";
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Log.e("moein", String.valueOf(cursor.getCount()));
         if (cursor.moveToFirst()) {
             do {
                 Category category = new Category();

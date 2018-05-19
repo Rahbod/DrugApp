@@ -122,7 +122,6 @@ public class AppController extends Application {
             final JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BASE_URL + url, params, resListener, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "On Response Error");
                     errorHandler(error);
                     if(withProgress)
                         pd.dismiss();
@@ -141,10 +140,8 @@ public class AppController extends Application {
             };
             req.setTag(tag);
             addToRequestQueue(req);
-            Log.e(TAG, "Request to " + BASE_URL + url + " sent.");
         }
     }
-
 
     /**
      * Send Authenticate Restful request with volley library to server
@@ -172,14 +169,12 @@ public class AppController extends Application {
 //            if(withProgress)
 //                pd.show();
 //            final String accessToken = AccessTokenHelper.getAccessToken(getApplicationContext());
-//            Log.e("ATH", "AC: " + accessToken);
 //            if (accessToken != null) {
 //                if (params == null)
 //                    params = new JSONObject();
 //                final JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BASE_URL + url, params, resListener, new Response.ErrorListener() {
 //                    @Override
 //                    public void onErrorResponse(VolleyError error) {
-//                        Log.e(TAG, "On Response Error");
 //                        errorHandler(error);
 //                        if(withProgress)
 //                            pd.dismiss();
@@ -194,7 +189,6 @@ public class AppController extends Application {
 //                };
 //                req.setTag(tag);
 //                addToRequestQueue(req);
-//                Log.e(TAG, "Request to " + BASE_URL + url + " sent.");
 //            }
 //        }
 //    }

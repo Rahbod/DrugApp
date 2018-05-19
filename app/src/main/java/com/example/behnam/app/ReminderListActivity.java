@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import com.example.behnam.app.adapter.AdapterListReminder;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.fonts.FontTextView;
 
 import java.util.List;
 
@@ -24,6 +24,8 @@ public class ReminderListActivity extends AppCompatActivity {
     DbHelper dbHelper;
     ImageView btnBack;
     FloatingActionButton floatAddReminder;
+    FontTextView noAlarmTitle;
+    ImageView noAlarmPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class ReminderListActivity extends AppCompatActivity {
         });
         recyclerView = findViewById(R.id.list_reminder_recycler);
         floatAddReminder = findViewById(R.id.float_add_reminder);
+        noAlarmPic = findViewById(R.id.no_alarm_pic);
+        noAlarmTitle = findViewById(R.id.no_alarm_title);
 
         floatAddReminder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,16 +53,29 @@ public class ReminderListActivity extends AppCompatActivity {
 
         dbHelper = new DbHelper(this);
         reminderList = dbHelper.getAllReminder();
-        adapterListReminder = new AdapterListReminder(reminderList, this, dbHelper);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapterListReminder);
+        checkReminder();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            startActivity(new Intent(ReminderListActivity.this,ActivityHome.class));
+            startActivity(new Intent(ReminderListActivity.this, ActivityHome.class));
         }
         return super.onKeyDown(keyCode, event);
+    }
+    public void checkReminder()
+    {
+        if (reminderList.size() != 0) {
+            recyclerView.setVisibility(View.VISIBLE);
+            noAlarmPic.setVisibility(View.GONE);
+            noAlarmTitle.setVisibility(View.GONE);
+            adapterListReminder = new AdapterListReminder(reminderList, this, dbHelper);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapterListReminder);
+        } else {
+            noAlarmPic.setVisibility(View.VISIBLE);
+            noAlarmTitle.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
     }
 }
