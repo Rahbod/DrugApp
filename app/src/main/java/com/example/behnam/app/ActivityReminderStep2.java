@@ -214,7 +214,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                     Toast.makeText(ActivityReminderStep2.this, "یادآور مورد نظر ثبت گردید.", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    if (date.getText().equals("")) {
+                    if (date.getText().equals("")) { 
                         date.requestFocus();
                         date.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_atten, 0);
                         Toast.makeText(ActivityReminderStep2.this, "تاریخ نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
