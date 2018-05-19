@@ -80,7 +80,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         text = findViewById(R.id.editTextSearch);
 
         //finish splash screen
-//        ActivitySplashScreen.activitySplashScreen.finish();
+        ActivitySplashScreen.activitySplashScreen.finish();
 
         if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
             Components.downloadData(this, "first");
@@ -206,8 +206,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item3:
-                Intent goToErrorReport = new Intent(this, ReminderListActivity.class);
-                startActivity(goToErrorReport);
+                Intent goToReminder = new Intent(this, ReminderListActivity.class);
+                startActivity(goToReminder);
                 closeNv();
                 break;
             case R.id.item4:
@@ -217,10 +217,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 break;
             case R.id.item5:
                 shareApplication();
+                closeNv();
                 break;
             case R.id.item6:
-//                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
-
+                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+                startActivity(goToErrorReport);
                 closeNv();
                 break;
             case R.id.item7:

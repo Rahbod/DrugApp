@@ -72,9 +72,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 //download database
-                //Components.downloadData(ActivitySplashScreen.this, "first");
-                startActivity(new Intent(ActivitySplashScreen.this,ActivityHome.class));
-
+                Components.downloadData(ActivitySplashScreen.this, "first");
             }
         }, 3000);
     }

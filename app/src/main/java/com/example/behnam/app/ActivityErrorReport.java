@@ -111,7 +111,6 @@ public class ActivityErrorReport extends AppCompatActivity {
                         }
                     });
                 } else {
-                    etReport.setText("");
                     //  hide keyboard
                     RelativeLayout mainLayout = findViewById(R.id.relHome);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -137,19 +136,14 @@ public class ActivityErrorReport extends AppCompatActivity {
                             try {
                                 if (response.getBoolean("status")) {
                                     final String massage = response.getString("message");
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
-                                        }
-                                    }, 250);
-
+                                    Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
+                    etReport.setText("");
                 }
             }
         });
