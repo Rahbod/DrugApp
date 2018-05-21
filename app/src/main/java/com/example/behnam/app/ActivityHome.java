@@ -222,7 +222,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 startActivity(goToReminder);
                 closeNv();
                 break;
-            case R.id.item4: 
+            case R.id.item4:
                 Intent goToFavorite = new Intent(this, ActivityFavorite.class);
                 startActivity(goToFavorite);
                 closeNv();
