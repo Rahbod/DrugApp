@@ -222,7 +222,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                         time.requestFocus();
                         Toast.makeText(ActivityReminderStep2.this, "زمان نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
                         time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_atten, 0, 0, 0);
-                    } else if (txtPeriod.getText().toString().equals("")) { 
+                    } else if (txtPeriod.getText().toString().equals("")) {
                         txtPeriod.requestFocus();
                         Toast.makeText(ActivityReminderStep2.this, "دوره مصرف نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
                         txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);

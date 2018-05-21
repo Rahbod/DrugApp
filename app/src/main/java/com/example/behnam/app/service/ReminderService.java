@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -63,11 +64,19 @@ public class ReminderService extends Service {
                     if (runsNum == 0) {
                         alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
                     } else {
-//                        alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
+                        // alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
                         alarmTime.add(Calendar.SECOND, 6);
                     }
                     dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                                alarmTime.getTimeInMillis(), pendingIntent);
+                    } else if (Build.VERSION.SDK_INT >= 19) {
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                    } else {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                    }
+                   // alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                 }
             }
         }

@@ -37,7 +37,6 @@ public class BroadcastReceivers extends BroadcastReceiver {
                 break;
 //            case Intent.ACTION_BOOT_COMPLETED:
             case "BROADCAST_RESTART_APP":
-
                     context.stopService(new Intent(context.getApplicationContext(), ReminderService.class));
                     int reminderID = intent.getIntExtra("reminderID", 0);
                     if (reminderID > 0) {
