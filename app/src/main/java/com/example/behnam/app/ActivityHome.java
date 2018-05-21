@@ -150,47 +150,59 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //        voiceSearch
-                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
-                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (wifiManager != null)
-                                        wifiManager.setWifiEnabled(true);
-                                }
-                            })
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            }).show();
-                } else {
-//                  //hide keyboard
-                    Class<? extends View.OnClickListener> view = this.getClass();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        assert imm != null;
-                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-                    }
+            public void onClick(View v){
+            //hide keyboard
+            Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+            }
 
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
-                    } else {
-                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                            onRecordAudioPermissionGranted();
-                        else {
-                            ActivityCompat.requestPermissions(ActivityHome.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);
-                        }
+            //voiceSearch
+            final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
+                builder.setMessage(R.string.enable_wifi).setCancelable(false)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (wifiManager != null)
+                                    wifiManager.setWifiEnabled(true);
+
+                                if (Speech.getInstance().isListening()) {
+                                    Speech.getInstance().stopListening();
+                                } else {
+                                    if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                        onRecordAudioPermissionGranted();
+                                    else {
+                                        ActivityCompat.requestPermissions(ActivityHome.this,
+                                                new String[]{Manifest.permission.RECORD_AUDIO},
+                                                1);
+                                    }
+                                }
+                            }
+                        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                        .show();
+            } else {
+                if (Speech.getInstance().isListening()) {
+                    Speech.getInstance().stopListening();
+                } else {
+                    if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                        onRecordAudioPermissionGranted();
+                    else {
+                        ActivityCompat.requestPermissions(ActivityHome.this,
+                                new String[]{Manifest.permission.RECORD_AUDIO},
+                                1);
                     }
                 }
             }
+        }
         });
     }
 

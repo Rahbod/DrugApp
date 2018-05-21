@@ -37,7 +37,7 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
 
-        if (fadeLogo == false) {
+        if (!fadeLogo) {
             final Animation animatorFade = AnimationUtils.loadAnimation(this, R.anim.fade_anim);
             cardView.setAnimation(animatorFade);
         }

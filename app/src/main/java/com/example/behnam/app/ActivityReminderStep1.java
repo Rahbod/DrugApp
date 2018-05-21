@@ -57,7 +57,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_step_1);
 
-        text = findViewById(R.id.editTextSearchReminder);
+        text = findViewById(R.id.editTextSearch);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,26 +104,6 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         recyclerView.setLayoutManager(layoutManager);
 
 
-//        voiceSearch
-
-        final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (wifiManager != null)
-                                wifiManager.setWifiEnabled(true);
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
-        } else {
             btnListen = findViewById(R.id.imgVoice);
             progress = findViewById(R.id.progressBarHome);
 
@@ -141,20 +121,51 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                         imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
                     }
 
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    //voiceSearch
+                    final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityReminderStep1.this);
+                        builder.setMessage(R.string.enable_wifi).setCancelable(false)
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (wifiManager != null)
+                                            wifiManager.setWifiEnabled(true);
+
+                                        if (Speech.getInstance().isListening()) {
+                                            Speech.getInstance().stopListening();
+                                        } else {
+                                            if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                                onRecordAudioPermissionGranted();
+                                            else {
+                                                ActivityCompat.requestPermissions(ActivityReminderStep1.this,
+                                                        new String[]{Manifest.permission.RECORD_AUDIO},
+                                                        1);
+                                            }
+                                        }
+                                    }
+                                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                                .show();
                     } else {
-                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                            onRecordAudioPermissionGranted();
-                        else {
-                            ActivityCompat.requestPermissions(ActivityReminderStep1.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);
+                        if (Speech.getInstance().isListening()) {
+                            Speech.getInstance().stopListening();
+                        } else {
+                            if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                onRecordAudioPermissionGranted();
+                            else {
+                                ActivityCompat.requestPermissions(ActivityReminderStep1.this,
+                                        new String[]{Manifest.permission.RECORD_AUDIO},
+                                        1);
+                            }
                         }
                     }
                 }
             });
-        }
     }
 
     private void filter(String str) {

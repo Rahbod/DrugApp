@@ -2,7 +2,7 @@
     <string name="app_name">app</string>
     <string name="enable_wifi">دستگاه شما به اینترنت دسترسی ندارد. آیا مایل هستید که Wi-Fi را فعال کنید؟</string>
     <string name="yes">باشه</string>
-    <string name="no">No</string>
+    <string name="no">خیر</string>
     <string name="permission_required">لطفا دسترسی به میکروفن را فعال کنید</string>
     <string name="input_something">Please input something to speak!</string>
     <string name="repeat">Repeat please</string>

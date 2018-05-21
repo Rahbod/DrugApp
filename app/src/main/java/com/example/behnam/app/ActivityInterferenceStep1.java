@@ -54,7 +54,7 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference_step1);
 
-        text = findViewById(R.id.editTextSearchDrugInteraction);
+        text = findViewById(R.id.editTextSearch);
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,42 +101,54 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
 
-        //        voiceSearch
+        //voice search
+        progress = findViewById(R.id.progressDrugInterAction);
+        btnListen = findViewById(R.id.imgVoice);
 
-        final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        Speech.init(this, getPackageName());
+
+        btnListen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //hide keyboard
+                Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                }
+
+                //voiceSearch
+                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityInterferenceStep1.this);
+                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (wifiManager != null)
+                                        wifiManager.setWifiEnabled(true);
+
+                                    if (Speech.getInstance().isListening()) {
+                                        Speech.getInstance().stopListening();
+                                    } else {
+                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                            onRecordAudioPermissionGranted();
+                                        else {
+                                            ActivityCompat.requestPermissions(ActivityInterferenceStep1.this,
+                                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                                    1);
+                                        }
+                                    }
+                                }
+                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (wifiManager != null)
-                                wifiManager.setWifiEnabled(true);
                         }
                     })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
-        } else {
-            btnListen = findViewById(R.id.imgVoiceDrugInterAction);
-            progress = findViewById(R.id.progressDrugInterAction);
-
-            Speech.init(this, getPackageName());
-
-            btnListen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //hide keyboard
-                    Class<? extends View.OnClickListener> view = this.getClass();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        assert imm != null;
-                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-                    }
-
+                            .show();
+                } else {
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
                     } else {
@@ -149,8 +161,8 @@ public class ActivityInterferenceStep1 extends AppCompatActivity implements Spee
                         }
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     private void filter(String str) {
