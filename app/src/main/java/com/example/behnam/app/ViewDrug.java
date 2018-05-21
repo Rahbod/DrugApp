@@ -70,9 +70,6 @@ public class ViewDrug extends AppCompatActivity {
         Drug drug = dbHelper.getDrug(ID);
 
         categoryList = dbHelper.getCategories(ID);
-        Log.e("TAG", "onCreate: "+categoryList.size());
-
-
         name_drug.setText(drug.getName());
         brand_value.setHtml(drug.getName());
 

@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.service.BroadcastReceivers;
 import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.FontTextView;
 
@@ -32,7 +33,7 @@ public class ActivityReminderDialog extends Activity {
         FontTextView okButton = findViewById(R.id.ok_button);
         Reminder reminder = dbHelper.getReminder(reminderID);
         drugName.setText(dbHelper.getDrug(reminder.getDrugID()).getName());
-        
+
         Intent intentService = new Intent(ActivityReminderDialog.this, ReminderService.class);
         intentService.putExtra("reminderID", reminderID);
         startService(intentService);
@@ -42,5 +43,12 @@ public class ActivityReminderDialog extends Activity {
                 finish();
             }
         });
+
+        //set Notification sound for Alarm
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (notification != null) {
+            MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
+            mp.start();
+        }
     }
 }

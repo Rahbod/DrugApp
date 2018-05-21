@@ -7,17 +7,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.behnam.app.ActivityFavorite;
 import com.example.behnam.app.R;
+import com.example.behnam.app.ReminderListActivity;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.service.BroadcastReceivers;
-import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.FontTextView;
 
 import java.util.List;
@@ -50,19 +49,25 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                        Intent serviceIntent = new Intent(context, ReminderService.class);
-                        PendingIntent pendingIntent = PendingIntent.getService(context, reminderList.get(position).getId(), serviceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        alarmManager.cancel(pendingIntent);
-//                        Log.e("TAG", "@@@@cancelalarm " + reminderList.get(position).getId());
+//                        Intent serviceIntent = new Intent(context, ReminderService.class);
+                        //PendingIntent pendingIntent = PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
+                        alarmManager.cancel(PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), 0));
 //                        Intent intent = new Intent(context, BroadcastReceivers.class);
 //                        intent.putExtra("close", true);
 //                        context.stopService(intent);
-//                        Log.e("TAG", "@@@@stopservice " + reminderList.get(position).getId());
                         dbHelper.deleteReminder(reminderList.get(position).getId());
                         reminderList.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, reminderList.size());
                         notifyDataSetChanged();
+                        if (reminderList.isEmpty()){
+                            new android.os.Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((ReminderListActivity)context).checkReminder();
+                                }
+                            }, 100);
+                        }
 
                         //context.stopService(new Intent(context,ReminderService.class));
                         //context.stopService(new Intent(context, ReminderService.class));
