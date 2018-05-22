@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,8 +18,6 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,7 +30,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -54,6 +52,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     LinearLayout linearLayoutNoConnection;
     LinearLayout linearLayoutMap;
+    LinearLayout linearLayoutBlank;
 
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -64,20 +63,26 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
 
         //Check if Google Play Services Available or not
         if (!CheckGooglePlayServices()) {
-            finish();
-        } else {
-        }
+            linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
+            linearLayoutMap = findViewById(R.id.layout_map);
+            linearLayoutBlank =findViewById(R.id.layout_blank);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            linearLayoutBlank.setVisibility(View.VISIBLE);
+            linearLayoutMap.setVisibility(View.GONE);
+            linearLayoutNoConnection.setVisibility(View.GONE);
+        } else {
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
     }
 
     private boolean CheckGooglePlayServices() {
@@ -188,7 +193,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
         googlePlacesUrl.append("&type=").append("pharmacy");
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyDNuH43i_mAdjcPwxankfBjGolfhotfSv8");
+        googlePlacesUrl.append("&key=" + getString(R.string.google_maps_key));
         return (googlePlacesUrl.toString());
     }
 
@@ -307,23 +312,4 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
         return false;
     }
-//    public static boolean isLocationEnabled(Context context) {
-//        int locationMode = 0;
-//        String locationProviders;
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            try {
-//                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-//
-//            } catch (Settings.SettingNotFoundException e) {
-//                e.printStackTrace();
-//                return false;
-//            }
-//            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-//
-//        } else {
-//            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-//            return !TextUtils.isEmpty(locationProviders);
-//        }
-//    }
 }

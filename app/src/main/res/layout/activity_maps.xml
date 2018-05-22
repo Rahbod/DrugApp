@@ -52,4 +52,11 @@
             android:text="اتصال به اینترنت" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_blank"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
 </LinearLayout>

@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
@@ -214,7 +213,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item2:
-                startActivity(new Intent(ActivityHome.this, MapActivity.class));
+                startActivity(new Intent(this, MapActivity.class));
                 closeNv();
                 break;
             case R.id.item3:
