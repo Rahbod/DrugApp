@@ -2,6 +2,7 @@ package com.example.behnam.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ import java.util.List;
 public class ActivityViewDrug extends AppCompatActivity {
     private String pregnancyGroup[] = new String[6];
     String s = "";
-    WebView webView ;
+    WebView webView;
     String strPregnancy = "";
     private String descriptionGroup[] = new String[28];
     private String heallingStr = "", pharmaStr = "", sicknessStr = "";
@@ -64,7 +65,7 @@ public class ActivityViewDrug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_drug);
 
-        webView =findViewById(R.id.webView);
+        webView = findViewById(R.id.web_view_drug);
 
         pregnancyGroup[0] = "توضیحات گروه a";
         pregnancyGroup[1] = "توضیحات گروه b";
@@ -156,8 +157,7 @@ public class ActivityViewDrug extends AppCompatActivity {
         }
 
 
-        String webViewHtml = "";
-
+        String webViewHtml = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
         if (!drug.getBrand().isEmpty())
             webViewHtml += "<h5>نام تجاری</h5><br>" + drug.getBrand() + "<br>";
         if (!heallingStr.isEmpty())
@@ -185,15 +185,15 @@ public class ActivityViewDrug extends AppCompatActivity {
         if (!drug.getDoseAdjustment().isEmpty())
             webViewHtml += "<h5>تعدیل دوزاژ</h5><br>" + drug.getDoseAdjustment() + "<br>";
         if (!drug.getProhibition().isEmpty())
-            webViewHtml += "<h5>موارد منع مصرف/h5><br>" + drug.getProhibition() + "<br>";
+            webViewHtml += "<h5>موارد منع مصرف</h5><br>" + drug.getProhibition() + "<br>";
         if (!drug.getCaution().isEmpty())
-            webViewHtml += "<h5>موارد احتیاط/h5><br>" + drug.getCaution() + "<br>";
+            webViewHtml += "<h5>موارد احتیاط</h5><br>" + drug.getCaution() + "<br>";
         if (!drug.getComplication().isEmpty())
-            webViewHtml += "<h5>عوارض جانبی/h5><br>" + drug.getComplication() + "<br>";
+            webViewHtml += "<h5>عوارض جانبی</h5><br>" + drug.getComplication() + "<br>";
         if (!drug.getEffectOnTest().isEmpty())
-            webViewHtml += "<h5>اثر بر تست های آزمایشگاهی/h5><br>" + drug.getEffectOnTest() + "<br>";
+            webViewHtml += "<h5>اثر بر تست های آزمایشگاهی</h5><br>" + drug.getEffectOnTest() + "<br>";
         if (!drug.getOverDose().isEmpty())
-            webViewHtml += "<h5>اوردوز و درمان/h5><br>" + drug.getOverDose() + "<br>";
+            webViewHtml += "<h5>اوردوز و درمان</h5><br>" + drug.getOverDose() + "<br>";
         if (!drug.getDescription().isEmpty()) {
             try {
                 JSONObject jsonObject = new JSONObject(drug.getDescription());
@@ -217,6 +217,8 @@ public class ActivityViewDrug extends AppCompatActivity {
         }
         if (!drug.getRelationWithFood().isEmpty())
             webViewHtml += "<h5>رابطه با غذا/h5><br>" + drug.getRelationWithFood() + "<br>";
+        webViewHtml += "</body></html>";
+        Log.e("TAG", "oooo" + webViewHtml);
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
 //        btnBack = findViewById(R.id.btnBack);
 //        btnBack.setOnClickListener(new View.OnClickListener() {
