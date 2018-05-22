@@ -64,8 +64,7 @@ public class ReminderService extends Service {
                     if (runsNum == 0) {
                         alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
                     } else {
-                        // alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
-                        alarmTime.add(Calendar.SECOND, 6);
+                         alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
                     }
                     dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
                     if (Build.VERSION.SDK_INT >= 23) {
