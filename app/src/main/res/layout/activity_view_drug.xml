@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.example.behnam.app.ActivityAbout">
 
     <RelativeLayout
@@ -50,8 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_drug"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:gravity="center">
 
             <com.example.behnam.fonts.ButtonFont
                 android:id="@+id/send"
@@ -102,8 +103,9 @@
                     android:id="@+id/web_view_drug"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                 </WebView>
-        </RelativeLayout>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

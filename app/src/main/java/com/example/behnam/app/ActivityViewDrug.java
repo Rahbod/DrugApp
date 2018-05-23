@@ -114,14 +114,17 @@ public class ActivityViewDrug extends AppCompatActivity {
             if (categoryList.get(i).getType() == 0 && !categoryList.get(i).getName().isEmpty()) {
                 heallingStr += "," + categoryList.get(i).getName();
                 heallingStr = heallingStr.startsWith(",") ? heallingStr.substring(1) : heallingStr;
+                Log.e("Mohammadmoien", heallingStr);
             }
             if (categoryList.get(i).getType() == 1) {
                 pharmaStr += "," + categoryList.get(i).getName();
                 pharmaStr = pharmaStr.startsWith(",") ? pharmaStr.substring(1) : pharmaStr;
+                Log.e("Mohammadmoien", pharmaStr);
             }
             if (categoryList.get(i).getType() == 2) {
                 sicknessStr += "," + categoryList.get(i).getName();
                 sicknessStr = sicknessStr.startsWith(",") ? sicknessStr.substring(1) : sicknessStr;
+                Log.e("Mohammadmoien", sicknessStr);
             }
         }
 
@@ -157,43 +160,50 @@ public class ActivityViewDrug extends AppCompatActivity {
         }
 
 
-        String webViewHtml = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
-        if (!drug.getBrand().isEmpty())
-            webViewHtml += "<h5>نام تجاری</h5><br>" + drug.getBrand() + "<br>";
-        if (!heallingStr.isEmpty())
-            webViewHtml += "<h5>گروه درمانی</h5><br>" + heallingStr + "<br>";
-        if (!pharmaStr.isEmpty())
-            webViewHtml += "<h5>گروه فارماکولوژیک</h5><br>" + pharmaStr + "<br>";
-        if (!sicknessStr.isEmpty())
-            webViewHtml += "<h5>گروه بیماری</h5><br>" + sicknessStr + "<br>";
-        if (!strPregnancy.isEmpty())
-            webViewHtml += "<h5>مصرف در دوران بارداری</h5><br>" + strPregnancy + "<br>";
-        if (!drug.getLactation().isEmpty())
-            webViewHtml += "<h5>مصرف در دوران شیردهی</h5><br>" + drug.getLactation() + "<br>";
-        if (!drug.getKids().isEmpty())
-            webViewHtml += "<h5>راهنمای مصرف در کودکان</h5><br>" + drug.getKids() + "<br>";
-        if (!drug.getSeniors().isEmpty())
-            webViewHtml += "<h5>راهنمای مصرف در سالمندان</h5><br>" + drug.getSeniors() + "<br>";
-        if (!drug.getHowToUse().isEmpty())
-            webViewHtml += "<h5>راه مصرف</h5><br>" + drug.getHowToUse() + "<br>";
+        String webViewHtml = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" /> <link rel=\"stylesheet\" type=\"text/css\" href=\"fontiran.css\" /><div class=\"container\">";
+        if (!drug.getBrand().isEmpty() || !heallingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty() || !strPregnancy.isEmpty() || !drug.getLactation().isEmpty() || !drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
+            webViewHtml += "<div class=\"section\">";
+            if (!drug.getBrand().isEmpty())
+                webViewHtml += "<div class=\"row\"> <h4>نام تجاری:</h4> <div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div>";
+            if (!drug.getNamePersian().isEmpty())
+                webViewHtml += "<div class=\"row\"> <h4>نام فارسی:</h4> <div class=\"text direction-ltr\">" + drug.getNamePersian() + "</div></div>";
+            if (!heallingStr.isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی درمانی:</h4><div class=\"text\">" + heallingStr + "</div></div>";
+            if (!pharmaStr.isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی فارماکولوژیک:</h4><div class=\"text\">" + pharmaStr + "</div></div>";
+            if (!sicknessStr.isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
+            if (!strPregnancy.isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4> بارداری:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
+            if (!drug.getLactation().isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
+            if (!drug.getKids().isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
+            if (!drug.getSeniors().isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
+            if (!drug.getHowToUse().isEmpty())
+                webViewHtml += "<div class=\"row linear\"> <h4>راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
+            webViewHtml += "</div>";
+        }
+
         if (!drug.getProduct().isEmpty())
-            webViewHtml += "<h5>فراورده های دارویی</h5><br>" + drug.getProduct() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div> </div> </div>";
         if (!drug.getPharmacodynamic().isEmpty())
-            webViewHtml += "<h5>فارماکودینامیک و فارماکوکینتیک</h5><br>" + drug.getPharmacodynamic() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-pharmacy\"></i>فارماکودینامیک و فارماکوکینتیک:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div> </div> </div>";
         if (!drug.getUsage().isEmpty())
-            webViewHtml += "<h5> موارد مصرف و دوزاژ </h5><br>" + drug.getUsage() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-usage\"></i>موارد مصرف و دوزاژ:</h4><div class=\"text\">" + drug.getUsage() + "</div> </div> </div>";
         if (!drug.getDoseAdjustment().isEmpty())
-            webViewHtml += "<h5>تعدیل دوزاژ</h5><br>" + drug.getDoseAdjustment() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-dose-adjustment\"></i>تعدیل دوزاژ:</h4><div class=\"text\">" + drug.getDoseAdjustment() + "</div> </div> </div>";
         if (!drug.getProhibition().isEmpty())
-            webViewHtml += "<h5>موارد منع مصرف</h5><br>" + drug.getProhibition() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-prohibition\"></i>موارد منع مصرف:</h4><div class=\"text\">" + drug.getProhibition() + "</div> </div> </div>";
         if (!drug.getCaution().isEmpty())
-            webViewHtml += "<h5>موارد احتیاط</h5><br>" + drug.getCaution() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-caution\"></i>موارد احتیاط:</h4><div class=\"text\">" + drug.getCaution() + "</div> </div> </div>";
         if (!drug.getComplication().isEmpty())
-            webViewHtml += "<h5>عوارض جانبی</h5><br>" + drug.getComplication() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-complication\"></i>عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div> </div> </div>";
         if (!drug.getEffectOnTest().isEmpty())
-            webViewHtml += "<h5>اثر بر تست های آزمایشگاهی</h5><br>" + drug.getEffectOnTest() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-effect\"></i>اثر بر تست های آزمایشگاهی:</h4><div class=\"text\">" + drug.getEffectOnTest() + "</div> </div> </div>";
         if (!drug.getOverDose().isEmpty())
-            webViewHtml += "<h5>اوردوز و درمان</h5><br>" + drug.getOverDose() + "<br>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-overdose\"></i>اوردوز و درمان:</h4><div class=\"text\">" + drug.getOverDose() + "</div> </div> </div>";
         if (!drug.getDescription().isEmpty()) {
             try {
                 JSONObject jsonObject = new JSONObject(drug.getDescription());
@@ -202,13 +212,13 @@ public class ActivityViewDrug extends AppCompatActivity {
                 String textDescription = jsonObject.getString("text");
                 if (!codeDescription.isEmpty() || !textDescription.isEmpty()) {
                     if (codeDescription.isEmpty()) {
-                        webViewHtml += "<h5>اوردوز و درمان/h5><br>" + textDescription + "<br>";
+                        webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + textDescription + "</div> </div> </div>";
                     } else {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             String codes = jsonArray.getString(i);
                             s += descriptionGroup[Integer.parseInt(codes) - 1] + "<br>";
                         }
-                        webViewHtml += "<h5>اوردوز و درمان/h5><br>" + s + "<br>" + textDescription + "<br>";
+                        webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + s + "<br>" + textDescription + "</div> </div> </div>";
                     }
                 }
             } catch (JSONException e) {
@@ -216,8 +226,8 @@ public class ActivityViewDrug extends AppCompatActivity {
             }
         }
         if (!drug.getRelationWithFood().isEmpty())
-            webViewHtml += "<h5>رابطه با غذا/h5><br>" + drug.getRelationWithFood() + "<br>";
-        webViewHtml += "</body></html>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div> </div> </div>";
+        webViewHtml += "</div>";
         Log.e("TAG", "oooo" + webViewHtml);
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
 //        btnBack = findViewById(R.id.btnBack);

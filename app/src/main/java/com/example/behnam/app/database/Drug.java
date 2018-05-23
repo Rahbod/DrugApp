@@ -7,6 +7,7 @@ package com.example.behnam.app.database;
 public class Drug {
     int id;
     String name;
+    String namePersian;
     String brand;
     String pregnancy;
     String lactation;
@@ -34,6 +35,57 @@ public class Drug {
 
     public Drug() {
 
+    }
+
+    public Drug(int id, String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
+        this.id = id;
+        this.name = name;
+        this.namePersian = namePersian;
+        this.brand = brand;
+        this.pregnancy = pregnancy;
+        this.lactation = lactation;
+        this.kids = kids;
+        this.seniors = seniors;
+        this.howToUse = howToUse;
+        this.product = product;
+        this.pharmacodynamic = pharmacodynamic;
+        this.usage = usage;
+        this.prohibition = prohibition;
+        this.caution = caution;
+        this.doseAdjustment = doseAdjustment;
+        this.complication = complication;
+        this.interference = interference;
+        this.effectOnTest = effectOnTest;
+        this.overDose = overDose;
+        this.description = description;
+        this.relationWithFood = relationWithFood;
+        this.status = status;
+        this.lastModified = lastModified;
+    }
+
+    public Drug(String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
+        this.name = name;
+        this.namePersian = namePersian;
+        this.brand = brand;
+        this.pregnancy = pregnancy;
+        this.lactation = lactation;
+        this.kids = kids;
+        this.seniors = seniors;
+        this.howToUse = howToUse;
+        this.product = product;
+        this.pharmacodynamic = pharmacodynamic;
+        this.usage = usage;
+        this.prohibition = prohibition;
+        this.caution = caution;
+        this.doseAdjustment = doseAdjustment;
+        this.complication = complication;
+        this.interference = interference;
+        this.effectOnTest = effectOnTest;
+        this.overDose = overDose;
+        this.description = description;
+        this.relationWithFood = relationWithFood;
+        this.status = status;
+        this.lastModified = lastModified;
     }
 
     public Drug(int favorite) {
@@ -283,5 +335,13 @@ public class Drug {
 
     public void setFavorite(int favorite) {
         this.favorite = favorite;
+    }
+
+    public String getNamePersian() {
+        return namePersian;
+    }
+
+    public void setNamePersian(String namePersian) {
+        this.namePersian = namePersian;
     }
 }

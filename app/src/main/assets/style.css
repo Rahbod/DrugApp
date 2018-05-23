@@ -1,10 +1,127 @@
-body {
-    font-family: 'IRANSans';
-    font-size: 13px;
-    overflow-x: hidden;
-    color: #555;
-    background: #0001f1
+body,
+h4{
+    margin: 0;
+    padding:0;
 }
-h5{
-background: #ff0000;
+.container{
+    padding: 0 10px;
+    direction: rtl !important;
+    color: #172b5d;
+    font-family: IRANSans;
+    font-size: 14px;
+    line-height:30px;
+    text-align: justify;
+}
+.row{
+    margin-bottom: 15px;
+}
+.text.direction-ltr{
+    direction: ltr !important;
+}
+.row.linear{
+    overflow: hidden;
+}
+.row.linear h4{
+    display: table-cell;
+    vertical-align: top;
+}
+.row.linear .text{
+    padding-right: 10px;
+    overflow: hidden;
+    vertical-align: top;
+    display: table-cell;
+}
+.section{
+    border-bottom: 1px solid #d9eaf2;
+    padding: 30px 0 15px;
+}
+.section:last-child{
+    border-bottom: none;
+}
+.row h4 i{
+    border-radius: 50%;
+    border:1px solid #adc7d3;
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-left: 10px;
+}
+.section.iconic-field .text{
+     padding-right: 40px;
+ }
+.row h4 i.icon-product{
+    background: url("file:///android_asset/html-icons/product.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-pharmacy{
+    background: url("file:///android_asset/html-icons/pharmacy.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-usage{
+    background: url("file:///android_asset/html-icons/usage.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-prohibition{
+    background: url("file:///android_asset/html-icons/prohibition.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-caution{
+    background: url("file:///android_asset/html-icons/caution.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-dose-adjustment{
+    background: url("file:///android_asset/html-icons/dose-adjustment.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-complication{
+    background: url("file:///android_asset/html-icons/complication.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-interference{
+    background: url("file:///android_asset/html-icons/interference.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-effect{
+    background: url("file:///android_asset/html-icons/effect.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-overdose{
+    background: url("file:///android_asset/html-icons/overdose.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-description{
+    background: url("file:///android_asset/html-icons/description.svg") no-repeat center;
+    background-size: 18px;
+}
+.row h4 i.icon-relation-with-food{
+    background: url("file:///android_asset/html-icons/relation-with-food.svg") no-repeat center;
+    background-size: 18px;
+}
+.text table{
+    border:none;
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    min-height: .01%;
+    overflow-x: auto;
+    max-width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.text table tr td{
+    padding: 5px 0;
+    border-bottom: 2px solid #f0f0f0;
+    min-width: 100px;
+
+}
+.text table tr td p{
+    margin: 0;
+}
+.text table tr:first-of-type td{
+    background: #a4d9ee;
+    border-bottom: none;
+}
+.text table tr:last-of-type td{
+    border-bottom: none;
 }

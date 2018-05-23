@@ -42,6 +42,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String KEY_ID_DRUG = "id";
     private static final String KEY_NAME_DRUG = "name";
+    private static final String KEY_NAME_PERSIAN_DRUG = "persian";
     private static final String KEY_BRAND = "brand";
     private static final String KEY_PREGNANCY = "pregnancy";
     private static final String KEY_LACTATION = "lactation";
@@ -91,7 +92,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 ")";
 
         String CREATE_TABLE_DRUG = "CREATE TABLE " + TABLE_DRUGS + " ( "
-                + KEY_ID_DRUG + " INTEGER ," + KEY_NAME_DRUG + " TEXT NOT NULL ,"
+                + KEY_ID_DRUG + " INTEGER ," + KEY_NAME_DRUG + " TEXT NOT NULL ,"+ KEY_NAME_PERSIAN_DRUG + " TEXT ,"
                 + KEY_BRAND + " TEXT , " + KEY_PREGNANCY + " TEXT ," + KEY_LACTATION + " TEXT ,"
                 + KEY_KIDS + " TEXT ," + KEY_SENIORS + " TEXT ," + KEY_HOW_TO_USE + " TEXT , "
                 + KEY_PRODUCT + " TEXT , " + KEY_PHARMACODYNAMIC + " TEXT ," + KEY_USAGE + " TEXT ,"
@@ -183,6 +184,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID_DRUG, drug.getId());
         values.put(KEY_NAME_DRUG, drug.getName());
+        values.put(KEY_NAME_PERSIAN_DRUG,drug.getNamePersian());
         values.put(KEY_BRAND, drug.getBrand());
         values.put(KEY_PREGNANCY, drug.getPregnancy());
         values.put(KEY_LACTATION, drug.getLactation());
@@ -210,16 +212,17 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public Drug getDrug(int id) {
         db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_DRUGS, new String[]{KEY_ID_DRUG, KEY_NAME_DRUG, KEY_BRAND
-                , KEY_PREGNANCY, KEY_LACTATION, KEY_KIDS, KEY_SENIORS, KEY_HOW_TO_USE, KEY_PRODUCT
+        Cursor cursor = db.query(TABLE_DRUGS, new String[]{KEY_ID_DRUG, KEY_NAME_DRUG, KEY_NAME_PERSIAN_DRUG
+                , KEY_BRAND, KEY_PREGNANCY, KEY_LACTATION, KEY_KIDS, KEY_SENIORS, KEY_HOW_TO_USE, KEY_PRODUCT
                 , KEY_PHARMACODYNAMIC, KEY_USAGE, KEY_PROHIBITION, KEY_CAUTION, KEY_DOSE_ADJUSTMENT
                 , KEY_COMPLICATION, KEY_INTERFERENCE, KEY_EFFECT_ON_TEST, KEY_OVER_DOSE, KEY_DESCRIPTION
                 , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED}, KEY_ID_DRUG + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         cursor.moveToFirst();
-        Drug drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)
-                , cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12)
-                , cursor.getString(13), cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18)
-                , cursor.getString(19), Integer.parseInt(cursor.getString(20)), cursor.getString(21));
+        Drug drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+                , cursor.getString(5), cursor.getString(6), cursor.getString(7)
+                , cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)
+                , cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)
+                , cursor.getString(20), Integer.parseInt(cursor.getString(21)), cursor.getString(22));
         return drug;
     }
 
@@ -256,26 +259,27 @@ public class DbHelper extends SQLiteOpenHelper {
                 Drug drug = new Drug();
                 drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 drug.setName(cursor.getString(1));
-                drug.setBrand(cursor.getString(2));
-                drug.setPregnancy(cursor.getString(3));
-                drug.setLactation(cursor.getString(4));
-                drug.setKids(cursor.getString(5));
-                drug.setSeniors(cursor.getString(6));
-                drug.setHowToUse(cursor.getString(7));
-                drug.setProduct(cursor.getString(8));
-                drug.setPharmacodynamic(cursor.getString(9));
-                drug.setUsage(cursor.getString(10));
-                drug.setProhibition(cursor.getString(11));
-                drug.setCaution(cursor.getString(12));
-                drug.setDoseAdjustment(cursor.getString(13));
-                drug.setComplication(cursor.getString(14));
-                drug.setInterference(cursor.getString(15));
-                drug.setEffectOnTest(cursor.getString(16));
-                drug.setOverDose(cursor.getString(17));
-                drug.setDescription(cursor.getString(18));
-                drug.setRelationWithFood(cursor.getString(19));
-                drug.setStatus(Integer.parseInt(cursor.getString(20)));
-                drug.setLastModified(cursor.getString(21));
+                drug.setNamePersian(cursor.getString(2));
+                drug.setBrand(cursor.getString(3));
+                drug.setPregnancy(cursor.getString(4));
+                drug.setLactation(cursor.getString(5));
+                drug.setKids(cursor.getString(6));
+                drug.setSeniors(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(8));
+                drug.setProduct(cursor.getString(9));
+                drug.setPharmacodynamic(cursor.getString(10));
+                drug.setUsage(cursor.getString(11));
+                drug.setProhibition(cursor.getString(12));
+                drug.setCaution(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(14));
+                drug.setComplication(cursor.getString(15));
+                drug.setInterference(cursor.getString(16));
+                drug.setEffectOnTest(cursor.getString(17));
+                drug.setOverDose(cursor.getString(18));
+                drug.setDescription(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(20));
+                drug.setStatus(Integer.parseInt(cursor.getString(21)));
+                drug.setLastModified(cursor.getString(22));
                 drugList.add(drug);
             }
         }
@@ -299,26 +303,27 @@ public class DbHelper extends SQLiteOpenHelper {
                 Drug drug = new Drug();
                 drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 drug.setName(cursor.getString(1));
-                drug.setBrand(cursor.getString(2));
-                drug.setPregnancy(cursor.getString(3));
-                drug.setLactation(cursor.getString(4));
-                drug.setKids(cursor.getString(5));
-                drug.setSeniors(cursor.getString(6));
-                drug.setHowToUse(cursor.getString(7));
-                drug.setProduct(cursor.getString(8));
-                drug.setPharmacodynamic(cursor.getString(9));
-                drug.setUsage(cursor.getString(10));
-                drug.setProhibition(cursor.getString(11));
-                drug.setCaution(cursor.getString(12));
-                drug.setDoseAdjustment(cursor.getString(13));
-                drug.setComplication(cursor.getString(14));
-                drug.setInterference(cursor.getString(15));
-                drug.setEffectOnTest(cursor.getString(16));
-                drug.setOverDose(cursor.getString(17));
-                drug.setDescription(cursor.getString(18));
-                drug.setRelationWithFood(cursor.getString(19));
-                drug.setStatus(Integer.parseInt(cursor.getString(20)));
-                drug.setLastModified(cursor.getString(21));
+                drug.setNamePersian(cursor.getString(2));
+                drug.setBrand(cursor.getString(3));
+                drug.setPregnancy(cursor.getString(4));
+                drug.setLactation(cursor.getString(5));
+                drug.setKids(cursor.getString(6));
+                drug.setSeniors(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(8));
+                drug.setProduct(cursor.getString(9));
+                drug.setPharmacodynamic(cursor.getString(10));
+                drug.setUsage(cursor.getString(11));
+                drug.setProhibition(cursor.getString(12));
+                drug.setCaution(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(14));
+                drug.setComplication(cursor.getString(15));
+                drug.setInterference(cursor.getString(16));
+                drug.setEffectOnTest(cursor.getString(17));
+                drug.setOverDose(cursor.getString(18));
+                drug.setDescription(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(20));
+                drug.setStatus(Integer.parseInt(cursor.getString(21)));
+                drug.setLastModified(cursor.getString(22));
                 drugList.add(drug);
             }
             while (cursor.moveToNext());
@@ -336,26 +341,27 @@ public class DbHelper extends SQLiteOpenHelper {
                 Drug drug = new Drug();
                 drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 drug.setName(cursor.getString(1));
-                drug.setBrand(cursor.getString(2));
-                drug.setPregnancy(cursor.getString(3));
-                drug.setLactation(cursor.getString(4));
-                drug.setKids(cursor.getString(5));
-                drug.setSeniors(cursor.getString(6));
-                drug.setHowToUse(cursor.getString(7));
-                drug.setProduct(cursor.getString(8));
-                drug.setPharmacodynamic(cursor.getString(9));
-                drug.setUsage(cursor.getString(10));
-                drug.setProhibition(cursor.getString(11));
-                drug.setCaution(cursor.getString(12));
-                drug.setDoseAdjustment(cursor.getString(13));
-                drug.setComplication(cursor.getString(14));
-                drug.setInterference(cursor.getString(15));
-                drug.setEffectOnTest(cursor.getString(16));
-                drug.setOverDose(cursor.getString(17));
-                drug.setDescription(cursor.getString(18));
-                drug.setRelationWithFood(cursor.getString(19));
-                drug.setStatus(Integer.parseInt(cursor.getString(20)));
-                drug.setLastModified(cursor.getString(21));
+                drug.setNamePersian(cursor.getString(2));
+                drug.setBrand(cursor.getString(3));
+                drug.setPregnancy(cursor.getString(4));
+                drug.setLactation(cursor.getString(5));
+                drug.setKids(cursor.getString(6));
+                drug.setSeniors(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(8));
+                drug.setProduct(cursor.getString(9));
+                drug.setPharmacodynamic(cursor.getString(10));
+                drug.setUsage(cursor.getString(11));
+                drug.setProhibition(cursor.getString(12));
+                drug.setCaution(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(14));
+                drug.setComplication(cursor.getString(15));
+                drug.setInterference(cursor.getString(16));
+                drug.setEffectOnTest(cursor.getString(17));
+                drug.setOverDose(cursor.getString(18));
+                drug.setDescription(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(20));
+                drug.setStatus(Integer.parseInt(cursor.getString(21)));
+                drug.setLastModified(cursor.getString(22));
                 drugList.add(drug);
             }
             while (cursor.moveToNext());
