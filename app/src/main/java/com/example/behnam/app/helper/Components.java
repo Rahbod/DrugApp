@@ -82,6 +82,7 @@ public class Components extends AppController {
                                                                 SessionManager.getExtrasPref(context).putExtra("firstDataIsComplete", true);
 
                                                                 Intent intent = new Intent(context, ActivityHome.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 context.startActivity(intent);
                                                                 ActivitySplashScreen.activitySplashScreen.finish();
                                                             }
@@ -106,6 +107,7 @@ public class Components extends AppController {
         } else {
             // goto home activity
             Intent intent = new Intent(context, ActivityHome.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
     }
