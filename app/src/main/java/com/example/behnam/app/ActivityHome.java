@@ -54,7 +54,6 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
-    private ImageView imgOpenNvDraw;
     private AdapterAlphabetIndexFastScroll adapterHome;
     private DrawerLayout drawerLayout;
     private List<Drug> drugList = new ArrayList<>();
@@ -62,7 +61,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
-    private List<AlphabetItem> mAlphabetItems;
 
 
     SharedPreferences sharedPreferences;
@@ -121,7 +119,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             }
         });
 
-        imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         drawerLayout = findViewById(R.id.DrawerLayout);
 
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
@@ -149,59 +147,59 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-            //hide keyboard
-            Class<? extends View.OnClickListener> view = this.getClass();
+            public void onClick(View v) {
+                //hide keyboard
+                Class<? extends View.OnClickListener> view = this.getClass();
                 if (view != null) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                assert imm != null;
-                imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-            }
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                }
 
-            //voiceSearch
-            final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                //voiceSearch
+                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
-                builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (wifiManager != null)
-                                    wifiManager.setWifiEnabled(true);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
+                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (wifiManager != null)
+                                        wifiManager.setWifiEnabled(true);
 
-                                if (Speech.getInstance().isListening()) {
-                                    Speech.getInstance().stopListening();
-                                } else {
-                                    if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                        onRecordAudioPermissionGranted();
-                                    else {
-                                        ActivityCompat.requestPermissions(ActivityHome.this,
-                                                new String[]{Manifest.permission.RECORD_AUDIO},
-                                                1);
+                                    if (Speech.getInstance().isListening()) {
+                                        Speech.getInstance().stopListening();
+                                    } else {
+                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                            onRecordAudioPermissionGranted();
+                                        else {
+                                            ActivityCompat.requestPermissions(ActivityHome.this,
+                                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                                    1);
+                                        }
                                     }
                                 }
-                            }
-                        }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                        .show();
-            } else {
-                if (Speech.getInstance().isListening()) {
-                    Speech.getInstance().stopListening();
+                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                            .show();
                 } else {
-                    if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                        onRecordAudioPermissionGranted();
-                    else {
-                        ActivityCompat.requestPermissions(ActivityHome.this,
-                                new String[]{Manifest.permission.RECORD_AUDIO},
-                                1);
+                    if (Speech.getInstance().isListening()) {
+                        Speech.getInstance().stopListening();
+                    } else {
+                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                            onRecordAudioPermissionGranted();
+                        else {
+                            ActivityCompat.requestPermissions(ActivityHome.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO},
+                                    1);
+                        }
                     }
                 }
             }
-        }
         });
     }
 
@@ -354,8 +352,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-            drawerLayout.closeDrawer(Gravity.RIGHT);
+        if (drawerLayout.isDrawerOpen(Gravity.END)) {
+            drawerLayout.closeDrawer(Gravity.END);
         } else if (time + BackPressed > System.currentTimeMillis()) {
             super.onBackPressed();
         } else
@@ -389,7 +387,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, context);
 
         //Alphabet fast scroller data
-        mAlphabetItems = new ArrayList<>();
+        List<AlphabetItem> mAlphabetItems = new ArrayList<>();
         List<String> strAlphabets = new ArrayList<>();
         for (int i = 0; i < drugList.size(); i++) {
             Drug name = drugList.get(i);
