@@ -1,335 +1,357 @@
 package com.example.behnam.app;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.fonts.ButtonFont;
-import com.example.behnam.fonts.FontTextViewBold;
+import com.example.behnam.fonts.FontTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sufficientlysecure.htmltextview.ClickableTableSpan;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityViewDrug extends AppCompatActivity {
-    private String pregnancyGroup[] = new String[6];
+    private JSONObject pregnancyGroupsText = new JSONObject();
     String s = "";
+
     WebView webView;
+    BottomNavigationView bottomNavigation;
     String strPregnancy = "";
-    private String descriptionGroup[] = new String[28];
-    private String heallingStr = "", pharmaStr = "", sicknessStr = "";
-    private ImageView btnBack;
+    String groupPregnancyStr = "";
+    String descriptionGroup[] = new String[28];
+    String heallingStr = "", pharmaStr = "", sicknessStr = "";
+    ImageView btnBack;
     List<Category> categoryList = new ArrayList<>();
-    private HtmlTextView brandValue, heallingValue, pharmaValue, sicknessValue, pregnancyValue,
-            lactationValue, kidsValue, seniorValue, howUseValue, productValue,
-            pharmacodynamicValue, usageValue, prohibitionValue, cautionValue, doseValue, complicationValue,
-            interferencesValue, effectValue, overDoseValue, descriptionValue, relationFoodValue;
-    private FontTextViewBold brandTitle, heallingTitle, pharmaTitle, sicknessTitle, pregnancyTitle, lactationTitle,
-            kidsTitle, seniorTitle, howUseTitle, productTitle, pharmacodynamicTitle, usageTitle, prohibitionTitle,
-            doseTitle, complicationTitle, interferencesTitle, descriptionTitle, cautionTitle, effectTitle,
-            overDoseTitle, relationFoodTitle;
-    private TextView nameDrug;
-    private ButtonFont btnFavorite;
+    TextView nameDrug;
+    FontTextView persianName;
+    String strDescription;
+    ScrollViewExt scrollView;
+    Animation animationToDown;
+    Animation animationToUp;
 
-    class ClickableTableSpanImpl extends ClickableTableSpan {
-        @Override
-        public ClickableTableSpan newInstance() {
-            return new ClickableTableSpanImpl();
-        }
-
-        @Override
-        public void onClick(View widget) {
-            Bundle bundle = new Bundle();
-            bundle.putString("table", getTableHtml());
-
-            TableFragment viewFragment = new TableFragment();
-            viewFragment.setArguments(bundle);
-            viewFragment.show(getFragmentManager(), "Fragment");
-        }
-    }
-
+    //@SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_drug);
 
         webView = findViewById(R.id.web_view_drug);
+        nameDrug = findViewById(R.id.name_drug);
+        persianName = findViewById(R.id.persian_name);
+        scrollView = findViewById(R.id.scroll_view_drug);
+        bottomNavigation = findViewById(R.id.navigation_bottom);
+        animationToDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        animationToUp = AnimationUtils.loadAnimation(this, R.anim.fade_anim);
 
-        pregnancyGroup[0] = "توضیحات گروه a";
-        pregnancyGroup[1] = "توضیحات گروه b";
-        pregnancyGroup[2] = "توضیحات گروه c";
-        pregnancyGroup[3] = "توضیحات گروه d";
-        pregnancyGroup[4] = "توضیحات گروه x";
-        pregnancyGroup[5] = "توضیحات گروه nr";
+        bottomNavigation = findViewById(R.id.navigation_bottom);
+        bottomNavigation.setVisibility(View.GONE);
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                animationToDown.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
 
-        descriptionGroup[0] = "توضیحات 1";
-        descriptionGroup[1] = "توضیحات 2";
-        descriptionGroup[2] = "توضیحات 3";
-        descriptionGroup[3] = "توضیحات 4";
-        descriptionGroup[4] = "توضیحات 5";
-        descriptionGroup[5] = "توضیحات 6";
-        descriptionGroup[6] = "توضیحات 7";
-        descriptionGroup[7] = "توضیحات 8";
-        descriptionGroup[8] = "توضیحات 9";
-        descriptionGroup[9] = "توضیحات 10";
-        descriptionGroup[10] = "توضیحات 11";
-        descriptionGroup[11] = "توضیحات 12";
-        descriptionGroup[12] = "توضیحات 13";
-        descriptionGroup[13] = "توضیحات 14";
-        descriptionGroup[14] = "توضیحات 15";
-        descriptionGroup[15] = "توضیحات 16";
-        descriptionGroup[16] = "توضیحات 17";
-        descriptionGroup[17] = "توضیحات 18";
-        descriptionGroup[18] = "توضیحات 19";
-        descriptionGroup[19] = "توضیحات 20";
-        descriptionGroup[20] = "توضیحات 21";
-        descriptionGroup[21] = "توضیحات 22";
-        descriptionGroup[22] = "توضیحات 23";
-        descriptionGroup[23] = "توضیحات 24";
-        descriptionGroup[24] = "توضیحات 25";
-        descriptionGroup[25] = "توضیحات 26";
-        descriptionGroup[26] = "توضیحات 27";
-        descriptionGroup[27] = "توضیحات 28";
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        bottomNavigation.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                bottomNavigation.setAnimation(animationToDown);
+            }
+        });
+
+//        scrollView.init(bottomNavigation,animationToDown);
+
+        try {
+            pregnancyGroupsText.put("A", "بررسی های کافی در زنان باردار نتوانسته است خطری را برای جنین در سه ماهه اول بارداری نشان دهد (و شواهدی از وجود خطر در سه ماهه دوم و سوم وجود ندارد.)");
+            pregnancyGroupsText.put("B", "بررسی بر روی حیوانات عوارضی را برای جنین نشان نداده است اما مطالعات بالینی کافی بر روی زنان باردار وجود ندارد.");
+            pregnancyGroupsText.put("C", "بررسی های انجام شده بر روی حیوانات نشانگر ایجاد عوارض جانبی در جنین بوده اما مطالعات کافی در انسان وجود ندارد. این داروها ممکن است با وجود خطرات بالقوه خود در زنان باردار مفید باشند.");
+            pregnancyGroupsText.put("D", "شواهدی در مورد خطرساز بودن این داروها بر روی جنین انسان وجود دارد اما ممکن است با وجود خطرات بالقوه فوق، فواید بالقوه مصرف این دارو در زنان باردار قابل قبول باشد.");
+            pregnancyGroupsText.put("X", "بررسی های انسانی یا حیوانی نشانگر ناهنجاری جنینی بوده یا گزاراشات مربوط به عواض جانبی نشان می دهد که دارو برای جنین خطرساز است. در این گروه دارویی، خطرات دارو برتری آشکاری نسبت به فواید آن دارد.");
+            pregnancyGroupsText.put("NR", "این داروها هنوز جزو طبقه¬بندی فوق قرار نگرفته اند.");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        descriptionGroup[0] = "تا زمان مشخص شدن اثرات دارو از رانندگی و سایر امور نیازمند هوشیاری اجتناب شود. از مصرف الكل و سایر داروهای سركوبگر CNS اجتناب گردد.";
+        descriptionGroup[1] = "بیمار را از نظر تغییرات گلوكز سرم مانیتور كنید.";
+        descriptionGroup[2] = "كاركرد كلیه و جذب و دفع مایعات را در بیمار مانیتور كنید.";
+        descriptionGroup[3] = "كاركرد كبد را در بیمار مانیتور كنید.";
+        descriptionGroup[4] = "CBC افتراقی را در بیمار مانیتور كنید.";
+        descriptionGroup[5] = "هنگام آمادهسازی این دارو از دستكش لاتكس و عینك محافظ و در صورت امكان از هود بیولوژیك استفاده كنید. از تماس دارو با پوست یا استنشاق آن خودداری كنید.";
+        descriptionGroup[6] = "هیچ واكسنی را بدون مجوز پزشك دریافت نكنید (به ویژه واكسنهای زنده ویروسی را).";
+        descriptionGroup[7] = " قبل از تجویز این دارو از باردار نبودن بیمار مطمئن شوید و حین مصرف آن نیز از دو روش جلوگیری از بارداری استفاده شود. بیمار باید به محض اطلاع از بارداری فوراً اطلاع بدهد.";
+        descriptionGroup[8] = "احتمال ایجاد آلوپسی در بیمار و برگشتپذیر بودن آن را به بیمار اطلاع دهید.";
+        descriptionGroup[9] = "مراقب نشت دارو از رگ باشید چراكه خطر عوارض جدی جلدی وجود دارد.";
+        descriptionGroup[10] = "تستهای انعقادی را مانیتور كنید.";
+        descriptionGroup[11] = "محل تزریق دارو باید مرتباً جابجا شود.";
+        descriptionGroup[12] = "خطر ایجاد خونریزی ناشی از دارو را به بیمار اطلاع دهید. بیمار باید مراقب علایم خونریزی گوارشی، ادراری، دهان، بینی و... باشد.";
+        descriptionGroup[13] = "این دارو میتواند باعث افت فشارخون و سرگیجه شود. لذا از تغییر وضعیت ناگهانی، حمام داغ، ایستادن طولانی و ادرار كردن در وضعیت ایستاده اجتناب شود.";
+        descriptionGroup[14] = "خطر ایجاد عفونت در حین مصرف این دارو را به بیمار تذكر دهید. بیمار باید تا حد امكان از رفتوآمد در مكانهای شلوغ و تماس با افراد آلوده به عفونت اجتناب كند (معمولاً در داروهای شیمی درمانی و سركوبگر ایمنی).";
+        descriptionGroup[15] = "علایم حیاتی را در بیمار به دقت مانیتور كنید.";
+        descriptionGroup[16] = "قبل از مصرف این دارو باید پوست را شسته و تمیز كرده و خشك نمود (معمولاً در داروهای موضعی).";
+        descriptionGroup[17] = "از مصرف این دارو در اطراف چشم و پلكها اجتناب شود.";
+        descriptionGroup[18] = "مراقب اختلال الكترولیتی و اختلال اسید و باز در بیمار باشید و وزن او را مانیتور كنید.";
+        descriptionGroup[19] = "به بیمار توصیه كنید كه دارو را سر وقت مصرف كرده و در صورت فراموش كردن یك دوز از دو برابر كردن دوز بعدی اجتناب كند.";
+        descriptionGroup[20] = "جهت اجتناب از گرمازدگی، از ورزش در هوای گرم اجتناب شود (معمولاً در داروهایی كه تعریق را كم كرده و با خطر گرمازدگی همراه هستند).";
+        descriptionGroup[21] = "به بیمار توصیه كنید از قطع ناگهانی این دارو اجتناب كند. قطع این دارو باید به صورت تدریجی باشد (تا مانع ایجاد سندرم ترك دارو یا علایم بیمار شود).";
+        descriptionGroup[22] = "به بیمار اطلاع دهید كه مصرف طولانیمدت این دارو میتواند باعث وابستگی و تولرانس شود. لذا مراقب سوء مصرف آن باشید.";
+        descriptionGroup[23] = "مراقب شواهد ترومبوسیتوپنی در بیمار بوده و سطح پلاكت را مرتب چك كنید.";
+        descriptionGroup[24] = "فشارخون بیمار را مانیتور كنید.";
+        descriptionGroup[25] = "به دلیل حساسیت به نور ناشی از این دارو، از قرار گرفتن در آفتاب اجتناب شود و در صورت مجبور بودن، از ضد آفتاب و كلاه و عینك محافظ استفاده شود.";
+        descriptionGroup[26] = "كاركرد قلبی و EKG را در بیمار مانیتور كنید.";
+        descriptionGroup[27] = "تستهای انعقادی را به صورت دورهای مانیتور كنید.";
 
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         final int ID = bundle.getInt("id");
 
         final DbHelper dbHelper = new DbHelper(this);
-        Drug drug = dbHelper.getDrug(ID);
+        final Drug drug = dbHelper.getDrug(ID);
 
+        nameDrug.setText(drug.getName());
+        persianName.setText(drug.getNamePersian());
+
+        //btnBack
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        //Check Category Type
         categoryList = dbHelper.getCategories(ID);
         for (int i = 0; i < categoryList.size(); i++) {
             if (categoryList.get(i).getType() == 0 && !categoryList.get(i).getName().isEmpty()) {
                 heallingStr += "," + categoryList.get(i).getName();
                 heallingStr = heallingStr.startsWith(",") ? heallingStr.substring(1) : heallingStr;
-                Log.e("Mohammadmoien", heallingStr);
             }
             if (categoryList.get(i).getType() == 1) {
                 pharmaStr += "," + categoryList.get(i).getName();
                 pharmaStr = pharmaStr.startsWith(",") ? pharmaStr.substring(1) : pharmaStr;
-                Log.e("Mohammadmoien", pharmaStr);
             }
             if (categoryList.get(i).getType() == 2) {
                 sicknessStr += "," + categoryList.get(i).getName();
                 sicknessStr = sicknessStr.startsWith(",") ? sicknessStr.substring(1) : sicknessStr;
-                Log.e("Mohammadmoien", sicknessStr);
             }
         }
 
-        try {
-            JSONObject jsonPregnancy = new JSONObject(drug.getPregnancy());
-            String groupPregnancy = jsonPregnancy.getString("group");
-            String textPregnancy = jsonPregnancy.getString("text");
-            groupPregnancy = groupPregnancy.trim();
-            if (!groupPregnancy.isEmpty()) {
-                strPregnancy = "";
-                if (groupPregnancy.contains("A"))
-                    strPregnancy += pregnancyGroup[0] + " <br> ";
+        String webViewHtml = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"fontiran.css\" /><div class=\"container\">";
 
-                if (groupPregnancy.contains("B"))
-                    strPregnancy += pregnancyGroup[1] + " <br> ";
-
-                if (groupPregnancy.contains("C"))
-                    strPregnancy += pregnancyGroup[2] + " <br> ";
-
-                if (groupPregnancy.contains("D"))
-                    strPregnancy += pregnancyGroup[3] + " <br> ";
-
-                if (groupPregnancy.contains("X"))
-                    strPregnancy += pregnancyGroup[4] + " <br> ";
-
-                if (groupPregnancy.contains("NR"))
-                    strPregnancy += pregnancyGroup[5] + " <br> ";
-                strPregnancy += textPregnancy;
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        String webViewHtml = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" /> <link rel=\"stylesheet\" type=\"text/css\" href=\"fontiran.css\" /><div class=\"container\">";
-        if (!drug.getBrand().isEmpty() || !heallingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty() || !strPregnancy.isEmpty() || !drug.getLactation().isEmpty() || !drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
-            webViewHtml += "<div class=\"section\">";
+        if (!drug.getBrand().isEmpty() || !drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
             if (!drug.getBrand().isEmpty())
-                webViewHtml += "<div class=\"row\"> <h4>نام تجاری:</h4> <div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div>";
-            if (!drug.getNamePersian().isEmpty())
-                webViewHtml += "<div class=\"row\"> <h4>نام فارسی:</h4> <div class=\"text direction-ltr\">" + drug.getNamePersian() + "</div></div>";
-            if (!heallingStr.isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی درمانی:</h4><div class=\"text\">" + heallingStr + "</div></div>";
-            if (!pharmaStr.isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی فارماکولوژیک:</h4><div class=\"text\">" + pharmaStr + "</div></div>";
-            if (!sicknessStr.isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
-            if (!strPregnancy.isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4> بارداری:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
-            if (!drug.getLactation().isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
-            if (!drug.getKids().isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
-            if (!drug.getSeniors().isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
-            if (!drug.getHowToUse().isEmpty())
-                webViewHtml += "<div class=\"row linear\"> <h4>راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
-            webViewHtml += "</div>";
-        }
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">"+ drug.getBrand()+"</div></div></div>";
+            if (!heallingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
+                webViewHtml += "<div class=\"section\">";
+                if (!heallingStr.isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی درمانی:</h4><div class=\"text\">" + heallingStr + "</div></div>";
+                if (!pharmaStr.isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی فارماکولوژیک:</h4><div class=\"text\">" + pharmaStr + "</div></div>";
+                if (!sicknessStr.isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
+                webViewHtml += "</div>";
+            }
 
-        if (!drug.getProduct().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div> </div> </div>";
-        if (!drug.getPharmacodynamic().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-pharmacy\"></i>فارماکودینامیک و فارماکوکینتیک:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div> </div> </div>";
-        if (!drug.getUsage().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-usage\"></i>موارد مصرف و دوزاژ:</h4><div class=\"text\">" + drug.getUsage() + "</div> </div> </div>";
-        if (!drug.getDoseAdjustment().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-dose-adjustment\"></i>تعدیل دوزاژ:</h4><div class=\"text\">" + drug.getDoseAdjustment() + "</div> </div> </div>";
-        if (!drug.getProhibition().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-prohibition\"></i>موارد منع مصرف:</h4><div class=\"text\">" + drug.getProhibition() + "</div> </div> </div>";
-        if (!drug.getCaution().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-caution\"></i>موارد احتیاط:</h4><div class=\"text\">" + drug.getCaution() + "</div> </div> </div>";
-        if (!drug.getComplication().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-complication\"></i>عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div> </div> </div>";
-        if (!drug.getEffectOnTest().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-effect\"></i>اثر بر تست های آزمایشگاهی:</h4><div class=\"text\">" + drug.getEffectOnTest() + "</div> </div> </div>";
-        if (!drug.getOverDose().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-overdose\"></i>اوردوز و درمان:</h4><div class=\"text\">" + drug.getOverDose() + "</div> </div> </div>";
-        if (!drug.getDescription().isEmpty()) {
-            try {
-                JSONObject jsonObject = new JSONObject(drug.getDescription());
-                JSONArray jsonArray = jsonObject.getJSONArray("code");
-                String codeDescription = jsonObject.getString("code");
-                String textDescription = jsonObject.getString("text");
-                if (!codeDescription.isEmpty() || !textDescription.isEmpty()) {
-                    if (codeDescription.isEmpty()) {
-                        webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + textDescription + "</div> </div> </div>";
-                    } else {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            String codes = jsonArray.getString(i);
-                            s += descriptionGroup[Integer.parseInt(codes) - 1] + "<br>";
+
+            if (!strPregnancy.isEmpty() || !drug.getLactation().isEmpty()) {
+                webViewHtml += "<div class=\"section\">";
+                if (!drug.getPregnancy().isEmpty()) {
+                    try {
+                        JSONObject jsonPregnancy = new JSONObject(drug.getPregnancy());
+                        JSONArray groupPregnancy = jsonPregnancy.getJSONArray("group");
+                        String textPregnancy = jsonPregnancy.getString("text");
+
+                        for (int i = 0; i < groupPregnancy.length(); i++) {
+                            pregnancyGroupsText.get(groupPregnancy.getString(i));
+                            switch (groupPregnancy.getString(i)) {
+                                case "A":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("A");
+                                    break;
+                                case "B":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("B");
+                                    break;
+                                case "C":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("C");
+                                    break;
+                                case "D":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("D");
+                                    break;
+                                case "X":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("X");
+                                    break;
+                                case "NR":
+                                    strPregnancy += "<br>" + pregnancyGroupsText.get("NR");
+                                    break;
+                            }
                         }
-                        webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + s + "<br>" + textDescription + "</div> </div> </div>";
+                        strPregnancy += textPregnancy;
+                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">بارداری:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
+
+
+                if (!drug.getLactation().isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">شیردهی:</h4><div class=\"text\">"+ drug.getLactation() + "</div></div>";
+                webViewHtml += "</div>";
+            }
+
+
+            if (!drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
+                webViewHtml += "<div class=\"section\">";
+                if (!drug.getKids().isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
+                if (!drug.getSeniors().isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
+                if (!drug.getHowToUse().isEmpty())
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
+                webViewHtml += "</div>";
+            }
+        }
+
+
+        if (!drug.getProduct().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div></div></div>";
+
+        if (!drug.getPharmacodynamic().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-pharmacy\"></i>فارماکودینامیک و فارماکوکینتیک:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div></div></div>";
+
+        if (!drug.getUsage().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-usage\"></i>موارد مصرف و دوزاژ:</h4><div class=\"text\">" + drug.getUsage() + "</div></div></div>";
+
+        if (!drug.getDoseAdjustment().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-dose-adjustment\"></i>تعدیل دوزاژ:</h4><div class=\"text\">" + drug.getDoseAdjustment() + "</div></div></div>";
+
+        if (!drug.getProhibition().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-prohibition\"></i>موارد منع مصرف:</h4><div class=\"text\">" + drug.getProhibition() + "</div></div></div>";
+
+        if (!drug.getCaution().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-caution\"></i>موارد احتیاط:</h4><div class=\"text\">" + drug.getCaution() + "</div></div></div>";
+
+        if (!drug.getComplication().isEmpty())
+            webViewHtml += "<div class=\"section i-conic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-complication\"></i>عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div></div></div>";
+
+        if (!drug.getInterference().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-interference\"></i>تداخلات دارویی:</h4><div class=\"text\">" + drug.getInterference() + "</div></div></div>";
+
+        if (!drug.getEffectOnTest().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-effect\"></i>اثر بر تست های آزمایشگاهی:</h4><div class=\"text\">" + drug.getEffectOnTest() + "</div></div></div>";
+
+        if (!drug.getOverDose().isEmpty())
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-overdose\"></i>اوردوز و درمان:</h4><div class=\"text\">" + drug.getOverDose() + "</div></div></div>";
+
+        if (!drug.getDescription().isEmpty()) {
+            try {
+                JSONObject jsonDescription = new JSONObject(drug.getDescription());
+                String textDescription = jsonDescription.getString("text");
+                if (!jsonDescription.isNull("code")) {
+                    JSONArray jsonArrayCode = jsonDescription.getJSONArray("code");
+                    strDescription = "";
+                    for (int i = 0; i < jsonArrayCode.length(); i++) {
+                        strDescription += descriptionGroup[jsonArrayCode.getInt(i)] + "<br>";
+                        Log.e("TAG", "onCreate: " + jsonArrayCode.getInt(i));
+                    }
+                    strDescription += textDescription;
+                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + strDescription + "</div</div></div>";
+                } else
+                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + textDescription + "</div></div></div>";
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        if (!drug.getRelationWithFood().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div> </div> </div>";
-        webViewHtml += "</div>";
-        Log.e("TAG", "oooo" + webViewHtml);
-        webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
-//        btnBack = findViewById(R.id.btnBack);
-//        btnBack.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
+
+
+            if (!drug.getRelationWithFood().isEmpty()) {
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div></div></div>";
+            }
+
+            webViewHtml += "</div>";
+            Log.e("TAG", "oooo" + webViewHtml);
+            webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
+
+
+            bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        //add to favorite
+                        case R.id.navigation_favorite:
+
+                            if (!dbHelper.checkFavorite(ID)) {
+                                dbHelper.bookMark(ID);
+                                Toast.makeText(ActivityViewDrug.this, "داروی شما با موفقیت به سبد دارو اضافه شد.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                dbHelper.bookMark(ID);
+                                Toast.makeText(ActivityViewDrug.this, "داروی شما از لیست سبد دارو حذف شد.", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        //send to telegram
+                        case R.id.navigation_send:
+                            intentMessageTelegram("jijij");
+                            break;
+                    }
+                    return true;
+                }
+            });
+//            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//                @Override
+//                public void onScrollChanged() {
+//                    animationToDown.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
 //
+//                        }
 //
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            bottomNavigation.setVisibility(View.GONE);
+//                            Toast.makeText(getApplicationContext(), "svfvsvsv", Toast.LENGTH_SHORT).show();
+//                        }
 //
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
 //
-//
-//        btnFavorite = findViewById(R.id.send);
-//        nameDrug = findViewById(R.id.name_drug);
-//        brandValue = findViewById(R.id.brand_value);
-//        heallingValue = findViewById(R.id.healling_value);
-//        pharmaValue = findViewById(R.id.pharma_value);
-//        sicknessValue = findViewById(R.id.sickness_value);
-//        pregnancyValue = findViewById(R.id.pregnancy_value);
-//        lactationValue = findViewById(R.id.loctation_value);
-//        kidsValue = findViewById(R.id.kids_value);
-//        seniorValue = findViewById(R.id.senior_value);
-//        howUseValue = findViewById(R.id.how_use_value);
-//        productValue = findViewById(R.id.product_value);
-//        pharmacodynamicValue = findViewById(R.id.pharmacodynamic_value);
-//        usageValue = findViewById(R.id.usage_value);
-//        prohibitionValue = findViewById(R.id.prohibition_value);
-//        cautionValue = findViewById(R.id.caution_value);
-//        doseValue = findViewById(R.id.dose_value);
-//        complicationValue = findViewById(R.id.complication_value);
-//        interferencesValue = findViewById(R.id.interferences_value);
-//        effectValue = findViewById(R.id.effect_value);
-//        overDoseValue = findViewById(R.id.over_dose_value);
-//        descriptionValue = findViewById(R.id.description_value);
-//        relationFoodValue = findViewById(R.id.relation_food_value);
-//        brandTitle = findViewById(R.id.brand_name);
-//        heallingTitle = findViewById(R.id.healling);
-//        pharmaTitle = findViewById(R.id.pharma);
-//        sicknessTitle = findViewById(R.id.sickness);
-//        pregnancyTitle = findViewById(R.id.pregnancy);
-//        lactationTitle = findViewById(R.id.loctation);
-//        kidsTitle = findViewById(R.id.kids);
-//        seniorTitle = findViewById(R.id.senior);
-//        howUseTitle = findViewById(R.id.how_use);
-//        productTitle = findViewById(R.id.product);
-//        pharmacodynamicTitle = findViewById(R.id.pharmacodynamic);
-//        usageTitle = findViewById(R.id.usage);
-//        prohibitionTitle = findViewById(R.id.prohibition);
-//        cautionTitle = findViewById(R.id.caution);
-//        doseTitle = findViewById(R.id.dose);
-//        complicationTitle = findViewById(R.id.complication);
-//        interferencesTitle = findViewById(R.id.interferences);
-//        effectTitle = findViewById(R.id.effect);
-//        overDoseTitle = findViewById(R.id.over_dose);
-//        descriptionTitle = findViewById(R.id.description);
-//        relationFoodTitle = findViewById(R.id.relation_food);
-//
-//
+//                        }
+//                    });
+//                    bottomNavigation.setAnimation(animationToDown);
+//                }
+//            });
 //
 //        //check exists to favorite and set text button
-//        final Button btnAdd = findViewById(R.id.add);
-//        if (dbHelper.checkFavorite(ID)) {
-//            btnAdd.setBackgroundResource(R.drawable.background_button_selected);
-//            btnAdd.setText("حذف از سبد دارو");
-//            btnAdd.setTextColor(getResources().getColor(R.color.white));
-//        } else{
-//            btnAdd.setBackgroundResource(R.drawable.background_button);
-//            btnAdd.setText("اضافه به سبد دارو");
-//            btnAdd.setTextColor(getResources().getColor(R.color.blue2));
-//        }
-//
-//
-//        //add to favorite
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!dbHelper.checkFavorite(ID)) {
-//                    dbHelper.bookMark(ID);
-//                    btnAdd.setText("حذف از سبد دارو");
-//                    btnAdd.setBackgroundResource(R.drawable.background_button_selected);
-//                    btnAdd.setTextColor(getResources().getColor(R.color.white));
-//                } else {
-//                    dbHelper.bookMark(ID);
-//                    btnAdd.setText("اضافه به سبد دارو");
-//                    btnAdd.setBackgroundResource(R.drawable.background_button);
-//                    btnAdd.setTextColor(getResources().getColor(R.color.blue2));
-//                }
-//
-//            }
-//
-//        });
-//
-//        nameDrug.setText(drug.getName());
-//
-//        if (!drug.getBrand().isEmpty()) {
-//            brandTitle.setVisibility(View.VISIBLE);
-//            brandValue.setVisibility(View.VISIBLE);
-//            brandValue.setHtml(drug.getBrand());
-//        }
-//
 //        categoryList = dbHelper.getCategories(ID);
 //        for (int i = 0; i < categoryList.size(); i++) {
 //            if (categoryList.get(i).getType() == 0 && !categoryList.get(i).getName().isEmpty()) {
@@ -395,161 +417,6 @@ public class ActivityViewDrug extends AppCompatActivity {
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-//        if (!drug.getKids().isEmpty()) {
-//            kidsValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan kidsTableLinkSpan = new DrawTableLinkSpan();
-//            kidsTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            kidsValue.setDrawTableLinkSpan(kidsTableLinkSpan);
-//            kidsTableLinkSpan.setTextColor(R.color.table_link);
-//            kidsTableLinkSpan.setTextSize(20);
-//            kidsTitle.setVisibility(View.VISIBLE);
-//            kidsValue.setVisibility(View.VISIBLE);
-//            kidsValue.setHtml(drug.getKids());
-//        }
-//        if (!drug.getSeniors().isEmpty()) {
-//            seniorValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan seniorTableLinkSpan = new DrawTableLinkSpan();
-//            seniorTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            seniorValue.setDrawTableLinkSpan(seniorTableLinkSpan);
-//            seniorTableLinkSpan.setTextColor(R.color.table_link);
-//            seniorTableLinkSpan.setTextSize(20);
-//            seniorTitle.setVisibility(View.VISIBLE);
-//            seniorValue.setVisibility(View.VISIBLE);
-//            seniorValue.setHtml(drug.getSeniors());
-//        }
-//        if (!drug.getHowToUse().isEmpty()) {
-//            howUseValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan how_useTableLinkSpan = new DrawTableLinkSpan();
-//            how_useTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            howUseValue.setDrawTableLinkSpan(how_useTableLinkSpan);
-//            how_useTableLinkSpan.setTextColor(R.color.table_link);
-//            how_useTableLinkSpan.setTextSize(20);
-//            howUseTitle.setVisibility(View.VISIBLE);
-//            howUseValue.setVisibility(View.VISIBLE);
-//            howUseValue.setHtml(drug.getHowToUse());
-//        }
-//        if (!drug.getProduct().isEmpty()) {
-//            productValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan productTableLinkSpan = new DrawTableLinkSpan();
-//            productTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            productValue.setDrawTableLinkSpan(productTableLinkSpan);
-//            productTableLinkSpan.setTextColor(R.color.table_link);
-//            productTableLinkSpan.setTextSize(20);
-//            productTitle.setVisibility(View.VISIBLE);
-//            productValue.setVisibility(View.VISIBLE);
-//            productValue.setHtml(drug.getProduct());
-//        }
-//        if (!drug.getPharmacodynamic().isEmpty()) {
-//            pharmacodynamicValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan pharmacodynamicTableLinkSpan = new DrawTableLinkSpan();
-//            pharmacodynamicTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            pharmacodynamicValue.setDrawTableLinkSpan(pharmacodynamicTableLinkSpan);
-//            pharmacodynamicTableLinkSpan.setTextColor(R.color.table_link);
-//            pharmacodynamicTableLinkSpan.setTextSize(20);
-//            pharmacodynamicTitle.setVisibility(View.VISIBLE);
-//            pharmacodynamicValue.setVisibility(View.VISIBLE);
-//            pharmacodynamicValue.setHtml(drug.getPharmacodynamic());
-//        }
-//        if (!drug.getUsage().isEmpty()) {
-//            usageValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan usageTableLinkSpan = new DrawTableLinkSpan();
-//            usageTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            usageValue.setDrawTableLinkSpan(usageTableLinkSpan);
-//            usageTableLinkSpan.setTextColor(R.color.table_link);
-//            usageTableLinkSpan.setTextSize(20);
-//            usageTitle.setVisibility(View.VISIBLE);
-//            usageValue.setVisibility(View.VISIBLE);
-//            usageValue.setHtml(drug.getUsage());
-//        }
-//        if (!drug.getProhibition().isEmpty()) {
-//            prohibitionValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan prohibitionTableLinkSpan = new DrawTableLinkSpan();
-//            prohibitionTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            prohibitionValue.setDrawTableLinkSpan(prohibitionTableLinkSpan);
-//            prohibitionTableLinkSpan.setTextColor(R.color.table_link);
-//            prohibitionTableLinkSpan.setTextSize(20);
-//            prohibitionTitle.setVisibility(View.VISIBLE);
-//            prohibitionValue.setVisibility(View.VISIBLE);
-//            prohibitionValue.setHtml(drug.getProhibition());
-//        }
-//        if (!drug.getLactation().isEmpty()) {
-//            lactationValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan lactationTableLinkSpan = new DrawTableLinkSpan();
-//            lactationTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            lactationValue.setDrawTableLinkSpan(lactationTableLinkSpan);
-//            lactationTableLinkSpan.setTextColor(R.color.table_link);
-//            lactationTableLinkSpan.setTextSize(20);
-//            lactationTitle.setVisibility(View.VISIBLE);
-//            lactationValue.setVisibility(View.VISIBLE);
-//            lactationValue.setHtml(drug.getLactation());
-//        }
-//        if (!drug.getCaution().isEmpty()) {
-//            cautionValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan cautionTableLinkSpan = new DrawTableLinkSpan();
-//            cautionTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            cautionValue.setDrawTableLinkSpan(cautionTableLinkSpan);
-//            cautionTableLinkSpan.setTextColor(R.color.table_link);
-//            cautionTableLinkSpan.setTextSize(20);
-//            cautionTitle.setVisibility(View.VISIBLE);
-//            cautionValue.setVisibility(View.VISIBLE);
-//            cautionValue.setHtml(drug.getCaution());
-//        }
-//        if (!drug.getDoseAdjustment().isEmpty()) {
-//            doseValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan doseTableLinkSpan = new DrawTableLinkSpan();
-//            doseTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            doseValue.setDrawTableLinkSpan(doseTableLinkSpan);
-//            doseTableLinkSpan.setTextColor(R.color.table_link);
-//            doseTableLinkSpan.setTextSize(20);
-//            doseTitle.setVisibility(View.VISIBLE);
-//            doseValue.setVisibility(View.VISIBLE);
-//            doseValue.setHtml(drug.getDoseAdjustment());
-//        }
-//        if (!drug.getComplication().isEmpty()) {
-//            complicationValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan complicationTableLinkSpan = new DrawTableLinkSpan();
-//            complicationTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            complicationValue.setDrawTableLinkSpan(complicationTableLinkSpan);
-//            complicationTableLinkSpan.setTextColor(R.color.table_link);
-//            complicationTableLinkSpan.setTextSize(20);
-//            complicationTitle.setVisibility(View.VISIBLE);
-//            complicationValue.setVisibility(View.VISIBLE);
-//            complicationValue.setHtml(drug.getComplication());
-//        }
-//        if (!drug.getInterference().isEmpty()) {
-//            interferencesValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan interferencesTableLinkSpan = new DrawTableLinkSpan();
-//            interferencesTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            interferencesValue.setDrawTableLinkSpan(interferencesTableLinkSpan);
-//            interferencesTableLinkSpan.setTextColor(R.color.table_link);
-//            interferencesTableLinkSpan.setTextSize(20);
-//            interferencesTitle.setVisibility(View.VISIBLE);
-//            interferencesValue.setVisibility(View.VISIBLE);
-//            interferencesValue.setHtml(drug.getInterference());
-//        }
-//        if (!drug.getEffectOnTest().isEmpty()) {
-//            effectValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan effectTableLinkSpan = new DrawTableLinkSpan();
-//            effectTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            effectValue.setDrawTableLinkSpan(effectTableLinkSpan);
-//            effectTableLinkSpan.setTextColor(R.color.table_link);
-//            effectTableLinkSpan.setTextSize(20);
-//            effectTitle.setVisibility(View.VISIBLE);
-//            effectValue.setVisibility(View.VISIBLE);
-//            effectValue.setHtml(drug.getEffectOnTest());
-//        }
-//        if (!drug.getOverDose().isEmpty()) {
-//            overDoseValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan over_doseTableLinkSpan = new DrawTableLinkSpan();
-//            over_doseTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            overDoseValue.setDrawTableLinkSpan(over_doseTableLinkSpan);
-//            over_doseTableLinkSpan.setTextColor(R.color.table_link);
-//            over_doseTableLinkSpan.setTextSize(20);
-//            overDoseTitle.setVisibility(View.VISIBLE);
-//            overDoseValue.setVisibility(View.VISIBLE);
-//            overDoseValue.setHtml(drug.getOverDose());
-//        }
-//
 //        try {
 //            JSONObject jsonObject = new JSONObject(drug.getDescription());
 //            JSONArray jsonArray = jsonObject.getJSONArray("code");
@@ -588,5 +455,113 @@ public class ActivityViewDrug extends AppCompatActivity {
 //            relationFoodValue.setVisibility(View.VISIBLE);
 //            relationFoodValue.setHtml(drug.getRelationWithFood());
 //        }
+        }
+//        scrollView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_SCROLL:
+//                        Log.e("SCROLL", "ACTION_SCROLL");
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        Log.e("TAG", "ppppppppppppp" );
+//                        animationToDown.setAnimationListener(new Animation.AnimationListener() {
+//                            @Override
+//                            public void onAnimationStart(Animation animation) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onAnimationEnd(Animation animation) {
+//                                bottomNavigation.setVisibility(View.GONE);
+//                            }
+//
+//                            @Override
+//                            public void onAnimationRepeat(Animation animation) {
+//
+//                            }
+//                        });
+////                        bottomNavigation.setVisibility(View.GONE);
+//                        break;
+//                    case MotionEvent.ACTION_DOWN:
+//                        Log.e("SCROLL", "ACTION_DOWN");
+//                        break;
+//                    case MotionEvent.ACTION_CANCEL:
+//                        Log.e("SCROLL", "ACTION_cancel");
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        animationToUp.setAnimationListener(new Animation.AnimationListener() {
+//                            @Override
+//                            public void onAnimationStart(Animation animation) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onAnimationEnd(Animation animation) {
+//                                bottomNavigation.setVisibility(View.VISIBLE);
+//                            }
+//
+//                            @Override
+//                            public void onAnimationRepeat(Animation animation) {
+//
+//                            }
+//                        });
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//                    bottomNavigation.startAnimation(animationToUp);
+
+//        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//                int scrollY = scrollView.getScrollY();
+//                int totalHeight = scrollView.getChildAt(0).getHeight();
+//                Log.e("TAG", "onScrollChanged: " + scrollY);
+//                if (scrollY < totalHeight) {
+//                    animationToDown.setAnimationListener(new Animation.AnimationListener() {
+//                        @Override
+//                        public void onAnimationStart(Animation animation) {
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(Animation animation) {
+//                            bottomNavigation.setVisibility(View.GONE);
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animation animation) {
+//
+//                        }
+//                    });
+//                    bottomNavigation.startAnimation(animationToDown);
+//                }
+//            }
+//        });
+    }
+
+    public static boolean isAppAvailable(Context context, String appName) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    void intentMessageTelegram(String msg) {
+        final String appName = "org.telegram.messenger";
+        final boolean isAppInstalled = isAppAvailable(this, appName);
+        if (isAppInstalled) {
+            Intent myIntent = new Intent(Intent.ACTION_SEND, Uri.parse("https://telegram.me"));
+            myIntent.setType("text/plain");
+            myIntent.setPackage(appName);
+            myIntent.putExtra(Intent.EXTRA_TEXT, msg);//
+            startActivity(Intent.createChooser(myIntent, "Share with"));
+        } else {
+            Toast.makeText(this, "تلگرام نصب نیست", Toast.LENGTH_SHORT).show();
+        }
     }
 }
