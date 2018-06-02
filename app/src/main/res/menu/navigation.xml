@@ -4,6 +4,7 @@
         android:id="@+id/navigation_send"
         android:icon="@drawable/share_icon"
         android:title="ارسال به دوستان" />
+
     <item
         android:id="@+id/navigation_favorite"
         android:icon="@drawable/star_icon"

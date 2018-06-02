@@ -16,4 +16,5 @@
     <color name="mdtp_accent_color_dark">#00796b</color>
     <color name="title_view_drug">#d0ecff</color>
     <color name="black">#000000</color>
+    <color name="bottom_navigation">#d9eaf2</color>
 </resources>

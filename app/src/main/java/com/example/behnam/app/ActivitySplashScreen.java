@@ -21,7 +21,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtNameLogo;
     private CircleProgressView progressBarSplash;
 
-    public static Activity activitySplashScreen;
+    public static Activity activitySplashScreen = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

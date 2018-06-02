@@ -7,9 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 /**
- * Created by betterzw on 16-1-27.
+ * Created by Rahbod on 18-5-27.
  */
 public class ScrollViewExt extends ScrollView {
 
@@ -17,55 +18,33 @@ public class ScrollViewExt extends ScrollView {
     private int initialPosition;
     private int newCheck = 100;
     public View view;
-    Animation animation;
+    Animation animationDown;
+    Animation animationUp;
+    int pageHeight = getBottom();
 
     public ScrollViewExt(Context context) {
         super(context);
-
-        init(view, animation);
     }
 
     public ScrollViewExt(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        init(view, animation);
     }
 
     public ScrollViewExt(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        init(view, animation);
     }
 
-    public void init(final View view, final Animation animation) {
+    public void init(View inView, Animation inAnimationDown, Animation inAnimationUp) {
+        this.animationUp = inAnimationUp;
+        this.animationDown = inAnimationDown;
+        this.view = inView;
+
         scrollerTask = new Runnable() {
             public void run() {
                 int newPosition = getScrollY();
-                if (initialPosition - newPosition == 0) {//has stopped
-//                    animation.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            view.setVisibility(VISIBLE);
-//                            Toast.makeText(getContext(), "mm", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//
-//                        }
-//                    });
-//                    view.setAnimation(animation);
-//                    if(onScrollStoppedListener!=null){
-//
-//                        onScrollStoppedListener.onScrollStopped();
-//                    }
-
-                    Log.e("TAG", "rock========stop");
+                if (getScrollY() == 0 || getScrollY() == pageHeight || initialPosition - newPosition == 0) {//has stopped
+                    view.startAnimation(animationUp);
+                    menuHide = false;
                 } else {
                     initialPosition = getScrollY();
                     ScrollViewExt.this.postDelayed(scrollerTask, newCheck);
@@ -79,18 +58,16 @@ public class ScrollViewExt extends ScrollView {
         ScrollViewExt.this.postDelayed(scrollerTask, newCheck);
     }
 
+    public boolean menuHide = false;
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
 
-//        Log.d("TAG", "rock========l=>" + l + ":t=>" + t
-//                + ":oldl=>" + oldl + ":oldt=>" + oldt);
-//        if (t > oldt) {
-//            Log.e("TAG", "rock========up");
-//        } else if (t < oldt) {
-//            Log.e("TAG", "rock========down");
-//        }
+        if (!menuHide && getScrollY() != 0 && getScrollY() != pageHeight && initialPosition != getScrollY()) {
+            view.startAnimation(animationDown);
+            menuHide = true;
+        }
     }
 
     @Override

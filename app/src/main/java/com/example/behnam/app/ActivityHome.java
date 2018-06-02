@@ -77,7 +77,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         text = findViewById(R.id.editTextSearch);
 
         //finish splash screen
-        ActivitySplashScreen.activitySplashScreen.finish();
+        if(ActivitySplashScreen.activitySplashScreen != null)
+            ActivitySplashScreen.activitySplashScreen.finish();
 
         if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
             Components.downloadData(this, "first");

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -63,35 +64,37 @@ public class ActivityViewDrug extends AppCompatActivity {
         persianName = findViewById(R.id.persian_name);
         scrollView = findViewById(R.id.scroll_view_drug);
         bottomNavigation = findViewById(R.id.navigation_bottom);
-        animationToDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
-        animationToUp = AnimationUtils.loadAnimation(this, R.anim.fade_anim);
 
-        bottomNavigation = findViewById(R.id.navigation_bottom);
-        bottomNavigation.setVisibility(View.GONE);
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+        animationToUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        animationToUp.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onScrollChanged() {
-                animationToDown.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        bottomNavigation.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                bottomNavigation.setAnimation(animationToDown);
+            public void onAnimationStart(Animation animation) {
+                bottomNavigation.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
             }
         });
 
-//        scrollView.init(bottomNavigation,animationToDown);
+        animationToDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        animationToDown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                bottomNavigation.setVisibility(View.GONE);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+
+        scrollView.init(bottomNavigation,animationToDown,animationToUp);
+
 
         try {
             pregnancyGroupsText.put("A", "بررسی های کافی در زنان باردار نتوانسته است خطری را برای جنین در سه ماهه اول بارداری نشان دهد (و شواهدی از وجود خطر در سه ماهه دوم و سوم وجود ندارد.)");
@@ -283,40 +286,43 @@ public class ActivityViewDrug extends AppCompatActivity {
                     strDescription = "";
                     for (int i = 0; i < jsonArrayCode.length(); i++) {
                         strDescription += descriptionGroup[jsonArrayCode.getInt(i)] + "<br>";
-                        Log.e("TAG", "onCreate: " + jsonArrayCode.getInt(i));
                     }
                     strDescription += textDescription;
                     webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + strDescription + "</div</div></div>";
-                } else
+                } else if (!textDescription.isEmpty())
                     webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + textDescription + "</div></div></div>";
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+        }
 
             if (!drug.getRelationWithFood().isEmpty()) {
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div></div></div>";
             }
 
             webViewHtml += "</div>";
-            Log.e("TAG", "oooo" + webViewHtml);
             webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
 
 
             bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Menu menu = bottomNavigation.getMenu();
                     switch (item.getItemId()) {
                         //add to favorite
                         case R.id.navigation_favorite:
 
                             if (!dbHelper.checkFavorite(ID)) {
                                 dbHelper.bookMark(ID);
-                                Toast.makeText(ActivityViewDrug.this, "داروی شما با موفقیت به سبد دارو اضافه شد.", Toast.LENGTH_SHORT).show();
+                                item.setIcon(R.drawable.ic_favorite_fill);
+                                item.setTitle(R.string.delete_basket);
+//                                Toast.makeText(ActivityViewDrug.this, "داروی شما با موفقیت به سبد دارو اضافه شد.", Toast.LENGTH_SHORT).show();
                             } else {
                                 dbHelper.bookMark(ID);
-                                Toast.makeText(ActivityViewDrug.this, "داروی شما از لیست سبد دارو حذف شد.", Toast.LENGTH_SHORT).show();
+                                item.setIcon(R.drawable.star_icon);
+                                item.setTitle(R.string.add_to_basket);
+//                                Toast.makeText(ActivityViewDrug.this, "داروی شما از لیست سبد دارو حذف شد.", Toast.LENGTH_SHORT).show();
                             }
                             break;
                         //send to telegram
@@ -327,6 +333,7 @@ public class ActivityViewDrug extends AppCompatActivity {
                     return true;
                 }
             });
+            scrollView.init(bottomNavigation,animationToDown,animationToUp);
 //            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 //                @Override
 //                public void onScrollChanged() {
@@ -539,7 +546,6 @@ public class ActivityViewDrug extends AppCompatActivity {
 //                }
 //            }
 //        });
-    }
 
     public static boolean isAppAvailable(Context context, String appName) {
         PackageManager pm = context.getPackageManager();
