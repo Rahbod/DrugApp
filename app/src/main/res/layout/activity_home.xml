@@ -95,7 +95,10 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:textColor="@color/sina"
-                android:textSize="13dp" />
+                android:textSize="13dp"
+                android:drawableLeft="@drawable/close_icon"
+                android:drawableStart="@drawable/close_icon"
+                />
 
             <ImageView
                 android:id="@+id/imgVoice"
