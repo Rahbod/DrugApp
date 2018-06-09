@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="com.example.behnam.app.ActivityHome">
+    android:layoutDirection="ltr"
+    tools:context="com.example.behnam.app.ActivityHome"
+    tools:targetApi="jelly_bean_mr1">
 
     <!--actionBar-->
     <RelativeLayout
@@ -40,7 +42,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relReminder"
+        android:id="@+id/relHome1"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/actionBarFavorite"
@@ -51,7 +53,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_below="@id/relReminder"
+        android:layout_below="@id/relHome1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="-22.1dp"
@@ -62,21 +64,36 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="2.5dp"
             android:layoutDirection="ltr"
             android:paddingEnd="10dp"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             android:paddingStart="5dp"
-            android:layout_marginTop="2.5dp"
             tools:targetApi="jelly_bean_mr1">
 
             <ImageView
+                android:id="@+id/searchIcon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/search_icon"
-                android:layout_alignParentEnd="true" />
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/closeIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/background_focus_voice"
+                android:src="@drawable/close_icon"
+                android:visibility="invisible" />
 
             <com.example.behnam.fonts.EditTextFont
                 android:id="@+id/editTextSearch"
@@ -116,7 +133,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cardView"
         android:layout_marginTop="5dp"
-        android:layoutDirection="ltr">
+        android:layoutDirection="ltr"
+        android:textDirection="ltr"
+        tools:targetApi="jelly_bean_mr1">
 
     </android.support.v7.widget.RecyclerView>
 

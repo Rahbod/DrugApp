@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.behnam.app.ActivityFavorite">
+    tools:context="com.example.behnam.app.ActivityFavorite"
+    android:layoutDirection="ltr"
+    tools:targetApi="jelly_bean_mr1">
 
     <!--actionBar-->
     <RelativeLayout
@@ -74,6 +76,8 @@
         android:layout_below="@+id/actionBarFavorite"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layoutDirection="ltr"
+        android:textDirection="ltr"/>
 
 </RelativeLayout>

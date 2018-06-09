@@ -81,6 +81,9 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
         floatButton = findViewById(R.id.floatButton);
 
         //search
+        final ImageView searchIcon = findViewById(R.id.searchIcon);
+        final ImageView closeIcon = findViewById(R.id.closeIcon);
+        searchIcon.setVisibility(View.VISIBLE);
         text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,6 +97,22 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
 
             @Override
             public void afterTextChanged(Editable s) {
+                String strText = text.getText().toString();
+                if (strText.matches("")) {
+                    closeIcon.setVisibility(View.INVISIBLE);
+                    searchIcon.setVisibility(View.VISIBLE);
+                } else {
+                    searchIcon.setVisibility(View.INVISIBLE);
+                    closeIcon.setVisibility(View.VISIBLE);
+                    closeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            text.setText("");
+                            searchIcon.setVisibility(View.VISIBLE);
+                            closeIcon.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
                 filter(s.toString());
             }
         });
