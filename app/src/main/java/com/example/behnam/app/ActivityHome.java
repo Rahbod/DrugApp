@@ -22,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -77,7 +78,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         text = findViewById(R.id.editTextSearch);
 
         //finish splash screen
-        if(ActivitySplashScreen.activitySplashScreen != null)
+        if (ActivitySplashScreen.activitySplashScreen != null)
             ActivitySplashScreen.activitySplashScreen.finish();
 
         if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
@@ -103,10 +104,12 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         // search
+        final ImageView searchIcon = findViewById(R.id.searchIcon);
+        final ImageView closeIcon = findViewById(R.id.closeIcon);
+        searchIcon.setVisibility(View.VISIBLE);
         text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -116,7 +119,24 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String strText = text.getText().toString();
+                if (strText.matches("")) {
+                    closeIcon.setVisibility(View.INVISIBLE);
+                    searchIcon.setVisibility(View.VISIBLE);
+                } else {
+                    searchIcon.setVisibility(View.INVISIBLE);
+                    closeIcon.setVisibility(View.VISIBLE);
+                    closeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            text.setText("");
+                            searchIcon.setVisibility(View.VISIBLE);
+                            closeIcon.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
                 filter(s.toString());
+
             }
         });
 

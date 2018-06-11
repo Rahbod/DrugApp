@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayoutRecInterference"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
-    android:layoutDirection="ltr">
+    tools:targetApi="jelly_bean_mr1">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <com.example.behnam.fonts.FontTextView
-            android:id="@+id/txtChar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/checked"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <com.example.behnam.fonts.FontTextView
-            android:id="@+id/txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/sina"
-            android:textSize="13dp"
-            android:layout_marginLeft="37dp"
-            android:layout_marginStart="37dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
 
-            android:layout_alignParentEnd="true">
+            <com.example.behnam.fonts.FontTextView
+                android:id="@+id/txtChar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/checked" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layoutDirection="ltr"
+            android:orientation="horizontal"
+            android:textDirection="ltr"
+            android:weightSum="10">
+
+            <com.example.behnam.fonts.FontTextView
+                android:id="@+id/txt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="8"
+                android:textColor="@color/sina"
+                android:textSize="13dp" />
 
             <com.example.behnam.fonts.FontTextView
                 android:id="@+id/txtInterference"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_weight="2"
                 android:text="تداخل ندارد"
                 android:textColor="#49bd1b"
-                android:textSize="11dp"/>
+                android:textSize="11dp"
+                android:textDirection="rtl"/>
         </LinearLayout>
-    </RelativeLayout>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@+id/txt"
         android:background="@color/Gray" />
 
 </LinearLayout>
