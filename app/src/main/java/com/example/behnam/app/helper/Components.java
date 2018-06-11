@@ -22,6 +22,7 @@ import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.service.BroadcastReceivers;
 
 import org.json.JSONArray;
@@ -66,13 +67,13 @@ public class Components extends AppController {
                                                 public void onResponse(JSONObject response) {
                                                     try {
                                                         if (response.getBoolean("status")) {
-                                                            Log.e("categoryDrug", response.toString());
                                                             JSONArray jsonArray = response.getJSONArray("list");
                                                             JSONObject object;
                                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                                 object = jsonArray.getJSONObject(i);
                                                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
                                                             }
+
                                                             // goto home activity
                                                             ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
                                                             assert am != null;

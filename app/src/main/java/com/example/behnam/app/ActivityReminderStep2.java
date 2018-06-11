@@ -44,7 +44,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
     TimePickerDialog tpd;
     int y = 0, m = 0, d = 0, h = 0, mm = 0;
     Context context;
-    FontTextView brandDrug;
     FontTextViewBold nameDrug;
 
     @Override
@@ -64,7 +63,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         dbHelper = new DbHelper(getApplicationContext());
         txtPeriod = findViewById(R.id.et_period);
         txtCount = findViewById(R.id.et_count);
-        brandDrug = findViewById(R.id.txtBrand);
         nameDrug = findViewById(R.id.txtName);
 
         Intent intent = getIntent();
@@ -76,7 +74,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         for (int i = 0; i < categoryList.size(); i++) {
             category[i] = categoryList.get(i).getName();
         }
-        brandDrug.setText(Arrays.toString(category).replaceAll("\\[|\\]", ""));
         nameDrug.setText(drug.getName());
         final FontTextView date = findViewById(R.id.date_picker);
         final TextView time = findViewById(R.id.time_picker);

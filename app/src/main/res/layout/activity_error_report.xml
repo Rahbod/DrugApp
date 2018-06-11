@@ -76,7 +76,8 @@
                     android:gravity="start"
                     android:lines="5"
                     android:textAlignment="textEnd"
-                    android:textSize="13dp" />
+                    android:textSize="13dp"
+                    tools:ignore="RtlCompat" />
 
             </RelativeLayout>
 

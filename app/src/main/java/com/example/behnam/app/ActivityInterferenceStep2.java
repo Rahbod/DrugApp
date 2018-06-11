@@ -242,6 +242,10 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
         for (Drug drug : drugList) {
             if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
+            }else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
             }
         }
         adapter.filterList(filterDrug);
