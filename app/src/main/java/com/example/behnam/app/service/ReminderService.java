@@ -75,6 +75,7 @@ public class ReminderService extends Service {
                     } else {
                         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                     }
+
                    // alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                 }
             }

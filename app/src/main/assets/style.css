@@ -1,9 +1,12 @@
+p{
+    margin: 0;
+}
 h4.title{
     margin: 0;
     padding:0;
     font-size: 14px;
     color: #31a9ff;
-    line-height: 32px;
+    line-height: 27px;
 }
 .container{
     padding: 0 5px 30px;
@@ -31,13 +34,14 @@ h4.title{
 .row h4 i{
     border-radius: 50%;
     border:1px solid #adc7d3;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     float: right;
     margin-left: 10px;
 }
 .section.iconic-field .text{
      /*padding-right: 40px;*/
+    margin-top: 5px;
  }
 .row h4 i.icon-product{
     background: url("html-icons/product.svg") no-repeat center;

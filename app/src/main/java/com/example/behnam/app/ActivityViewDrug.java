@@ -1,24 +1,17 @@
 package com.example.behnam.app;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +32,6 @@ public class ActivityViewDrug extends AppCompatActivity {
     String s = "";
 
     WebView webView;
-    BottomNavigationView bottomNavigation;
     String strPregnancy = "";
     String groupPregnancyStr = "";
     String descriptionGroup[] = new String[28];
@@ -49,9 +41,19 @@ public class ActivityViewDrug extends AppCompatActivity {
     TextView nameDrug;
     FontTextView persianName;
     String strDescription;
+
     ScrollViewExt scrollView;
     Animation animationToDown;
     Animation animationToUp;
+
+    RelativeLayout relativebottom;
+    LinearLayout linearBasket;
+    FontTextView addToBasketText;
+    ImageView addToBasketImage;
+
+    LinearLayout linearfriend;
+    FontTextView friendText;
+    ImageView friendImage;
 
     //@SuppressLint("WrongViewCast")
     @Override
@@ -63,17 +65,24 @@ public class ActivityViewDrug extends AppCompatActivity {
         nameDrug = findViewById(R.id.name_drug);
         persianName = findViewById(R.id.persian_name);
         scrollView = findViewById(R.id.scroll_view_drug);
-        bottomNavigation = findViewById(R.id.navigation_bottom);
+
+        relativebottom = findViewById(R.id.relative_bottom);
+        addToBasketText = findViewById(R.id.add_basket_item);
+        addToBasketImage = findViewById(R.id.add_basket_ico);
+        linearBasket = findViewById(R.id.layout_basket);
+        linearfriend = findViewById(R.id.layout_friend);
 
         animationToUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         animationToUp.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                bottomNavigation.setVisibility(View.VISIBLE);
+                relativebottom.setVisibility(View.VISIBLE);
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
@@ -84,16 +93,18 @@ public class ActivityViewDrug extends AppCompatActivity {
             @Override
             public void onAnimationStart(Animation animation) {
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
-                bottomNavigation.setVisibility(View.GONE);
+                relativebottom.setVisibility(View.GONE);
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
         });
 
-        scrollView.init(bottomNavigation,animationToDown,animationToUp);
+        scrollView.init(relativebottom, animationToDown, animationToUp);
 
 
         try {
@@ -107,34 +118,34 @@ public class ActivityViewDrug extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        descriptionGroup[0] = "تا زمان مشخص شدن اثرات دارو از رانندگی و سایر امور نیازمند هوشیاری اجتناب شود. از مصرف الكل و سایر داروهای سركوبگر CNS اجتناب گردد.";
-        descriptionGroup[1] = "بیمار را از نظر تغییرات گلوكز سرم مانیتور كنید.";
-        descriptionGroup[2] = "كاركرد كلیه و جذب و دفع مایعات را در بیمار مانیتور كنید.";
-        descriptionGroup[3] = "كاركرد كبد را در بیمار مانیتور كنید.";
-        descriptionGroup[4] = "CBC افتراقی را در بیمار مانیتور كنید.";
-        descriptionGroup[5] = "هنگام آمادهسازی این دارو از دستكش لاتكس و عینك محافظ و در صورت امكان از هود بیولوژیك استفاده كنید. از تماس دارو با پوست یا استنشاق آن خودداری كنید.";
-        descriptionGroup[6] = "هیچ واكسنی را بدون مجوز پزشك دریافت نكنید (به ویژه واكسنهای زنده ویروسی را).";
-        descriptionGroup[7] = " قبل از تجویز این دارو از باردار نبودن بیمار مطمئن شوید و حین مصرف آن نیز از دو روش جلوگیری از بارداری استفاده شود. بیمار باید به محض اطلاع از بارداری فوراً اطلاع بدهد.";
-        descriptionGroup[8] = "احتمال ایجاد آلوپسی در بیمار و برگشتپذیر بودن آن را به بیمار اطلاع دهید.";
-        descriptionGroup[9] = "مراقب نشت دارو از رگ باشید چراكه خطر عوارض جدی جلدی وجود دارد.";
-        descriptionGroup[10] = "تستهای انعقادی را مانیتور كنید.";
-        descriptionGroup[11] = "محل تزریق دارو باید مرتباً جابجا شود.";
-        descriptionGroup[12] = "خطر ایجاد خونریزی ناشی از دارو را به بیمار اطلاع دهید. بیمار باید مراقب علایم خونریزی گوارشی، ادراری، دهان، بینی و... باشد.";
-        descriptionGroup[13] = "این دارو میتواند باعث افت فشارخون و سرگیجه شود. لذا از تغییر وضعیت ناگهانی، حمام داغ، ایستادن طولانی و ادرار كردن در وضعیت ایستاده اجتناب شود.";
-        descriptionGroup[14] = "خطر ایجاد عفونت در حین مصرف این دارو را به بیمار تذكر دهید. بیمار باید تا حد امكان از رفتوآمد در مكانهای شلوغ و تماس با افراد آلوده به عفونت اجتناب كند (معمولاً در داروهای شیمی درمانی و سركوبگر ایمنی).";
-        descriptionGroup[15] = "علایم حیاتی را در بیمار به دقت مانیتور كنید.";
-        descriptionGroup[16] = "قبل از مصرف این دارو باید پوست را شسته و تمیز كرده و خشك نمود (معمولاً در داروهای موضعی).";
-        descriptionGroup[17] = "از مصرف این دارو در اطراف چشم و پلكها اجتناب شود.";
-        descriptionGroup[18] = "مراقب اختلال الكترولیتی و اختلال اسید و باز در بیمار باشید و وزن او را مانیتور كنید.";
-        descriptionGroup[19] = "به بیمار توصیه كنید كه دارو را سر وقت مصرف كرده و در صورت فراموش كردن یك دوز از دو برابر كردن دوز بعدی اجتناب كند.";
-        descriptionGroup[20] = "جهت اجتناب از گرمازدگی، از ورزش در هوای گرم اجتناب شود (معمولاً در داروهایی كه تعریق را كم كرده و با خطر گرمازدگی همراه هستند).";
-        descriptionGroup[21] = "به بیمار توصیه كنید از قطع ناگهانی این دارو اجتناب كند. قطع این دارو باید به صورت تدریجی باشد (تا مانع ایجاد سندرم ترك دارو یا علایم بیمار شود).";
-        descriptionGroup[22] = "به بیمار اطلاع دهید كه مصرف طولانیمدت این دارو میتواند باعث وابستگی و تولرانس شود. لذا مراقب سوء مصرف آن باشید.";
-        descriptionGroup[23] = "مراقب شواهد ترومبوسیتوپنی در بیمار بوده و سطح پلاكت را مرتب چك كنید.";
-        descriptionGroup[24] = "فشارخون بیمار را مانیتور كنید.";
-        descriptionGroup[25] = "به دلیل حساسیت به نور ناشی از این دارو، از قرار گرفتن در آفتاب اجتناب شود و در صورت مجبور بودن، از ضد آفتاب و كلاه و عینك محافظ استفاده شود.";
-        descriptionGroup[26] = "كاركرد قلبی و EKG را در بیمار مانیتور كنید.";
-        descriptionGroup[27] = "تستهای انعقادی را به صورت دورهای مانیتور كنید.";
+        descriptionGroup[0] = "- تا زمان مشخص شدن اثرات دارو از رانندگی و سایر امور نیازمند هوشیاری اجتناب شود. از مصرف الكل و سایر داروهای سركوبگر CNS اجتناب گردد.";
+        descriptionGroup[1] = "- بیمار را از نظر تغییرات گلوكز سرم مانیتور كنید.";
+        descriptionGroup[2] = "- كاركرد كلیه و جذب و دفع مایعات را در بیمار مانیتور كنید.";
+        descriptionGroup[3] = "- كاركرد كبد را در بیمار مانیتور كنید.";
+        descriptionGroup[4] = "- CBC افتراقی را در بیمار مانیتور كنید.";
+        descriptionGroup[5] = "- هنگام آمادهسازی این دارو از دستكش لاتكس و عینك محافظ و در صورت امكان از هود بیولوژیك استفاده كنید. از تماس دارو با پوست یا استنشاق آن خودداری كنید.";
+        descriptionGroup[6] = "- هیچ واكسنی را بدون مجوز پزشك دریافت نكنید (به ویژه واكسنهای زنده ویروسی را).";
+        descriptionGroup[7] = "- قبل از تجویز این دارو از باردار نبودن بیمار مطمئن شوید و حین مصرف آن نیز از دو روش جلوگیری از بارداری استفاده شود. بیمار باید به محض اطلاع از بارداری فوراً اطلاع بدهد.";
+        descriptionGroup[8] = "- احتمال ایجاد آلوپسی در بیمار و برگشتپذیر بودن آن را به بیمار اطلاع دهید.";
+        descriptionGroup[9] = "- مراقب نشت دارو از رگ باشید چراكه خطر عوارض جدی جلدی وجود دارد.";
+        descriptionGroup[10] = "- تستهای انعقادی را مانیتور كنید.";
+        descriptionGroup[11] = "- محل تزریق دارو باید مرتباً جابجا شود.";
+        descriptionGroup[12] = "- خطر ایجاد خونریزی ناشی از دارو را به بیمار اطلاع دهید. بیمار باید مراقب علایم خونریزی گوارشی، ادراری، دهان، بینی و... باشد.";
+        descriptionGroup[13] = "- این دارو میتواند باعث افت فشارخون و سرگیجه شود. لذا از تغییر وضعیت ناگهانی، حمام داغ، ایستادن طولانی و ادرار كردن در وضعیت ایستاده اجتناب شود.";
+        descriptionGroup[14] = "- خطر ایجاد عفونت در حین مصرف این دارو را به بیمار تذكر دهید. بیمار باید تا حد امكان از رفتوآمد در مكانهای شلوغ و تماس با افراد آلوده به عفونت اجتناب كند (معمولاً در داروهای شیمی درمانی و سركوبگر ایمنی).";
+        descriptionGroup[15] = "- علایم حیاتی را در بیمار به دقت مانیتور كنید.";
+        descriptionGroup[16] = "- قبل از مصرف این دارو باید پوست را شسته و تمیز كرده و خشك نمود (معمولاً در داروهای موضعی).";
+        descriptionGroup[17] = "- از مصرف این دارو در اطراف چشم و پلكها اجتناب شود.";
+        descriptionGroup[18] = "- مراقب اختلال الكترولیتی و اختلال اسید و باز در بیمار باشید و وزن او را مانیتور كنید.";
+        descriptionGroup[19] = "- به بیمار توصیه كنید كه دارو را سر وقت مصرف كرده و در صورت فراموش كردن یك دوز از دو برابر كردن دوز بعدی اجتناب كند.";
+        descriptionGroup[20] = "- جهت اجتناب از گرمازدگی، از ورزش در هوای گرم اجتناب شود (معمولاً در داروهایی كه تعریق را كم كرده و با خطر گرمازدگی همراه هستند).";
+        descriptionGroup[21] = "- به بیمار توصیه كنید از قطع ناگهانی این دارو اجتناب كند. قطع این دارو باید به صورت تدریجی باشد (تا مانع ایجاد سندرم ترك دارو یا علایم بیمار شود).";
+        descriptionGroup[22] = "- به بیمار اطلاع دهید كه مصرف طولانیمدت این دارو میتواند باعث وابستگی و تولرانس شود. لذا مراقب سوء مصرف آن باشید.";
+        descriptionGroup[23] = "- مراقب شواهد ترومبوسیتوپنی در بیمار بوده و سطح پلاكت را مرتب چك كنید.";
+        descriptionGroup[24] = "- فشارخون بیمار را مانیتور كنید.";
+        descriptionGroup[25] = "- به دلیل حساسیت به نور ناشی از این دارو، از قرار گرفتن در آفتاب اجتناب شود و در صورت مجبور بودن، از ضد آفتاب و كلاه و عینك محافظ استفاده شود.";
+        descriptionGroup[26] = "- كاركرد قلبی و EKG را در بیمار مانیتور كنید.";
+        descriptionGroup[27] = "- تستهای انعقادی را به صورت دورهای مانیتور كنید.";
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -176,7 +187,7 @@ public class ActivityViewDrug extends AppCompatActivity {
 
         if (!drug.getBrand().isEmpty() || !drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
             if (!drug.getBrand().isEmpty())
-                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">"+ drug.getBrand()+"</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
             if (!heallingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
                 webViewHtml += "<div class=\"section\">";
                 if (!heallingStr.isEmpty())
@@ -187,7 +198,6 @@ public class ActivityViewDrug extends AppCompatActivity {
                     webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
                 webViewHtml += "</div>";
             }
-
 
             if (!strPregnancy.isEmpty() || !drug.getLactation().isEmpty()) {
                 webViewHtml += "<div class=\"section\">";
@@ -201,22 +211,22 @@ public class ActivityViewDrug extends AppCompatActivity {
                             pregnancyGroupsText.get(groupPregnancy.getString(i));
                             switch (groupPregnancy.getString(i)) {
                                 case "A":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("A");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه A:</span> " + pregnancyGroupsText.get("A");
                                     break;
                                 case "B":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("B");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه B:</span> " + pregnancyGroupsText.get("B");
                                     break;
                                 case "C":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("C");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه C:</span> " + pregnancyGroupsText.get("C");
                                     break;
                                 case "D":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("D");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه D:</span> " + pregnancyGroupsText.get("D");
                                     break;
                                 case "X":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("X");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه X:</span> " + pregnancyGroupsText.get("X");
                                     break;
                                 case "NR":
-                                    strPregnancy += "<br>" + pregnancyGroupsText.get("NR");
+                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه NR:</span> " + pregnancyGroupsText.get("NR");
                                     break;
                             }
                         }
@@ -227,12 +237,10 @@ public class ActivityViewDrug extends AppCompatActivity {
                     }
                 }
 
-
                 if (!drug.getLactation().isEmpty())
-                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">شیردهی:</h4><div class=\"text\">"+ drug.getLactation() + "</div></div>";
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
                 webViewHtml += "</div>";
             }
-
 
             if (!drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
                 webViewHtml += "<div class=\"section\">";
@@ -245,7 +253,6 @@ public class ActivityViewDrug extends AppCompatActivity {
                 webViewHtml += "</div>";
             }
         }
-
 
         if (!drug.getProduct().isEmpty())
             webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div></div></div>";
@@ -285,7 +292,7 @@ public class ActivityViewDrug extends AppCompatActivity {
                     JSONArray jsonArrayCode = jsonDescription.getJSONArray("code");
                     strDescription = "";
                     for (int i = 0; i < jsonArrayCode.length(); i++) {
-                        strDescription += descriptionGroup[jsonArrayCode.getInt(i)] + "<br>";
+                        strDescription += descriptionGroup[i] + "<br>";
                     }
                     strDescription += textDescription;
                     webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + strDescription + "</div</div></div>";
@@ -297,277 +304,46 @@ public class ActivityViewDrug extends AppCompatActivity {
             }
         }
 
-            if (!drug.getRelationWithFood().isEmpty()) {
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div></div></div>";
-            }
+        if (!drug.getRelationWithFood().isEmpty()) {
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div></div></div>";
+        }
 
-            webViewHtml += "</div>";
-            webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
-
-
-            bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Menu menu = bottomNavigation.getMenu();
-                    switch (item.getItemId()) {
-                        //add to favorite
-                        case R.id.navigation_favorite:
-
-                            if (!dbHelper.checkFavorite(ID)) {
-                                dbHelper.bookMark(ID);
-                                item.setIcon(R.drawable.ic_favorite_fill);
-                                item.setTitle(R.string.delete_basket);
-//                                Toast.makeText(ActivityViewDrug.this, "داروی شما با موفقیت به سبد دارو اضافه شد.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                dbHelper.bookMark(ID);
-                                item.setIcon(R.drawable.star_icon);
-                                item.setTitle(R.string.add_to_basket);
-//                                Toast.makeText(ActivityViewDrug.this, "داروی شما از لیست سبد دارو حذف شد.", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                        //send to telegram
-                        case R.id.navigation_send:
-                            intentMessageTelegram("jijij");
-                            break;
-                    }
-                    return true;
+        webViewHtml += "</div>";
+        webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
+        scrollView.init(relativebottom, animationToDown, animationToUp);
+        addToBasketImage.setColorFilter(getResources().getColor(R.color.bottom_layout_text));
+        linearBasket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!dbHelper.checkFavorite(ID)) {
+                    dbHelper.bookMark(ID);
+                    addToBasketText.setTextColor(getResources().getColor(R.color.table_link));
+                    addToBasketText.setText("حذف از سبد دارو");
+                    addToBasketImage.setColorFilter(getResources().getColor(R.color.table_link));
+                    Toast.makeText(ActivityViewDrug.this,  "داروی "+"\""+drug.getName()+"\""+" به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
+                } else {
+                    dbHelper.bookMark(ID);
+                    addToBasketText.setText("اضافه به سبد دارو");
+                    addToBasketText.setTextColor(getResources().getColor(R.color.bottom_layout_text));
+                    addToBasketImage.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.bottom_layout_text));
+                    Toast.makeText(ActivityViewDrug.this,  "داروی "+"\""+drug.getName()+"\""+" از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
                 }
-            });
-            scrollView.init(bottomNavigation,animationToDown,animationToUp);
-//            scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//                @Override
-//                public void onScrollChanged() {
-//                    animationToDown.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            bottomNavigation.setVisibility(View.GONE);
-//                            Toast.makeText(getApplicationContext(), "svfvsvsv", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//
-//                        }
-//                    });
-//                    bottomNavigation.setAnimation(animationToDown);
-//                }
-//            });
-//
-//        //check exists to favorite and set text button
-//        categoryList = dbHelper.getCategories(ID);
-//        for (int i = 0; i < categoryList.size(); i++) {
-//            if (categoryList.get(i).getType() == 0 && !categoryList.get(i).getName().isEmpty()) {
-//                heallingTitle.setVisibility(View.VISIBLE);
-//                heallingValue.setVisibility(View.VISIBLE);
-//                heallingStr += "," + categoryList.get(i).getName();
-//                heallingStr = heallingStr.startsWith(",") ? heallingStr.substring(1) : heallingStr;
-//                heallingValue.setHtml(heallingStr);
-//            }
-//            if (categoryList.get(i).getType() == 1) {
-//                pharmaTitle.setVisibility(View.VISIBLE);
-//                pharmaValue.setVisibility(View.VISIBLE);
-//                pharmaStr += "," + categoryList.get(i).getName();
-//                pharmaStr = pharmaStr.startsWith(",") ? pharmaStr.substring(1) : pharmaStr;
-//                pharmaValue.setHtml(pharmaStr);
-//            }
-//            if (categoryList.get(i).getType() == 2) {
-//                sicknessTitle.setVisibility(View.VISIBLE);
-//                sicknessValue.setVisibility(View.VISIBLE);
-//                sicknessStr += "," + categoryList.get(i).getName();
-//                sicknessStr = sicknessStr.startsWith(",") ? sicknessStr.substring(1) : sicknessStr;
-//                sicknessValue.setHtml(sicknessStr);
-//            }
-//        }
-//
-//        try {
-//            JSONObject jsonPregnancy = new JSONObject(drug.getPregnancy());
-//            String groupPregnancy = jsonPregnancy.getString("group");
-//            String textPregnancy = jsonPregnancy.getString("text");
-//            groupPregnancy = groupPregnancy.trim();
-//            pregnancyValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan pregTableLinkSpan = new DrawTableLinkSpan();
-//            pregTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            pregnancyValue.setDrawTableLinkSpan(pregTableLinkSpan);
-//            pregTableLinkSpan.setTextColor(R.color.table_link);
-//            pregTableLinkSpan.setTextSize(20);
-//
-//            pregnancyValue.setDrawTableLinkSpan(pregTableLinkSpan);
-//            if (!groupPregnancy.isEmpty()) {
-//                pregnancyTitle.setVisibility(View.VISIBLE);
-//                pregnancyValue.setVisibility(View.VISIBLE);
-//                String strPregnancy = "";
-//                if (groupPregnancy.contains("A"))
-//                    strPregnancy += pregnancyGroup[0] + " <br> ";
-//
-//                if (groupPregnancy.contains("B"))
-//                    strPregnancy += pregnancyGroup[1] + " <br> ";
-//
-//                if (groupPregnancy.contains("C"))
-//                    strPregnancy += pregnancyGroup[2] + " <br> ";
-//
-//                if (groupPregnancy.contains("D"))
-//                    strPregnancy += pregnancyGroup[3] + " <br> ";
-//
-//                if (groupPregnancy.contains("X"))
-//                    strPregnancy += pregnancyGroup[4] + " <br> ";
-//
-//                if (groupPregnancy.contains("NR"))
-//                    strPregnancy += pregnancyGroup[5] + " <br> ";
-//                pregnancyValue.setHtml(strPregnancy + textPregnancy);
-//            }
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            JSONObject jsonObject = new JSONObject(drug.getDescription());
-//            JSONArray jsonArray = jsonObject.getJSONArray("code");
-//            String codeDescription = jsonObject.getString("code");
-//            String textDescription = jsonObject.getString("text");
-//            if (!codeDescription.isEmpty() || !textDescription.isEmpty()) {
-//                descriptionValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//                DrawTableLinkSpan descriptionTableLinkSpan = new DrawTableLinkSpan();
-//                descriptionTableLinkSpan.setTableLinkText("مشاهده جدول");
-//                descriptionValue.setDrawTableLinkSpan(descriptionTableLinkSpan);
-//                descriptionTableLinkSpan.setTextColor(R.color.table_link);
-//                descriptionTableLinkSpan.setTextSize(20);
-//                descriptionTitle.setVisibility(View.VISIBLE);
-//                descriptionValue.setVisibility(View.VISIBLE);
-//                if (codeDescription.isEmpty()) {
-//                    descriptionValue.setHtml(textDescription);
-//                } else {
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        String codes = jsonArray.getString(i);
-//                        s += descriptionGroup[Integer.parseInt(codes) - 1] + "<br>";
-//                    }
-//                    descriptionValue.setHtml(s + "<br>" + textDescription);
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        if (!drug.getRelationWithFood().isEmpty()) {
-//            relationFoodValue.setClickableTableSpan(new ClickableTableSpanImpl());
-//            DrawTableLinkSpan relation_foodTableLinkSpan = new DrawTableLinkSpan();
-//            relation_foodTableLinkSpan.setTableLinkText("مشاهده جدول");
-//            relationFoodValue.setDrawTableLinkSpan(relation_foodTableLinkSpan);
-//            relation_foodTableLinkSpan.setTextColor(R.color.table_link);
-//            relation_foodTableLinkSpan.setTextSize(20);
-//            relationFoodTitle.setVisibility(View.VISIBLE);
-//            relationFoodValue.setVisibility(View.VISIBLE);
-//            relationFoodValue.setHtml(drug.getRelationWithFood());
-//        }
-        }
-//        scrollView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_SCROLL:
-//                        Log.e("SCROLL", "ACTION_SCROLL");
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        Log.e("TAG", "ppppppppppppp" );
-//                        animationToDown.setAnimationListener(new Animation.AnimationListener() {
-//                            @Override
-//                            public void onAnimationStart(Animation animation) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onAnimationEnd(Animation animation) {
-//                                bottomNavigation.setVisibility(View.GONE);
-//                            }
-//
-//                            @Override
-//                            public void onAnimationRepeat(Animation animation) {
-//
-//                            }
-//                        });
-////                        bottomNavigation.setVisibility(View.GONE);
-//                        break;
-//                    case MotionEvent.ACTION_DOWN:
-//                        Log.e("SCROLL", "ACTION_DOWN");
-//                        break;
-//                    case MotionEvent.ACTION_CANCEL:
-//                        Log.e("SCROLL", "ACTION_cancel");
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        animationToUp.setAnimationListener(new Animation.AnimationListener() {
-//                            @Override
-//                            public void onAnimationStart(Animation animation) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onAnimationEnd(Animation animation) {
-//                                bottomNavigation.setVisibility(View.VISIBLE);
-//                            }
-//
-//                            @Override
-//                            public void onAnimationRepeat(Animation animation) {
-//
-//                            }
-//                        });
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-//                    bottomNavigation.startAnimation(animationToUp);
-
-//        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//            @Override
-//            public void onScrollChanged() {
-//                int scrollY = scrollView.getScrollY();
-//                int totalHeight = scrollView.getChildAt(0).getHeight();
-//                Log.e("TAG", "onScrollChanged: " + scrollY);
-//                if (scrollY < totalHeight) {
-//                    animationToDown.setAnimationListener(new Animation.AnimationListener() {
-//                        @Override
-//                        public void onAnimationStart(Animation animation) {
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animation animation) {
-//                            bottomNavigation.setVisibility(View.GONE);
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animation animation) {
-//
-//                        }
-//                    });
-//                    bottomNavigation.startAnimation(animationToDown);
-//                }
-//            }
-//        });
-
-    public static boolean isAppAvailable(Context context, String appName) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
+            }
+        });
+        linearfriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareText(drug.getName(), "نام دارو:  "+drug.getName()+"\n"+"نام فارسی دارو:  "+drug.getNamePersian());
+            }
+        });
     }
 
-    void intentMessageTelegram(String msg) {
-        final String appName = "org.telegram.messenger";
-        final boolean isAppInstalled = isAppAvailable(this, appName);
-        if (isAppInstalled) {
-            Intent myIntent = new Intent(Intent.ACTION_SEND, Uri.parse("https://telegram.me"));
-            myIntent.setType("text/plain");
-            myIntent.setPackage(appName);
-            myIntent.putExtra(Intent.EXTRA_TEXT, msg);//
-            startActivity(Intent.createChooser(myIntent, "Share with"));
-        } else {
-            Toast.makeText(this, "تلگرام نصب نیست", Toast.LENGTH_SHORT).show();
-        }
+    private void shareText(String subject, String text) {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        share.putExtra(Intent.EXTRA_SUBJECT, subject);
+        share.putExtra(Intent.EXTRA_TEXT, text);
+        startActivity(Intent.createChooser(share, "Share link!"));
     }
 }

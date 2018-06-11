@@ -1,104 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityViewDrug">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.example.behnam.app.ActivityAbout">
 
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/background_gradient"
-        android:layoutDirection="ltr">
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="12.5dp"
-            android:background="@drawable/background_focus"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@drawable/back_icon" />
-
-        <com.example.behnam.fonts.FontTextViewBold
-            android:id="@+id/name_drug"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:gravity="center"
-            android:text="ABACAVIR SULFATE"
-            android:textColor="@color/mdtp_background_color"
-            android:textSize="18dp" />
-
-        <com.example.behnam.fonts.FontTextView
-            android:id="@+id/persian_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name_drug"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-            android:text="dfdfdf"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-    </RelativeLayout>
-
-    <com.example.behnam.app.ScrollViewExt
-        android:id="@+id/scroll_view_drug"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:fillViewport="true">
+        android:background="@color/white"
+        tools:context="com.example.behnam.app.ActivityAbout">
 
         <RelativeLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="-10dp">
+            android:layout_height="90dp"
+            android:background="@drawable/background_gradient"
+            android:layoutDirection="ltr">
+
+            <LinearLayout
+                android:id="@+id/name_and_back_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="100">
+
+                <ImageView
+                    android:id="@+id/btnBack"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/background_focus"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@drawable/back_icon" />
+
+                <ImageView
+                    android:id="@+id/btnBack2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/background_focus"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@drawable/back_icon"
+                    android:visibility="invisible" />
+
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/name_drug"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_toLeftOf="@id/btnBack2"
+                    android:layout_toRightOf="@id/btnBack"
+                    android:layout_weight="200"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:text="ABACAVIR SULFATE"
+                    android:textColor="@color/mdtp_background_color"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <com.example.behnam.fonts.FontTextView
+                android:id="@+id/persian_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_and_back_linear"
+                android:layout_marginTop="-7dp"
+                android:gravity="center"
+                android:text="dfdfdf"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+        <com.example.behnam.app.ScrollViewExt
+            android:id="@+id/scroll_view_drug"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:fillViewport="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:paddingTop="-10dp">
 
-                <WebView
-                    android:id="@+id/web_view_drug"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-                </WebView>
+                    <WebView
+                        android:id="@+id/web_view_drug"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </WebView>
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
-    </com.example.behnam.app.ScrollViewExt>
+        </com.example.behnam.app.ScrollViewExt>
 
-</RelativeLayout>
-    <android.support.constraint.ConstraintLayout
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:background="@color/bottom_layout"
+        android:gravity="center_vertical">
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation_bottom"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/layout_basket"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/bottom_navigation"
-            app:itemIconTint="@color/black"
-            app:itemTextColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/navigation" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/add_basket_ico"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/star_icon"
+                />
+            <com.example.behnam.fonts.FontTextView
+                android:id="@+id/add_basket_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:text="اضافه به سبد دارو"
+                android:textColor="@color/bottom_layout_text"
+                android:textSize="11dp" />
 
-    </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            >
+            <ImageView
+                android:id="@+id/send_friend_ico"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/share_icon"
+                android:tint="@color/bottom_layout_text" />
+            <com.example.behnam.fonts.FontTextView
+                android:id="@+id/send_friend_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:text="ارسال به دوستان"
+                android:textColor="@color/bottom_layout_text"
+                android:textSize="11dp" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

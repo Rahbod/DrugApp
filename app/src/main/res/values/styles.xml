@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/sina</item>
         <item name="colorAccent">@color/sina</item>
 
-
     </style>
 
 </resources>
