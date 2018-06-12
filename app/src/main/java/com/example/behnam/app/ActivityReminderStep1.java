@@ -192,6 +192,10 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         for (Drug drug : drugList) {
             if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
+            }else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
             }
         }
         adapterHome.filterList(filterDrug);

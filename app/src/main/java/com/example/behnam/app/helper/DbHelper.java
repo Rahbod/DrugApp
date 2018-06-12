@@ -11,6 +11,7 @@ import android.util.Log;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.database.Reminder;
 
 import org.json.JSONArray;
@@ -29,7 +30,6 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_CATEGORIES = "categories";
     private static final String TABLE_DRUGS = "drugs";
     private static final String TABLE_CATEGORY_DRUG = "category_drug";
-    private static final String TABLE_INDEX = "indexes";
     private static final String TABLE_REMINDER = "reminders";
 
     private static final String KEY_ID_CATEGORY = "id";
@@ -92,7 +92,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 ")";
 
         String CREATE_TABLE_DRUG = "CREATE TABLE " + TABLE_DRUGS + " ( "
-                + KEY_ID_DRUG + " INTEGER ," + KEY_NAME_DRUG + " TEXT NOT NULL ,"+ KEY_NAME_PERSIAN_DRUG + " TEXT ,"
+                + KEY_ID_DRUG + " INTEGER ," + KEY_NAME_DRUG + " TEXT NOT NULL ," + KEY_NAME_PERSIAN_DRUG + " TEXT ,"
                 + KEY_BRAND + " TEXT , " + KEY_PREGNANCY + " TEXT ," + KEY_LACTATION + " TEXT ,"
                 + KEY_KIDS + " TEXT ," + KEY_SENIORS + " TEXT ," + KEY_HOW_TO_USE + " TEXT , "
                 + KEY_PRODUCT + " TEXT , " + KEY_PHARMACODYNAMIC + " TEXT ," + KEY_USAGE + " TEXT ,"
@@ -117,7 +117,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
         onCreate(db);
     }
@@ -184,7 +183,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ID_DRUG, drug.getId());
         values.put(KEY_NAME_DRUG, drug.getName());
-        values.put(KEY_NAME_PERSIAN_DRUG,drug.getNamePersian());
+        values.put(KEY_NAME_PERSIAN_DRUG, drug.getNamePersian());
         values.put(KEY_BRAND, drug.getBrand());
         values.put(KEY_PREGNANCY, drug.getPregnancy());
         values.put(KEY_LACTATION, drug.getLactation());
@@ -457,7 +456,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Category> getHeallingByDrugs(int id) {
         List<Category> categoryList = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = 0 and " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND "+ KEY_TYPE +" = 0)";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = 0 and " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + id + " AND " + KEY_TYPE + " = 0)";
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {

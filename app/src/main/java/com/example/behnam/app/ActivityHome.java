@@ -288,6 +288,10 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         for (Drug drug : drugList) {
             if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
+            }else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
             }
         }
         adapterHome.filterList(filterDrug);

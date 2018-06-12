@@ -44,7 +44,7 @@
     <RelativeLayout
         android:id="@+id/relHome1"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/actionBarFavorite"
         android:background="@drawable/background_gradient"
         app:layout_scrollFlags="scroll|enterAlways" />

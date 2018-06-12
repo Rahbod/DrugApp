@@ -18,49 +18,39 @@
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@drawable/background_gradient"
-            android:layoutDirection="ltr">
+            android:layoutDirection="ltr"
+            tools:targetApi="jelly_bean_mr1">
 
             <LinearLayout
                 android:id="@+id/name_and_back_linear"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="100">
+                android:layout_height="50dp"
+                android:weightSum="10">
 
                 <ImageView
                     android:id="@+id/btnBack"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.3"
                     android:background="@drawable/background_focus"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:src="@drawable/back_icon" />
 
-                <ImageView
-                    android:id="@+id/btnBack2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/background_focus"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:src="@drawable/back_icon"
-                    android:visibility="invisible" />
-
                 <com.example.behnam.fonts.FontTextViewBold
                     android:id="@+id/name_drug"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@id/btnBack2"
-                    android:layout_toRightOf="@id/btnBack"
-                    android:layout_weight="200"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="7.8"
                     android:ellipsize="end"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:singleLine="true"
-                    android:text="ABACAVIR SULFATE"
+                    android:text="ABACAVIR SULFATEdddddddddddddddd"
                     android:textColor="@color/mdtp_background_color"
                     android:textSize="18dp" />
+
             </LinearLayout>
 
             <com.example.behnam.fonts.FontTextView
@@ -68,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name_and_back_linear"
-                android:layout_marginTop="-7dp"
                 android:gravity="center"
                 android:text="dfdfdf"
                 android:textColor="@color/white"
@@ -116,16 +105,21 @@
             android:id="@+id/layout_basket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginEnd="40dp"
             android:layout_marginRight="40dp"
-            android:orientation="horizontal">
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            tools:targetApi="jelly_bean_mr1">
+
             <ImageView
                 android:id="@+id/add_basket_ico"
                 android:layout_width="16dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:src="@drawable/star_icon"
-                />
+                android:src="@drawable/star_icon" />
+
             <com.example.behnam.fonts.FontTextView
                 android:id="@+id/add_basket_item"
                 android:layout_width="wrap_content"
@@ -144,20 +138,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginLeft="40dp"
-            >
+            android:layout_marginStart="40dp"
+            android:layoutDirection="rtl"
+            tools:targetApi="jelly_bean_mr1">
+
             <ImageView
                 android:id="@+id/send_friend_ico"
                 android:layout_width="16dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="3dp"
                 android:src="@drawable/share_icon"
                 android:tint="@color/bottom_layout_text" />
+
             <com.example.behnam.fonts.FontTextView
                 android:id="@+id/send_friend_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:gravity="center_vertical"
                 android:text="ارسال به دوستان"

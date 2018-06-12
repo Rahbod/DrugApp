@@ -91,14 +91,14 @@ h4.title{
     background: url("html-icons/relation-with-food.svg") no-repeat center;
     background-size: 15px;
 }
+.table-responsive{
+    min-height: .01%;
+    overflow-x: auto;
+}
 .text table{
     border:none;
     width: 100%;
     margin-bottom: 15px;
-    overflow-y: hidden;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    min-height: .01%;
-    overflow-x: auto;
     max-width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
@@ -107,7 +107,7 @@ h4.title{
     padding: 5px 0;
     border-bottom: 2px solid #f0f0f0;
     min-width: 100px;
-
+    font-size:13px;
 }
 .text table tr td p{
     margin: 0;
