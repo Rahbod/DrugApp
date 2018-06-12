@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -320,20 +319,20 @@ public class ActivityViewDrug extends AppCompatActivity {
                     addToBasketText.setTextColor(getResources().getColor(R.color.table_link));
                     addToBasketText.setText("حذف از سبد دارو");
                     addToBasketImage.setColorFilter(getResources().getColor(R.color.table_link));
-                    Toast.makeText(ActivityViewDrug.this,  "داروی "+"\""+drug.getName()+"\""+" به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityViewDrug.this, "داروی " + "\"" + drug.getName() + "\"" + " به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
                 } else {
                     dbHelper.bookMark(ID);
                     addToBasketText.setText("اضافه به سبد دارو");
                     addToBasketText.setTextColor(getResources().getColor(R.color.bottom_layout_text));
                     addToBasketImage.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.bottom_layout_text));
-                    Toast.makeText(ActivityViewDrug.this,  "داروی "+"\""+drug.getName()+"\""+" از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityViewDrug.this, "داروی " + "\"" + drug.getName() + "\"" + " از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         linearfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareText(drug.getName(), drug.getName()+"\n"+drug.getNamePersian());
+                shareText(drug.getName(), drug.getName() + "\n" + drug.getNamePersian());
             }
         });
     }

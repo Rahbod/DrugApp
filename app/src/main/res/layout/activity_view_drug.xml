@@ -129,8 +129,6 @@
                 android:text="اضافه به سبد دارو"
                 android:textColor="@color/bottom_layout_text"
                 android:textSize="11dp" />
-
-
         </LinearLayout>
 
         <LinearLayout

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
@@ -26,6 +25,11 @@ public class ReminderService extends Service {
     @Nullable
     public static ReminderService getInstance() {
         return instance == null ? null : instance.get();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 
     @Override
@@ -59,7 +63,9 @@ public class ReminderService extends Service {
 
                     //create id for request code
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminderID, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.cancel(PendingIntent.getBroadcast(this, reminderID, broadcastIntent, 0));
+                    if (alarmManager != null) {
+                        alarmManager.cancel(PendingIntent.getBroadcast(this, reminderID, broadcastIntent, 0));
+                    }
                     long now = Calendar.getInstance().getTimeInMillis();
                     if (runsNum == 0) {
                         alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
@@ -68,18 +74,31 @@ public class ReminderService extends Service {
                     }
                     dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
                     if (Build.VERSION.SDK_INT >= 23) {
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                                alarmTime.getTimeInMillis(), pendingIntent);
+                        if (alarmManager != null) {
+                            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                        }
                     } else if (Build.VERSION.SDK_INT >= 19) {
-                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                        if (alarmManager != null) {
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                        }
                     } else {
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                        if (alarmManager != null) {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
+                        }
                     }
-
-                   // alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                 }
             }
         }
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
     }
 }

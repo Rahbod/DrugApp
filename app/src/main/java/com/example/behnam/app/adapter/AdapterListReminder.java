@@ -17,6 +17,7 @@ import com.example.behnam.app.R;
 import com.example.behnam.app.ReminderListActivity;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.FontTextView;
 
 import java.util.List;
@@ -48,13 +49,10 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
                 builder.setMessage("آیا میخواهید یادآور داروی مورد نظر خود را حذف کنید؟ ").setPositiveButton("باشه", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(context, ReminderService.class);
+                        context.stopService(i);
                         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//                        Intent serviceIntent = new Intent(context, ReminderService.class);
-                        //PendingIntent pendingIntent = PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
                         alarmManager.cancel(PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), 0));
-//                        Intent intent = new Intent(context, BroadcastReceivers.class);
-//                        intent.putExtra("close", true);
-//                        context.stopService(intent);
                         dbHelper.deleteReminder(reminderList.get(position).getId());
                         reminderList.remove(position);
                         notifyItemRemoved(position);
@@ -68,13 +66,6 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
                                 }
                             }, 100);
                         }
-
-                        //context.stopService(new Intent(context,ReminderService.class));
-                        //context.stopService(new Intent(context, ReminderService.class));
-//                        Intent intent = new Intent(context, ReminderService.class);
-//                        PendingIntent sender = PendingIntent.getBroadcast(context, reminderList.get(position).getId(), intent, 0);
-//                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-//                        alarmManager.cancel(sender);
                     }
                 }).setNegativeButton("نه", new DialogInterface.OnClickListener() {
                     @Override

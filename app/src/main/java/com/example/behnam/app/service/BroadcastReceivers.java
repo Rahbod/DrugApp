@@ -1,5 +1,6 @@
 package com.example.behnam.app.service;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
         final String action = intent.getAction();
         assert action != null;
         switch (action) {
+
             // Connect to internet
             case ConnectivityManager.CONNECTIVITY_ACTION:
                 ConnectivityManager connectivityManager;
@@ -35,18 +37,30 @@ public class BroadcastReceivers extends BroadcastReceiver {
                 break;
             case TelephonyManager.ACTION_PHONE_STATE_CHANGED:
                 break;
-//            case Intent.ACTION_BOOT_COMPLETED:
             case "BROADCAST_RESTART_APP":
-                    context.stopService(new Intent(context.getApplicationContext(), ReminderService.class));
+                if(isServiceRunning(context , ReminderService.class))
+                {
                     int reminderID = intent.getIntExtra("reminderID", 0);
                     if (reminderID > 0) {
                         Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
                         reminderDialog.putExtra("reminderID", reminderID);
                         reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                         context.startActivity(reminderDialog);
                     }
+                }
+                else
+                    Log.e("TAG", "Service is stopped!" );
                 break;
         }
+    }
+    private boolean isServiceRunning(Context context , Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        assert manager != null;
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if(serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
