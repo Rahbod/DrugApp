@@ -333,7 +333,7 @@ public class ActivityViewDrug extends AppCompatActivity {
         linearfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareText(drug.getName(), "نام دارو:  "+drug.getName()+"\n"+"نام فارسی دارو:  "+drug.getNamePersian());
+                shareText(drug.getName(), drug.getName()+"\n"+drug.getNamePersian());
             }
         });
     }
