@@ -56,13 +56,6 @@ public class ReminderListActivity extends AppCompatActivity {
         checkReminder();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            startActivity(new Intent(ReminderListActivity.this, ActivityHome.class));
-        }
-        return super.onKeyDown(keyCode, event);
-    }
     public void checkReminder()
     {
         if (reminderList.size() != 0) {
