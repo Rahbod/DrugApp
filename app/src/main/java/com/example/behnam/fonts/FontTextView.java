@@ -10,19 +10,19 @@ import com.example.behnam.app.ActivityReminderStep2;
 public class FontTextView extends android.support.v7.widget.AppCompatTextView {
     public FontTextView(Context context) {
         super(context);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
 
     public FontTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
 
     public FontTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
 

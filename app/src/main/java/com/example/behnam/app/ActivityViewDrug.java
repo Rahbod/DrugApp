@@ -62,6 +62,12 @@ public class ActivityViewDrug extends AppCompatActivity {
         setContentView(R.layout.activity_view_drug);
 
         webView = findViewById(R.id.web_view_drug);
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
         nameDrug = findViewById(R.id.name_drug);
         persianName = findViewById(R.id.persian_name);
         scrollView = findViewById(R.id.scroll_view_drug);
@@ -209,45 +215,48 @@ public class ActivityViewDrug extends AppCompatActivity {
 
                         for (int i = 0; i < groupPregnancy.length(); i++) {
                             pregnancyGroupsText.get(groupPregnancy.getString(i));
+                            if(i!=0)
+                                strPregnancy += "<br>";
+
                             switch (groupPregnancy.getString(i)) {
                                 case "A":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه A:</span> " + pregnancyGroupsText.get("A");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه A:</span> " + pregnancyGroupsText.get("A");
                                     break;
                                 case "B":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه B:</span> " + pregnancyGroupsText.get("B");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه B:</span> " + pregnancyGroupsText.get("B");
                                     break;
                                 case "C":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه C:</span> " + pregnancyGroupsText.get("C");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه C:</span> " + pregnancyGroupsText.get("C");
                                     break;
                                 case "D":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه D:</span> " + pregnancyGroupsText.get("D");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه D:</span> " + pregnancyGroupsText.get("D");
                                     break;
                                 case "X":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه X:</span> " + pregnancyGroupsText.get("X");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه X:</span> " + pregnancyGroupsText.get("X");
                                     break;
                                 case "NR":
-                                    strPregnancy += "<br><span style=\"font-weight:bold;color:#0334b0;\">گروه NR:</span> " + pregnancyGroupsText.get("NR");
+                                    strPregnancy += "<span style=\"font-weight:bold;color:#0334b0;\">گروه NR:</span> " + pregnancyGroupsText.get("NR");
                                     break;
                             }
                         }
                         strPregnancy += textPregnancy;
-                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">بارداری:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
+                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
                 if (!drug.getLactation().isEmpty())
-                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
                 webViewHtml += "</div>";
             }
 
             if (!drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) {
                 webViewHtml += "<div class=\"section\">";
                 if (!drug.getKids().isEmpty())
-                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
                 if (!drug.getSeniors().isEmpty())
-                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
+                    webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
                 if (!drug.getHowToUse().isEmpty())
                     webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
                 webViewHtml += "</div>";
@@ -292,12 +301,12 @@ public class ActivityViewDrug extends AppCompatActivity {
                     JSONArray jsonArrayCode = jsonDescription.getJSONArray("code");
                     strDescription = "";
                     for (int i = 0; i < jsonArrayCode.length(); i++) {
-                        strDescription += descriptionGroup[i] + "<br>";
+                        strDescription += descriptionGroup[jsonArrayCode.getInt(i)] + "<br>";
                     }
                     strDescription += textDescription;
-                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + strDescription + "</div</div></div>";
+                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای پزشک، پرستار و بیمار:</h4><div class=\"text\">" + strDescription + "</div</div></div>";
                 } else if (!textDescription.isEmpty())
-                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای بیمار، پرستار و پزشک:</h4><div class=\"text\">" + textDescription + "</div></div></div>";
+                    webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای پزشک، پرستار و بیمار:</h4><div class=\"text\">" + textDescription + "</div></div></div>";
 
             } catch (JSONException e) {
                 e.printStackTrace();

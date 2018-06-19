@@ -8,19 +8,19 @@ import android.util.AttributeSet;
 public class ButtonFont extends android.support.v7.widget.AppCompatButton {
     public ButtonFont(Context context) {
         super(context);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
 
     public ButtonFont(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
 
     public ButtonFont(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
         this.setTypeface(face);
     }
     protected void onDraw(Canvas canvas){
