@@ -27,7 +27,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
                 ConnectivityManager connectivityManager;
                 connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-                if (networkInfo != null && networkInfo.isConnected()) {
+                if (networkInfo != null && networkInfo.isConnected()) { 
                     Components.getDrugs(context);
                 }
                 break;
