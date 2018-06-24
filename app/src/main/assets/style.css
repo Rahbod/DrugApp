@@ -105,7 +105,7 @@ h4.title{
 }
 .text table tr td{
     padding: 5px 0;
-    border-bottom: 2px solid #f0f0f0;
+    /*border-bottom: 2px solid #f0f0f0;*/
     min-width: 100px;
     font-size:13px;
 }
@@ -120,4 +120,7 @@ h4.title{
 }
 .text table tr:last-of-type td{
     border-bottom: none;
+}
+.text table tr:nth-child(2n+1){
+    background: #f5f5f5;
 }
