@@ -29,6 +29,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
         assert action != null;
 
         switch (action) {
+
             // Connect to internet
             case ConnectivityManager.CONNECTIVITY_ACTION:
                 ConnectivityManager connectivityManager;

@@ -296,6 +296,7 @@ public class ActivityViewDrug extends AppCompatActivity {
         if (!drug.getRelationWithFood().isEmpty()) {
             webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>رابطه با غذا:</h4><div class=\"text\">" + drug.getRelationWithFood() + "</div></div></div>";
         }
+
         webViewHtml += "</div>";
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
 
