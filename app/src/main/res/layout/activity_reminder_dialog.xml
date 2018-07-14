@@ -46,7 +46,7 @@
         android:layout_below="@+id/line3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/blue2"
+        android:textColor="@color/blue"
         android:layout_alignParentLeft="true"
         android:gravity="left"
         android:text="باشه"

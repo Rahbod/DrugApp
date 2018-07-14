@@ -1,12 +1,12 @@
 package com.example.behnam.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,7 +17,7 @@ import com.example.behnam.fonts.FontTextView;
 
 import java.util.List;
 
-public class ReminderListActivity extends AppCompatActivity {
+public class ActivityReminderList extends AppCompatActivity {
     List<Reminder> reminderList;
     RecyclerView recyclerView;
     AdapterListReminder adapterListReminder;
@@ -26,11 +26,14 @@ public class ReminderListActivity extends AppCompatActivity {
     FloatingActionButton floatAddReminder;
     FontTextView noAlarmTitle;
     ImageView noAlarmPic;
+    public static Activity activityFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_list);
+
+        activityFinish =this;
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +50,7 @@ public class ReminderListActivity extends AppCompatActivity {
         floatAddReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ReminderListActivity.this, ActivityReminderStep1.class));
+                startActivity(new Intent(ActivityReminderList.this, ActivityReminderStep1.class));
             }
         });
 

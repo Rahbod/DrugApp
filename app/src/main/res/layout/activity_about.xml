@@ -7,41 +7,44 @@
     tools:context="com.example.behnam.app.ActivityAbout">
 
     <!--actionBar-->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/actionBarErrorReport"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/background_gradient"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        android:layoutDirection="ltr"
+        android:weightSum="10"
+        tools:targetApi="lollipop">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_weight="1.4"
             android:background="@drawable/background_focus"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@drawable/back_icon"
-            android:layout_alignParentStart="true" />
+            android:padding="14dp"
+            android:src="@drawable/back_icon" />
 
         <com.example.behnam.fonts.FontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="7.2"
+            android:gravity="center"
             android:text="درباره سینا دارو"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.example.behnam.fonts.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/actionBarErrorReport"
+        android:padding="10dp"
         android:text="متن درباره سینا دارو"
         android:textColor="@color/sina"
         android:textSize="13dp" />

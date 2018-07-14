@@ -1,12 +1,13 @@
 package com.example.behnam.app.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * Created by Behnam on 3/19/2018.
@@ -51,24 +51,46 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.listVi
                 context.startActivity(intent);
             }
         });
+        final View view = LayoutInflater.from(context).inflate(R.layout.massage_dialog, null);
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(view);
+        final Button btnOk = view.findViewById(R.id.btnOk);
+        final Button btnCancel = view.findViewById(R.id.btnCancel);
+        final TextView txt = view.findViewById(R.id.txt);
+        LinearLayout linDialogMassage = view.findViewById(R.id.linDialogMassage);
+        linDialogMassage.setVisibility(View.VISIBLE);
+        txt.setText("آیا میخواهید داروی "+ list.get(position).getName() +" را حذف کنید؟");
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         holder.imgClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (context instanceof ActivityFavorite) {
-                    DbHelper dbHelper = new DbHelper(context);
-                    dbHelper.bookMark(list.get(position).getId());
-                    list.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, list.size());
-                    if (list.isEmpty()){
-                        new android.os.Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                ((ActivityFavorite)context).setBackGround();
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (context instanceof ActivityFavorite) {
+                            DbHelper dbHelper = new DbHelper(context);
+                            dbHelper.bookMark(list.get(position).getId());
+                            list.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, list.size());
+                            dialog.dismiss();
+                            if (list.isEmpty()) {
+                                new android.os.Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((ActivityFavorite) context).setBackGround();
+                                    }
+                                }, 250);
                             }
-                        }, 250);
+                        }
                     }
-                }
+                });
+                dialog.show();
             }
         });
     }

@@ -17,6 +17,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".controller.AppController"
@@ -26,6 +27,7 @@
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
@@ -44,7 +46,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityViewDrug" />
         <activity
-            android:name=".ReminderListActivity"
+            android:name=".ActivityReminderList"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityInterferenceStep1"
@@ -76,17 +78,19 @@
         <activity android:name=".ActivityFavorite" />
         <activity
             android:name=".ActivityReminderDialog"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.Material.Dialog.Alert"
+            tools:targetApi="lollipop" />
 
         <service
             android:name=".service.ReminderService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <receiver
             android:name=".service.BroadcastReceivers"
             android:enabled="true">
             <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action
                     android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
@@ -96,6 +100,8 @@
         <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -110,6 +116,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
 
     </application>
 

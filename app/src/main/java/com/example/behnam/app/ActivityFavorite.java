@@ -22,11 +22,14 @@ public class ActivityFavorite extends AppCompatActivity {
     private List<Drug> list;
     private AdapterFavorite adapter;
     private DbHelper dbHelper;
+    LinearLayout linFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+
+        linFavorite = findViewById(R.id.linFavorite);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -48,28 +51,23 @@ public class ActivityFavorite extends AppCompatActivity {
 
     public void setBackGround() {
         if (list.isEmpty()) {
-            LinearLayout linFavorite = findViewById(R.id.linFavorite);
+            recyclerView.setVisibility(View.INVISIBLE);
             linFavorite.setVisibility(View.VISIBLE);
         } else {
+            linFavorite.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setAdapter(adapter);
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         list = dbHelper.getFavorite();
         adapter = new AdapterFavorite(this, list);
         recyclerView = findViewById(R.id.recFavorite);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        if (list.isEmpty()) {
-            LinearLayout linFavorite = findViewById(R.id.linFavorite);
-            linFavorite.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setAdapter(adapter);
-        }
+        setBackGround();
     }
 }

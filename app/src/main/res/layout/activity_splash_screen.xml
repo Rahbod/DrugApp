@@ -56,7 +56,7 @@
         android:layout_marginTop="30dp"
         android:visibility="invisible"
         CircleProgressView:cpv_spin="true"
-        CircleProgressView:cpv_spinColor="@color/blue2"
+        CircleProgressView:cpv_spinColor="@color/blue"
         CircleProgressView:cpv_textColor="@color/white"
         CircleProgressView:cpv_barWidth="3dp"
         CircleProgressView:cpv_innerContourSize="0dp"

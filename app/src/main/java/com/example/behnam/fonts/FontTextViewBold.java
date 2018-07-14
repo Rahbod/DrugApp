@@ -8,19 +8,19 @@ import android.util.AttributeSet;
 public class FontTextViewBold extends android.support.v7.widget.AppCompatTextView {
     public FontTextViewBold(Context context) {
         super(context);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IranSans/ttf/IRANSansWeb_Bold.ttf");
         this.setTypeface(face);
     }
 
     public FontTextViewBold(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IranSans/ttf/IRANSansWeb_Bold.ttf");
         this.setTypeface(face);
     }
 
     public FontTextViewBold(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/iran_sans.ttf");
+        Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IranSans/ttf/IRANSansWeb_Bold.ttf");
         this.setTypeface(face);
     }
 

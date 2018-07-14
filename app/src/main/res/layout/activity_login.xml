@@ -60,7 +60,7 @@
             android:layout_above="@+id/btnLogin"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/shape_button_gradient"
+            android:background="@drawable/shape_button_blue"
             android:text="فعال سازی"
             android:textColor="@color/white" />
 
@@ -74,7 +74,7 @@
             android:layout_marginBottom="90dp"
             android:background="@drawable/shape_button_stroke"
             android:text="ورود"
-            android:textColor="@color/blue2" />
+            android:textColor="@color/blue" />
 
     </RelativeLayout>
 

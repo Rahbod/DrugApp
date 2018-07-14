@@ -2,6 +2,7 @@ package com.example.behnam.app.map;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,8 +19,11 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.R;
@@ -58,11 +62,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        dialog = new Dialog(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -114,15 +121,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 //            //check gps enabled
             LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("مکان یاب دستگاه شما غیرفعال است . برای یافتن مکان مورد نظر باید فعال گردد.")
-                        .setPositiveButton("باشه", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            }
-                        });
-                builder.create().show();
+                View view = LayoutInflater.from(this).inflate(R.layout.massage_dialog, null);
+                dialog.setContentView(view);
+                TextView txt = view.findViewById(R.id.txt);
+                txt.setText("مکان یاب دستگاه شما غیرفعال است، برای یافتن مکان مورد نظر باید فعال گردد. آیا مایل به فعال کردن آن هستید؟"
+                       );
+                Button btnOk = view.findViewById(R.id.btnOk);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                LinearLayout linDialogMassage = view.findViewById(R.id.linDialogMassage);
+                linDialogMassage.setVisibility(View.VISIBLE);
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
+
 
             linearLayoutNoConnection.setVisibility(View.GONE);
             linearLayoutMap.setVisibility(View.VISIBLE);

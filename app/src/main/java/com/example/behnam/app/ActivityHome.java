@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,12 +23,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
@@ -181,32 +185,42 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityHome.this);
-                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (wifiManager != null)
-                                        wifiManager.setWifiEnabled(true);
-
-                                    if (Speech.getInstance().isListening()) {
-                                        Speech.getInstance().stopListening();
-                                    } else {
-                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                            onRecordAudioPermissionGranted();
-                                        else {
-                                            ActivityCompat.requestPermissions(ActivityHome.this,
-                                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                                    1);
-                                        }
-                                    }
-                                }
-                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    final Dialog dialog = new Dialog(ActivityHome.this);
+                    View viewDialogMassage = LayoutInflater.from(ActivityHome.this).inflate(R.layout.massage_dialog, null);
+                    dialog.setContentView(viewDialogMassage);
+                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
+                    linMassageDialog.setVisibility(View.VISIBLE);
+                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
+                    txt.setText(R.string.enable_wifi);
+                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
+                    btnOk.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            if (wifiManager != null)
+                                wifiManager.setWifiEnabled(true);
+
+                            else if (Speech.getInstance().isListening()) {
+                                Speech.getInstance().stopListening();
+                            } else {
+                                if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                     onRecordAudioPermissionGranted();
+                                else {
+                                    ActivityCompat.requestPermissions(ActivityHome.this,
+                                            new String[]{Manifest.permission.RECORD_AUDIO},
+                                            1);
+                                }
+                            }
                         }
-                    })
-                            .show();
+                    });
+                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                 } else {
                     if (Speech.getInstance().isListening()) {
                         Speech.getInstance().stopListening();
@@ -215,8 +229,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             onRecordAudioPermissionGranted();
                         else {
                             ActivityCompat.requestPermissions(ActivityHome.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);
+                                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
                         }
                     }
                 }
@@ -236,7 +249,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item3:
-                Intent goToReminder = new Intent(this, ReminderListActivity.class);
+                Intent goToReminder = new Intent(this, ActivityReminderList.class);
                 startActivity(goToReminder);
                 closeNv();
                 break;
@@ -288,7 +301,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         for (Drug drug : drugList) {
             if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
-            }else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
+            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
             } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(drug);
@@ -377,14 +390,14 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.END)) {
-            drawerLayout.closeDrawer(Gravity.END);
-        } else if (time + BackPressed > System.currentTimeMillis()) {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        } else if (2000 + BackPressed > System.currentTimeMillis()) {
             super.onBackPressed();
-        } else
+        } else {
             Toast.makeText(this, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
-
-        BackPressed = System.currentTimeMillis();
+            BackPressed = System.currentTimeMillis();
+        }
     }
 
     public void showDrugs(final Context context) {

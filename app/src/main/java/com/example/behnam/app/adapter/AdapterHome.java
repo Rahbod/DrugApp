@@ -3,7 +3,6 @@ package com.example.behnam.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.drugListViewHo
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dbHelper.getCategoriesByDrug(drugList.get(position).getId());
+                dbHelper.getHealingCategory(drugList.get(position).getId());
                 Intent intent = new Intent(context,ActivityViewDrug.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id",drugList.get(position).getId());

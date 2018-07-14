@@ -1,6 +1,8 @@
 package com.example.behnam.app;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -9,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,10 +18,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterReminder;
 import com.example.behnam.app.database.Drug;
@@ -40,9 +45,7 @@ import java.util.List;
 
 public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDelegate {
 
-    AdapterReminder adapterHome;
-    EditText etSearch;
-    DrawerLayout drawerLayout;
+    AdapterReminder adapterReminder;
     List<Drug> drugList = new ArrayList<>();
     ImageView btnBack;
 
@@ -51,11 +54,14 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
     private SpeechProgressView progress;
     private Boolean speechInitialized = false;
     private ConnectivityManager connectivityManager;
+    public static Activity activityFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_step_1);
+
+        activityFinish =this;
 
         text = findViewById(R.id.editTextSearch);
         btnBack = findViewById(R.id.btnBack);
@@ -103,8 +109,6 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
             }
         });
 
-        drawerLayout = findViewById(R.id.DrawerLayout);
-
         DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recHome);
         drugList = dbHelper.getAllDrugsNotInReminder();
@@ -117,9 +121,9 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
             }
         });
 
-        adapterHome = new AdapterReminder(this, drugList);
+        adapterReminder = new AdapterReminder(this, drugList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setAdapter(adapterHome);
+        recyclerView.setAdapter(adapterReminder);
         recyclerView.setLayoutManager(layoutManager);
 
 
@@ -144,32 +148,42 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                     final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                     connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                     if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityReminderStep1.this);
-                        builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (wifiManager != null)
-                                            wifiManager.setWifiEnabled(true);
-
-                                        if (Speech.getInstance().isListening()) {
-                                            Speech.getInstance().stopListening();
-                                        } else {
-                                            if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                                onRecordAudioPermissionGranted();
-                                            else {
-                                                ActivityCompat.requestPermissions(ActivityReminderStep1.this,
-                                                        new String[]{Manifest.permission.RECORD_AUDIO},
-                                                        1);
-                                            }
-                                        }
-                                    }
-                                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        final Dialog dialog = new Dialog(ActivityReminderStep1.this);
+                        View viewDialog = LayoutInflater.from(ActivityReminderStep1.this).inflate(R.layout.massage_dialog, null);
+                        dialog.setContentView(viewDialog);
+                        LinearLayout linDialogMassage = viewDialog.findViewById(R.id.linDialogMassage);
+                        linDialogMassage.setVisibility(View.VISIBLE);
+                        TextView txt =viewDialog.findViewById(R.id.txt);
+                        txt.setText(R.string.enable_wifi);
+                        Button btnOk = viewDialog.findViewById(R.id.btnOk);
+                        btnOk.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                if (wifiManager != null)
+                                    wifiManager.setWifiEnabled(true);
+
+                                if (Speech.getInstance().isListening()) {
+                                    Speech.getInstance().stopListening();
+                                } else {
+                                    if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                        onRecordAudioPermissionGranted();
+                                    else {
+                                        ActivityCompat.requestPermissions(ActivityReminderStep1.this,
+                                                new String[]{Manifest.permission.RECORD_AUDIO},
+                                                1);
+                                    }
+                                }
                             }
-                        })
-                                .show();
+                        });
+                        dialog.show();
+                        Button btnCancel = viewDialog.findViewById(R.id.btnCancel);
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
                     } else {
                         if (Speech.getInstance().isListening()) {
                             Speech.getInstance().stopListening();
@@ -198,15 +212,15 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
                 filterDrug.add(drug);
             }
         }
-        adapterHome.filterList(filterDrug);
+        adapterReminder.filterList(filterDrug);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (speechInitialized)
-            Speech.getInstance().shutdown();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (speechInitialized)
+//            Speech.getInstance().shutdown();
+//    }
 
     private void onRecordAudioPermissionGranted() {
         btnListen.setVisibility(View.GONE);

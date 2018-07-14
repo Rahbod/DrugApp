@@ -117,7 +117,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/shape_button_gradient"
+                            android:background="@drawable/shape_button_blue"
                             android:text="ثبت"
                             android:textColor="@color/white" />
                     </LinearLayout>

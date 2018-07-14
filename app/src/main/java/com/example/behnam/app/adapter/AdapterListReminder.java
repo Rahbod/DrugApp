@@ -1,23 +1,26 @@
 package com.example.behnam.app.adapter;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.example.behnam.app.ActivityFavorite;
 import com.example.behnam.app.R;
-import com.example.behnam.app.ReminderListActivity;
+import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.fonts.FontTextView;
+import com.example.behnam.app.service.ReminderService;
+import com.google.android.gms.common.data.DataBuffer;
 
 import java.util.List;
 
@@ -41,46 +44,35 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
     @Override
     public void onBindViewHolder(final ListReminderViewHolder holder, final int position) {
         holder.drugName.setText(dbHelper.getDrug(reminderList.get(position).getDrugID()).getName());
+        final View view = LayoutInflater.from(context).inflate(R.layout.massage_dialog, null);
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(view);
         holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("آیا میخواهید یادآور داروی مورد نظر خود را حذف کنید؟ ").setPositiveButton("باشه", new DialogInterface.OnClickListener() {
+                Button btn = view.findViewById(R.id.btnOk);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                final TextView txt = view.findViewById(R.id.txt);
+                LinearLayout linDialogMassage = view.findViewById(R.id.linDialogMassage);
+                linDialogMassage.setVisibility(View.VISIBLE);
+                txt.setText("آیا میخواهید یاد آور را حذف کنید؟");
+                btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//                        Intent serviceIntent = new Intent(context, ReminderService.class);
-                        //PendingIntent pendingIntent = PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
-                        alarmManager.cancel(PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), 0));
-//                        Intent intent = new Intent(context, BroadcastReceivers.class);
-//                        intent.putExtra("close", true);
-//                        context.stopService(intent);
-                        dbHelper.deleteReminder(reminderList.get(position).getId());
-                        reminderList.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, reminderList.size());
-                        notifyDataSetChanged();
-                        if (reminderList.isEmpty()){
-                            new android.os.Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ((ReminderListActivity)context).checkReminder();
-                                }
-                            }, 100);
-                        }
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
 
-                        //context.stopService(new Intent(context,ReminderService.class));
-                        //context.stopService(new Intent(context, ReminderService.class));
-//                        Intent intent = new Intent(context, ReminderService.class);
-//                        PendingIntent sender = PendingIntent.getBroadcast(context, reminderList.get(position).getId(), intent, 0);
-//                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-//                        alarmManager.cancel(sender);
-                    }
-                }).setNegativeButton("نه", new DialogInterface.OnClickListener() {
+                btn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        removeRemainder(position);
+                        Log.e("aaa", dbHelper.getMaxID() + "");
                     }
-                }).create().show();
+                });
+
+                dialog.show();
             }
         });
     }
@@ -92,12 +84,31 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
 
     class ListReminderViewHolder extends RecyclerView.ViewHolder {
         ImageView deleteIcon;
-        FontTextView drugName;
+        TextView drugName;
 
         ListReminderViewHolder(View itemView) {
             super(itemView);
-            deleteIcon = itemView.findViewById(R.id.delete_reminder);
-            drugName = itemView.findViewById(R.id.drug_name);
+            deleteIcon = itemView.findViewById(R.id.deleteItem);
+            drugName = itemView.findViewById(R.id.txtName);
+        }
+    }
+
+    private void removeRemainder(int position) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), 0));
+        dbHelper.deleteReminder(reminderList.get(position).getId());
+        context.stopService(new Intent(context.getApplicationContext(), ReminderService.class));
+        reminderList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, reminderList.size());
+        notifyDataSetChanged();
+        if (reminderList.isEmpty()) {
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((ActivityReminderList) context).checkReminder();
+                }
+            }, 100);
         }
     }
 }

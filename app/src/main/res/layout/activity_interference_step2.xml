@@ -189,7 +189,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/two_opposite_arrows_icon_white"
-        app:backgroundTint="@color/blue"
+        app:backgroundTint="@color/blue2"
         app:borderWidth="1dp"
         app:rippleColor="@color/sina" />
 

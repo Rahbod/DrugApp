@@ -12,14 +12,12 @@ import android.util.Log;
 
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.reminder.ReminderModel;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 public class ReminderService extends Service {
-    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings"; // Here you need to define the  package name
-
-    private static final String SCREEN_CLASS_NAME = "com.android.settings.RunningServices"; // Here you need to define the class name but NOTICE!! you need to define its full name including  package name
 
     private static WeakReference<ReminderService> instance;
 
@@ -38,21 +36,20 @@ public class ReminderService extends Service {
         instance = new WeakReference<>(this);
         // Convert start time to second
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
         int reminderID = intent.getIntExtra("reminderID", 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         if (reminderID <= 0) {
             this.stopSelf();
         } else {
             DbHelper dbHelper = new DbHelper(getApplicationContext());
-            intent.putExtra("reminderID", intent.getIntExtra("reminderID", 0));
-
-            if (dbHelper.getReminder(reminderID) != null) {
-                Reminder reminder = dbHelper.getReminder(reminderID);
-                int runsNum = reminder.getRowCount();
+            intent.putExtra("reminderID", reminderID);
+            ReminderModel reminder = dbHelper.getReminder(reminderID);
+            if (reminder != null) {
+                int showCount = reminder.getShowCount();
                 Calendar alarmTime = Calendar.getInstance();
-                if (runsNum != reminder.getCount()) {
+                if (showCount <= reminder.getCount()) {
                     Intent broadcastIntent = new Intent(getApplicationContext(), BroadcastReceivers.class);
                     broadcastIntent.setAction("BROADCAST_RESTART_APP");
                     broadcastIntent.putExtra("reminderID", reminderID);
@@ -61,12 +58,12 @@ public class ReminderService extends Service {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminderID, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.cancel(PendingIntent.getBroadcast(this, reminderID, broadcastIntent, 0));
                     long now = Calendar.getInstance().getTimeInMillis();
-                    if (runsNum == 0) {
+                    if (showCount == 0) {
                         alarmTime.add(Calendar.SECOND, (int) ((reminder.getStartTime() - now) / 1000));
                     } else {
-                         alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 3600);
+                        alarmTime.add(Calendar.SECOND, reminder.getPeriodTime() * 10);
                     }
-                    dbHelper.incrementRowCountReminder(runsNum + 1, reminderID);
+                    dbHelper.incrementRowCountReminder(showCount + 1, reminderID);
                     if (Build.VERSION.SDK_INT >= 23) {
                         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
                                 alarmTime.getTimeInMillis(), pendingIntent);
@@ -75,11 +72,10 @@ public class ReminderService extends Service {
                     } else {
                         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
                     }
-
-                   // alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingIntent);
-                }
+                } else
+                    onDestroy();
             }
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 }

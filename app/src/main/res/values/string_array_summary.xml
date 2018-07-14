@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="str">
+        <item>گروه A:</item>
+        <item>گروه B:</item>
+        <item>گروه C:</item>
+        <item>گروه D:</item>
+        <item>گروه X:</item>
+        <item>گروه NR:</item>
+    </string-array>
+</resources>

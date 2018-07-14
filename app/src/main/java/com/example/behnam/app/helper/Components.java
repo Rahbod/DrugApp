@@ -2,17 +2,19 @@ package com.example.behnam.app.helper;
 
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.example.behnam.app.ActivityHome;
@@ -22,14 +24,12 @@ import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Index;
 import com.example.behnam.app.service.BroadcastReceivers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.zip.Inflater;
 
 public class Components extends AppController {
     public static void getDrugs(final Context context) {
@@ -58,7 +58,7 @@ public class Components extends AppController {
                                             JSONObject object;
                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                 object = jsonArray.getJSONObject(i);
-                                                dbHelper.addCategory(new Category(object.getInt("id"), object.getString("name"), object.getInt("type")));
+                                                dbHelper.addCategory(new Category(object.getInt("id"), object.getString("name"), object.getInt("type"), object.getInt("parentID")));
                                             }
 
                                             // get categoryDrugs from server
@@ -71,7 +71,7 @@ public class Components extends AppController {
                                                             JSONObject object;
                                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                                 object = jsonArray.getJSONObject(i);
-                                                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("drug_id"), object.getInt("category_id"), object.getInt("type")));
+                                                                dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("id"), object.getInt("drug_id"), object.getInt("category_id")));
                                                             }
 
                                                             // goto home activity
@@ -113,7 +113,7 @@ public class Components extends AppController {
         }
     }
 
-    public static void downloadData(Context context, String type) {
+    public static void downloadData(final Context context, String type) {
         final DbHelper dbHelper = new DbHelper(context);
         if (type.equals("first")) {
             if (dbHelper.getCount("drugs") <= 0) {
@@ -125,19 +125,31 @@ public class Components extends AppController {
                     IntentFilter intentFilter = new IntentFilter();
                     intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
                     context.getApplicationContext().registerReceiver(new BroadcastReceivers(), intentFilter);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = LayoutInflater.from(context);
-
-                    builder.setView(inflater.inflate(R.layout.wifi_dialog, null));
-                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (wifiManager != null)
-                                        wifiManager.setWifiEnabled(true);
-                                }
-                            }).show();
+                    final Dialog dialog = new Dialog(context);
+                    View viewDialogMassage = LayoutInflater.from(context).inflate(R.layout.massage_dialog, null);
+                    dialog.setContentView(viewDialogMassage);
+                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
+                    linMassageDialog.setVisibility(View.VISIBLE);
+                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
+                    txt.setText(R.string.enable_wifi);
+                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
+                    btnOk.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            if (wifiManager != null)
+                                wifiManager.setWifiEnabled(true);
+                        }
+                    });
+                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            ((ActivitySplashScreen)context).finish();
+                        }
+                    });
+                    dialog.show();
                 } else
                     getDrugs(context);
             } else getDrugs(context);

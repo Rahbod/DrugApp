@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">app</string>
-    <string name="enable_wifi">دستگاه شما به اینترنت دسترسی ندارد. آیا مایل هستید که Wi-Fi را فعال کنید؟</string>
+    <string name="enable_wifi">دستگاه شما به اینترنت دسترسی ندارد، آیا مایل به فعال سازی Wi-Fi هستید؟</string>
     <string name="yes">باشه</string>
     <string name="no">خیر</string>
     <string name="permission_required">لطفا دسترسی به میکروفن را فعال کنید</string>
@@ -12,4 +12,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="add_to_basket">اضافه به سبد دارو</string>
     <string name="delete_basket">حذف از سبد دارو</string>
+    <string name="pregnancy_a">test a</string>
+    <string name="pregnancy_b">test b</string>
 </resources>

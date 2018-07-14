@@ -143,7 +143,7 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
         recyclerView.setAdapter(adapter);
 
 //        floatingButtonClick
-        floatButton.setOnClickListener(new View.OnClickListener() {
+        /*floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SessionManager.getExtrasPref(ActivityInterferenceStep2.this).getString("selectedIDs").isEmpty() |
@@ -170,7 +170,7 @@ public class ActivityInterferenceStep2 extends AppCompatActivity implements Spee
                     startActivity(intent);
                 }
             }
-        });
+        });*/
 
 
         //        voiceSearch

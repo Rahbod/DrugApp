@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
@@ -21,13 +22,12 @@ import com.example.behnam.fonts.ButtonFont;
 import com.example.behnam.fonts.EditTextFont;
 import com.example.behnam.fonts.FontTextView;
 import com.example.behnam.fonts.FontTextViewBold;
+import com.example.behnam.reminder.ReminderModel;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,12 +35,12 @@ import saman.zamani.persiandate.PersianDate;
 
 public class ActivityReminderStep2 extends AppCompatActivity {
     PersianDate persianDate;
-    EditTextFont txtPeriod, txtCount;
+    EditText txtPeriod, txtCount;
     ButtonFont buttonRegister;
     DbHelper dbHelper;
     ImageView btnBack;
     Drug drug;
-    long timeStamps = 0;
+    long startTime = 0;
     TimePickerDialog tpd;
     int y = 0, m = 0, d = 0, h = 0, mm = 0;
     Context context;
@@ -60,7 +60,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         });
 
         context = this;
-        dbHelper = new DbHelper(getApplicationContext());
+        dbHelper = new DbHelper(this);
         txtPeriod = findViewById(R.id.et_period);
         txtCount = findViewById(R.id.et_count);
         nameDrug = findViewById(R.id.txtName);
@@ -68,16 +68,10 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         Intent intent = getIntent();
         final int drugId = intent.getIntExtra("id", 0);
         drug = dbHelper.getDrug(drugId);
-        List<Category> categoryList = new ArrayList<>();
-        categoryList = dbHelper.getHeallingByDrugs(drugId);
-        String category[] = new String[categoryList.size()];
-        for (int i = 0; i < categoryList.size(); i++) {
-            category[i] = categoryList.get(i).getName();
-        }
         nameDrug.setText(drug.getName());
         final FontTextView date = findViewById(R.id.date_picker);
         final TextView time = findViewById(R.id.time_picker);
-        time.setEnabled(false);
+        time.setEnabled(true);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,30 +79,30 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
                                                                                      @Override
                                                                                      public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                 persianDate = new PersianDate();
-                 persianDate.setShYear(year);
-                 persianDate.setShMonth(monthOfYear + 1);
-                 persianDate.setShDay(dayOfMonth);
-                 Calendar dateCalendar = Calendar.getInstance();
-                 dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
-                 dateCalendar.set(Calendar.MINUTE, 0);
-                 dateCalendar.set(Calendar.SECOND, 0);
-                 dateCalendar.set(Calendar.MILLISECOND, 0);
-                 if (dateCalendar.getTimeInMillis() < persianDate.getTime()) {
-                     y = year;
-                     m = monthOfYear + 1;
-                     d = dayOfMonth;
-                     date.setText(String.valueOf(y + "/" + m + "/" + d));
-                     date.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                     time.setEnabled(true);
-                 } else
-                     Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
-             }
-         }, now.getPersianYear(),
+                                                                                         persianDate = new PersianDate();
+                                                                                         persianDate.setShYear(year);
+                                                                                         persianDate.setShMonth(monthOfYear + 1);
+                                                                                         persianDate.setShDay(dayOfMonth);
+                                                                                         Calendar dateCalendar = Calendar.getInstance();
+                                                                                         dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                                                                                         dateCalendar.set(Calendar.MINUTE, 0);
+                                                                                         dateCalendar.set(Calendar.SECOND, 0);
+                                                                                         dateCalendar.set(Calendar.MILLISECOND, 0);
+                                                                                         if (dateCalendar.getTimeInMillis() < persianDate.getTime()) {
+                                                                                             y = year;
+                                                                                             m = monthOfYear + 1;
+                                                                                             d = dayOfMonth;
+                                                                                             date.setText(String.valueOf(y + "/" + m + "/" + d));
+                                                                                             date.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                                                                             time.setEnabled(true);
+                                                                                         } else
+                                                                                             Toast.makeText(ActivityReminderStep2.this, "تاریخ وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
+                                                                                     }
+                                                                                 }, now.getPersianYear(),
                         now.getPersianMonth(),
                         now.getPersianDay());
                 now.getTimeInMillis();
-                datePickerDialog.setThemeDark(true);
+                datePickerDialog.setThemeDark(false);
                 datePickerDialog.show(getFragmentManager(), "tpd");
             }
         });
@@ -120,24 +114,24 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 tpd = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
                                                        @Override
                                                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                   tpd.setThemeDark(false);
-                   h = hourOfDay;
-                   mm = minute;
-                   persianDate = new PersianDate();
-                   persianDate.setShYear(y);
-                   persianDate.setShMonth(m);
-                   persianDate.setHour(h);
-                   persianDate.setMinute(mm);
-                   persianDate.setSecond(0);
-                   Calendar timeCalender = Calendar.getInstance();
-                   timeCalender.set(Calendar.SECOND, 0);
-                   timeCalender.set(Calendar.MILLISECOND, 0);
-                   if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
-                       time.setText(String.valueOf(hourOfDay + ":" + minute));
-                       time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                       timeStamps = persianDate.getTime();
-                   } else
-                       Toast.makeText(ActivityReminderStep2.this, "تاریخ یا زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
+                                                           tpd.setThemeDark(false);
+                                                           h = hourOfDay;
+                                                           mm = minute;
+                                                           persianDate = new PersianDate();
+                                                           persianDate.setShYear(y);
+                                                           persianDate.setShMonth(m);
+                                                           persianDate.setHour(h);
+                                                           persianDate.setMinute(mm);
+                                                           persianDate.setSecond(0);
+                                                           Calendar timeCalender = Calendar.getInstance();
+                                                           timeCalender.set(Calendar.SECOND, 0);
+                                                           timeCalender.set(Calendar.MILLISECOND, 0);
+                                                           if (timeCalender.getTimeInMillis() < persianDate.getTime()) {
+                                                               time.setText(String.valueOf(hourOfDay + ":" + minute));
+                                                               time.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                                               startTime = persianDate.getTime();
+                                                           } else
+                                                               Toast.makeText(ActivityReminderStep2.this, "زمان وارد شده اشتباه است.", Toast.LENGTH_SHORT).show();
                                                        }
                                                    },
                         now.get(PersianCalendar.HOUR_OF_DAY),
@@ -147,7 +141,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
             }
         });
         buttonRegister = findViewById(R.id.button);
-
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,8 +159,8 @@ public class ActivityReminderStep2 extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if(!txtPeriod.getText().toString().equals(""))
-                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        if (!txtPeriod.getText().toString().equals(""))
+                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         else
                             txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
                     }
@@ -185,29 +178,30 @@ public class ActivityReminderStep2 extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-                        if(!txtCount.getText().toString().equals(""))
-                            txtCount.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        if (!txtCount.getText().toString().equals(""))
+                            txtCount.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         else
                             txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
                     }
                 });
 
-                if(!txtCount.getText().toString().equals(""))
-                    txtCount.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                if (!txtCount.getText().toString().equals(""))
+                    txtCount.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                 if (!txtCount.getText().toString().equals("") && !txtPeriod.getText().toString().equals("") && !date.getText().equals("") && !time.getText().equals("")) {
                     int count = Integer.parseInt(txtCount.getText().toString()),
                             period = Integer.parseInt(txtPeriod.getText().toString());
-                    dbHelper.addReminder(new Reminder(drugId, timeStamps, count, period));
+                    dbHelper.addReminder(new ReminderModel(drugId, startTime, count, period, 0));
 
-                    //last id
-                    List<Reminder> reminderList = dbHelper.getAllReminder();
-                    int id = reminderList.get(reminderList.size() - 1).getId();
+                    //max id
+                    int id = dbHelper.getMaxID();
 
                     // Start service
                     Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);
                     serviceIntent.putExtra("reminderID", id);
                     startService(serviceIntent);
-                    startActivity(new Intent(ActivityReminderStep2.this, ReminderListActivity.class));
+                    ActivityReminderStep1.activityFinish.finish();
+                    ActivityReminderList.activityFinish.finish();
+                    startActivity(new Intent(ActivityReminderStep2.this, ActivityReminderList.class));
                     Toast.makeText(ActivityReminderStep2.this, "یادآور مورد نظر ثبت گردید.", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
@@ -231,15 +225,5 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public static boolean isAppAvailable(Context context, String appName) {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
     }
 }

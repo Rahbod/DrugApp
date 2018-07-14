@@ -3,16 +3,16 @@
     <item android:height="65dp">
         <shape android:shape="rectangle">
             <gradient
-                android:endColor="@color/blue"
-                android:startColor="@color/blue2" />
+                android:endColor="@color/blue2"
+                android:startColor="@color/blue" />
         </shape>
     </item>
     <item
         android:height="130dp">
 
         <shape android:shape="oval">
-            <gradient android:startColor="@color/blue2"
-                android:endColor="@color/blue"/>
+            <gradient android:startColor="@color/blue"
+                android:endColor="@color/blue2"/>
         </shape>
     </item>
 </layer-list>

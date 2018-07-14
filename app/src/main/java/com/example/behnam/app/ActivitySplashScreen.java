@@ -1,7 +1,6 @@
 package com.example.behnam.app;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         activitySplashScreen = this;
 
-        //        Lottie anim
+        //Lottie anim
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -205,7 +205,7 @@
                             android:layout_height="45dp"
                             android:layout_gravity="center"
                             android:layout_marginBottom="8dp"
-                            android:background="@drawable/shape_button_gradient"
+                            android:background="@drawable/shape_button_blue"
                             android:text="ثبت"
                             android:textColor="@color/white" />
                     </LinearLayout>
