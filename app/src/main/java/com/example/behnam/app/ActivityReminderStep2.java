@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amitshekhar.DebugDB;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
@@ -194,6 +195,8 @@ public class ActivityReminderStep2 extends AppCompatActivity {
 
                     //max id
                     int id = dbHelper.getMaxID();
+                    ReminderModel reminder = new ReminderModel();
+                    dbHelper.getReminder(id);
 
                     // Start service
                     Intent serviceIntent = new Intent(ActivityReminderStep2.this, ReminderService.class);

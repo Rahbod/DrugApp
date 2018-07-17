@@ -22,6 +22,9 @@ public class ReminderModel {
         this.periodTime = periodTime;
         this.showCount = showCount;
     }
+    public ReminderModel(){
+
+    }
 
     public int getId() {
         return id;

@@ -140,17 +140,20 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public ReminderModel getReminder(int id) {
-        ReminderModel reminderModel = null;
+        ReminderModel reminderModel = new ReminderModel();
+        String query = "SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id;
         db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_ID_REMINDER + " = " + id, null);
-        if (cursor.moveToNext()) {
-
-                reminderModel = new ReminderModel(cursor.getInt(cursor.getColumnIndex(KEY_DRUG_ID)),
-                        cursor.getLong(cursor.getColumnIndex(KEY_START_TIME)),
-                        cursor.getInt(cursor.getColumnIndex(KEY_COUNT)),
-                        cursor.getInt(cursor.getColumnIndex(KEY_PERIOD_TIME)));
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                reminderModel.setDrugID(cursor.getInt(cursor.getColumnIndex(KEY_DRUG_ID)));
+                reminderModel.setPeriodTime(cursor.getInt(cursor.getColumnIndex(KEY_PERIOD_TIME)));
+                reminderModel.setCount(cursor.getInt(cursor.getColumnIndex(KEY_COUNT)));
+                reminderModel.setStartTime(cursor.getLong(cursor.getColumnIndex(KEY_START_TIME)));
+                reminderModel.setShowCount(cursor.getInt(cursor.getColumnIndex(KEY_SHOW_COUNT)));
+            }
         }
-        return null;
+        return reminderModel;
     }
 
     public List<Integer> getCurrentReminders() {
@@ -158,24 +161,14 @@ public class DbHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_REMINDER + " WHERE " + KEY_SHOW_COUNT + " < " + KEY_COUNT;
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        if ((cursor != null)) {
-            while (cursor.moveToNext()) {
-                list.add(cursor.getInt(cursor.getColumnIndex(KEY_ID_REMINDER)));
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                int id = cursor.getInt(cursor.getColumnIndex(KEY_ID_REMINDER));
+                list.add(id);
+                cursor.moveToNext();
             }
-            return list;
         }
-        return null;
-    }
-
-    public List<Integer> getShowCount(int id) {
-        List<Integer> list = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_REMINDER + " WHERE  id=" + id;
-        db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor != null) {
-
-        }
-        return null;
+        return list;
     }
 
     public int getMaxID() {

@@ -1,16 +1,23 @@
 package com.example.behnam.app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.amitshekhar.DebugDB;
 import com.example.behnam.app.helper.Components;
+
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import at.grabner.circleprogress.CircleProgressView;
 
@@ -28,6 +35,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         activitySplashScreen = this;
+        Log.e("address", DebugDB.getAddressLog());
 
         //Lottie anim
         new Handler().postDelayed(new Runnable() {
@@ -35,7 +43,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
             public void run() {
                 animSplashScreen = findViewById(R.id.animSplashScreen);
                 animSplashScreen.playAnimation();
-
             }
         }, 300);
 
