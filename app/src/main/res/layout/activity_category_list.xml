@@ -2,12 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relRem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    tools:context=".ActivityCategories"
     android:layoutDirection="ltr"
-    tools:context="com.example.behnam.app.ActivityHome"
     tools:targetApi="jelly_bean_mr1">
 
     <!--actionBar-->
@@ -32,11 +30,11 @@
             android:layout_alignParentStart="true" />
 
         <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="یاد آور مصرف دارو"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
@@ -136,24 +134,23 @@
         android:layout_marginTop="5dp"
         android:layoutDirection="ltr"
         android:textDirection="ltr"
-        tools:targetApi="jelly_bean_mr1">
+        tools:targetApi="jelly_bean_mr1"
+        android:visibility="visible">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.45"
         android:orientation="vertical">
 
         <net.gotev.speech.ui.SpeechProgressView
-            android:id="@+id/progressBarHome"
+            android:id="@+id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="gone" />
 
     </LinearLayout>
-
 
 </RelativeLayout>

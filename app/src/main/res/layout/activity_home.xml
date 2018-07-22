@@ -21,6 +21,27 @@
         app:layout_scrollFlags="scroll"
         tools:targetApi="jelly_bean_mr1">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layoutDirection="rtl">
+
+            <Button
+                android:id="@+id/type1"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/type0"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="0" />
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/btnOpenNvDraw"
             android:layout_width="50dp"

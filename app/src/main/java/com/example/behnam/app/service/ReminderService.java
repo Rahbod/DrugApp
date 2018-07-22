@@ -62,7 +62,7 @@ public class ReminderService extends IntentService {
         assert alarmManager != null;
         alarmManager.cancel(pendingIntent);
         long now = System.currentTimeMillis();
-        long periodTime = reminder.getPeriodTime() * 60000;
+        long periodTime = reminder.getPeriodTime() * 360000;
         long endTime = (reminder.getStartTime() + ((reminder.getCount() - 1) * periodTime));
 
         if (reminder.getShowCount() < reminder.getCount()) {

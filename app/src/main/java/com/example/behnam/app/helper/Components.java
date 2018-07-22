@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,6 @@ import com.example.behnam.app.service.BroadcastReceivers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class Components extends AppController {
     public static void getDrugs(final Context context) {
@@ -146,7 +146,7 @@ public class Components extends AppController {
                         @Override
                         public void onClick(View v) {
                             dialog.dismiss();
-                            ((ActivitySplashScreen)context).finish();
+                            ((ActivitySplashScreen) context).finish();
                         }
                     });
                     dialog.show();
@@ -156,5 +156,20 @@ public class Components extends AppController {
         } else if (type.equals("complete")) {
             // download complete data
         }
+    }
+
+    public static JSONArray jsonArrayRemove(JSONArray list, int position) {
+        JSONArray newList = new JSONArray();
+        if (list != null) {
+            for (int i = 0; i < list.length(); i++)
+                if (i != position) {
+                    try {
+                        newList.put(list.get(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+        return newList;
     }
 }

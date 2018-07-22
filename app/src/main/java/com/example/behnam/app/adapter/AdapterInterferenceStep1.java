@@ -3,7 +3,6 @@ package com.example.behnam.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +69,7 @@ public class AdapterInterferenceStep1 extends RecyclerView.Adapter<AdapterInterf
             super(itemView);
 
             drugName = itemView.findViewById(R.id.txt);
-            relativeLayoutRec = itemView.findViewById(R.id.relativeLayoutRechome);
+            relativeLayoutRec = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
 

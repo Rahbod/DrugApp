@@ -59,7 +59,7 @@ public class AdapterReminder extends RecyclerView.Adapter<AdapterReminder.drugLi
         drugListViewHolder(View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.txt);
-            rel = itemView.findViewById(R.id.relativeLayoutRechome);
+            rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
     public void filterList(ArrayList<Drug> filterdNames) {

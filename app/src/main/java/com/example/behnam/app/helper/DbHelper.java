@@ -1,11 +1,13 @@
 package com.example.behnam.app.helper;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
@@ -252,23 +254,28 @@ public class DbHelper extends SQLiteOpenHelper {
         return drug;
     }
 
-    public List<Category> getCategories(int id) {
-        List<Category> categoryList = new ArrayList<>();
-        String query = "select * from " + TABLE_CATEGORIES + " where " + KEY_ID_CATEGORY + " in ( select " + KEY_CATEGORY_ID + " from " + TABLE_CATEGORY_DRUG + " where " + KEY_DRUG_ID + " = " + id + " )";
+    public List<Category> getCategories(int type) {
+        return getCategories(type, "");
+    }
+
+    public List<Category> getCategories(int type, String condition) {
+        if (condition.isEmpty())
+            condition = "1 = 1";
+        List<Category> list = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = " + type + " AND " + condition;
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            do {
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 Category category = new Category();
-                category.setId(cursor.getInt(0));
-                category.setName(cursor.getString(1));
-                category.setType(cursor.getInt(2));
-                category.setParentID(cursor.getInt(3));
-                categoryList.add(category);
+                category.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_CATEGORY)));
+                category.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_CATEGORY)));
+                category.setParentID(cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID_CATEGORY)));
+                category.setType(cursor.getInt(cursor.getColumnIndex(KEY_TYPE_CATEGORY)));
+                list.add(category);
             }
-            while (cursor.moveToNext());
         }
-        return categoryList;
+        return list;
     }
 
     public List<Drug> getDrugs(JSONArray ids) {
@@ -482,7 +489,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public List<Category> getHealingCategory(int drugID) {
-        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = 0";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = " + Category.TYPE_HEALING;
         List<Category> list = new ArrayList<>();
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -506,7 +513,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public List<Category> getPharmaCategory(int drugID) {
-        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = 0";
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = " + Category.TYPE_HEALING;
         List<Category> list = new ArrayList<>();
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -606,5 +613,23 @@ public class DbHelper extends SQLiteOpenHelper {
     public void deleteReminder(int id) {
         String delete = "DELETE FROM reminders WHERE id= ";
         db.execSQL(delete + id);
+    }
+
+    public List<Drug> getCategoryDrug(int id) {
+        List<Drug> list = new ArrayList<>();
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE id IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " = " + id + ")";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                drug.setNamePersian(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
+                drug.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+                list.add(drug);
+            }
+        }
+        return list;
     }
 }

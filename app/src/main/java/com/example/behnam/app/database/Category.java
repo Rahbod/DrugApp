@@ -5,6 +5,8 @@ public class Category {
     String name;
     int type;
     int parentID;
+    public static final int TYPE_HEALING = 0;
+    public static final int TYPE_SICKNESS = 1;
 
     public Category() {
     }

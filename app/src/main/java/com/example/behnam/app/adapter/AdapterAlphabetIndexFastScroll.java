@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityViewDrug;
-import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.helper.DbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +87,7 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         ListViewHollder(View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);
-            rel = itemView.findViewById(R.id.relativeLayoutRechome);
+            rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
 

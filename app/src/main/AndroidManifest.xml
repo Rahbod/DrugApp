@@ -27,7 +27,6 @@
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
@@ -84,7 +83,7 @@
         <service
             android:name=".service.ReminderService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <receiver
             android:name=".service.BroadcastReceivers"
@@ -117,7 +116,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".ActivityCategories"
+            android:windowSoftInputMode="stateHidden"/>
 
+        <activity android:name=".Activity2"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

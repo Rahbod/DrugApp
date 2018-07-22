@@ -81,6 +81,25 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
         text = findViewById(R.id.editTextSearch);
 
+        Button type1 = findViewById(R.id.type1);
+        type1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityHome.this, ActivityCategories.class);
+                intent.putExtra("type", 1);
+                startActivity(intent);
+            }
+        });
+        Button type0 = findViewById(R.id.type0);
+        type0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityHome.this, ActivityCategories.class);
+                intent.putExtra("type", 0);
+                startActivity(intent);
+            }
+        });
+
         //finish splash screen
         if (ActivitySplashScreen.activitySplashScreen != null)
             ActivitySplashScreen.activitySplashScreen.finish();

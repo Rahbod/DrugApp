@@ -110,7 +110,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         });
 
         DbHelper dbHelper = new DbHelper(this);
-        RecyclerView recyclerView = findViewById(R.id.recHome);
+        RecyclerView recyclerView = findViewById(R.id.recCategoryList);
         drugList = dbHelper.getAllDrugsNotInReminder();
         
 //        sort item

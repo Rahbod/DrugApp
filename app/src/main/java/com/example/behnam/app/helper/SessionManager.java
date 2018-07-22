@@ -6,7 +6,9 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SessionManager {
     // LogCat tag
@@ -182,9 +184,16 @@ public class SessionManager {
         extraEditor.putLong(key, value);
         extraEditor.commit();
     }
+    public void putExtra(String key, Set<String> list){
+        extraEditor.putStringSet(key, list);
+        extraEditor.commit();
+    }
 
     public String getString(String key) {
         return ExtrasPref.getString(key, "");
+    }
+    public Set<String> getSet(String key){
+        return ExtrasPref.getStringSet(key, null);
     }
 
     public Integer getInt(String key) {
