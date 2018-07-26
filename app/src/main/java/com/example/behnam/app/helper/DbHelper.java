@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Interference;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.reminder.ReminderModel;
 
@@ -31,6 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_DRUGS = "drugs";
     private static final String TABLE_CATEGORY_DRUG = "category_drug";
     private static final String TABLE_REMINDER = "reminders";
+    private static final String TABLE_INTERFERENCE = "interference";
 
     private static final String KEY_ID_CATEGORY = "id";
     private static final String KEY_NAME_CATEGORY = "name";
@@ -72,6 +74,11 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_PERIOD_TIME = "period_time";
     private static final String KEY_SHOW_COUNT = "show_count";
 
+    private static final String KEY_ID_INTERFERENCE = "id";
+    private static final String KEY_MODEL = "model";
+    private static final String KEY_MODEL_ID = "modelID";
+    private static final String KEY_TEXT = "text";
+
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -100,10 +107,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_ID_REMINDER + " INTEGER PRIMARY KEY AUTOINCREMENT , " + KEY_DRUG_ID + " INTEGER , "
                 + KEY_START_TIME + " INTEGER , " + KEY_COUNT + " INTEGER , " + KEY_PERIOD_TIME + " INTEGER , " + KEY_SHOW_COUNT + " INTEGER DEFAULT 0 )";
 
+        String CREATE_TABLE_INTERFERENCE = "CREATE TABLE IF NOT EXISTS " + TABLE_INTERFERENCE + " ( "
+                + KEY_ID_INTERFERENCE + " INTEGER PRIMARY KEY AUTOINCREMENT , " + KEY_DRUG_ID + " INTEGER , "
+                + KEY_MODEL + " TEXT , " + KEY_MODEL_ID + " INTEGER , " + KEY_TEXT + " TEXT )";
+
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
         db.execSQL(CREATE_TABLE_CATEGORY_DRUG);
         db.execSQL(CREATE_TABLE_REMINDERS);
+        db.execSQL(CREATE_TABLE_INTERFERENCE);
     }
 
     @Override
@@ -112,7 +124,22 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
         onCreate(db);
+    }
+
+    public void addInterference(Interference interference) {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KEY_ID_INTERFERENCE, interference.getId());
+        values.put(KEY_DRUG_ID, interference.getDrugID());
+        values.put(KEY_MODEL, interference.getModel());
+        values.put(KEY_MODEL_ID, interference.getModelID());
+        values.put(KEY_TEXT, interference.getText());
+
+        db.insert(TABLE_INTERFERENCE, null, values);
+        db.close();
     }
 
     public void addCategory(Category category) {
@@ -627,6 +654,56 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
                 drug.setNamePersian(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
                 drug.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+                list.add(drug);
+            }
+        }
+        return list;
+    }
+
+    public List<Drug> getDrugInterference(int id) {
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE id IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'drg' )";
+        Log.e("qq", query);
+        Cursor cursor = db.rawQuery(query, null);
+        List<Drug> list = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Drug drug = new Drug();
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                list.add(drug);
+            }
+        }
+        return list;
+    }
+
+    public List<Category> getCategoryInterference(int id) {
+        List<Category> list = new ArrayList<>();
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE id IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'cat' )";
+        Log.e("qqqq", query);
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Category category = new Category();
+                category.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_CATEGORY)));
+                category.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_CATEGORY)));
+                list.add(category);
+            }
+        }
+        return list;
+    }
+
+    public List<Drug> getListDrugInterference() {
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE id IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_INTERFERENCE + ")";
+        Cursor cursor = db.rawQuery(query, null);
+        List<Drug> list = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
                 list.add(drug);
             }
         }

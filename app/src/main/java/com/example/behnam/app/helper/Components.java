@@ -25,6 +25,7 @@ import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Interference;
 import com.example.behnam.app.service.BroadcastReceivers;
 
 import org.json.JSONArray;
@@ -74,19 +75,38 @@ public class Components extends AppController {
                                                                 dbHelper.addCategoryDrug(new CategoryDrug(object.getInt("id"), object.getInt("drug_id"), object.getInt("category_id")));
                                                             }
 
-                                                            // goto home activity
-                                                            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-                                                            assert am != null;
-                                                            ComponentName currentActivity = am.getRunningTasks(1).get(0).topActivity;
+                                                            //get interference table
+                                                            AppController.getInstance().sendRequest("android/api/interference", null, new Response.Listener<JSONObject>() {
+                                                                @Override
+                                                                public void onResponse(JSONObject response) {
+                                                                    try {
+                                                                        if (response.getBoolean("status")) {
+                                                                            JSONArray jsonArray = response.getJSONArray("interference");
+                                                                            JSONObject object;
+                                                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                                                object = jsonArray.getJSONObject(i);
+                                                                                dbHelper.addInterference(new Interference(object.getInt("id"), object.getInt("drugID"), object.getString("model"), object.getInt("modelID"), object.getString("text")));
+                                                                            }
 
-                                                            if (!currentActivity.getClassName().equals(ActivityHome.class.getSimpleName())) {
-                                                                SessionManager.getExtrasPref(context).putExtra("firstDataIsComplete", true);
+                                                                            // goto home activity
+                                                                            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                                                                            assert am != null;
+                                                                            ComponentName currentActivity = am.getRunningTasks(1).get(0).topActivity;
 
-                                                                Intent intent = new Intent(context, ActivityHome.class);
-                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                context.startActivity(intent);
-                                                                ActivitySplashScreen.activitySplashScreen.finish();
-                                                            }
+                                                                            if (!currentActivity.getClassName().equals(ActivityHome.class.getSimpleName())) {
+                                                                                SessionManager.getExtrasPref(context).putExtra("firstDataIsComplete", true);
+
+                                                                                Intent intent = new Intent(context, ActivityHome.class);
+                                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                context.startActivity(intent);
+                                                                                ActivitySplashScreen.activitySplashScreen.finish();
+                                                                            }
+                                                                        }
+                                                                    } catch (JSONException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                }
+                                                            });
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();

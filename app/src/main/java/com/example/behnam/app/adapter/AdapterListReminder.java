@@ -69,7 +69,6 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
                     public void onClick(View v) {
                         dialog.dismiss();
                         removeRemainder(position);
-                        Log.e("aaa", dbHelper.getMaxID() + "");
                     }
                 });
 

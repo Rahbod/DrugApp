@@ -72,37 +72,6 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.li
                 } else {
                     notifyDataSetChanged();
                 }
-
-//                int ID = listDrug.get(position).getId();
-//                String condition = "parent_id=" + listDrug.get(position).getId();
-//                DbHelper dbHelper = new DbHelper(context);
-//                int parent_id = listDrug.get(position).getParentID();
-//                listDrug = dbHelper.getCategories(0, condition);
-//                if (listDrug.isEmpty()) {
-//                    boolean existID = false;
-//                    for (int i = 0; i < parentIDList.length(); i++) {
-//                        try {
-//                            if (parentIDList.getInt(i) == parent_id) {
-//                                existID = true;
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    if (!existID) {
-//                        parentIDList.put(parent_id);
-//                        SessionManager.getExtrasPref(context).putExtra("idList", parentIDList.toString());
-//                    }
-//
-//                    Intent intent = new Intent(context, Activity2.class);
-//                    intent.putExtra("id", ID);
-//                    context.startActivity(intent);
-//                } else {
-//                    notifyDataSetChanged();
-//                    parentIDList.put(ID);
-//                    SessionManager.getExtrasPref(context).putExtra("idList", parentIDList.toString());
-//                }
             }
         });
     }

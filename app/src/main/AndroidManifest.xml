@@ -47,15 +47,9 @@
         <activity
             android:name=".ActivityReminderList"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ActivityInterferenceStep1"
-            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityAbout" />
         <activity
             android:name=".ActivityReminderStep1"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ActivityInterferenceStep2"
             android:windowSoftInputMode="stateHidden" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -73,7 +67,6 @@
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ActivityInterferenceStep3" />
         <activity android:name=".ActivityFavorite" />
         <activity
             android:name=".ActivityReminderDialog"
@@ -116,11 +109,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".ActivityCategories"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <activity android:name=".Activity2"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ActivityCategories"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ActivityInterference" />
+        <activity android:name=".ActivityListDrugInterference"></activity>
     </application>
 
 </manifest>

@@ -259,8 +259,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {
             case R.id.item1:
-                Intent goToDrugInteractions = new Intent(this, ActivityInterferenceStep1.class);
-                startActivity(goToDrugInteractions);
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
                 closeNv();
                 break;
             case R.id.item2:
