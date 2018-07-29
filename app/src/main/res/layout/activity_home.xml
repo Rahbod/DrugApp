@@ -28,24 +28,6 @@
             android:layout_alignParentStart="true"
             android:layoutDirection="rtl">
 
-            <Button
-                android:id="@+id/type1"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="1" />
-
-            <Button
-                android:id="@+id/type0"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="0" />
-
-            <Button
-                android:id="@+id/vegetal"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="v" />
-
         </LinearLayout>
 
         <ImageView

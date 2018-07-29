@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.example.behnam.app.ActivityHome;
+import com.example.behnam.app.ActivityIndex;
 import com.example.behnam.app.ActivitySplashScreen;
 import com.example.behnam.app.R;
 import com.example.behnam.app.controller.AppController;
@@ -96,7 +96,7 @@ public class Components extends AppController {
                                                                             if (!currentActivity.getClassName().equals(ActivityHome.class.getSimpleName())) {
                                                                                 SessionManager.getExtrasPref(context).putExtra("firstDataIsComplete", true);
 
-                                                                                Intent intent = new Intent(context, ActivityHome.class);
+                                                                                Intent intent = new Intent(context, ActivityIndex.class);
                                                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                 context.startActivity(intent);
                                                                                 ActivitySplashScreen.activitySplashScreen.finish();
@@ -127,7 +127,7 @@ public class Components extends AppController {
             });
         } else {
             // goto home activity
-            Intent intent = new Intent(context, ActivityHome.class);
+            Intent intent = new Intent(context, ActivityIndex.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }

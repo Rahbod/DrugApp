@@ -120,7 +120,8 @@
         <activity
             android:name=".ActivityVegetalDrug"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".viewDrug"></activity>
+        <activity android:name=".viewDrug" />
+        <activity android:name=".ActivityIndex"></activity>
     </application>
 
 </manifest>

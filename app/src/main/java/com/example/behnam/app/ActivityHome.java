@@ -70,8 +70,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     SharedPreferences sharedPreferences;
     RecyclerView mRecyclerView;
-    private static final int time = 2000;
-    private static long BackPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,35 +78,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.navigation_view);
 
         text = findViewById(R.id.editTextSearch);
-
-        Button type1 = findViewById(R.id.type1);
-        type1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityHome.this, ActivityCategories.class);
-                intent.putExtra("type", 1);
-                startActivity(intent);
-            }
-        });
-
-        Button vegetal = findViewById(R.id.vegetal);
-        vegetal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityHome.this, ActivityVegetalDrug.class);
-                startActivity(intent);
-            }
-        });
-
-        Button type0 = findViewById(R.id.type0);
-        type0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityHome.this, ActivityCategories.class);
-                intent.putExtra("type", 0);
-                startActivity(intent);
-            }
-        });
 
         //finish splash screen
         if (ActivitySplashScreen.activitySplashScreen != null)
@@ -415,18 +384,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                     }
                 })
                 .show();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-            drawerLayout.closeDrawer(Gravity.RIGHT);
-        } else if (2000 + BackPressed > System.currentTimeMillis()) {
-            super.onBackPressed();
-        } else {
-            Toast.makeText(this, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();
-            BackPressed = System.currentTimeMillis();
-        }
     }
 
     public void showDrugs(final Context context) {
