@@ -48,6 +48,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.listVi
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityViewDrug.class);
                 intent.putExtra("id", list.get(position).getId());
+                intent.putExtra("vegetal", list.get(position).getVegetal());
                 context.startActivity(intent);
             }
         });

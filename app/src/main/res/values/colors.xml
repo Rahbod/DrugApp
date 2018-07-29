@@ -18,4 +18,6 @@
     <color name="black">#000000</color>
     <color name="bottom_layout">#e6edf3</color>
     <color name="bottom_layout_text">#6587a5</color>
+    <color name="greenVegetal">#11c483</color>
+    <color name="greenVegetalStatus">#0b8156</color>
 </resources>

@@ -113,10 +113,14 @@
             android:name=".ActivityCategories"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Activity2"
+            android:name=".ActivityCategoreViewDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityInterference" />
-        <activity android:name=".ActivityListDrugInterference"></activity>
+        <activity android:name=".ActivityListDrugInterference" />
+        <activity
+            android:name=".ActivityVegetalDrug"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".viewDrug"></activity>
     </application>
 
 </manifest>

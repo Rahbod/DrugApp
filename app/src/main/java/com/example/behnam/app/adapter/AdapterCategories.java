@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.behnam.app.Activity2;
+import com.example.behnam.app.ActivityCategoreViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.helper.DbHelper;
@@ -65,7 +65,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.li
                 DbHelper dbHelper = new DbHelper(context);
                 listDrug = dbHelper.getCategories(0, condition);
                 if (listDrug.isEmpty()) {
-                    Intent intent = new Intent(context, Activity2.class);
+                    Intent intent = new Intent(context, ActivityCategoreViewDrug.class);
                     intent.putExtra("id", ID);
                     context.startActivity(intent);
                     SessionManager.getExtrasPref(context).putExtra("idList", parentIDList.toString());

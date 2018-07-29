@@ -90,6 +90,16 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 startActivity(intent);
             }
         });
+
+        Button vegetal = findViewById(R.id.vegetal);
+        vegetal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityHome.this, ActivityVegetalDrug.class);
+                startActivity(intent);
+            }
+        });
+
         Button type0 = findViewById(R.id.type0);
         type0.setOnClickListener(new View.OnClickListener() {
             @Override

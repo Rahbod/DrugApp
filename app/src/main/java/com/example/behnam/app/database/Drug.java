@@ -26,6 +26,12 @@ public class Drug {
     String overDose;
     String description;
     String relationWithFood;
+    String compounds;
+    String effectiveIngredients;
+    String standardized;
+    String maintenance;
+    String company;
+    String vegetal;
     int status;
     String lastModified;
     String categoryName;
@@ -37,7 +43,7 @@ public class Drug {
 
     }
 
-    public Drug(int id, String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
+    public Drug(int id, String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified, String compounds, String effectiveIngredients, String standardized, String maintenance, String company, String vegetal) {
         this.id = id;
         this.name = name;
         this.namePersian = namePersian;
@@ -61,6 +67,12 @@ public class Drug {
         this.relationWithFood = relationWithFood;
         this.status = status;
         this.lastModified = lastModified;
+        this.compounds = compounds;
+        this.effectiveIngredients = effectiveIngredients;
+        this.maintenance = maintenance;
+        this.company = company;
+        this.standardized = standardized;
+        this.vegetal = vegetal;
     }
 
     public Drug(String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
@@ -305,6 +317,54 @@ public class Drug {
         this.relationWithFood = relationWithFood;
     }
 
+    public String getCompounds() {
+        return compounds;
+    }
+
+    public void setCompounds(String compounds) {
+        this.compounds = compounds;
+    }
+
+    public String getEffectiveIngredients() {
+        return effectiveIngredients;
+    }
+
+    public void setEffectiveIngredients(String effectiveIngredients) {
+        this.effectiveIngredients = effectiveIngredients;
+    }
+
+    public String getStandardized() {
+        return standardized;
+    }
+
+    public void setStandardized(String standardized) {
+        this.standardized = standardized;
+    }
+
+    public String getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(String maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getVegetal() {
+        return vegetal;
+    }
+
+    public void setVegetal(String vegetal) {
+        this.vegetal = vegetal;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -345,3 +405,4 @@ public class Drug {
         this.namePersian = namePersian;
     }
 }
+

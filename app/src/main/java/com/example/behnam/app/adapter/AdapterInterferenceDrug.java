@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.viewDrug;
 
 import java.util.List;
 
@@ -40,8 +41,9 @@ public class AdapterInterferenceDrug extends RecyclerView.Adapter<AdapterInterfe
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityViewDrug.class);
+                Intent intent = new Intent(context, viewDrug.class);
                 intent.putExtra("id", list.get(pos).getId());
+                intent.putExtra("vegetal", list.get(pos).getVegetal());
                 context.startActivity(intent);
             }
         });

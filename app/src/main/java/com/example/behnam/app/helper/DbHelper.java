@@ -1,6 +1,5 @@
 package com.example.behnam.app.helper;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -66,6 +65,12 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_RELATION_WITH_FOOD = "relation_with_food";
     private static final String KEY_STATUS = "status";
     private static final String KEY_LAST_MODIFIED = "last_modified";
+    private static final String KEY_COMPOUNDS = "compounds";
+    private static final String KEY_EFFECTIVE_INGREDIENTS = "effective_ingredients";
+    private static final String KEY_STANDARDIZED = "standardized";
+    private static final String KEY_MAINTENANCE = "maintenance";
+    private static final String KEY_COMPANY = "company";
+    private static final String KEY_VEGETAL = "vegetal";
     private static final String FAVORITE = "favorite";
 
     private static final String KEY_ID_REMINDER = "id";
@@ -100,7 +105,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_PROHIBITION + " TEXT ," + KEY_CAUTION + " TEXT ," + KEY_DOSE_ADJUSTMENT + " TEXT , "
                 + KEY_COMPLICATION + " TEXT , " + KEY_INTERFERENCE + " TEXT , " + KEY_EFFECT_ON_TEST + " TEXT , "
                 + KEY_OVER_DOSE + " TEXT , " + KEY_DESCRIPTION + " TEXT , " + KEY_RELATION_WITH_FOOD + " TEXT , "
-                + KEY_STATUS + " INTEGER , " + KEY_LAST_MODIFIED + " TEXT , " + FAVORITE + " INTEGER DEFAULT 0"
+                + KEY_STATUS + " INTEGER , " + KEY_LAST_MODIFIED + " TEXT , " + FAVORITE + " INTEGER DEFAULT 0 , "
+                + KEY_COMPOUNDS + " TEXT , " + KEY_EFFECTIVE_INGREDIENTS + " TEXT , " + KEY_STANDARDIZED + " TEXT , "
+                + KEY_MAINTENANCE + " TEXT , " + KEY_COMPANY + " TEXT , " + KEY_VEGETAL + " INTEGER "
                 + ")";
 
         String CREATE_TABLE_REMINDERS = "CREATE TABLE IF NOT EXISTS " + TABLE_REMINDER + " ( "
@@ -165,7 +172,6 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_SHOW_COUNT, reminderModel.getShowCount());
 
         db.insert(TABLE_REMINDER, null, values);
-//        db.close();
     }
 
     public ReminderModel getReminder(int id) {
@@ -260,6 +266,12 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_RELATION_WITH_FOOD, drug.getRelationWithFood());
         values.put(KEY_STATUS, drug.getStatus());
         values.put(KEY_LAST_MODIFIED, drug.getLastModified());
+        values.put(KEY_COMPOUNDS, drug.getCompounds());
+        values.put(KEY_EFFECTIVE_INGREDIENTS, drug.getEffectiveIngredients());
+        values.put(KEY_MAINTENANCE, drug.getMaintenance());
+        values.put(KEY_COMPANY, drug.getCompany());
+        values.put(KEY_STANDARDIZED, drug.getStandardized());
+        values.put(KEY_VEGETAL, drug.getVegetal());
 
         db.insert(TABLE_DRUGS, null, values);
         db.close();
@@ -271,13 +283,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 , KEY_BRAND, KEY_PREGNANCY, KEY_LACTATION, KEY_KIDS, KEY_SENIORS, KEY_HOW_TO_USE, KEY_PRODUCT
                 , KEY_PHARMACODYNAMIC, KEY_USAGE, KEY_PROHIBITION, KEY_CAUTION, KEY_DOSE_ADJUSTMENT
                 , KEY_COMPLICATION, KEY_INTERFERENCE, KEY_EFFECT_ON_TEST, KEY_OVER_DOSE, KEY_DESCRIPTION
-                , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED}, KEY_ID_DRUG + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+                , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED, KEY_COMPOUNDS, KEY_EFFECTIVE_INGREDIENTS
+                , KEY_STANDARDIZED, KEY_MAINTENANCE, KEY_COMPANY, KEY_VEGETAL}, KEY_ID_DRUG + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         cursor.moveToFirst();
         Drug drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
                 , cursor.getString(5), cursor.getString(6), cursor.getString(7)
                 , cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)
                 , cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)
-                , cursor.getString(20), Integer.parseInt(cursor.getString(21)), cursor.getString(22));
+                , cursor.getString(20), Integer.parseInt(cursor.getString(21)), cursor.getString(22), cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)), cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS))
+                , cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)), cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)), cursor.getString(cursor.getColumnIndex(KEY_COMPANY)), cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
         return drug;
     }
 
@@ -305,58 +319,9 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Drug> getDrugs(JSONArray ids) {
-        db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.rawQuery("SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (" + ids.join(",") + ")", null);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        List<Drug> drugList = new ArrayList<>();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                Drug drug = new Drug();
-                drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                drug.setName(cursor.getString(1));
-                drug.setNamePersian(cursor.getString(2));
-                drug.setBrand(cursor.getString(3));
-                drug.setPregnancy(cursor.getString(4));
-                drug.setLactation(cursor.getString(5));
-                drug.setKids(cursor.getString(6));
-                drug.setSeniors(cursor.getString(7));
-                drug.setHowToUse(cursor.getString(8));
-                drug.setProduct(cursor.getString(9));
-                drug.setPharmacodynamic(cursor.getString(10));
-                drug.setUsage(cursor.getString(11));
-                drug.setProhibition(cursor.getString(12));
-                drug.setCaution(cursor.getString(13));
-                drug.setDoseAdjustment(cursor.getString(14));
-                drug.setComplication(cursor.getString(15));
-                drug.setInterference(cursor.getString(16));
-                drug.setEffectOnTest(cursor.getString(17));
-                drug.setOverDose(cursor.getString(18));
-                drug.setDescription(cursor.getString(19));
-                drug.setRelationWithFood(cursor.getString(20));
-                drug.setStatus(Integer.parseInt(cursor.getString(21)));
-                drug.setLastModified(cursor.getString(22));
-                drugList.add(drug);
-            }
-        }
-        return drugList;
-    }
-
-    public long countDrug() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        long count = DatabaseUtils.queryNumEntries(db, TABLE_DRUGS);
-        db.close();
-        return count;
-    }
-
     public List<Drug> getAllDrugs() {
         List<Drug> drugList = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_DRUGS;
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_VEGETAL + " = 0 ";
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -385,6 +350,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setRelationWithFood(cursor.getString(20));
                 drug.setStatus(Integer.parseInt(cursor.getString(21)));
                 drug.setLastModified(cursor.getString(22));
+                drug.setCompounds(cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)));
+                drug.setEffectiveIngredients(cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS)));
+                drug.setStandardized(cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)));
+                drug.setMaintenance(cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)));
+                drug.setCompany(cursor.getString(cursor.getColumnIndex(KEY_COMPANY)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
                 drugList.add(drug);
             }
             while (cursor.moveToNext());
@@ -423,6 +394,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setRelationWithFood(cursor.getString(20));
                 drug.setStatus(Integer.parseInt(cursor.getString(21)));
                 drug.setLastModified(cursor.getString(22));
+                drug.setCompounds(cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)));
+                drug.setEffectiveIngredients(cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS)));
+                drug.setStandardized(cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)));
+                drug.setMaintenance(cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)));
+                drug.setCompany(cursor.getString(cursor.getColumnIndex(KEY_COMPANY)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
                 drugList.add(drug);
             }
             while (cursor.moveToNext());
@@ -448,35 +425,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    /*public JSONObject checkInterference(int id, String selectedIDs) {
-        String[] idsArray = selectedIDs.split(",");
-        db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + TABLE_DRUGS + " d INNER JOIN " + TABLE_CATEGORY_DRUG + " cd  ON d." + KEY_ID_DRUG + " = cd." + KEY_DRUG_ID + " " +
-                "WHERE cd.category_id IN (" +
-                "SELECT category_id FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_DRUG_ID + "=" + String.valueOf(id) + " AND " + KEY_TYPE + "=1 AND " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_TYPE + "=0 AND " + KEY_DRUG_ID + " IN (" + selectedIDs + "))" +
-                ") and d." + KEY_ID_DRUG + " <> " + id;
-        Cursor cursor = db.rawQuery(sql, null);
-        ArrayList<Integer> nID = new ArrayList<>(cursor.getCount());
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                nID.add(cursor.getInt(cursor.getColumnIndex("id")));
-            }
-        }
-        JSONObject conflicts = new JSONObject();
-        for (int i = 0; i < idsArray.length; i++) {
-            Boolean hasInterference = false;
-            if (nID.contains(Integer.parseInt(idsArray[i])))
-                hasInterference = true;
-            try {
-                conflicts.put(idsArray[i], hasInterference);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        cursor.close();
-        return conflicts;
-    }
-    */
     public void bookMark(int id) {
         db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + FAVORITE + " FROM " + TABLE_DRUGS + " WHERE id =" + id, null);
@@ -548,6 +496,30 @@ public class DbHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext()) {
                 List<Category> tempList = getPharmaParents(cursor.getInt(cursor.getColumnIndex(KEY_ID_CATEGORY)));
                 list.addAll(tempList);
+            }
+        }
+        return list;
+    }
+
+    public List<Category> getSicknessCategory(int drugID) {
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = " + Category.TYPE_SICKNESS;
+        List<Category> list = new ArrayList<>();
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                if (cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID_CATEGORY)) == 0) {
+                    Category category = new Category();
+                    category.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_CATEGORY)));
+                    category.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_CATEGORY)));
+                    category.setType(cursor.getInt(cursor.getColumnIndex(KEY_TYPE_CATEGORY)));
+
+                    list.add(category);
+                } else {
+                    Category category = getBaseParent(cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID_CATEGORY)));
+
+                    list.add(category);
+                }
             }
         }
         return list;
@@ -654,6 +626,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
                 drug.setNamePersian(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
                 drug.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
                 list.add(drug);
             }
         }
@@ -663,7 +636,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<Drug> getDrugInterference(int id) {
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE id IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'drg' )";
-        Log.e("qq", query);
         Cursor cursor = db.rawQuery(query, null);
         List<Drug> list = new ArrayList<>();
         if (cursor != null) {
@@ -671,6 +643,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 Drug drug = new Drug();
                 drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
                 drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
                 list.add(drug);
             }
         }
@@ -681,7 +654,6 @@ public class DbHelper extends SQLiteOpenHelper {
         List<Category> list = new ArrayList<>();
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE id IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'cat' )";
-        Log.e("qqqq", query);
         Cursor cursor = db.rawQuery(query, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -708,5 +680,70 @@ public class DbHelper extends SQLiteOpenHelper {
             }
         }
         return list;
+    }
+
+    public List<Drug> getVegetalDrug() {
+        List<Drug> drugList = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_VEGETAL + " = 1 ";
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                drug.setName(cursor.getString(1));
+                drug.setNamePersian(cursor.getString(2));
+                drug.setBrand(cursor.getString(3));
+                drug.setPregnancy(cursor.getString(4));
+                drug.setLactation(cursor.getString(5));
+                drug.setKids(cursor.getString(6));
+                drug.setSeniors(cursor.getString(7));
+                drug.setHowToUse(cursor.getString(8));
+                drug.setProduct(cursor.getString(9));
+                drug.setPharmacodynamic(cursor.getString(10));
+                drug.setUsage(cursor.getString(11));
+                drug.setProhibition(cursor.getString(12));
+                drug.setCaution(cursor.getString(13));
+                drug.setDoseAdjustment(cursor.getString(14));
+                drug.setComplication(cursor.getString(15));
+                drug.setInterference(cursor.getString(16));
+                drug.setEffectOnTest(cursor.getString(17));
+                drug.setOverDose(cursor.getString(18));
+                drug.setDescription(cursor.getString(19));
+                drug.setRelationWithFood(cursor.getString(20));
+                drug.setStatus(Integer.parseInt(cursor.getString(21)));
+                drug.setLastModified(cursor.getString(22));
+                drug.setCompounds(cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)));
+                drug.setEffectiveIngredients(cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS)));
+                drug.setStandardized(cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)));
+                drug.setMaintenance(cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)));
+                drug.setCompany(cursor.getString(cursor.getColumnIndex(KEY_COMPANY)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
+                drugList.add(drug);
+            }
+            while (cursor.moveToNext());
+        }
+        return drugList;
+    }
+
+    public List<Drug> getAllInterferenceDrug(int id){
+        List<Drug> drugList = getDrugInterference(id);
+        List<Drug> list = new ArrayList<>();
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'cat'))";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null){
+            while (cursor.moveToNext()){
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                drug.setNamePersian(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
+                drug.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
+                list.add(drug);
+            }
+        }
+        drugList.addAll(list);
+        return drugList;
     }
 }

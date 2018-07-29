@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ public class AdapterDrugByCategory extends RecyclerView.Adapter<AdapterDrugByCat
 
     Context context;
     private List<Drug> listDrug;
-    private DbHelper dbHelper;
 
     public AdapterDrugByCategory(Context context, List<Drug> listDrug) {
         this.context = context;
@@ -43,8 +44,9 @@ public class AdapterDrugByCategory extends RecyclerView.Adapter<AdapterDrugByCat
         holder.relItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityViewDrug.class);
+                Intent intent = new Intent(context, viewDrug.class);
                 intent.putExtra("id", listDrug.get(position).getId());
+                intent.putExtra("vegetal", listDrug.get(position).getVegetal());
                 context.startActivity(intent);
             }
         });

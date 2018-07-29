@@ -11,8 +11,8 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.behnam.app.R;
-import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +41,9 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityViewDrug.class);
+                Intent intent = new Intent(context, viewDrug.class);
                 intent.putExtra("id", drugList.get(position).getId());
+                intent.putExtra("vegetal", drugList.get(position).getVegetal());
                 context.startActivity(intent);
             }
         });

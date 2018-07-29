@@ -1,11 +1,12 @@
-package com.example.behnam.app;
+package com.example.behnam.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.dialog.SummaryDialog;
@@ -27,22 +29,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityViewDrug extends AppCompatActivity {
-    private JSONObject pregnancyGroupsText = new JSONObject();
+public class FragmentViewDrug extends Fragment {
+
     String s = "";
 
     WebView webView;
     String strPregnancy = "";
     String groupPregnancyStr = "";
-    String descriptionGroup[] = new String[28];
     String healingStr = "", pharmaStr = "", sicknessStr = "";
-    ImageView btnBack;
-    List<Category> categoryList = new ArrayList<>();
-    FontTextViewBold nameDrug;
-    FontTextView persianName;
     String strDescription;
 
     Animation animationToDown;
@@ -55,14 +51,15 @@ public class ActivityViewDrug extends AppCompatActivity {
 
     LinearLayout linearfriend;
 
-    //@SuppressLint("WrongViewCast")
-    @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_drug);
 
-        webView = findViewById(R.id.web_view_drug);
+    public FragmentViewDrug() {}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view =LayoutInflater.from(getActivity()).inflate(R.layout.view_drug, null);
+
+        webView = view.findViewById(R.id.web_view_drug);
 
         webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -71,9 +68,6 @@ public class ActivityViewDrug extends AppCompatActivity {
             }
         });
 
-        nameDrug = findViewById(R.id.name_drug);
-        persianName = findViewById(R.id.persian_name);
-
         webView.setWebChromeClient(new WebChromeClient());
 
         webView.setWebViewClient(new WebViewClient() {
@@ -81,20 +75,20 @@ public class ActivityViewDrug extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-                SummaryDialog summaryDialog = new SummaryDialog(ActivityViewDrug.this, url);
+                SummaryDialog summaryDialog = new SummaryDialog(getActivity(), url);
                 summaryDialog.show();
                 return true;
             }
 
         });
 
-        relativebottom = findViewById(R.id.relative_bottom);
-        addToBasketText = findViewById(R.id.add_basket_item);
-        addToBasketImage = findViewById(R.id.add_basket_ico);
-        linearBasket = findViewById(R.id.layout_basket);
-        linearfriend = findViewById(R.id.layout_friend);
+        relativebottom = view.findViewById(R.id.relative_bottom);
+        addToBasketText = view.findViewById(R.id.add_basket_item);
+        addToBasketImage = view.findViewById(R.id.add_basket_ico);
+        linearBasket = view.findViewById(R.id.layout_basket);
+        linearfriend = view.findViewById(R.id.layout_friend);
 
-        animationToUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        animationToUp = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
         animationToUp.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -110,7 +104,7 @@ public class ActivityViewDrug extends AppCompatActivity {
             }
         });
 
-        animationToDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        animationToDown = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
         animationToDown.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -127,31 +121,11 @@ public class ActivityViewDrug extends AppCompatActivity {
         });
 
 
-        final int ID = getIntent().getIntExtra("id", 0);
-        int VEGETAL = Integer.parseInt(getIntent().getStringExtra("vegetal"));
+        final int ID = getActivity().getIntent().getIntExtra("id", 0);
+        int VEGETAL = Integer.parseInt(getActivity().getIntent().getStringExtra("vegetal"));
 
-        if (VEGETAL == 1) {
-            RelativeLayout rel = findViewById(R.id.header);
-            rel.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.greenVegetalStatus));
-            }
-        }
-
-        final DbHelper dbHelper = new DbHelper(this);
+        final DbHelper dbHelper = new DbHelper(getActivity());
         final Drug drug = dbHelper.getDrug(ID);
-
-        nameDrug.setText(drug.getName());
-        persianName.setText(drug.getNamePersian());
-
-        //btnBack
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         //Get healing category
         List<Category> categoryList = dbHelper.getHealingCategory(ID);
@@ -376,13 +350,13 @@ public class ActivityViewDrug extends AppCompatActivity {
                     addToBasketText.setTextColor(getResources().getColor(R.color.table_link));
                     addToBasketText.setText("حذف از سبد دارو");
                     addToBasketImage.setColorFilter(getResources().getColor(R.color.table_link));
-                    Toast.makeText(ActivityViewDrug.this, "داروی " + "\"" + drug.getName() + "\"" + " به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
                 } else {
                     dbHelper.bookMark(ID);
                     addToBasketText.setText("اضافه به سبد دارو");
                     addToBasketText.setTextColor(getResources().getColor(R.color.bottom_layout_text));
                     addToBasketImage.setColorFilter(getResources().getColor(R.color.bottom_layout_text));
-                    Toast.makeText(ActivityViewDrug.this, "داروی " + "\"" + drug.getName() + "\"" + " از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -392,6 +366,8 @@ public class ActivityViewDrug extends AppCompatActivity {
                 shareText(drug.getName(), drug.getName() + "\n" + drug.getNamePersian());
             }
         });
+
+        return view;
     }
 
     private void shareText(String subject, String text) {

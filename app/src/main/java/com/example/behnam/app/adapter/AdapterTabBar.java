@@ -53,6 +53,14 @@ public class AdapterTabBar extends FragmentPagerAdapter{
         return view;
     }
 
+    public View getTabViewDrug(int position){
+        String tabTitles[] = new String[] { "توضیحات دارو", "تداخل با دارو" };
+        View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
+        TextView txt = view.findViewById(R.id.txtTitle);
+        txt.setText(tabTitles[position]);
+        return view;
+    }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
