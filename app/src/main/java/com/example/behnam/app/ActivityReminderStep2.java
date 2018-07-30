@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amitshekhar.DebugDB;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.ButtonFont;
-import com.example.behnam.fonts.EditTextFont;
 import com.example.behnam.fonts.FontTextView;
 import com.example.behnam.fonts.FontTextViewBold;
 import com.example.behnam.reminder.ReminderModel;
@@ -30,7 +27,6 @@ import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.util.Calendar;
-import java.util.List;
 
 import saman.zamani.persiandate.PersianDate;
 

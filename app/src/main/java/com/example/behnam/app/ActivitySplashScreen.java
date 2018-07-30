@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.amitshekhar.DebugDB;
 import com.example.behnam.app.helper.Components;
 
 import java.sql.Time;
@@ -35,7 +34,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         activitySplashScreen = this;
-        Log.e("address", DebugDB.getAddressLog());
 
         //Lottie anim
         new Handler().postDelayed(new Runnable() {
