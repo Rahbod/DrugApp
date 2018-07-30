@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
+import com.example.behnam.app.adapter.AdapterDrugByCategory;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.fastscroll.AlphabetItem;
 import com.example.behnam.app.helper.Components;
@@ -66,16 +67,20 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
-
-
     SharedPreferences sharedPreferences;
     RecyclerView mRecyclerView;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setContentView(R.layout.navigation_view);
+
+        mRecyclerView = findViewById(R.id.fast_scroller_recycler);
+        dbHelper = new DbHelper(this);
+
+        showDrugs();
 
         text = findViewById(R.id.editTextSearch);
 
@@ -164,7 +169,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }, 100);
             }
         });
-        showDrugs(this);
+
         btnListen = findViewById(R.id.imgVoice);
         progress = findViewById(R.id.progressBarHome);
         Speech.init(this, getPackageName());
@@ -386,19 +391,9 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 .show();
     }
 
-    public void showDrugs(final Context context) {
-        mRecyclerView = ((ActivityHome) context).getWindow().getDecorView().findViewById(R.id.fast_scroller_recycler);
-        DbHelper dbHelper = new DbHelper(context);
-
+    public void showDrugs() {
         drugList = dbHelper.getAllDrugs();
-
-        //Recycler view data
-        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, context);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(adapterHome);
-
-        drugList = dbHelper.getAllDrugs();
+        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
 //        sort item
         Collections.sort(drugList, new Comparator<Drug>() {
@@ -407,8 +402,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 return o1.getName().compareTo(o2.getName());
             }
         });
-
-        adapterHome = new AdapterAlphabetIndexFastScroll(drugList, context);
 
         //Alphabet fast scroller data
         List<AlphabetItem> mAlphabetItems = new ArrayList<>();
@@ -423,7 +416,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 mAlphabetItems.add(new AlphabetItem(i, word, false));
             }
         }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapterHome);
     }
 }

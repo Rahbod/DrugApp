@@ -182,13 +182,14 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 reminderModel.setDrugID(cursor.getInt(cursor.getColumnIndex(KEY_DRUG_ID)));
+                reminderModel.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_REMINDER)));
                 reminderModel.setPeriodTime(cursor.getInt(cursor.getColumnIndex(KEY_PERIOD_TIME)));
                 reminderModel.setCount(cursor.getInt(cursor.getColumnIndex(KEY_COUNT)));
                 reminderModel.setStartTime(cursor.getLong(cursor.getColumnIndex(KEY_START_TIME)));
                 reminderModel.setShowCount(cursor.getInt(cursor.getColumnIndex(KEY_SHOW_COUNT)));
             }
-        }
-        return reminderModel;
+            return reminderModel;
+        } else return null;
     }
 
     public List<Integer> getCurrentReminders() {
@@ -285,14 +286,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 , KEY_COMPLICATION, KEY_INTERFERENCE, KEY_EFFECT_ON_TEST, KEY_OVER_DOSE, KEY_DESCRIPTION
                 , KEY_RELATION_WITH_FOOD, KEY_STATUS, KEY_LAST_MODIFIED, KEY_COMPOUNDS, KEY_EFFECTIVE_INGREDIENTS
                 , KEY_STANDARDIZED, KEY_MAINTENANCE, KEY_COMPANY, KEY_VEGETAL}, KEY_ID_DRUG + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        cursor.moveToFirst();
-        Drug drug = new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
-                , cursor.getString(5), cursor.getString(6), cursor.getString(7)
-                , cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)
-                , cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)
-                , cursor.getString(20), Integer.parseInt(cursor.getString(21)), cursor.getString(22), cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)), cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS))
-                , cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)), cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)), cursor.getString(cursor.getColumnIndex(KEY_COMPANY)), cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
-        return drug;
+        if (cursor != null) {
+            cursor.moveToFirst();
+            return new Drug(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+                    , cursor.getString(5), cursor.getString(6), cursor.getString(7)
+                    , cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11), cursor.getString(12), cursor.getString(13)
+                    , cursor.getString(14), cursor.getString(15), cursor.getString(16), cursor.getString(17), cursor.getString(18), cursor.getString(19)
+                    , cursor.getString(20), Integer.parseInt(cursor.getString(21)), cursor.getString(22), cursor.getString(cursor.getColumnIndex(KEY_COMPOUNDS)), cursor.getString(cursor.getColumnIndex(KEY_EFFECTIVE_INGREDIENTS))
+                    , cursor.getString(cursor.getColumnIndex(KEY_STANDARDIZED)), cursor.getString(cursor.getColumnIndex(KEY_MAINTENANCE)), cursor.getString(cursor.getColumnIndex(KEY_COMPANY)), cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
+        } else return null;
     }
 
     public List<Category> getCategories(int type) {
@@ -726,14 +728,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return drugList;
     }
 
-    public List<Drug> getAllInterferenceDrug(int id){
+    public List<Drug> getAllInterferenceDrug(int id) {
         List<Drug> drugList = getDrugInterference(id);
         List<Drug> list = new ArrayList<>();
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_MODEL_ID + " FROM " + TABLE_INTERFERENCE + " WHERE " + KEY_DRUG_ID + " = " + id + " AND " + KEY_MODEL + " = 'cat'))";
         Cursor cursor = db.rawQuery(query, null);
-        if (cursor != null){
-            while (cursor.moveToNext()){
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 Drug drug = new Drug();
                 drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
                 drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
@@ -745,5 +747,24 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         drugList.addAll(list);
         return drugList;
+    }
+
+    public List<Drug> getDrugs() {
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DRUGS;
+        Cursor cursor = db.rawQuery(query, null);
+        List<Drug> list = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Drug drug = new Drug();
+                drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+                drug.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+                drug.setNamePersian(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
+                drug.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+                drug.setVegetal(cursor.getString(cursor.getColumnIndex(KEY_VEGETAL)));
+                list.add(drug);
+            }
+        }
+        return list;
     }
 }

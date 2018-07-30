@@ -83,6 +83,7 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="STOP_SERVICE" />
                 <action
                     android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
@@ -121,7 +122,7 @@
             android:name=".ActivityVegetalDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".viewDrug" />
-        <activity android:name=".ActivityIndex"></activity>
+        <activity android:name=".ActivityIndex" />
     </application>
 
 </manifest>

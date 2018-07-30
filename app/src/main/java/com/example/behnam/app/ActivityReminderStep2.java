@@ -195,7 +195,6 @@ public class ActivityReminderStep2 extends AppCompatActivity {
 
                     //max id
                     int id = dbHelper.getMaxID();
-                    ReminderModel reminder = new ReminderModel();
                     dbHelper.getReminder(id);
 
                     // Start service

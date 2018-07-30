@@ -1,6 +1,5 @@
 package com.example.behnam.app.service;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
@@ -9,18 +8,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.example.behnam.app.ActivityReminderDialog;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.reminder.ReminderModel;
 
 import java.lang.ref.WeakReference;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ReminderService extends IntentService {
 
     private static WeakReference<ReminderService> instance;
+    int reminderID;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -48,8 +48,7 @@ public class ReminderService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         instance = new WeakReference<>(this);
         // Convert start time to second
-
-        int reminderID = intent.getIntExtra("reminderID", 0);
+        reminderID = intent.getIntExtra("reminderID", 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         DbHelper dbHelper = new DbHelper(getApplicationContext());
         intent.putExtra("reminderID", reminderID);
@@ -62,7 +61,7 @@ public class ReminderService extends IntentService {
         assert alarmManager != null;
         alarmManager.cancel(pendingIntent);
         long now = System.currentTimeMillis();
-        long periodTime = reminder.getPeriodTime() * 360000;
+        long periodTime = reminder.getPeriodTime() * 10000;
         long endTime = (reminder.getStartTime() + ((reminder.getCount() - 1) * periodTime));
 
         if (reminder.getShowCount() < reminder.getCount()) {

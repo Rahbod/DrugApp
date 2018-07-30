@@ -3,9 +3,11 @@ package com.example.behnam.app.adapter;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.service.BroadcastReceivers;
 import com.example.behnam.app.service.ReminderService;
 import com.google.android.gms.common.data.DataBuffer;
 
@@ -94,10 +97,8 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
     }
 
     private void removeRemainder(int position) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(PendingIntent.getService(context, reminderList.get(position).getId(), new Intent(), 0));
-        dbHelper.deleteReminder(reminderList.get(position).getId());
-        context.stopService(new Intent(context.getApplicationContext(), ReminderService.class));
+        int ID = reminderList.get(position).getId();
+        dbHelper.deleteReminder(ID);
         reminderList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, reminderList.size());

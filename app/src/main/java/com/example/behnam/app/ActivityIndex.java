@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.map.MapActivity;
 
 public class ActivityIndex extends AppCompatActivity {
@@ -18,9 +19,6 @@ public class ActivityIndex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
-
-        LinearLayout interference, search, vegetalDrug, drug,
-                healing, pharma, location, reminder;
     }
 
     public void openActivity(View view) {
@@ -29,10 +27,11 @@ public class ActivityIndex extends AppCompatActivity {
                 Intent intent = new Intent(ActivityIndex.this, ActivityListDrugInterference.class);
                 startActivity(intent);
                 break;
-//            case R.id.search:
-//                Intent intentSearch = new Intent(ActivityIndex.this, Activity.class);
-//                startActivity(intentSearch);
-//                break;
+            case R.id.search:
+                Intent intentSearch = new Intent(ActivityIndex.this, ActivityVegetalDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                break;
             case R.id.vegetalDrug:
                 Intent intentVegetalDrug = new Intent(ActivityIndex.this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);

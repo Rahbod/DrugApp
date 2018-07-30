@@ -58,12 +58,8 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        //set Text Title
         txtTitle = findViewById(R.id.txtTitle);
-        txtTitle.setText("گیاهان دارویی");
-
         ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,33 +67,56 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.greenVegetalStatus));
-        }
-
+        RecyclerView recyclerView = findViewById(R.id.recCategoryList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DbHelper dbHelper = new DbHelper(this);
         text = findViewById(R.id.editTextSearch);
         btnListen = findViewById(R.id.imgVoice);
 
-        DbHelper dbHelper = new DbHelper(this);
-        list = dbHelper.getVegetalDrug();
-        RecyclerView recyclerView = findViewById(R.id.recCategoryList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AdapterDrugByCategory(this, list);
-        recyclerView.setAdapter(adapter);
+        if (getIntent().getStringExtra("search") != null) {
+            txtTitle.setText("جستجو");
+            list = dbHelper.getDrugs();
+            adapter = new AdapterDrugByCategory(this, list);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
 
-        //        sort item
-        Collections.sort(list, new Comparator<Drug>() {
-            @Override
-            public int compare(Drug o1, Drug o2) {
-                return o1.getName().compareTo(o2.getName());
+            //sort list
+            Collections.sort(list, new Comparator<Drug>() {
+                @Override
+                public int compare(Drug o1, Drug o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+        } else {
+            list = dbHelper.getVegetalDrug();
+            adapter = new AdapterDrugByCategory(this, list);
+            recyclerView.setAdapter(adapter);
+
+            //        sort item
+            Collections.sort(list, new Comparator<Drug>() {
+                @Override
+                public int compare(Drug o1, Drug o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+
+            // Change Color Header
+            RelativeLayout rel1 = findViewById(R.id.actionBarFavorite);
+            RelativeLayout rel2 = findViewById(R.id.relHome1);
+            rel1.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
+            rel2.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
+
+            //change color statusBar
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.greenVegetalStatus));
             }
-        });
 
-        // Change Color Header
-        RelativeLayout rel1 = findViewById(R.id.actionBarFavorite);
-        RelativeLayout rel2 = findViewById(R.id.relHome1);
-        rel1.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
-        rel2.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
+            //set Text Title
+            txtTitle.setText("گیاهان دارویی");
+
+            // set ColorBackGround btnBack
+            btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
+        }
 
         // search
         final ImageView searchIcon = findViewById(R.id.searchIcon);
@@ -154,8 +173,8 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                 final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    View viewDialogMassage = LayoutInflater.from(ActivityVegetalDrug.this).inflate(R.layout.massage_dialog, null);
                     final Dialog dialog = new Dialog(ActivityVegetalDrug.this);
+                    View viewDialogMassage = LayoutInflater.from(ActivityVegetalDrug.this).inflate(R.layout.massage_dialog, null);
                     dialog.setContentView(viewDialogMassage);
                     LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
                     linMassageDialog.setVisibility(View.VISIBLE);
@@ -235,6 +254,34 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
         }
     }
 
+    @Override
+    public void onStartOfSpeech() {
+    }
+
+    @Override
+    public void onSpeechRmsChanged(float value) {
+    }
+
+    @Override
+    public void onSpeechResult(String result) {
+
+        btnListen.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.GONE);
+        if (!result.isEmpty()) {
+            text.setText(result);
+        } else {
+            Speech.getInstance().say(getString(R.string.repeat));
+        }
+    }
+
+    @Override
+    public void onSpeechPartialResults(List<String> results) {
+        text.setText("");
+        for (String partial : results) {
+            text.append(partial + "");
+        }
+    }
+
     private void showSpeechNotSupportedDialog() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -268,31 +315,5 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                     }
                 })
                 .show();
-    }
-
-    @Override
-    public void onStartOfSpeech() {
-
-    }
-
-    @Override
-    public void onSpeechRmsChanged(float value) {
-
-    }
-
-    @Override
-    public void onSpeechPartialResults(List<String> results) {
-
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-        btnListen.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (!result.isEmpty()) {
-            text.setText(result);
-        } else {
-            Speech.getInstance().say(getString(R.string.repeat));
-        }
     }
 }
