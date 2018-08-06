@@ -24,7 +24,7 @@ import com.example.behnam.app.R;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.CategoryDrug;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.database.Interference;
 import com.example.behnam.app.service.BroadcastReceivers;
 
@@ -46,7 +46,7 @@ public class Components extends AppController {
                             JSONObject object;
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 object = jsonArray.getJSONObject(i);
-                                dbHelper.addDrug(new Drug(object.getInt("id"), object.getString("name"), object.getString("fa_name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified"), object.getString("compounds"), object.getString("effective_ingredients"), object.getString("standardized"), object.getString("maintenance"), object.getString("company"),object.getString("vegetal")));
+                                dbHelper.addDrug(new Drug2(object.getInt("id"), object.getString("name"), object.getString("fa_name"), object.getString("brand"), object.getString("pregnancy"), object.getString("lactation"), object.getString("kids"), object.getString("seniors"), object.getString("how_to_use"), object.getString("product"), object.getString("pharmacodynamic"), object.getString("usage"), object.getString("prohibition"), object.getString("caution"), object.getString("dose_adjustment"), object.getString("complication"), object.getString("interference"), object.getString("effect_on_test"), object.getString("overdose"), object.getString("description"), object.getString("relation_with_food"), object.getInt("status"), object.getString("last_modified"), object.getString("compounds"), object.getString("effective_ingredients"), object.getString("standardized"), object.getString("maintenance"), object.getString("company"), object.getString("vegetal")));
                             }
 
                             // get categories from server
@@ -191,5 +191,17 @@ public class Components extends AppController {
                 }
         }
         return newList;
+    }
+
+    public static String decrypt(String encrypted){
+        MCrypt mCrypt = new MCrypt();
+        String data = "";
+        try {
+            byte[] cod =mCrypt.decrypt(encrypted);
+            data = new String(cod);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }

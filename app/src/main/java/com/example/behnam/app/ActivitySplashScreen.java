@@ -1,22 +1,16 @@
 package com.example.behnam.app;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.behnam.app.helper.Components;
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.behnam.app.controller.AppController;
 
 import at.grabner.circleprogress.CircleProgressView;
 
@@ -27,6 +21,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private CircleProgressView progressBarSplash;
 
     public static Activity activitySplashScreen = null;
+
+    private static final String HASH_ALGORITHM = "SHA-256";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +72,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 //download database
-                Components.downloadData(ActivitySplashScreen.this, "first");
+                AppController.getInstance().getSQLiteDb(ActivitySplashScreen.this);
             }
         }, 3000);
     }

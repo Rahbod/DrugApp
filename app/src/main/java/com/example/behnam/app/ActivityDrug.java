@@ -1,7 +1,6 @@
 package com.example.behnam.app;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,9 +17,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +29,8 @@ import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterDrugByCategory;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -44,10 +45,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDelegate {
+public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
 
     private TextView text, txtTitle;
-    private List<Drug> list;
+    private List<Index> list;
     private AdapterDrugByCategory adapter;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
@@ -77,13 +78,12 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
             txtTitle.setText("جستجو");
             list = dbHelper.getDrugs();
             adapter = new AdapterDrugByCategory(this, list);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
 
             //sort list
-            Collections.sort(list, new Comparator<Drug>() {
+            Collections.sort(list, new Comparator<Index>() {
                 @Override
-                public int compare(Drug o1, Drug o2) {
+                public int compare(Index o1, Index o2) {
                     return o1.getName().compareTo(o2.getName());
                 }
             });
@@ -93,9 +93,9 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
             recyclerView.setAdapter(adapter);
 
             //        sort item
-            Collections.sort(list, new Comparator<Drug>() {
+            Collections.sort(list, new Comparator<Index>() {
                 @Override
-                public int compare(Drug o1, Drug o2) {
+                public int compare(Index o1, Index o2) {
                     return o1.getName().compareTo(o2.getName());
                 }
             });
@@ -173,8 +173,8 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                 final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    final Dialog dialog = new Dialog(ActivityVegetalDrug.this);
-                    View viewDialogMassage = LayoutInflater.from(ActivityVegetalDrug.this).inflate(R.layout.massage_dialog, null);
+                    final Dialog dialog = new Dialog(ActivityDrug.this);
+                    View viewDialogMassage = LayoutInflater.from(ActivityDrug.this).inflate(R.layout.massage_dialog, null);
                     dialog.setContentView(viewDialogMassage);
                     LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
                     linMassageDialog.setVisibility(View.VISIBLE);
@@ -194,7 +194,7 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                                 if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                     onRecordAudioPermissionGranted();
                                 else {
-                                    ActivityCompat.requestPermissions(ActivityVegetalDrug.this,
+                                    ActivityCompat.requestPermissions(ActivityDrug.this,
                                             new String[]{Manifest.permission.RECORD_AUDIO},
                                             1);
                                 }
@@ -216,7 +216,7 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
                         else {
-                            ActivityCompat.requestPermissions(ActivityVegetalDrug.this,
+                            ActivityCompat.requestPermissions(ActivityDrug.this,
                                     new String[]{Manifest.permission.RECORD_AUDIO}, 100);
                         }
                     }
@@ -225,26 +225,12 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
         });
     }
 
-    private void filter(String str) {
-        ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : list) {
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            }
-        }
-        adapter.filterList(filterDrug);
-    }
-
     private void onRecordAudioPermissionGranted() {
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
             Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress, ActivityVegetalDrug.this);
+            Speech.getInstance().startListening(progress, ActivityDrug.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -254,32 +240,17 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
         }
     }
 
-    @Override
-    public void onStartOfSpeech() {
-    }
-
-    @Override
-    public void onSpeechRmsChanged(float value) {
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-
-        btnListen.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (!result.isEmpty()) {
-            text.setText(result);
-        } else {
-            Speech.getInstance().say(getString(R.string.repeat));
-        }
-    }
-
-    @Override
-    public void onSpeechPartialResults(List<String> results) {
-        text.setText("");
-        for (String partial : results) {
-            text.append(partial + "");
-        }
+    private void showEnableGoogleVoiceTyping() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.enable_google_voice_typing)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // do nothing
+                    }
+                })
+                .show();
     }
 
     private void showSpeechNotSupportedDialog() {
@@ -288,7 +259,7 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityVegetalDrug.this);
+                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityDrug.this);
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         break;
@@ -304,16 +275,46 @@ public class ActivityVegetalDrug extends AppCompatActivity implements SpeechDele
                 .show();
     }
 
-    private void showEnableGoogleVoiceTyping() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.enable_google_voice_typing)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // do nothing
-                    }
-                })
-                .show();
+    private void filter(String str) {
+        ArrayList<Index> filterDrug = new ArrayList<>();
+        for (Index index : list) {
+            if (index.getName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getFa_name().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            }
+        }
+        adapter.filterList(filterDrug);
+    }
+
+    @Override
+    public void onStartOfSpeech() {
+
+    }
+
+    @Override
+    public void onSpeechRmsChanged(float value) {
+
+    }
+
+    @Override
+    public void onSpeechPartialResults(List<String> results) {
+        text.setText("");
+        for (String partial : results) {
+            text.append(partial + "");
+        }
+    }
+
+    @Override
+    public void onSpeechResult(String result) {
+        btnListen.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.GONE);
+        if (!result.isEmpty()) {
+            text.setText(result);
+        } else {
+            Speech.getInstance().say(getString(R.string.repeat));
+        }
     }
 }

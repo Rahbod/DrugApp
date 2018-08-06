@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +33,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
-import com.example.behnam.app.adapter.AdapterDrugByCategory;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.fastscroll.AlphabetItem;
 import com.example.behnam.app.helper.Components;
 import com.example.behnam.app.helper.DbHelper;
@@ -62,7 +62,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     private AdapterAlphabetIndexFastScroll adapterHome;
     private DrawerLayout drawerLayout;
-    private List<Drug> drugList = new ArrayList<>();
+    private List<Index> drugList = new ArrayList<>();
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
@@ -83,13 +83,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         showDrugs();
 
         text = findViewById(R.id.editTextSearch);
-
-        //finish splash screen
-        if (ActivitySplashScreen.activitySplashScreen != null)
-            ActivitySplashScreen.activitySplashScreen.finish();
-
-        if (!SessionManager.getExtrasPref(this).getBoolean("firstDataIsComplete"))
-            Components.downloadData(this, "first");
 
         //help screen voice
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -207,7 +200,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                                 Speech.getInstance().stopListening();
                             } else {
                                 if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                     onRecordAudioPermissionGranted();
+                                    onRecordAudioPermissionGranted();
                                 else {
                                     ActivityCompat.requestPermissions(ActivityHome.this,
                                             new String[]{Manifest.permission.RECORD_AUDIO},
@@ -275,6 +268,34 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 startActivity(goToAbout);
                 closeNv();
                 break;
+            case R.id.item8:
+                Intent intentVegetalDrug = new Intent(ActivityHome.this, ActivityDrug.class);
+                startActivity(intentVegetalDrug);
+                closeNv();
+                break;
+            case R.id.item9:
+                Intent intentDrug = new Intent(ActivityHome.this, ActivityHome.class);
+                startActivity(intentDrug);
+                closeNv();
+                break;
+            case R.id.item10:
+                Intent intentSearch = new Intent(ActivityHome.this, ActivityDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                closeNv();
+                break;
+            case R.id.item11:
+                Intent intentPharma = new Intent(ActivityHome.this, ActivityCategories.class);
+                intentPharma.putExtra("type", 1);
+                startActivity(intentPharma);
+                closeNv();
+                break;
+            case R.id.item12:
+                Intent intentHealing = new Intent(ActivityHome.this, ActivityCategories.class);
+                intentHealing.putExtra("type", 0);
+                startActivity(intentHealing);
+                closeNv();
+                break;
         }
     }
 
@@ -300,14 +321,14 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     }
 
     private void filter(String str) {
-        ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : drugList) {
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
+        ArrayList<Index> filterDrug = new ArrayList<>();
+        for (Index index : drugList) {
+            if (index.getName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getFa_name().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
             }
         }
         adapterHome.filterList(filterDrug);
@@ -338,7 +359,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     public void onSpeechResult(String result) {
-
         btnListen.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
         if (!result.isEmpty()) {
@@ -396,9 +416,9 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
 //        sort item
-        Collections.sort(drugList, new Comparator<Drug>() {
+        Collections.sort(drugList, new Comparator<Index>() {
             @Override
-            public int compare(Drug o1, Drug o2) {
+            public int compare(Index o1, Index o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });
@@ -407,7 +427,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         List<AlphabetItem> mAlphabetItems = new ArrayList<>();
         List<String> strAlphabets = new ArrayList<>();
         for (int i = 0; i < drugList.size(); i++) {
-            Drug name = drugList.get(i);
+            Index name = drugList.get(i);
             if (name == null || name.getName().isEmpty())
                 continue;
             String word = name.getName().substring(0, 1);
@@ -418,5 +438,15 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapterHome);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else {
+            finish();
+            Log.e("qqqq", "onBackPressed: ");
+        }
     }
 }

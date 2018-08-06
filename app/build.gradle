@@ -48,4 +48,6 @@ dependencies {
     implementation 'org.sufficientlysecure:html-textview:3.5'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+    implementation 'com.github.tozny:java-aes-crypto:1.1.0'
+    implementation 'com.scottyab:aescrypt:0.0.1'
 }

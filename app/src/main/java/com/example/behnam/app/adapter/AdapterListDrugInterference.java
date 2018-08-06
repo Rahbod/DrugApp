@@ -20,7 +20,7 @@ import java.util.List;
 public class AdapterListDrugInterference extends RecyclerView.Adapter<AdapterListDrugInterference.drugListViewHolder> {
 
     Context context;
-    List<Drug> drugList ;
+    List<Drug> drugList;
 
     public AdapterListDrugInterference(Context context, List<Drug> drugList) {
         this.context = context;
@@ -41,7 +41,7 @@ public class AdapterListDrugInterference extends RecyclerView.Adapter<AdapterLis
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,ActivityInterference.class);
-                intent.putExtra("id",drugList.get(pos).getId());
+                intent.putExtra("id", drugList.get(pos).getId());
                 context.startActivity(intent);
             }
         });
@@ -57,7 +57,7 @@ public class AdapterListDrugInterference extends RecyclerView.Adapter<AdapterLis
         RelativeLayout rel;
         drugListViewHolder(View itemView) {
             super(itemView);
-            drugName = itemView.findViewById(R.id.txt);
+            drugName = itemView.findViewById(R.id.txtTitle);
             rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }

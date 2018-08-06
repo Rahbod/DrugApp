@@ -11,7 +11,8 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.example.behnam.app.R;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         implements SectionIndexer {
 
     private ArrayList<Integer> mSectionPositions;
-    private List<Drug> drugList;
+    private List<Index> drug2List;
     private Context context;
 
-    public AdapterAlphabetIndexFastScroll(List<Drug> drugList, Context context) {
-        this.drugList = drugList;
+    public AdapterAlphabetIndexFastScroll(List<Index> drugList, Context context) {
+        this.drug2List = drugList;
         this.context = context;
     }
 
@@ -37,13 +38,13 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
 
     @Override
     public void onBindViewHolder(final ListViewHollder holder, final int position) {
-        holder.txt.setText(drugList.get(position).getName());
+        holder.txt.setText(drug2List.get(position).getName());
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, viewDrug.class);
-                intent.putExtra("id", drugList.get(position).getId());
-                intent.putExtra("vegetal", drugList.get(position).getVegetal());
+                intent.putExtra("id", drug2List.get(position).getId());
+                intent.putExtra("vegetal", drug2List.get(position).getVegetal());
                 context.startActivity(intent);
             }
         });
@@ -51,17 +52,17 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
 
     @Override
     public int getItemCount() {
-        if (drugList == null)
+        if (drug2List == null)
             return 0;
-        return drugList.size();
+        return drug2List.size();
     }
 
     @Override
     public Object[] getSections() {
         List<String> sections = new ArrayList<>(26);
         mSectionPositions = new ArrayList<>(26);
-        for (int i = 0, size = drugList.size(); i < size; i++) {
-            String section = String.valueOf(drugList.get(i).getName().substring(0, 1)).toUpperCase();
+        for (int i = 0, size = drug2List.size(); i < size; i++) {
+            String section = String.valueOf(drug2List.get(i).getName().substring(0, 1)).toUpperCase();
             if (!sections.contains(section)) {
                 sections.add(section);
                 mSectionPositions.add(i);
@@ -92,8 +93,8 @@ public class AdapterAlphabetIndexFastScroll extends RecyclerView.Adapter<Adapter
         }
     }
 
-    public void filterList(ArrayList<Drug> filterdNames) {
-        this.drugList = filterdNames;
+    public void filterList(ArrayList<Index> filterdNames) {
+        this.drug2List = filterdNames;
         notifyDataSetChanged();
     }
 }

@@ -1,15 +1,8 @@
 package com.example.behnam.app.adapter;
 
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +15,6 @@ import com.example.behnam.app.R;
 import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.service.BroadcastReceivers;
-import com.example.behnam.app.service.ReminderService;
-import com.google.android.gms.common.data.DataBuffer;
 
 import java.util.List;
 

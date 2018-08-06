@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
@@ -21,9 +24,9 @@ import java.util.List;
 public class AdapterDrugByCategory extends RecyclerView.Adapter<AdapterDrugByCategory.listViewHolder> {
 
     Context context;
-    private List<Drug> listDrug;
+    private List<Index> listDrug;
 
-    public AdapterDrugByCategory(Context context, List<Drug> listDrug) {
+    public AdapterDrugByCategory(Context context, List<Index> listDrug) {
         this.context = context;
         this.listDrug = listDrug;
     }
@@ -61,12 +64,12 @@ public class AdapterDrugByCategory extends RecyclerView.Adapter<AdapterDrugByCat
 
         public listViewHolder(View itemView) {
             super(itemView);
-            txt = itemView.findViewById(R.id.txt);
+            txt = itemView.findViewById(R.id.txtTitle);
             relItem = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
 
-    public void filterList(ArrayList<Drug> filterNames) {
+    public void filterList(ArrayList<Index> filterNames) {
         this.listDrug = filterNames;
         notifyDataSetChanged();
     }

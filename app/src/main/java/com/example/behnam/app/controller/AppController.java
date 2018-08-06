@@ -1,9 +1,15 @@
 package com.example.behnam.app.controller;
 
 import android.app.Application;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -23,9 +29,18 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.behnam.app.ActivityIndex;
+import com.example.behnam.app.helper.DbHelper;
+
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +51,7 @@ public class AppController extends Application {
     private static final int socketTimeout = 30000;
     private static final int socketRetries = 2;
     private static final String BASE_URL = "http://rahbod.com/";
-//    // visit
+    //    // visit
     private static final String CLIENT_ID = "UiRgEQt91vL60-8pixMTkxplOB-jAplL24rdfgDFgS6RTSf6eBGuFZ8ckmLXFT0nBRrz_6C5rGbmmY2f";
     private static final String CLIENT_SECRET = "huHxZTH6EZ_3Y8b71wcFetW34aFGc2P1x2H_yHVh9-uxB5lbcF12ds81mM8SB5IDWGZGpasd211";
 
@@ -54,7 +69,10 @@ public class AppController extends Application {
         mInstance = this;
     }
 
-    public static synchronized AppController getInstance() {return mInstance;}
+    public static synchronized AppController getInstance() {
+        return mInstance;
+    }
+
     public static synchronized AppController getInstance(Context context) {
         mInstance.withProgress = true;
         mInstance.pd = new ProgressDialog(context);
@@ -117,13 +135,13 @@ public class AppController extends Application {
         if (!isNetworkConnected())
             Toast.makeText(getApplicationContext(), "No internet access. Please check it.", Toast.LENGTH_LONG).show();
         else {
-            if(withProgress)
+            if (withProgress)
                 pd.show();
             final JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BASE_URL + url, params, resListener, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     errorHandler(error);
-                    if(withProgress)
+                    if (withProgress)
                         pd.dismiss();
                 }
             }) {
@@ -227,5 +245,62 @@ public class AppController extends Application {
             Log.e("ResponseError", "خطای پردازش پاسخ سرور رخ داده است.");
         } else
             Log.e("ResponseError", error.getMessage());
+    }
+
+    public void getSQLiteDb(Context context) {
+        String url = "android/api/download?id=1";
+        File fileExists = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/drug.sql");
+        DbHelper dbHelper = new DbHelper(context);
+        if (dbHelper.getCount("drugs") == 0) {
+            if (!fileExists.exists()) {
+                downloadFile(url);
+            } else {
+                getDrug(context);
+            }
+        }else {
+            Intent intent = new Intent(context, ActivityIndex.class);
+            startActivity(intent);
+        }
+    }
+
+    public void downloadFile(String url) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(BASE_URL + url));
+        request.allowScanningByMediaScanner();
+        request.setDestinationInExternalPublicDir(String.valueOf(Environment.DIRECTORY_DOWNLOADS), "drug.sql");
+        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+        BroadcastReceiver endDownload = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getDrug(context);
+            }
+        };
+        registerReceiver(endDownload, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
+
+    private static void getDrug(Context context) {
+        try {
+            FileInputStream drug = new FileInputStream(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "drug.sql"));
+            InputStreamReader reader = new InputStreamReader(drug);
+            BufferedReader buffer = new BufferedReader(reader);
+            //StringBuilder strDrug = new StringBuilder();
+            String line;
+            DbHelper dbHelper = new DbHelper(context);
+            while ((line = buffer.readLine()) != null) {
+                dbHelper.execSQL(line);
+            }
+            Intent intent = new Intent(context, ActivityIndex.class);
+            context.startActivity(intent);
+
+            //delete file
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "drug.sql");
+            if (file.exists())
+                file.delete();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

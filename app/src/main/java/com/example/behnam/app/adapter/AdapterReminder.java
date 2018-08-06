@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.behnam.app.ActivityReminderStep2;
 import com.example.behnam.app.R;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
 public class AdapterReminder extends RecyclerView.Adapter<AdapterReminder.drugListViewHolder> {
 
     Context context;
-    List<Drug> drugList ;
+    List<Index> drugList;
 
-    public AdapterReminder(Context context, List<Drug> drugList) {
+    public AdapterReminder(Context context, List<Index> drugList) {
         this.context = context;
         this.drugList = drugList;
     }
@@ -42,7 +42,7 @@ public class AdapterReminder extends RecyclerView.Adapter<AdapterReminder.drugLi
             public void onClick(View v) {
                 Intent intent = new Intent(context,ActivityReminderStep2.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id",drugList.get(pos).getId());
+                intent.putExtra("id", drugList.get(pos).getId());
                 context.startActivity(intent);
             }
         });
@@ -58,11 +58,11 @@ public class AdapterReminder extends RecyclerView.Adapter<AdapterReminder.drugLi
         RelativeLayout rel;
         drugListViewHolder(View itemView) {
             super(itemView);
-            drugName = itemView.findViewById(R.id.txt);
+            drugName = itemView.findViewById(R.id.txtTitle);
             rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
-    public void filterList(ArrayList<Drug> filterdNames) {
+    public void filterList(ArrayList<Index> filterdNames) {
         this.drugList = filterdNames;
         notifyDataSetChanged();
     }

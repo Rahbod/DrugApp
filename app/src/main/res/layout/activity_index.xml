@@ -47,7 +47,6 @@
                 android:weightSum="2">
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/interference"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -61,6 +60,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -83,7 +83,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/search"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -97,6 +96,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -127,7 +127,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/vegetalDrug"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -141,6 +140,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -163,8 +163,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:onClick="openActivity"
-                    android:id="@+id/drug"
+                    android:id="@+id/drg"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
                     android:layout_gravity="center"
@@ -177,6 +176,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -207,7 +207,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/healing"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -221,6 +220,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -243,7 +243,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/pharma"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -257,6 +256,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -283,12 +283,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/location"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -302,6 +301,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -324,7 +324,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:onClick="openActivity"
                     android:id="@+id/reminder"
                     android:layout_width="0dp"
                     android:layout_height="135dp"
@@ -338,6 +337,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/shadow_lin_index"
                     android:gravity="center"
+                    android:onClick="openActivity"
                     android:orientation="vertical"
                     tools:ignore="OnClick">
 
@@ -361,80 +361,167 @@
 
             </LinearLayout>
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="20dp"-->
-                <!--android:gravity="center_horizontal"-->
-                <!--android:orientation="horizontal">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="135dp"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:layout_marginEnd="10dp"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_marginStart="20dp"-->
-                    <!--android:layout_marginTop="15dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/shadow_lin_index"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical">-->
+                <LinearLayout
+                    android:id="@+id/favorite"
+                    android:layout_width="0dp"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_lin_index"
+                    android:gravity="center"
+                    android:onClick="openActivity"
+                    android:orientation="vertical"
+                    tools:ignore="OnClick">
 
-                    <!--<ImageView-->
-                        <!--android:id="@+id/imgAbout"-->
-                        <!--android:layout_width="35dp"-->
-                        <!--android:layout_height="35dp"-->
-                        <!--android:layout_marginTop="15dp"-->
-                        <!--android:src="@drawable/sina_icon" />-->
+                    <ImageView
+                        android:id="@+id/imgFavorite"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/star_icon" />
 
-                    <!--<com.example.behnam.fonts.FontTextViewBold-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginBottom="15dp"-->
-                        <!--android:layout_marginTop="20dp"-->
-                        <!--android:text="درباره سینا دارو"-->
-                        <!--android:textColor="@color/sina"-->
-                        <!--android:textSize="12dp" />-->
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="20dp"
+                        android:text="سبد داروهای من"
+                        android:textColor="@color/sina"
+                        android:textSize="12dp" />
 
-                <!--</LinearLayout>-->
+                </LinearLayout>
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="135dp"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:layout_marginEnd="20dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_marginRight="20dp"-->
-                    <!--android:layout_marginStart="10dp"-->
-                    <!--android:layout_marginTop="15dp"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:background="@drawable/shadow_lin_index"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical">-->
+                <LinearLayout
+                    android:id="@+id/share"
+                    android:layout_width="0dp"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_lin_index"
+                    android:gravity="center"
+                    android:onClick="openActivity"
+                    android:orientation="vertical"
+                    tools:ignore="OnClick">
 
-                    <!--<ImageView-->
-                        <!--android:id="@+id/imgErrorReport"-->
-                        <!--android:layout_width="35dp"-->
-                        <!--android:layout_height="35dp"-->
-                        <!--android:layout_marginTop="15dp"-->
-                        <!--android:src="@drawable/close_icon" />-->
+                    <ImageView
+                        android:id="@+id/imgShare"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/share_icon" />
 
-                    <!--<com.example.behnam.fonts.FontTextViewBold-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginBottom="15dp"-->
-                        <!--android:layout_marginTop="15dp"-->
-                        <!--android:text="جستجو"-->
-                        <!--android:textColor="@color/sina"-->
-                        <!--android:textSize="12dp" />-->
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="20dp"
+                        android:text="ارسال برنامه"
+                        android:textColor="@color/sina"
+                        android:textSize="12dp" />
 
-                <!--</LinearLayout>-->
+                </LinearLayout>
 
-            <!--</LinearLayout>-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/reportError"
+                    android:layout_width="0dp"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_lin_index"
+                    android:gravity="center"
+                    android:onClick="openActivity"
+                    android:orientation="vertical"
+                    tools:ignore="OnClick">
+
+                    <ImageView
+                        android:id="@+id/imgReport"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/flag_icon" />
+
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="20dp"
+                        android:text="گزارش خطا"
+                        android:textColor="@color/sina"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/aboutUs"
+                    android:layout_width="0dp"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_lin_index"
+                    android:gravity="center"
+                    android:onClick="openActivity"
+                    android:orientation="vertical"
+                    tools:ignore="OnClick">
+
+                    <ImageView
+                        android:id="@+id/imgAboutUs"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/sina_icon" />
+
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="20dp"
+                        android:text="درباره سینا دارو"
+                        android:textColor="@color/sina"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

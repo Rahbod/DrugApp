@@ -5,12 +5,18 @@ public class Index {
     private String name;
     private String fa_name;
     private String brand;
+    private int vegetal;
 
-    public Index(int id, String name, String fa_name, String brand) {
+
+    public Index(int id, String name, String fa_name, String brand, int vegetal) {
         this.id = id;
         this.name = name;
         this.fa_name = fa_name;
         this.brand = brand;
+        this.vegetal = vegetal;
+    }
+
+    public Index() {
     }
 
     public int getId() {
@@ -43,5 +49,13 @@ public class Index {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public int getVegetal() {
+        return vegetal;
+    }
+
+    public void setVegetal(int vegetal) {
+        this.vegetal = vegetal;
     }
 }

@@ -1,13 +1,17 @@
 package com.example.behnam.app.database;
 
-/**
- * Created by moien on 08/02/2018.
- */
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Drug {
     int id;
+    String content;
+
+    //drug field
     String name;
-    String namePersian;
+    String faName;
     String brand;
     String pregnancy;
     String lactation;
@@ -23,7 +27,7 @@ public class Drug {
     String complication;
     String interference;
     String effectOnTest;
-    String overDose;
+    String overdose;
     String description;
     String relationWithFood;
     String compounds;
@@ -39,122 +43,8 @@ public class Drug {
     boolean checked = false;
     int favorite;
 
-    public Drug() {
+    public Drug(){
 
-    }
-
-    public Drug(int id, String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified, String compounds, String effectiveIngredients, String standardized, String maintenance, String company, String vegetal) {
-        this.id = id;
-        this.name = name;
-        this.namePersian = namePersian;
-        this.brand = brand;
-        this.pregnancy = pregnancy;
-        this.lactation = lactation;
-        this.kids = kids;
-        this.seniors = seniors;
-        this.howToUse = howToUse;
-        this.product = product;
-        this.pharmacodynamic = pharmacodynamic;
-        this.usage = usage;
-        this.prohibition = prohibition;
-        this.caution = caution;
-        this.doseAdjustment = doseAdjustment;
-        this.complication = complication;
-        this.interference = interference;
-        this.effectOnTest = effectOnTest;
-        this.overDose = overDose;
-        this.description = description;
-        this.relationWithFood = relationWithFood;
-        this.status = status;
-        this.lastModified = lastModified;
-        this.compounds = compounds;
-        this.effectiveIngredients = effectiveIngredients;
-        this.maintenance = maintenance;
-        this.company = company;
-        this.standardized = standardized;
-        this.vegetal = vegetal;
-    }
-
-    public Drug(String name, String namePersian, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
-        this.name = name;
-        this.namePersian = namePersian;
-        this.brand = brand;
-        this.pregnancy = pregnancy;
-        this.lactation = lactation;
-        this.kids = kids;
-        this.seniors = seniors;
-        this.howToUse = howToUse;
-        this.product = product;
-        this.pharmacodynamic = pharmacodynamic;
-        this.usage = usage;
-        this.prohibition = prohibition;
-        this.caution = caution;
-        this.doseAdjustment = doseAdjustment;
-        this.complication = complication;
-        this.interference = interference;
-        this.effectOnTest = effectOnTest;
-        this.overDose = overDose;
-        this.description = description;
-        this.relationWithFood = relationWithFood;
-        this.status = status;
-        this.lastModified = lastModified;
-    }
-
-    public Drug(int favorite) {
-        this.favorite = favorite;
-    }
-
-    public Drug(String name) {
-        this.name = name;
-    }
-
-    public Drug(int id, String name, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
-        this.id = id;
-        this.name = name;
-        this.brand = brand;
-        this.pregnancy = pregnancy;
-        this.lactation = lactation;
-        this.kids = kids;
-        this.seniors = seniors;
-        this.howToUse = howToUse;
-        this.product = product;
-        this.pharmacodynamic = pharmacodynamic;
-        this.usage = usage;
-        this.prohibition = prohibition;
-        this.caution = caution;
-        this.doseAdjustment = doseAdjustment;
-        this.complication = complication;
-        this.interference = interference;
-        this.effectOnTest = effectOnTest;
-        this.overDose = overDose;
-        this.description = description;
-        this.relationWithFood = relationWithFood;
-        this.status = status;
-        this.lastModified = lastModified;
-    }
-
-    public Drug(String name, String brand, String pregnancy, String lactation, String kids, String seniors, String howToUse, String product, String pharmacodynamic, String usage, String prohibition, String caution, String doseAdjustment, String complication, String interference, String effectOnTest, String overDose, String description, String relationWithFood, int status, String lastModified) {
-        this.name = name;
-        this.brand = brand;
-        this.pregnancy = pregnancy;
-        this.lactation = lactation;
-        this.kids = kids;
-        this.seniors = seniors;
-        this.howToUse = howToUse;
-        this.product = product;
-        this.pharmacodynamic = pharmacodynamic;
-        this.usage = usage;
-        this.prohibition = prohibition;
-        this.caution = caution;
-        this.doseAdjustment = doseAdjustment;
-        this.complication = complication;
-        this.interference = interference;
-        this.effectOnTest = effectOnTest;
-        this.overDose = overDose;
-        this.description = description;
-        this.relationWithFood = relationWithFood;
-        this.status = status;
-        this.lastModified = lastModified;
     }
 
     public int getId() {
@@ -165,12 +55,24 @@ public class Drug {
         this.id = id;
     }
 
+    public String getContent() {
+        return content;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFaName() {
+        return faName;
+    }
+
+    public void setFaName(String faName) {
+        this.faName = faName;
     }
 
     public String getBrand() {
@@ -293,12 +195,12 @@ public class Drug {
         this.effectOnTest = effectOnTest;
     }
 
-    public String getOverDose() {
-        return overDose;
+    public String getOverdose() {
+        return overdose;
     }
 
-    public void setOverDose(String overDose) {
-        this.overDose = overDose;
+    public void setOverdose(String overdose) {
+        this.overdose = overdose;
     }
 
     public String getDescription() {
@@ -381,12 +283,28 @@ public class Drug {
         this.lastModified = lastModified;
     }
 
-    public void setChecked(boolean state) {
-        this.checked = state;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public boolean getChecked() {
-        return this.checked;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public int getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(int categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public int getFavorite() {
@@ -397,12 +315,43 @@ public class Drug {
         this.favorite = favorite;
     }
 
-    public String getNamePersian() {
-        return namePersian;
-    }
-
-    public void setNamePersian(String namePersian) {
-        this.namePersian = namePersian;
+    public void setContent(JSONObject object) {
+        try {
+            this.name = object.getString("name");
+            this.faName = object.getString("fa_name");
+            this.brand = object.getString("brand");
+            this.pregnancy = object.getString("pregnancy");
+            this.lactation = object.getString("lactation");
+            this.kids = object.getString("kids");
+            this.seniors = object.getString("seniors");
+            this.howToUse = object.getString("how_to_use");
+            this.product = object.getString("product");
+            this.pharmacodynamic = object.getString("pharmacodynamic");
+            this.usage = object.getString("usage");
+            this.prohibition = object.getString("prohibition");
+            this.caution = object.getString("caution");
+            this.doseAdjustment = object.getString("dose_adjustment");
+            this.complication = object.getString("complication");
+            this.interference = object.getString("interference");
+            this.effectOnTest = object.getString("effect_on_test");
+            this.overdose = object.getString("overdose");
+            this.description = object.getString("description");
+            this.relationWithFood = object.getString("relation_with_food");
+            this.compounds = object.getString("compounds");
+            this.effectiveIngredients = object.getString("effective_ingredients");
+            this.standardized = object.getString("standardized");
+            this.maintenance = object.getString("maintenance");
+            this.company = object.getString("company");
+            this.vegetal = object.getString("vegetal");
+            this.status = object.getInt("status");
+            this.lastModified = object.getString("last_modified");
+            this.categoryName = object.getString("category_name");
+            this.categoryType = object.getInt("category_type");
+            this.checked = object.getBoolean("checked");
+            this.favorite = object.getInt("favorite");
+            Log.e("TAG", "setContent: "+ name );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
-

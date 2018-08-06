@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.behnam.app.adapter.AdapterDrugByCategory;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -72,9 +73,9 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHelper dbHelper = new DbHelper(this);
-        listDrug = dbHelper.getCategoryDrug(id);
-        adapterCategoryDrug = new AdapterDrugByCategory(this, listDrug);
-        recyclerView.setAdapter(adapterCategoryDrug);
+//        listDrug = dbHelper.getCategoryDrug(id);
+//        adapterCategoryDrug = new AdapterDrugByCategory(this, listDrug);
+//        recyclerView.setAdapter(adapterCategoryDrug);
 
         // search
         final ImageView searchIcon = findViewById(R.id.searchIcon);
@@ -108,7 +109,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                         }
                     });
                 }
-                    filterDrug(s.toString());
+//                    filterDrug(s.toString());
 
             }
         });
@@ -236,19 +237,19 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                 .show();
     }
 
-    private void filterDrug(String str) {
-        ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : listDrug) {
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            }
-        }
-        adapterCategoryDrug.filterList(filterDrug);
-    }
+//    private void filterDrug(String str) {
+//        ArrayList<Drug> filterDrug = new ArrayList<>();
+//        for (Drug drug : listDrug2) {
+//            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
+//                filterDrug.add(drug);
+//            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
+//                filterDru.add(drug);
+//            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+//                filterDrug.add(drug);
+//            }
+//        }
+//        adapterCategoryDrug.filterList(filterDrug);
+//    }
 
     @Override
     public void onStartOfSpeech() {

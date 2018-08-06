@@ -1,7 +1,6 @@
 package com.example.behnam.fragment;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,16 +13,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.dialog.SummaryDialog;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextView;
-import com.example.behnam.fonts.FontTextViewBold;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -122,7 +120,7 @@ public class FragmentViewDrug extends Fragment {
 
 
         final int ID = getActivity().getIntent().getIntExtra("id", 0);
-        int VEGETAL = Integer.parseInt(getActivity().getIntent().getStringExtra("vegetal"));
+        int VEGETAL = getActivity().getIntent().getIntExtra("vegetal", 0);
 
         final DbHelper dbHelper = new DbHelper(getActivity());
         final Drug drug = dbHelper.getDrug(ID);
@@ -283,8 +281,8 @@ public class FragmentViewDrug extends Fragment {
         if (!drug.getEffectOnTest().isEmpty() && VEGETAL == 0)
             webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-effect\"></i>اثر بر تست های آزمایشگاهی:</h4><div class=\"text\">" + drug.getEffectOnTest() + "</div></div></div>";
 
-        if (!drug.getOverDose().isEmpty() && VEGETAL == 0)
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-overdose\"></i>اوردوز و درمان:</h4><div class=\"text\">" + drug.getOverDose() + "</div></div></div>";
+        if (!drug.getOverdose().isEmpty() && VEGETAL == 0)
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-overdose\"></i>اوردوز و درمان:</h4><div class=\"text\">" + drug.getOverdose() + "</div></div></div>";
 
         JSONObject jsonDescription = null;
         JSONArray codeDescription = new JSONArray();
@@ -363,7 +361,7 @@ public class FragmentViewDrug extends Fragment {
         linearfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareText(drug.getName(), drug.getName() + "\n" + drug.getNamePersian());
+                shareText(drug.getName(), drug.getName() + "\n" + drug.getFaName());
             }
         });
 

@@ -1,7 +1,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <!--actionBar-->
+    <RelativeLayout
+        android:id="@+id/actionBarMap"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/background_gradient"
+        android:elevation="3dp"
+        tools:targetApi="lollipop">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/background_focus"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/back_icon" />
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="داروخانه های نزدیک"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_map"

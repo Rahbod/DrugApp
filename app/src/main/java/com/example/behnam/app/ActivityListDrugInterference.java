@@ -4,15 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterListDrugInterference;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListDrugInterference extends AppCompatActivity {

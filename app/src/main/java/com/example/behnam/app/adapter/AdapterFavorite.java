@@ -16,6 +16,7 @@ import com.example.behnam.app.ActivityFavorite;
 import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 
 import java.util.List;

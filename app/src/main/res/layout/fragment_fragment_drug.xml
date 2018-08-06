@@ -5,8 +5,19 @@
     tools:context="com.example.behnam.fragment.FragmentDrug">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recInterferenceDrug"
+        android:id="@+id/recInterference"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="visible"/>
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تداخلی برای این دارو ثبت نشده است"
+        android:layout_centerInParent="true"
+        android:textColor="@color/Gray"
+        android:textSize="16dp"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

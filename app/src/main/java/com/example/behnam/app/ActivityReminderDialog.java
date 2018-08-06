@@ -11,8 +11,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,5 +66,12 @@ public class ActivityReminderDialog extends Activity {
             MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
             mp.start();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE){
+        }
+        return false;
     }
 }

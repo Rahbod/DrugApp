@@ -11,11 +11,10 @@ import android.widget.RelativeLayout;
 
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextView;
 import com.example.behnam.fonts.FontTextViewBold;
-import com.example.behnam.fragment.FragmentCategory;
-import com.example.behnam.fragment.FragmentDrug;
 import com.example.behnam.fragment.FragmentInterferenceDrug;
 import com.example.behnam.fragment.FragmentViewDrug;
 
@@ -46,7 +45,7 @@ public class viewDrug extends AppCompatActivity {
             tab.setCustomView(adapter.getTabViewDrug(i));
         }
 
-        int VEGETAL = Integer.parseInt(getIntent().getStringExtra("vegetal"));
+        int VEGETAL = getIntent().getIntExtra("vegetal", 0);
 
         if (VEGETAL == 1) {
             btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
@@ -65,7 +64,7 @@ public class viewDrug extends AppCompatActivity {
         DbHelper dbHelper = new DbHelper(this);
         final Drug drug = dbHelper.getDrug(ID);
         nameDrug.setText(drug.getName());
-        persianName.setText(drug.getNamePersian());
+        persianName.setText(drug.getFaName());
 
     }
 

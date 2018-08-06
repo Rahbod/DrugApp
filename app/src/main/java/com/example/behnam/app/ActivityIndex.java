@@ -1,15 +1,16 @@
 package com.example.behnam.app;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.map.MapActivity;
+
+import java.io.File;
 
 public class ActivityIndex extends AppCompatActivity {
 
@@ -19,6 +20,11 @@ public class ActivityIndex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
+        //finish splash screen
+        if (ActivitySplashScreen.activitySplashScreen != null)
+            ActivitySplashScreen.activitySplashScreen.finish();
+
     }
 
     public void openActivity(View view) {
@@ -28,15 +34,15 @@ public class ActivityIndex extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.search:
-                Intent intentSearch = new Intent(ActivityIndex.this, ActivityVegetalDrug.class);
+                Intent intentSearch = new Intent(ActivityIndex.this, ActivityDrug.class);
                 intentSearch.putExtra("search", "search");
                 startActivity(intentSearch);
                 break;
             case R.id.vegetalDrug:
-                Intent intentVegetalDrug = new Intent(ActivityIndex.this, ActivityVegetalDrug.class);
+                Intent intentVegetalDrug = new Intent(ActivityIndex.this, ActivityDrug.class);
                 startActivity(intentVegetalDrug);
                 break;
-            case R.id.drug:
+            case R.id.drg:
                 Intent intentDrug = new Intent(ActivityIndex.this, ActivityHome.class);
                 startActivity(intentDrug);
                 break;
@@ -58,12 +64,40 @@ public class ActivityIndex extends AppCompatActivity {
                 Intent intentReminder = new Intent(ActivityIndex.this, ActivityReminderList.class);
                 startActivity(intentReminder);
                 break;
+                case R.id.favorite:
+                Intent intentFavorite = new Intent(ActivityIndex.this, ActivityFavorite.class);
+                startActivity(intentFavorite);
+                break;
+                case R.id.share:
+                shareApplication();
+                break;
+            case R.id.reportError:
+                Intent intentReportError = new Intent(ActivityIndex.this, ActivityErrorReport.class);
+                startActivity(intentReportError);
+                break;
+            case R.id.aboutUs:
+                Intent intentAboutUs = new Intent(ActivityIndex.this, ActivityAbout.class);
+                startActivity(intentAboutUs);
+                break;
+
         }
+    }
+
+    private void shareApplication() {
+        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+        String filePath = app.sourceDir;
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("*/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 
     @Override
     public void onBackPressed() {
-         if (2000 + BackPressed > System.currentTimeMillis()) {
+        if (2000 + BackPressed > System.currentTimeMillis()) {
             super.onBackPressed();
         } else {
             Toast.makeText(this, "لطفا کلید برگشت را مجددا فشار دهید.", Toast.LENGTH_SHORT).show();

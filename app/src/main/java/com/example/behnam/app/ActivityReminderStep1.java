@@ -28,7 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterReminder;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Drug2;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -46,7 +47,7 @@ import java.util.List;
 public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDelegate {
 
     AdapterReminder adapterReminder;
-    List<Drug> drugList = new ArrayList<>();
+    List<Index> drugList = new ArrayList<>();
     ImageView btnBack;
 
     private ImageView btnListen;
@@ -114,9 +115,9 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         drugList = dbHelper.getAllDrugsNotInReminder();
         
 //        sort item
-        Collections.sort(drugList, new Comparator<Drug>() {
+        Collections.sort(drugList, new Comparator<Index>() {
             @Override
-            public int compare(Drug o1, Drug o2) {
+            public int compare(Index o1, Index o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });
@@ -202,25 +203,18 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
     }
 
     private void filter(String str) {
-        ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : drugList) {
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            }else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
+        ArrayList<Index> filterDrug2 = new ArrayList<>();
+        for (Index index : drugList) {
+            if (index.getName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug2.add(index);
+            }else if (index.getFa_name().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug2.add(index);
+            } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug2.add(index);
             }
         }
-        adapterReminder.filterList(filterDrug);
+        adapterReminder.filterList(filterDrug2);
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (speechInitialized)
-//            Speech.getInstance().shutdown();
-//    }
 
     private void onRecordAudioPermissionGranted() {
         btnListen.setVisibility(View.GONE);

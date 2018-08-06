@@ -51,20 +51,20 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/lin"
             android:layout_marginTop="-8dp"
-            android:weightSum="10"
-            android:gravity="center">
-
-        <com.example.behnam.fonts.FontTextViewBold
-            android:id="@+id/txtName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:lines="1"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:layout_weight="9"
-            android:ellipsize="end"/>
+            android:weightSum="10">
+
+            <com.example.behnam.fonts.FontTextViewBold
+                android:id="@+id/txtName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="9"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
@@ -214,6 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@id/rel3"
+                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="50dp"

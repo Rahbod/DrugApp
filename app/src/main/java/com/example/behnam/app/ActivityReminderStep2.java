@@ -2,7 +2,6 @@ package com.example.behnam.app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -62,10 +61,12 @@ public class ActivityReminderStep2 extends AppCompatActivity {
         txtCount = findViewById(R.id.et_count);
         nameDrug = findViewById(R.id.txtName);
 
-        Intent intent = getIntent();
-        final int drugId = intent.getIntExtra("id", 0);
+        final int drugId = getIntent().getIntExtra("id", 0);
+        Log.e("TAG", "onCreate: 1" + drugId);
         drug = dbHelper.getDrug(drugId);
+        Log.e("TAG", "onCreate: 2     =" + drug.getId());
         nameDrug.setText(drug.getName());
+        Log.e("TAG", "onCreate: 3" + drug.getContent());
         final FontTextView date = findViewById(R.id.date_picker);
         final TextView time = findViewById(R.id.time_picker);
         time.setEnabled(true);
