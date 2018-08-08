@@ -9,22 +9,23 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.behnam.app.adapter.AdapterDrugByCategory;
-import com.example.behnam.app.database.Category;
+import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -41,14 +42,12 @@ import java.util.List;
 
 public class ActivityCategoreViewDrug extends AppCompatActivity implements SpeechDelegate {
 
-    RecyclerView recyclerView;
-    TextView txtTitle, text;
-    List<Category> list;
+    private TextView text;
     private ConnectivityManager connectivityManager;
     private SpeechProgressView progress;
     private ImageView btnListen;
-    AdapterDrugByCategory adapterCategoryDrug;
-    List<Drug> listDrug;
+    private AdapterInterferenceDrug adapterCategoryDrug;
+    private List<Drug> listDrug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +64,17 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
 
         text = findViewById(R.id.editTextSearch);
 
-        txtTitle = findViewById(R.id.txtTitle);
+        TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("لیست دارو ها");
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
-        recyclerView = findViewById(R.id.recCategoryList);
+        RecyclerView recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHelper dbHelper = new DbHelper(this);
-//        listDrug = dbHelper.getCategoryDrug(id);
-//        adapterCategoryDrug = new AdapterDrugByCategory(this, listDrug);
-//        recyclerView.setAdapter(adapterCategoryDrug);
+        listDrug = dbHelper.getCategoryDrug(id);
+        adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
+        recyclerView.setAdapter(adapterCategoryDrug);
 
         // search
         final ImageView searchIcon = findViewById(R.id.searchIcon);
@@ -237,19 +236,19 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                 .show();
     }
 
-//    private void filterDrug(String str) {
-//        ArrayList<Drug> filterDrug = new ArrayList<>();
-//        for (Drug drug : listDrug2) {
-//            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-//                filterDrug.add(drug);
-//            } else if (drug.getNamePersian().toLowerCase().contains(str.toLowerCase())) {
-//                filterDru.add(drug);
-//            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-//                filterDrug.add(drug);
-//            }
-//        }
-//        adapterCategoryDrug.filterList(filterDrug);
-//    }
+    private void filterDrug(String str) {
+        ArrayList<Drug> filterDrug = new ArrayList<>();
+        for (Drug drug : listDrug) {
+            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            } else if (drug.getFaName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(drug);
+            }
+        }
+        adapterCategoryDrug.filterList(filterDrug);
+    }
 
     @Override
     public void onStartOfSpeech() {
@@ -278,5 +277,17 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         } else {
             Speech.getInstance().say(getString(R.string.repeat));
         }
+    }
+
+    @Override
+    protected void onStop() {
+        Speech.getInstance().shutdown();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Speech.init(this, getPackageName());
     }
 }

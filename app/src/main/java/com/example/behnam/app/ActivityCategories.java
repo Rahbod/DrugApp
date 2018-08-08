@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.os.Process;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -53,11 +54,15 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
     private ImageView btnListen;
     DbHelper dbHelper;
     int type;
+    Speech speechInstance;
+    String TAG = "iiii";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
+
+        Log.e(TAG, "onCreate: " );
 
         if (SessionManager.getExtrasPref(this).getString("idList") != null) {
             SessionManager.getExtrasPref(this).remove("idList");
@@ -137,8 +142,8 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         progress = findViewById(R.id.progressBar);
         btnListen = findViewById(R.id.imgVoice);
 
-        Speech.init(this, getPackageName());
-
+        speechInstance = Speech.init(this, getPackageName());
+        Log.e("qqqq", "onCreate: init1" );
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,7 +347,34 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
 
     @Override
     protected void onResume() {
-        super.onResume();
+        speechInstance = Speech.init(this, getPackageName());
         getDataToList();
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        if (speechInstance != null) {
+            speechInstance.shutdown();
+            speechInstance.stopListening();
+            speechInstance = null;
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        if (speechInstance != null) {
+            speechInstance.shutdown();
+            speechInstance.stopListening();
+            speechInstance = null;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        speechInstance = Speech.init(this, getPackageName());
     }
 }

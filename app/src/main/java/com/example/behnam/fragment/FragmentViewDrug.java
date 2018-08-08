@@ -3,6 +3,7 @@ package com.example.behnam.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.dialog.SummaryDialog;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextView;
@@ -183,9 +183,9 @@ public class FragmentViewDrug extends Fragment {
             e.printStackTrace();
         }
 
-        if ((groupPregnancy.length() != 0 || !textPregnancy.equals("") || !drug.getLactation().isEmpty())) {
+        if ((groupPregnancy.length() != 0 || (!textPregnancy.equals("") && !(textPregnancy.equals("null"))) || !drug.getLactation().isEmpty())) {
             webViewHtml += "<div class=\"section\">";
-            if (groupPregnancy.length() != 0 || !textPregnancy.equals("")) {
+            if (groupPregnancy.length() != 0 || (!textPregnancy.equals("") && !(textPregnancy.equals("null")))) {
                 try {
                     if (groupPregnancy.length() != 0) {
                         strPregnancy += "<span>گروه ";
@@ -198,7 +198,7 @@ public class FragmentViewDrug extends Fragment {
                         }
                         strPregnancy += "</span><a href=\"http://localhost/#pregnancy\" class=\"pregnancy-modal-trigger\"></a>";
                     }
-                    if (!textPregnancy.equals(""))
+                    if (!textPregnancy.equals("") && !(textPregnancy.equals("null")))
                         strPregnancy += textPregnancy;
                     if (VEGETAL == 1)
                         webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری و شیردهی:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
@@ -234,18 +234,22 @@ public class FragmentViewDrug extends Fragment {
             webViewHtml += "</div>";
         }
 
-        if (!drug.getProduct().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div></div></div>";
+        if (!drug.getProduct().isEmpty()) {
+            if (VEGETAL == 1)
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text\">" + drug.getProduct() + "</div></div></div>";
+            else
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div></div></div>";
+        }
 
         if (VEGETAL == 1) {
             if (!drug.getCompounds().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>ترکیبات موجود:</h4><div class=\"text direction-ltr\">" + drug.getCompounds() + "</div></div></div>";
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>ترکیبات موجود:</h4><div class=\"text\">" + drug.getCompounds() + "</div></div></div>";
 
             if (!drug.getEffectiveIngredients().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>مواد موثره:</h4><div class=\"text direction-ltr\">" + drug.getEffectiveIngredients() + "</div></div></div>";
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>مواد موثره:</h4><div class=\"text\">" + drug.getEffectiveIngredients() + "</div></div></div>";
 
             if (!drug.getStandardized().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>استاندارد شده:</h4><div class=\"text direction-ltr\">" + drug.getStandardized() + "</div></div></div>";
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>استاندارد شده:</h4><div class=\"text\">" + drug.getStandardized() + "</div></div></div>";
         }
 
         if (!drug.getPharmacodynamic().isEmpty())

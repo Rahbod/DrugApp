@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission
         android:name="com.example.behnam.app.map.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -43,7 +44,6 @@
         <activity
             android:name=".ActivityErrorReport"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ActivityViewDrug" />
         <activity
             android:name=".ActivityReminderList"
             android:windowSoftInputMode="stateHidden" />

@@ -46,7 +46,7 @@ public class AdapterTabBar extends FragmentPagerAdapter{
     }
 
     public View getTabView(int position){
-        String tabTitles[] = new String[] { "تداخل با دارو", "تداخل با طبقه بندی" };
+        String tabTitles[] = new String[] {"تداخل با دارو", "تداخل با طبقه بندی"};
         View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
         TextView txt = view.findViewById(R.id.txtTitle);
         txt.setText(tabTitles[position]);
@@ -54,7 +54,7 @@ public class AdapterTabBar extends FragmentPagerAdapter{
     }
 
     public View getTabViewDrug(int position){
-        String tabTitles[] = new String[] { "توضیحات دارو", "تداخل با دارو" };
+        String tabTitles[] = new String[] {"توضیحات دارو", "تداخل با دارو"};
         View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
         TextView txt = view.findViewById(R.id.txtTitle);
         txt.setText(tabTitles[position]);

@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import com.example.behnam.app.adapter.AdapterFavorite;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 
 import java.util.List;

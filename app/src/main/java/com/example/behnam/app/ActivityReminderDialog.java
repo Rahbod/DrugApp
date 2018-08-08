@@ -19,12 +19,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.service.ReminderService;
-import com.example.behnam.reminder.ReminderModel;
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 
 public class ActivityReminderDialog extends Activity {
     @SuppressLint("RtlHardcoded")
@@ -43,7 +40,7 @@ public class ActivityReminderDialog extends Activity {
         int reminderID = intent.getIntExtra("reminderID", 0);
         TextView drugName = findViewById(R.id.txt);
         Button btnOk = findViewById(R.id.Ok);
-        ReminderModel reminder = dbHelper.getReminder(reminderID);
+        Reminder reminder = dbHelper.getReminder(reminderID);
         String str = dbHelper.getDrug(reminder.getDrugID()).getName();
         drugName.setText("زمان مصرف داروی " + str + " فرا رسیده است.");
 

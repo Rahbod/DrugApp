@@ -35,12 +35,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterAlphabetIndexFastScroll;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.database.Index;
 import com.example.behnam.app.fastscroll.AlphabetItem;
-import com.example.behnam.app.helper.Components;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -56,6 +53,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
@@ -68,7 +66,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     SharedPreferences sharedPreferences;
-    RecyclerView mRecyclerView;
     DbHelper dbHelper;
 
     @Override
@@ -77,12 +74,10 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         setContentView(R.layout.activity_home);
         setContentView(R.layout.navigation_view);
 
-        mRecyclerView = findViewById(R.id.fast_scroller_recycler);
         dbHelper = new DbHelper(this);
-
         showDrugs();
 
-        text = findViewById(R.id.editTextSearch);
+        text = findViewById(R.id.editText);
 
         //help screen voice
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -104,7 +99,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         }
 
         // search
-        final ImageView searchIcon = findViewById(R.id.searchIcon);
+        final ImageView searchIcon = findViewById(R.id.searchHome);
         final ImageView closeIcon = findViewById(R.id.closeIcon);
         searchIcon.setVisibility(View.VISIBLE);
         text.addTextChangedListener(new TextWatcher() {
@@ -114,7 +109,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -140,8 +134,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             }
         });
 
-        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
 
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,11 +172,11 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 }
 
                 //voiceSearch
+                View viewDialogMassage = LayoutInflater.from(ActivityHome.this).inflate(R.layout.massage_dialog, null);
                 final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
                     final Dialog dialog = new Dialog(ActivityHome.this);
-                    View viewDialogMassage = LayoutInflater.from(ActivityHome.this).inflate(R.layout.massage_dialog, null);
                     dialog.setContentView(viewDialogMassage);
                     LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
                     linMassageDialog.setVisibility(View.VISIBLE);
@@ -412,6 +406,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     }
 
     public void showDrugs() {
+        IndexFastScrollRecyclerView mRecyclerView = findViewById(R.id.fast_scroller_recycler);
         drugList = dbHelper.getAllDrugs();
         adapterHome = new AdapterAlphabetIndexFastScroll(drugList, this);
 
@@ -444,9 +439,18 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
-        else {
-            finish();
-            Log.e("qqqq", "onBackPressed: ");
-        }
+        else super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        Speech.getInstance().shutdown();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Speech.init(this, getPackageName());
     }
 }

@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterReminder;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
@@ -303,4 +302,15 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onStop() {
+        Speech.getInstance().shutdown();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Speech.init(this, getPackageName());
+    }
 }

@@ -1,18 +1,33 @@
 package com.example.behnam.app.controller;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.drm.DrmStore;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.os.Process;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,9 +44,15 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.ActivityIndex;
+import com.example.behnam.app.ActivitySplashScreen;
+import com.example.behnam.app.R;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
+
+import net.gotev.speech.Speech;
 
 import org.json.JSONObject;
 
@@ -41,6 +62,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -247,17 +271,19 @@ public class AppController extends Application {
             Log.e("ResponseError", error.getMessage());
     }
 
-    public void getSQLiteDb(Context context) {
+    public void getSQLiteDb(final Context context) {
         String url = "android/api/download?id=1";
         File fileExists = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/drug.sql");
         DbHelper dbHelper = new DbHelper(context);
         if (dbHelper.getCount("drugs") == 0) {
             if (!fileExists.exists()) {
                 downloadFile(url);
+//                    DownloadFile downloadFile = new DownloadFile();
+//                    downloadFile.execute(url);
             } else {
                 getDrug(context);
             }
-        }else {
+        } else {
             Intent intent = new Intent(context, ActivityIndex.class);
             startActivity(intent);
         }
@@ -265,6 +291,7 @@ public class AppController extends Application {
 
     public void downloadFile(String url) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(BASE_URL + url));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
         request.allowScanningByMediaScanner();
         request.setDestinationInExternalPublicDir(String.valueOf(Environment.DIRECTORY_DOWNLOADS), "drug.sql");
         DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -301,6 +328,39 @@ public class AppController extends Application {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    class DownloadFile extends AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            String path = params[0];
+            int file_length = 0;
+            try {
+                URL url = new URL(path);
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.connect();
+                file_length = urlConnection.getContentLength();
+                File folder = new File("internalstorege");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
     }
 }

@@ -13,11 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.ActivityFavorite;
-import com.example.behnam.app.ActivityViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.viewDrug;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.listVi
         holder.LinearLayoutFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityViewDrug.class);
+                Intent intent = new Intent(context, viewDrug.class);
                 intent.putExtra("id", list.get(position).getId());
                 intent.putExtra("vegetal", list.get(position).getVegetal());
                 context.startActivity(intent);

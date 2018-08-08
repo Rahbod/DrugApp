@@ -5,8 +5,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.fonts.FontTextView;
@@ -33,10 +35,9 @@ public class ActivityInterference extends AppCompatActivity {
         });
 
         tabLayout = findViewById(R.id.tabBar);
-        viewPager = findViewById(R.id.viewPager);
+        viewPager =findViewById(R.id.viewPager);
         tabLayout.setupWithViewPager(viewPager);
         setupViewPager(viewPager);
-
         AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
         for (int i = 0; i< tabLayout.getTabCount(); i++){
             TabLayout.Tab tab = tabLayout.getTabAt(i);

@@ -8,11 +8,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
-import com.example.behnam.app.ActivityReminderDialog;
+import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.reminder.ReminderModel;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -52,7 +49,7 @@ public class ReminderService extends IntentService {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         DbHelper dbHelper = new DbHelper(getApplicationContext());
         intent.putExtra("reminderID", reminderID);
-        ReminderModel reminder = dbHelper.getReminder(reminderID);
+        Reminder reminder = dbHelper.getReminder(reminderID);
         Intent broadcastIntent = new Intent(getApplicationContext(), BroadcastReceivers.class);
         broadcastIntent.setAction("BROADCAST_RESTART_APP");
         broadcastIntent.putExtra("reminderID", reminderID);
@@ -61,7 +58,7 @@ public class ReminderService extends IntentService {
         assert alarmManager != null;
         alarmManager.cancel(pendingIntent);
         long now = System.currentTimeMillis();
-        long periodTime = reminder.getPeriodTime() * 10000;
+        long periodTime = reminder.getPeriodTime() * 3600000;
         long endTime = (reminder.getStartTime() + ((reminder.getCount() - 1) * periodTime));
 
         if (reminder.getShowCount() < reminder.getCount()) {

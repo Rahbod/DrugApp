@@ -28,8 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterDrugByCategory;
-import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
@@ -53,6 +51,7 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
     private ImageView btnListen;
+    final String TAG = "qqqq";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +186,6 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
                             dialog.dismiss();
                             if (wifiManager != null)
                                 wifiManager.setWifiEnabled(true);
-
                             else if (Speech.getInstance().isListening()) {
                                 Speech.getInstance().stopListening();
                             } else {
@@ -316,5 +314,17 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
         } else {
             Speech.getInstance().say(getString(R.string.repeat));
         }
+    }
+
+    @Override
+    protected void onStop() {
+        Speech.getInstance().shutdown();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Speech.init(this, getPackageName());
     }
 }

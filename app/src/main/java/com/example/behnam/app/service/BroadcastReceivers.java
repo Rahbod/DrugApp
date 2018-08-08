@@ -8,10 +8,11 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 import com.example.behnam.app.ActivityReminderDialog;
-import com.example.behnam.app.helper.Components;
+import com.example.behnam.app.controller.AppController;
+import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.reminder.ReminderModel;
 
+import java.security.Permission;
 import java.util.List;
 
 public class BroadcastReceivers extends BroadcastReceiver {
@@ -31,7 +32,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
                 connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
-                    Components.getDrugs(context);
+                    AppController.getInstance().getSQLiteDb(context);
                 }
                 break;
 
@@ -56,7 +57,7 @@ public class BroadcastReceivers extends BroadcastReceiver {
                     Intent reminderDialog = new Intent(context, ActivityReminderDialog.class);
                     reminderDialog.putExtra("reminderID", reminderID);
                     reminderDialog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ReminderModel reminder = dbHelper.getReminder(reminderID);
+                    Reminder reminder = dbHelper.getReminder(reminderID);
                     if (reminder.getId() == 0) {
                         break;
                     } else {

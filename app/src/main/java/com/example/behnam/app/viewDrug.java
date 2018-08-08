@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Drug2;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextView;
 import com.example.behnam.fonts.FontTextViewBold;
@@ -36,7 +35,8 @@ public class viewDrug extends AppCompatActivity {
 
         // create TabBra
         TabLayout tabLayout = findViewById(R.id.tabBar);
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        MyViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setEnableSwipe(false);
         tabLayout.setupWithViewPager(viewPager);
         setupViewPager(viewPager);
         AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);

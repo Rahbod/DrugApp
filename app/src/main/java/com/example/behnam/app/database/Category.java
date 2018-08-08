@@ -11,13 +11,6 @@ public class Category {
     public Category() {
     }
 
-    public Category(int id, String name, int type, int parentID) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.parentID = parentID;
-    }
-
     public int getId() {
         return id;
     }
