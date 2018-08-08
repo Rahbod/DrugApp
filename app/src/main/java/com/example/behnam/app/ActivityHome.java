@@ -20,10 +20,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,22 +55,20 @@ import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
-
-    private AdapterAlphabetIndexFastScroll adapterHome;
     private DrawerLayout drawerLayout;
+    private AdapterAlphabetIndexFastScroll adapterHome;
     private List<Index> drugList = new ArrayList<>();
     private ImageView btnListen;
     private EditText text;
     private SpeechProgressView progress;
     private ConnectivityManager connectivityManager;
-    SharedPreferences sharedPreferences;
-    DbHelper dbHelper;
+    private DbHelper dbHelper;
+    private Speech speechInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setContentView(R.layout.navigation_view);
 
         dbHelper = new DbHelper(this);
         showDrugs();
@@ -80,7 +76,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         text = findViewById(R.id.editText);
 
         //help screen voice
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstRun = sharedPreferences.getBoolean("firstRun", true);
         if (isFirstRun) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -136,7 +132,6 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
-
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +154,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
         btnListen = findViewById(R.id.imgVoice);
         progress = findViewById(R.id.progressBarHome);
-        Speech.init(this, getPackageName());
+        speechInstance = Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,29 +258,27 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(ActivityHome.this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;
             case R.id.item9:
-                Intent intentDrug = new Intent(ActivityHome.this, ActivityHome.class);
-                startActivity(intentDrug);
-                closeNv();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
             case R.id.item10:
-                Intent intentSearch = new Intent(ActivityHome.this, ActivityDrug.class);
+                Intent intentSearch = new Intent(this, ActivityDrug.class);
                 intentSearch.putExtra("search", "search");
                 startActivity(intentSearch);
                 closeNv();
                 break;
             case R.id.item11:
-                Intent intentPharma = new Intent(ActivityHome.this, ActivityCategories.class);
+                Intent intentPharma = new Intent(this, ActivityCategories.class);
                 intentPharma.putExtra("type", 1);
                 startActivity(intentPharma);
                 closeNv();
                 break;
             case R.id.item12:
-                Intent intentHealing = new Intent(ActivityHome.this, ActivityCategories.class);
+                Intent intentHealing = new Intent(this, ActivityCategories.class);
                 intentHealing.putExtra("type", 0);
                 startActivity(intentHealing);
                 closeNv();
@@ -444,13 +437,17 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
 
     @Override
     protected void onStop() {
-        Speech.getInstance().shutdown();
+        if (speechInstance != null) {
+            speechInstance.shutdown();
+            speechInstance.stopListening();
+            speechInstance = null;
+        }
         super.onStop();
     }
 
     @Override
     protected void onResume() {
+        speechInstance = Speech.init(this, getPackageName());
         super.onResume();
-        Speech.init(this, getPackageName());
     }
 }

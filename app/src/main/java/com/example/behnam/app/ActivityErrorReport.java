@@ -1,10 +1,16 @@
 package com.example.behnam.app;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.net.Uri;
+import android.os.Handler;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -16,17 +22,16 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.map.MapActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ActivityErrorReport extends AppCompatActivity {
-    DbHelper dbHelper ;
+import java.io.File;
 
-    private String appName = "org.telegram.messenger";
-    private ImageView btnBack;
-    private Button btnSave;
+public class ActivityErrorReport extends AppCompatActivity {
     private EditText etReport;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +41,7 @@ public class ActivityErrorReport extends AppCompatActivity {
         etReport = findViewById(R.id.etReport);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
-        btnBack = findViewById(R.id.btnBack);
-        dbHelper = new DbHelper(getApplicationContext());
-
-
+        ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +49,29 @@ public class ActivityErrorReport extends AppCompatActivity {
             }
         });
 
-        btnSave = findViewById(R.id.btnSave);
+        drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
+        imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //hide keyboard
+                Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(etReport.getWindowToken(), 0);
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+            }
+        });
+
+        Button btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,5 +130,90 @@ public class ActivityErrorReport extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void openNv(View view) {
+        switch (findViewById(view.getId()).getId()) {
+            case R.id.item1:
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
+                closeNv();
+                break;
+            case R.id.item2:
+                startActivity(new Intent(this, MapActivity.class));
+                closeNv();
+                break;
+            case R.id.item3:
+                Intent goToReminder = new Intent(this, ActivityReminderList.class);
+                startActivity(goToReminder);
+                closeNv();
+                break;
+            case R.id.item4:
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
+                break;
+            case R.id.item5:
+                shareApplication();
+                closeNv();
+                break;
+            case R.id.item6:
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.item7:
+                Intent goToAbout = new Intent(this, ActivityAbout.class);
+                startActivity(goToAbout);
+                closeNv();
+                break;
+            case R.id.item8:
+                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                startActivity(intentVegetalDrug);
+                closeNv();
+                break;
+            case R.id.item9:
+                Intent intentHome = new Intent(this, ActivityHome.class);
+                startActivity(intentHome);
+                closeNv();
+                break;
+            case R.id.item10:
+                Intent intentSearch = new Intent(this, ActivityDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                closeNv();
+                break;
+            case R.id.item11:
+                Intent intentPharma = new Intent(this, ActivityCategories.class);
+                intentPharma.putExtra("type", 1);
+                startActivity(intentPharma);
+                closeNv();
+                break;
+            case R.id.item12:
+                Intent intentHealing = new Intent(this, ActivityCategories.class);
+                intentHealing.putExtra("type", 0);
+                startActivity(intentHealing);
+                closeNv();
+                break;
+        }
+    }
+
+    private void closeNv() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        }, 250);
+    }
+
+    private void shareApplication() {
+        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+        String filePath = app.sourceDir;
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("*/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 }

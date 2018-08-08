@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -35,6 +38,7 @@ import net.gotev.speech.SpeechRecognitionNotAvailable;
 import net.gotev.speech.SpeechUtil;
 import net.gotev.speech.ui.SpeechProgressView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,6 +52,8 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
     private ImageView btnListen;
     private AdapterInterferenceDrug adapterCategoryDrug;
     private List<Drug> listDrug;
+    private DrawerLayout drawerLayout;
+    private Speech speechInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,28 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         });
 
         text = findViewById(R.id.editTextSearch);
+        drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
+
+        imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //hide keyboard
+                Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+            }
+        });
 
         TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText("لیست دارو ها");
@@ -124,9 +152,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         //voice search
         progress = findViewById(R.id.progressBar);
         btnListen = findViewById(R.id.imgVoice);
-
-        Speech.init(this, getPackageName());
-
+        speechInstance = Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,13 +307,104 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
 
     @Override
     protected void onStop() {
-        Speech.getInstance().shutdown();
+        if (speechInstance != null) {
+            speechInstance.shutdown();
+            speechInstance.stopListening();
+            speechInstance = null;
+        }
         super.onStop();
     }
 
     @Override
     protected void onResume() {
+        speechInstance = Speech.init(this, getPackageName());
         super.onResume();
-        Speech.init(this, getPackageName());
+    }
+
+    public void openNv(View view) {
+        switch (findViewById(view.getId()).getId()) {
+            case R.id.item1:
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
+                closeNv();
+                break;
+            case R.id.item2:
+                startActivity(new Intent(this, MapActivity.class));
+                closeNv();
+                break;
+            case R.id.item3:
+                Intent goToReminder = new Intent(this, ActivityReminderList.class);
+                startActivity(goToReminder);
+                closeNv();
+                break;
+            case R.id.item4:
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
+                break;
+            case R.id.item5:
+                shareApplication();
+                closeNv();
+                break;
+            case R.id.item6:
+                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+                startActivity(goToErrorReport);
+                closeNv();
+                break;
+            case R.id.item7:
+                Intent goToAbout = new Intent(this, ActivityAbout.class);
+                startActivity(goToAbout);
+                closeNv();
+                break;
+            case R.id.item8:
+                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                startActivity(intentVegetalDrug);
+                closeNv();
+                break;
+            case R.id.item9:
+                Intent intentDrug = new Intent(this, ActivityHome.class);
+                startActivity(intentDrug);
+                closeNv();
+                break;
+            case R.id.item10:
+                Intent intentSearch = new Intent(this, ActivityDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                closeNv();
+                break;
+            case R.id.item11:
+                Intent intentPharma = new Intent(this, ActivityCategories.class);
+                intentPharma.putExtra("type", 1);
+                startActivity(intentPharma);
+                closeNv();
+                break;
+            case R.id.item12:
+                Intent intentHealing = new Intent(this, ActivityCategories.class);
+                intentHealing.putExtra("type", 0);
+                startActivity(intentHealing);
+                closeNv();
+                break;
+        }
+    }
+
+    private void closeNv() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        }, 250);
+    }
+
+    private void shareApplication() {
+        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+        String filePath = app.sourceDir;
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("*/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 }

@@ -475,16 +475,16 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Drug> getListDrugInterference() {
+    public List<Index> getListDrugInterference() {
         db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE id IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_INTERFERENCE + ")";
+        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE id IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_INTERFERENCE + ")";
         Cursor cursor = db.rawQuery(query, null);
-        List<Drug> list = new ArrayList<>();
+        List<Index> list = new ArrayList<>();
         while (cursor.moveToNext()) {
-            Drug drug = new Drug();
-            drug.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
-            drug.setContent(getDrugContent(cursor.getString(cursor.getColumnIndex(KEY_CONTENT))));
-            list.add(drug);
+            Index index = new Index();
+            index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+            index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+            list.add(index);
         }
         return list;
     }

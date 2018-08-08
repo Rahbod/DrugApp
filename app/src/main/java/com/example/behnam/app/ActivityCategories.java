@@ -5,18 +5,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.os.Process;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -27,6 +31,7 @@ import com.example.behnam.app.database.Category;
 import com.example.behnam.app.helper.Components;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
+import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
 import net.gotev.speech.Speech;
@@ -38,6 +43,7 @@ import net.gotev.speech.ui.SpeechProgressView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,28 +51,48 @@ import java.util.List;
 
 public class ActivityCategories extends AppCompatActivity implements SpeechDelegate {
 
-    RecyclerView recyclerView;
-    TextView txtTitle, text;
-    List<Category> list;
-    AdapterCategories adapter;
+    private RecyclerView recyclerView;
+    private TextView txtTitle, text;
+    private List<Category> list;
+    private AdapterCategories adapter;
     private ConnectivityManager connectivityManager;
     private SpeechProgressView progress;
     private ImageView btnListen;
-    DbHelper dbHelper;
+    private DbHelper dbHelper;
     int type;
-    Speech speechInstance;
-    String TAG = "iiii";
+    private Speech speechInstance;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        Log.e(TAG, "onCreate: " );
-
         if (SessionManager.getExtrasPref(this).getString("idList") != null) {
             SessionManager.getExtrasPref(this).remove("idList");
         }
+
+        drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
+        imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //hide keyboard
+                Class<? extends View.OnClickListener> view = this.getClass();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+            }
+        });
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -141,9 +167,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         //voice search
         progress = findViewById(R.id.progressBar);
         btnListen = findViewById(R.id.imgVoice);
-
         speechInstance = Speech.init(this, getPackageName());
-        Log.e("qqqq", "onCreate: init1" );
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +191,8 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                                     if (wifiManager != null)
                                         wifiManager.setWifiEnabled(true);
 
-                                    if (Speech.getInstance().isListening()) {
-                                        Speech.getInstance().stopListening();
+                                    if (speechInstance.isListening()) {
+                                        speechInstance.stopListening();
                                     } else {
                                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                             onRecordAudioPermissionGranted();
@@ -186,8 +210,8 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                     })
                             .show();
                 } else {
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    if (speechInstance.isListening()) {
+                        speechInstance.stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
@@ -206,8 +230,8 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
-            Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress, ActivityCategories.this);
+            speechInstance.stopTextToSpeech();
+            speechInstance.startListening(progress, ActivityCategories.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -288,7 +312,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         if (!result.isEmpty()) {
             text.setText(result);
         } else {
-            Speech.getInstance().say(getString(R.string.repeat));
+            speechInstance.say(getString(R.string.repeat));
         }
     }
 
@@ -362,19 +386,94 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         super.onStop();
     }
 
-    @Override
-    protected void onPause() {
-        if (speechInstance != null) {
-            speechInstance.shutdown();
-            speechInstance.stopListening();
-            speechInstance = null;
+    public void openNv(View view) {
+        switch (findViewById(view.getId()).getId()) {
+            case R.id.item1:
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
+                closeNv();
+                break;
+            case R.id.item2:
+                startActivity(new Intent(this, MapActivity.class));
+                closeNv();
+                break;
+            case R.id.item3:
+                Intent goToReminder = new Intent(this, ActivityReminderList.class);
+                startActivity(goToReminder);
+                closeNv();
+                break;
+            case R.id.item4:
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
+                break;
+            case R.id.item5:
+                shareApplication();
+                closeNv();
+                break;
+            case R.id.item6:
+                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+                startActivity(goToErrorReport);
+                closeNv();
+                break;
+            case R.id.item7:
+                Intent goToAbout = new Intent(this, ActivityAbout.class);
+                startActivity(goToAbout);
+                closeNv();
+                break;
+            case R.id.item8:
+                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                startActivity(intentVegetalDrug);
+                closeNv();
+                break;
+            case R.id.item9:
+                Intent intentDrug = new Intent(this, ActivityHome.class);
+                startActivity(intentDrug);
+                closeNv();
+                break;
+            case R.id.item10:
+                Intent intentSearch = new Intent(this, ActivityDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                closeNv();
+                break;
+            case R.id.item11:
+                if (type == 0) {
+                    Intent intentPharma = new Intent(this, ActivityCategories.class);
+                    intentPharma.putExtra("type", 1);
+                    startActivity(intentPharma);
+                    closeNv();
+                } else drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.item12:
+                if (type == 1) {
+                    Intent intentHealing = new Intent(this, ActivityCategories.class);
+                    intentHealing.putExtra("type", 0);
+                    startActivity(intentHealing);
+                    closeNv();
+                } else drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
         }
-        super.onPause();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        speechInstance = Speech.init(this, getPackageName());
+    private void closeNv() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        }, 250);
+    }
+
+    private void shareApplication() {
+        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+        String filePath = app.sourceDir;
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("*/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 }

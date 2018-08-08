@@ -37,7 +37,6 @@ public class AdapterSummaryDialog extends RecyclerView.Adapter<AdapterSummaryDia
     public void onBindViewHolder(@NonNull listViewHolder holder, int position) {
         holder.txt.setText(list.get(position));
         holder.txtChar.setText(listChar.get(position));
-
     }
 
     @Override

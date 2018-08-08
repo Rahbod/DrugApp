@@ -1,14 +1,21 @@
 package com.example.behnam.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,48 +23,44 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.behnam.app.ActivityAbout;
+import com.example.behnam.app.ActivityCategories;
+import com.example.behnam.app.ActivityDrug;
+import com.example.behnam.app.ActivityErrorReport;
+import com.example.behnam.app.ActivityFavorite;
+import com.example.behnam.app.ActivityListDrugInterference;
+import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.dialog.SummaryDialog;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fonts.FontTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
 public class FragmentViewDrug extends Fragment {
+    private String strPregnancy = "";
+    private String healingStr = "", pharmaStr = "", sicknessStr = "";
+    private LinearLayout relativebottom;
+    private FontTextView addToBasketText;
+    private ImageView addToBasketImage;
 
-    String s = "";
-
-    WebView webView;
-    String strPregnancy = "";
-    String groupPregnancyStr = "";
-    String healingStr = "", pharmaStr = "", sicknessStr = "";
-    String strDescription;
-
-    Animation animationToDown;
-    Animation animationToUp;
-
-    LinearLayout relativebottom;
-    LinearLayout linearBasket;
-    FontTextView addToBasketText;
-    ImageView addToBasketImage;
-
-    LinearLayout linearfriend;
-
-
-    public FragmentViewDrug() {}
+    public FragmentViewDrug() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =LayoutInflater.from(getActivity()).inflate(R.layout.view_drug, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_drug, null);
 
-        webView = view.findViewById(R.id.web_view_drug);
+        WebView webView = view.findViewById(R.id.web_view_drug);
 
         webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -83,10 +86,10 @@ public class FragmentViewDrug extends Fragment {
         relativebottom = view.findViewById(R.id.relative_bottom);
         addToBasketText = view.findViewById(R.id.add_basket_item);
         addToBasketImage = view.findViewById(R.id.add_basket_ico);
-        linearBasket = view.findViewById(R.id.layout_basket);
-        linearfriend = view.findViewById(R.id.layout_friend);
+        LinearLayout linearBasket = view.findViewById(R.id.layout_basket);
+        LinearLayout linearfriend = view.findViewById(R.id.layout_friend);
 
-        animationToUp = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+        Animation animationToUp = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
         animationToUp.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -102,7 +105,7 @@ public class FragmentViewDrug extends Fragment {
             }
         });
 
-        animationToDown = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+        Animation animationToDown = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
         animationToDown.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -200,6 +203,7 @@ public class FragmentViewDrug extends Fragment {
                     }
                     if (!textPregnancy.equals("") && !(textPregnancy.equals("null")))
                         strPregnancy += textPregnancy;
+                    String groupPregnancyStr = "";
                     if (VEGETAL == 1)
                         webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری و شیردهی:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
                     else
@@ -301,7 +305,7 @@ public class FragmentViewDrug extends Fragment {
 
         if ((codeDescription.length() != 0 || !textDescription.equals("")) && VEGETAL == 0) {
             try {
-                strDescription = "";
+                String strDescription = "";
                 if (codeDescription.length() != 0) {
                     for (int i = 0; i < codeDescription.length(); i++) {
                         if (i != 0)

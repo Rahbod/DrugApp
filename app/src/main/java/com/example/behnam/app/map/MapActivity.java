@@ -1,11 +1,10 @@
 package com.example.behnam.app.map;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -15,18 +14,29 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.behnam.app.ActivityAbout;
+import com.example.behnam.app.ActivityCategories;
+import com.example.behnam.app.ActivityDrug;
+import com.example.behnam.app.ActivityErrorReport;
+import com.example.behnam.app.ActivityFavorite;
+import com.example.behnam.app.ActivityListDrugInterference;
+import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.R;
 import com.example.behnam.fonts.ButtonFont;
 import com.google.android.gms.common.ConnectionResult;
@@ -45,30 +55,38 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-
+    private DrawerLayout drawerLayout;
     private GoogleMap mMap;
-    double latitude;
-    double longitude;
-    private int PROXIMITY_RADIUS = 10000;
-
-    LinearLayout linearLayoutNoConnection;
-    LinearLayout linearLayoutMap;
-    LinearLayout linearLayoutBlank;
-
-    GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    LocationRequest mLocationRequest;
-    Dialog dialog;
+    private LinearLayout linearLayoutNoConnection;
+    private LinearLayout linearLayoutMap;
+    private GoogleApiClient mGoogleApiClient;
+    private Marker mCurrLocationMarker;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
+        imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.openDrawer(Gravity.RIGHT);
+                    }
+                }, 100);
+            }
+        });
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +106,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         if (!CheckGooglePlayServices()) {
             linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
             linearLayoutMap = findViewById(R.id.layout_map);
-            linearLayoutBlank =findViewById(R.id.layout_blank);
+            LinearLayout linearLayoutBlank = findViewById(R.id.layout_blank);
 
             linearLayoutBlank.setVisibility(View.VISIBLE);
             linearLayoutMap.setVisibility(View.GONE);
@@ -209,7 +227,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLocationRequest = new LocationRequest();
+        LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -223,6 +241,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private String getUrl(double latitude, double longitude) {
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
+        int PROXIMITY_RADIUS = 10000;
         googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
         googlePlacesUrl.append("&type=").append("pharmacy");
         googlePlacesUrl.append("&sensor=true");
@@ -237,14 +256,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
+        Location mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
 
         //Place current location marker
-        latitude = mLastLocation.getLatitude();
-        longitude = mLastLocation.getLongitude();
+        double latitude = mLastLocation.getLatitude();
+        double longitude = mLastLocation.getLongitude();
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -344,5 +363,89 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             return true;
         }
         return false;
+    }
+
+    public void openNv(View view) {
+        switch (findViewById(view.getId()).getId()) {
+            case R.id.item1:
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
+                closeNv();
+                break;
+            case R.id.item2:
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.item3:
+                Intent goToReminder = new Intent(this, ActivityReminderList.class);
+                startActivity(goToReminder);
+                closeNv();
+                break;
+            case R.id.item4:
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
+                break;
+            case R.id.item5:
+                shareApplication();
+                closeNv();
+                break;
+            case R.id.item6:
+                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
+                startActivity(goToErrorReport);
+                closeNv();
+                break;
+            case R.id.item7:
+                Intent goToAbout = new Intent(this, ActivityAbout.class);
+                startActivity(goToAbout);
+                closeNv();
+                break;
+            case R.id.item8:
+                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                startActivity(intentVegetalDrug);
+                closeNv();
+                break;
+            case R.id.item9:
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+                break;
+            case R.id.item10:
+                Intent intentSearch = new Intent(this, ActivityDrug.class);
+                intentSearch.putExtra("search", "search");
+                startActivity(intentSearch);
+                closeNv();
+                break;
+            case R.id.item11:
+                Intent intentPharma = new Intent(this, ActivityCategories.class);
+                intentPharma.putExtra("type", 1);
+                startActivity(intentPharma);
+                closeNv();
+                break;
+            case R.id.item12:
+                Intent intentHealing = new Intent(this, ActivityCategories.class);
+                intentHealing.putExtra("type", 0);
+                startActivity(intentHealing);
+                closeNv();
+                break;
+        }
+    }
+
+    private void closeNv() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        }, 250);
+    }
+
+    private void shareApplication() {
+        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+        String filePath = app.sourceDir;
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("*/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 }
