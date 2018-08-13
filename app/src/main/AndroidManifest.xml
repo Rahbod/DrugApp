@@ -82,18 +82,16 @@
             android:name=".service.BroadcastReceivers"
             android:enabled="true">
             <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="STOP_SERVICE" />
-                <action
-                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
-                    tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
 
         <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.android.net.wifi.WIFI_STATE_CHANGE" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -117,7 +115,9 @@
             android:name=".ActivityCategoreViewDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityInterference" />
-        <activity android:name=".ActivityListDrugInterference" />
+        <activity
+            android:name=".ActivityListDrugInterference"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityDrug"
             android:windowSoftInputMode="stateHidden" />

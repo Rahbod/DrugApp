@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.example.behnam.app.ActivityReminderDialog;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
 
-import java.security.Permission;
 import java.util.List;
 
 public class BroadcastReceivers extends BroadcastReceiver {
@@ -24,17 +24,16 @@ public class BroadcastReceivers extends BroadcastReceiver {
         DbHelper dbHelper = new DbHelper(context);
         final String action = intent.getAction();
         assert action != null;
-
         switch (action) {
             // Connect to internet
-            case ConnectivityManager.CONNECTIVITY_ACTION:
-                ConnectivityManager connectivityManager;
-                connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    AppController.getInstance().getSQLiteDb(context);
-                }
-                break;
+//            case ConnectivityManager.CONNECTIVITY_ACTION:
+//                ConnectivityManager connectivityManager;
+//                connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+//                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+//                if (networkInfo != null && networkInfo.isConnected()) {
+//                    AppController.getInstance().getSQLiteDb(context);
+//                }
+//                break;
 
             // Reminder broadcasts
             case "android.intent.action.BOOT_COMPLETED":

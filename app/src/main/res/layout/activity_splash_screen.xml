@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:CircleProgressView="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,8 +11,9 @@
         android:id="@+id/linSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/txtNameSplash"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <ImageView
@@ -27,45 +27,87 @@
             android:id="@+id/animSplashScreen"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_below="@+id/img"
             android:layout_gravity="center"
             android:layout_marginTop="-85dp"
             app:lottie_autoPlay="false"
             app:lottie_fileName="Hart.json"
             app:lottie_loop="false" />
 
-        <com.example.behnam.fonts.FontTextViewBold
-            android:id="@+id/txtNameSplash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:text="سینا دارو"
-            android:textColor="@color/sina"
-            android:textSize="22dp"
-            android:visibility="invisible" />
-
     </LinearLayout>
 
-    <at.grabner.circleprogress.CircleProgressView
-        android:id="@+id/progressBarSplash"
-        android:layout_width="40dp"
+    <com.example.behnam.fonts.FontTextViewBold
+        android:id="@+id/txtNameSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:text="سینا دارو"
+        android:textColor="@color/sina"
+        android:textSize="22dp"
+        android:visibility="invisible" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin"
+        style="@style/SpinKitView.Small.ThreeBounce"
+        android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/linSplash"
+        android:layout_below="@+id/txtNameSplash"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:visibility="invisible"
-        CircleProgressView:cpv_spin="true"
-        CircleProgressView:cpv_spinColor="@color/blue"
-        CircleProgressView:cpv_textColor="@color/white"
-        CircleProgressView:cpv_barWidth="3dp"
-        CircleProgressView:cpv_innerContourSize="0dp"
-        CircleProgressView:cpv_outerContourSize="0dp"
-        CircleProgressView:cpv_rimWidth="3dp"
-        CircleProgressView:cpv_maxValue="100"
-        CircleProgressView:cpv_rimColor="#eeeeee"
-        CircleProgressView:cpv_text="555"
-        CircleProgressView:cpv_textScale="100"
-        CircleProgressView:cpv_textSize="17dp" />
+        app:SpinKit_Color="@color/blue" />
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/txtPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtNameSplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/sina"
+        android:text="% 0"
+        android:textSize="11dp"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:id="@+id/progressBarDownload"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="2.6dp"
+        android:layout_below="@+id/txtPercent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:minHeight="50dp"
+        android:minWidth="220dp"
+        android:progress="1"
+        android:progressDrawable="@drawable/progress_bar_background"
+        android:visibility="invisible" />
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/txtDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBarDownload"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="در حال دانلود دیتا، لطفا منتظر بمانید..."
+        android:textColor="@color/sina"
+        android:textSize="11dp"
+        android:visibility="invisible" />
+
+    <com.example.behnam.fonts.ButtonFont
+        android:id="@+id/btnDownload"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="220dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/txtNameSplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_button_stroke"
+        android:text="دانلود مجدد"
+        android:textColor="@color/blue"
+        android:visibility="invisible" />
 
 </RelativeLayout>

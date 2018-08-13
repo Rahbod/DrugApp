@@ -61,6 +61,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
     private ConnectivityManager connectivityManager;
     public static Activity activityFinish;
     private DrawerLayout drawerLayout;
+    private Speech speechInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
 
             btnListen = findViewById(R.id.imgVoice);
             progress = findViewById(R.id.progressBarHome);
-            Speech.init(this, getPackageName());
+            speechInstance =Speech.init(this, getPackageName());
             btnListen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -328,14 +329,18 @@ public class ActivityReminderStep1 extends AppCompatActivity implements SpeechDe
 
     @Override
     protected void onStop() {
-        Speech.getInstance().shutdown();
+        if (speechInstance != null) {
+            speechInstance.shutdown();
+            speechInstance.stopListening();
+            speechInstance = null;
+        }
         super.onStop();
     }
 
     @Override
     protected void onResume() {
+        speechInstance = Speech.init(this, getPackageName());
         super.onResume();
-        Speech.init(this, getPackageName());
     }
 
     public void openNv(View view) {

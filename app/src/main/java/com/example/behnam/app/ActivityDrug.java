@@ -165,7 +165,8 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
 
         btnListen = findViewById(R.id.imgVoice);
         progress = findViewById(R.id.progressBar);
-        Speech.init(this, getPackageName());
+
+        speechInstance = Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

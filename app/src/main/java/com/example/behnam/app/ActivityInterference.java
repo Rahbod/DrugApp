@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.app.map.MapActivity;
@@ -28,6 +29,8 @@ public class ActivityInterference extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference);
 
+        TextView txtTitle = findViewById(R.id.txtTitle);
+        txtTitle.setText(getIntent().getStringExtra("name"));
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
 

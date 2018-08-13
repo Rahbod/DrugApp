@@ -42,6 +42,7 @@ public class AdapterListInterference extends RecyclerView.Adapter<AdapterListInt
             public void onClick(View v) {
                 Intent intent = new Intent(context,ActivityInterference.class);
                 intent.putExtra("id", drugList.get(pos).getId());
+                intent.putExtra("name", drugList.get(pos).getName());
                 context.startActivity(intent);
             }
         });

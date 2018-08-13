@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.github.jakob-grabner:Circle-Progress-View:v1.3'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.4'
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
 }

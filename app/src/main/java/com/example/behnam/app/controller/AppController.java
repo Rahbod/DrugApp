@@ -1,7 +1,5 @@
 package com.example.behnam.app.controller;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Application;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -10,16 +8,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.drm.DrmStore;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Environment;
-import android.os.Process;
-import android.support.v4.app.ActivityCompat;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -27,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,15 +40,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.behnam.app.ActivityHome;
 import com.example.behnam.app.ActivityIndex;
 import com.example.behnam.app.ActivitySplashScreen;
 import com.example.behnam.app.R;
-import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
-
-import net.gotev.speech.Speech;
 
 import org.json.JSONObject;
 
@@ -62,9 +54,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.InetAddress;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +76,7 @@ public class AppController extends Application {
 
     private static AppController mInstance;
     private boolean async = true;
+    private BroadcastReceiver checkConnectedNetwork = null;
 
     @Override
     public void onCreate() {
@@ -240,8 +232,9 @@ public class AppController extends Application {
      *
      * @return bool
      */
-    private boolean isNetworkConnected() {
+    public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected() && cm.getActiveNetworkInfo().isAvailable();
     }
 
@@ -271,96 +264,30 @@ public class AppController extends Application {
             Log.e("ResponseError", error.getMessage());
     }
 
-    public void getSQLiteDb(final Context context) {
-        String url = "android/api/download?id=1";
-        File fileExists = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/drug.sql");
-        DbHelper dbHelper = new DbHelper(context);
-        if (dbHelper.getCount("drugs") == 0) {
-            if (!fileExists.exists()) {
-                downloadFile(url);
-//                    DownloadFile downloadFile = new DownloadFile();
-//                    downloadFile.execute(url);
-            } else {
-                getDrug(context);
-            }
-        } else {
-            Intent intent = new Intent(context, ActivityIndex.class);
-            startActivity(intent);
-        }
+
+
+    public boolean isWifiConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        Log.e("qqqq", "isWifiConnected");
+        return (netInfo != null && netInfo.isConnected());
     }
 
-    public void downloadFile(String url) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(BASE_URL + url));
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-        request.allowScanningByMediaScanner();
-        request.setDestinationInExternalPublicDir(String.valueOf(Environment.DIRECTORY_DOWNLOADS), "drug.sql");
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-        BroadcastReceiver endDownload = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                getDrug(context);
-            }
-        };
-        registerReceiver(endDownload, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
-    private static void getDrug(Context context) {
+    public boolean isConnected() {
+        String command = "ping -c 1 google.com";
         try {
-            FileInputStream drug = new FileInputStream(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "drug.sql"));
-            InputStreamReader reader = new InputStreamReader(drug);
-            BufferedReader buffer = new BufferedReader(reader);
-            //StringBuilder strDrug = new StringBuilder();
-            String line;
-            DbHelper dbHelper = new DbHelper(context);
-            while ((line = buffer.readLine()) != null) {
-                dbHelper.execSQL(line);
-            }
-            Intent intent = new Intent(context, ActivityIndex.class);
-            context.startActivity(intent);
-
-            //delete file
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "drug.sql");
-            if (file.exists())
-                file.delete();
-
-        } catch (FileNotFoundException e) {
+            return (Runtime.getRuntime().exec(command).waitFor() == 0);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    class DownloadFile extends AsyncTask<String, Void, Void> {
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            String path = params[0];
-            int file_length = 0;
-            try {
-                URL url = new URL(path);
-                URLConnection urlConnection = url.openConnection();
-                urlConnection.connect();
-                file_length = urlConnection.getContentLength();
-                File folder = new File("internalstorege");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
+    public void destroyConnectivityBroadCast() {
+        if (checkConnectedNetwork != null)
+            unregisterReceiver(checkConnectedNetwork);
     }
 }
