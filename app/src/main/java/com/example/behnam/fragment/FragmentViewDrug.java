@@ -1,21 +1,13 @@
 package com.example.behnam.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,26 +15,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.behnam.app.ActivityAbout;
-import com.example.behnam.app.ActivityCategories;
-import com.example.behnam.app.ActivityDrug;
-import com.example.behnam.app.ActivityErrorReport;
-import com.example.behnam.app.ActivityFavorite;
-import com.example.behnam.app.ActivityListDrugInterference;
-import com.example.behnam.app.ActivityReminderList;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.dialog.SummaryDialog;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fonts.FontTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.List;
 
 public class FragmentViewDrug extends Fragment {

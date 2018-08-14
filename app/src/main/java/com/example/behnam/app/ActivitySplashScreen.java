@@ -3,16 +3,8 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -52,10 +44,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import at.grabner.circleprogress.CircleProgressView;
 
 public class ActivitySplashScreen extends AppCompatActivity {
     private LottieAnimationView animSplashScreen;
@@ -142,7 +130,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     }
 
     public void getData() {
-        if (dbHelper.getCount("drugs") == 0) {
+        if (dbHelper.getCount("indexes") == 0) {
             if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if (AppController.getInstance().isConnected())
                     downloadFile();
@@ -164,9 +152,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (wifi.isWifiEnabled())
+            if (wifi.isWifiEnabled() || AppController.getInstance().isConnected())
                 downloadFile();
-            else showWifiDialog();
+            else if (wifi.isWifiEnabled() && !(AppController.getInstance().isConnected())) {
+                Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
+                btnDownload.setVisibility(View.VISIBLE);
+                spin.setVisibility(View.INVISIBLE);
+            } else showWifiDialog();
         } else {
             finish();
         }
@@ -201,7 +193,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ActivitySplashScreen.activitySplashScreen.finish();
+                if (AppController.getInstance().isConnected())
+                    getData();
+                else finish();
             }
         });
         dialog.show();
@@ -212,7 +206,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         new DownloadFile().execute("http://rahbod.com/" + url);
     }
 
-    private void getDrug() {
+    private void insertDatabase() {
         try {
             FileInputStream drug = new FileInputStream(new File(Environment.getExternalStorageDirectory() + File.separator + "sina/", "drug.sql"));
             InputStreamReader reader = new InputStreamReader(drug);
@@ -247,6 +241,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             txtDownload.setVisibility(View.VISIBLE);
+            btnDownload.setVisibility(View.INVISIBLE);
             spin.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setMax(100);
@@ -255,7 +250,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... f_url) {
-            Log.e("qqqq", "doInBackground: ");
             int count;
             try {
                 URL url = new URL(f_url[0]);
@@ -323,11 +317,11 @@ public class ActivitySplashScreen extends AppCompatActivity {
             txtDownload.setVisibility(View.VISIBLE);
             spin.setVisibility(View.VISIBLE);
             txtDownload.setText("در حال پردازش اطلاعات...");
-            Thread thread = new Thread(){
+            Thread thread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
-                    getDrug();
+                    insertDatabase();
                 }
             };
             thread.start();

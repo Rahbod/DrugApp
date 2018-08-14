@@ -84,8 +84,6 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="2.5dp"
                 android:layoutDirection="ltr"
-                android:paddingEnd="5dp"
-                android:paddingRight="5dp"
                 tools:targetApi="jelly_bean_mr1">
 
                 <ImageView
@@ -146,6 +144,17 @@
 
         </RelativeLayout>
 
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardView"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/Gray"
+            android:textSize="13dp"
+            android:visibility="invisible"
+            android:layout_centerHorizontal="true"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recCategoryList"
             android:layout_width="match_parent"
@@ -162,8 +171,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/relHome1">
+            android:layout_below="@id/relHome1"
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/loading_drugs"
@@ -191,10 +200,10 @@
         tools:ignore="RtlHardcoded">
 
         <ScrollView
-            android:layout_marginTop="150dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginTop="150dp"
             android:fillViewport="true"
             android:layoutDirection="rtl"
             android:scrollbars="none"
@@ -223,7 +232,7 @@
                         android:layout_width="17dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/two_opposite_arrows_icon" />
+                        android:src="@drawable/interference_icon" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"

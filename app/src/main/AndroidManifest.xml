@@ -122,7 +122,10 @@
             android:name=".ActivityDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".viewDrug" />
-        <activity android:name=".ActivityIndex" />
+        <activity android:name=".ActivityIndex"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ActivitySearch"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

@@ -11,37 +11,39 @@ import android.widget.TextView;
 
 import com.example.behnam.app.ActivityInterference;
 import com.example.behnam.app.R;
-import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
+import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdapterListDrugInterference extends RecyclerView.Adapter<AdapterListDrugInterference.drugListViewHolder> {
+public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.drugListViewHolder> {
 
-    Context context;
-    List<Drug> drugList;
+    private Context context;
+    private List<Index> list;
 
-    public AdapterListDrugInterference(Context context, List<Drug> drugList) {
+    public AdapterSearch(Context context, List<Index> drugList) {
         this.context = context;
-        this.drugList = drugList;
+        this.list = drugList;
     }
 
     @Override
-    public AdapterListDrugInterference.drugListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search,parent,false);
+    public AdapterSearch.drugListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rec_search, parent, false);
         return new drugListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AdapterListDrugInterference.drugListViewHolder holder, int position) {
+    public void onBindViewHolder(AdapterSearch.drugListViewHolder holder, int position) {
         final int pos = position;
-        holder.drugName.setText(drugList.get(position).getName());
+        holder.drugName.setText(list.get(position).getName());
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,ActivityInterference.class);
-                intent.putExtra("id", drugList.get(pos).getId());
+                Intent intent = new Intent(context, viewDrug.class);
+                intent.putExtra("id", list.get(pos).getId());
+                intent.putExtra("vegetal", list.get(pos).getVegetal());
                 context.startActivity(intent);
             }
         });
@@ -49,20 +51,22 @@ public class AdapterListDrugInterference extends RecyclerView.Adapter<AdapterLis
 
     @Override
     public int getItemCount() {
-        return drugList.size();
+        return list.size();
     }
-    class drugListViewHolder extends RecyclerView.ViewHolder
-    {
+
+    class drugListViewHolder extends RecyclerView.ViewHolder {
         TextView drugName;
         RelativeLayout rel;
+
         drugListViewHolder(View itemView) {
             super(itemView);
             drugName = itemView.findViewById(R.id.txtTitle);
             rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
-    public void filterList(ArrayList<Drug> filterdNames) {
-        this.drugList = filterdNames;
+
+    public void filterList(ArrayList<Index> filterdNames) {
+        this.list = filterdNames;
         notifyDataSetChanged();
     }
 }

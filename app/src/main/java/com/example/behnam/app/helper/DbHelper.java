@@ -434,7 +434,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<Drug> getCategoryDrug(int id) {
         List<Drug> list = new ArrayList<>();
         db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " IN (SELECT "+ KEY_PARENT_ID_CATEGORY + " FROM "+ TABLE_CATEGORIES +" WHERE " + KEY_TYPE_CATEGORY + " = 0))";
+        String query = "SELECT * FROM " + TABLE_DRUGS + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " IN (SELECT " + KEY_PARENT_ID_CATEGORY + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_TYPE_CATEGORY + " = 0))";
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             Drug drug = new Drug();
@@ -484,6 +484,9 @@ public class DbHelper extends SQLiteOpenHelper {
             Index index = new Index();
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+            index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
+            index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             list.add(index);
         }
         return list;
@@ -569,5 +572,22 @@ public class DbHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public List<Index> getSearchItem(String item) {
+        db = this.getReadableDatabase();
+        List<Index> list = new ArrayList<>();
+        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE " + KEY_NAME_DRUG + " LIKE '%" + item + "%' OR " + KEY_NAME_PERSIAN_DRUG + " LIKE '%" + item + "%' OR " + KEY_BRAND + " LIKE '%" + item + "%'";
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            Index index = new Index();
+            index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
+            index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
+            index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
+            index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
+            list.add(index);
+        }
+        return list;
     }
 }

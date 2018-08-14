@@ -62,9 +62,8 @@ public class ActivityListDrugInterference extends AppCompatActivity implements S
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        text = findViewById(R.id.editTextSearch);
-
         // search
+        text = findViewById(R.id.editTextSearch);
         final ImageView searchIcon = findViewById(R.id.searchIcon);
         final ImageView closeIcon = findViewById(R.id.closeIcon);
         searchIcon.setVisibility(View.VISIBLE);
@@ -163,8 +162,8 @@ public class ActivityListDrugInterference extends AppCompatActivity implements S
                             if (wifiManager != null)
                                 wifiManager.setWifiEnabled(true);
 
-                            else if (Speech.getInstance().isListening()) {
-                                Speech.getInstance().stopListening();
+                            else if (speechInstance.isListening()) {
+                                speechInstance.stopListening();
                             } else {
                                 if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                     onRecordAudioPermissionGranted();
@@ -185,8 +184,8 @@ public class ActivityListDrugInterference extends AppCompatActivity implements S
                     });
                     dialog.show();
                 } else {
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    if (speechInstance.isListening()) {
+                        speechInstance.stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
@@ -303,8 +302,8 @@ private void onRecordAudioPermissionGranted() {
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
-        Speech.getInstance().stopTextToSpeech();
-        Speech.getInstance().startListening(progress, ActivityListDrugInterference.this);
+        speechInstance.stopTextToSpeech();
+        speechInstance.startListening(progress, ActivityListDrugInterference.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
         showSpeechNotSupportedDialog();
@@ -374,13 +373,15 @@ private void onRecordAudioPermissionGranted() {
         if (!result.isEmpty()) {
             text.setText(result);
         } else {
-            Speech.getInstance().say(getString(R.string.repeat));
+            speechInstance.say(getString(R.string.repeat));
         }
     }
 
     @Override
     protected void onStop() {
         if (speechInstance != null) {
+            progress.setVisibility(View.INVISIBLE);
+            btnListen.setVisibility(View.VISIBLE);
             speechInstance.shutdown();
             speechInstance.stopListening();
             speechInstance = null;

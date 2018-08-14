@@ -1,7 +1,7 @@
 package com.example.behnam.app;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,25 +12,30 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.os.Process;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.behnam.app.adapter.AdapterCategories;
-import com.example.behnam.app.database.Category;
-import com.example.behnam.app.helper.Components;
+import com.example.behnam.app.adapter.AdapterSearch;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
-import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
 import net.gotev.speech.GoogleVoiceTypingDisabledException;
@@ -40,38 +45,28 @@ import net.gotev.speech.SpeechRecognitionNotAvailable;
 import net.gotev.speech.SpeechUtil;
 import net.gotev.speech.ui.SpeechProgressView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class ActivityCategories extends AppCompatActivity implements SpeechDelegate {
-
-    private RecyclerView recyclerView;
-    private TextView text;
-    private List<Category> list;
-    private AdapterCategories adapter;
-    private ConnectivityManager connectivityManager;
-    private SpeechProgressView progress;
+public class ActivitySearch extends AppCompatActivity implements SpeechDelegate {
     private ImageView btnListen;
-    private DbHelper dbHelper;
-    int type;
+    private EditText text;
+    private SpeechProgressView progress;
+    private ConnectivityManager connectivityManager;
     private Speech speechInstance;
+    private List<Index> list;
+    private AdapterSearch adapter;
+    private RecyclerView recyclerView;
+    private DbHelper dbHelper;
+    private TextView txtName;
     private DrawerLayout drawerLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
 
-        if (SessionManager.getExtrasPref(this).getString("idList") != null) {
-            SessionManager.getExtrasPref(this).remove("idList");
-        }
-
+        // open navigation
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +89,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
             }
         });
 
+        // back
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,24 +98,22 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
             }
         });
 
-        text = findViewById(R.id.editTextSearch);
-
-        Intent intent = getIntent();
-        type = intent.getIntExtra("type", 0);
-
+        //list drug
+        txtName = findViewById(R.id.txtName);
         dbHelper = new DbHelper(this);
-        list = dbHelper.getCategories(type, "parent_id = 0");
+        list = dbHelper.getSearchItem(getIntent().getStringExtra("item"));
+        adapter = new AdapterSearch(this, list);
         recyclerView = findViewById(R.id.recCategoryList);
-        adapter = new AdapterCategories(this, list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        TextView txtTitle = findViewById(R.id.txtTitle);
-        if (type == 0)
-            txtTitle.setText("طبقه بندی درمانی");
-        else txtTitle.setText("طبقه بندی بیماری");
+        if (list.isEmpty()) {
+            txtName.setText("هیچ دارویی با این نام وجود ندارد.");
+            txtName.setVisibility(View.VISIBLE);
+        }
 
         // search
+        text = findViewById(R.id.editTextSearch);
+        text.setText(getIntent().getStringExtra("item"));
         final ImageView searchIcon = findViewById(R.id.searchIcon);
         final ImageView closeIcon = findViewById(R.id.closeIcon);
         searchIcon.setVisibility(View.VISIBLE);
@@ -130,7 +124,6 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -151,22 +144,46 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                         }
                     });
                 }
-                filter(s.toString());
-
             }
         });
 
-        //        sort item
-        Collections.sort(list, new Comparator<Category>() {
+        text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public int compare(Category o1, Category o2) {
-                return o1.getName().compareTo(o2.getName());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (text.getText().toString().equals("")) {
+                    //hide keyboard
+                    Class<? extends TextView.OnEditorActionListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
+                    list.clear();
+                    txtName.setVisibility(View.VISIBLE);
+                    txtName.setText("شما دارویی جستجو نکرده اید.");
+                } else {
+                    //hide keyboard
+                    Class<? extends TextView.OnEditorActionListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
+                    txtName.setVisibility(View.INVISIBLE);
+                    list = dbHelper.getSearchItem(text.getText().toString());
+                    adapter = new AdapterSearch(ActivitySearch.this, list);
+                    recyclerView.setAdapter(adapter);
+                    if (list.isEmpty()) {
+                        txtName.setVisibility(View.VISIBLE);
+                        txtName.setText("هیچ دارویی با این نام وجود ندارد.");
+                    }
+                }
+                return true;
             }
         });
 
-        //voice search
-        progress = findViewById(R.id.progressBar);
         btnListen = findViewById(R.id.imgVoice);
+        progress = findViewById(R.id.progressBar);
         speechInstance = Speech.init(this, getPackageName());
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,35 +197,45 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                 }
 
                 //voiceSearch
+                View viewDialogMassage = LayoutInflater.from(ActivitySearch.this).inflate(R.layout.massage_dialog, null);
                 final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCategories.this);
-                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (wifiManager != null)
-                                        wifiManager.setWifiEnabled(true);
-
-                                    if (speechInstance.isListening()) {
-                                        speechInstance.stopListening();
-                                    } else {
-                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                            onRecordAudioPermissionGranted();
-                                        else {
-                                            ActivityCompat.requestPermissions(ActivityCategories.this,
-                                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                                    1);
-                                        }
-                                    }
-                                }
-                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    final Dialog dialog = new Dialog(ActivitySearch.this);
+                    dialog.setContentView(viewDialogMassage);
+                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
+                    linMassageDialog.setVisibility(View.VISIBLE);
+                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
+                    txt.setText(R.string.enable_wifi);
+                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
+                    btnOk.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            if (wifiManager != null)
+                                wifiManager.setWifiEnabled(true);
+
+                            else if (speechInstance.isListening()) {
+                                speechInstance.stopListening();
+                            } else {
+                                if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+                                    onRecordAudioPermissionGranted();
+                                else {
+                                    ActivityCompat.requestPermissions(ActivitySearch.this,
+                                            new String[]{Manifest.permission.RECORD_AUDIO},
+                                            1);
+                                }
+                            }
                         }
-                    })
-                            .show();
+                    });
+                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                 } else {
                     if (speechInstance.isListening()) {
                         speechInstance.stopListening();
@@ -216,9 +243,8 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
                         else {
-                            ActivityCompat.requestPermissions(ActivityCategories.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);
+                            ActivityCompat.requestPermissions(ActivitySearch.this,
+                                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
                         }
                     }
                 }
@@ -231,7 +257,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         progress.setVisibility(View.VISIBLE);
         try {
             speechInstance.stopTextToSpeech();
-            speechInstance.startListening(progress, ActivityCategories.this);
+            speechInstance.startListening(progress, ActivitySearch.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -241,22 +267,51 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
         }
     }
 
+    @Override
+    public void onStartOfSpeech() {
+    }
+
+    @Override
+    public void onSpeechRmsChanged(float value) {
+    }
+
+    @Override
+    public void onSpeechResult(String result) {
+        btnListen.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.GONE);
+        if (!result.isEmpty()) {
+            text.setText(result);
+            list = dbHelper.getSearchItem(text.getText().toString());
+            adapter = new AdapterSearch(ActivitySearch.this, list);
+            recyclerView.setAdapter(adapter);
+        } else {
+            speechInstance.say(getString(R.string.repeat));
+        }
+    }
+
+    @Override
+    public void onSpeechPartialResults(List<String> results) {
+        text.setText("");
+        for (String partial : results) {
+            text.append(partial + "");
+        }
+    }
+
     private void showSpeechNotSupportedDialog() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityCategories.this);
+                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivitySearch.this);
                         break;
-
                     case DialogInterface.BUTTON_NEGATIVE:
                         break;
                 }
             }
         };
 
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.speech_not_available)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, dialogClickListener)
@@ -265,7 +320,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
     }
 
     private void showEnableGoogleVoiceTyping() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.enable_google_voice_typing)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -275,105 +330,6 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                     }
                 })
                 .show();
-    }
-
-    private void filter(String str) {
-        ArrayList<Category> filterDrug = new ArrayList<>();
-        for (Category category : list) {
-            if (category.getName().toLowerCase().contains(str.toLowerCase()))
-                filterDrug.add(category);
-
-        }
-        adapter.filterList(filterDrug);
-    }
-
-    @Override
-    public void onStartOfSpeech() {
-
-    }
-
-    @Override
-    public void onSpeechRmsChanged(float value) {
-
-    }
-
-    @Override
-    public void onSpeechPartialResults(List<String> results) {
-        text.setText("");
-        for (String partial : results) {
-            text.append(partial + " ");
-        }
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-        btnListen.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (!result.isEmpty()) {
-            text.setText(result);
-        } else {
-            speechInstance.say(getString(R.string.repeat));
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (SessionManager.getExtrasPref(this).getString("idList").isEmpty())
-            super.onBackPressed();
-        String strList = SessionManager.getExtrasPref(this).getString("idList");
-        try {
-            JSONArray parentListId = new JSONArray(strList);
-            if (parentListId.length() > 0) {
-                int parentID = parentListId.getInt(parentListId.length() - 1);
-                parentListId = Components.jsonArrayRemove(parentListId, parentListId.length() - 1);
-                SessionManager.getExtrasPref(this).putExtra("idList", parentListId.toString());
-                list = dbHelper.getCategories(type, "parent_id=" + parentID);
-                adapter = new AdapterCategories(this, list);
-                recyclerView.setAdapter(adapter);
-            } else {
-                super.onBackPressed();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // sort list
-        Collections.sort(list, new Comparator<Category>() {
-            @Override
-            public int compare(Category o1, Category o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-    }
-
-    public void getDataToList() {
-        String strList = SessionManager.getExtrasPref(this).getString("idList");
-        try {
-            JSONArray jsonArray = new JSONArray(strList);
-            int id = jsonArray.getInt(jsonArray.length() - 1);
-            list = dbHelper.getCategories(type, "parent_id=" + id);
-            jsonArray = Components.jsonArrayRemove(jsonArray, jsonArray.length() - 1);
-            SessionManager.getExtrasPref(this).putExtra("idList", jsonArray.toString());
-            adapter = new AdapterCategories(this, list);
-            recyclerView.setAdapter(adapter);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // sort list
-        Collections.sort(list, new Comparator<Category>() {
-            @Override
-            public int compare(Category o1, Category o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        speechInstance = Speech.init(this, getPackageName());
-        getDataToList();
-        super.onResume();
     }
 
     @Override
@@ -386,6 +342,12 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
             speechInstance = null;
         }
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        speechInstance = Speech.init(this, getPackageName());
+        super.onResume();
     }
 
     public void openNv(View view) {
@@ -429,9 +391,7 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                 closeNv();
                 break;
             case R.id.item9:
-                Intent intentDrug = new Intent(this, ActivityHome.class);
-                startActivity(intentDrug);
-                closeNv();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
             case R.id.item10:
                 Intent intentSearch = new Intent(this, ActivityDrug.class);
@@ -440,20 +400,16 @@ public class ActivityCategories extends AppCompatActivity implements SpeechDeleg
                 closeNv();
                 break;
             case R.id.item11:
-                if (type == 0) {
-                    Intent intentPharma = new Intent(this, ActivityCategories.class);
-                    intentPharma.putExtra("type", 1);
-                    startActivity(intentPharma);
-                    closeNv();
-                } else drawerLayout.closeDrawer(Gravity.RIGHT);
+                Intent intentPharma = new Intent(this, ActivityCategories.class);
+                intentPharma.putExtra("type", 1);
+                startActivity(intentPharma);
+                closeNv();
                 break;
             case R.id.item12:
-                if (type == 1) {
-                    Intent intentHealing = new Intent(this, ActivityCategories.class);
-                    intentHealing.putExtra("type", 0);
-                    startActivity(intentHealing);
-                    closeNv();
-                } else drawerLayout.closeDrawer(Gravity.RIGHT);
+                Intent intentHealing = new Intent(this, ActivityCategories.class);
+                intentHealing.putExtra("type", 0);
+                startActivity(intentHealing);
+                closeNv();
                 break;
         }
     }

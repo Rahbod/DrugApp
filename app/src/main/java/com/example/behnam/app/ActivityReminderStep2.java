@@ -140,7 +140,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                             , true);
                     tpd.show(getFragmentManager(), "tpd");
                 } else {
-                    Toast.makeText(ActivityReminderStep2.this, "لطفا ابتدا تاریخ مورد نظر تا انتخاب کنید", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityReminderStep2.this, "لطفا ابتدا تاریخ مورد نظر را انتخاب کنید", Toast.LENGTH_LONG).show();
                 }
             }
         });

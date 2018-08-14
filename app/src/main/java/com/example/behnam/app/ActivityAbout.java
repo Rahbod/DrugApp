@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.behnam.app.map.MapActivity;
 
@@ -17,10 +18,18 @@ import java.io.File;
 
 public class ActivityAbout extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
+        if (getIntent().getStringExtra("type").equals("rules")) {
+            TextView txtTitle = findViewById(R.id.txtTitle);
+            TextView txt = findViewById(R.id.txt);
+            txtTitle.setText("ضوابط و توافق نامه حقوقی");
+            txt.setText("متن ضوابط و توافق نامه حقوقی");
+        }
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +85,14 @@ public class ActivityAbout extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item7:
-                closeNv();
+                if (getIntent().getStringExtra("type").equals("rules")) {
+                    Intent intentSearch = new Intent(this, ActivityAbout.class);
+                    intentSearch.putExtra("type", "about");
+                    startActivity(intentSearch);
+                    closeNv();
+                } else {
+                    closeNv();
+                }
                 break;
             case R.id.item8:
                 Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
@@ -89,10 +105,14 @@ public class ActivityAbout extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item10:
-                Intent intentSearch = new Intent(this, ActivityDrug.class);
-                intentSearch.putExtra("search", "search");
-                startActivity(intentSearch);
-                closeNv();
+                if (getIntent().getStringExtra("type").equals("rules")) {
+                    closeNv();
+                } else {
+                    Intent intentSearch = new Intent(this, ActivityAbout.class);
+                    intentSearch.putExtra("type", "rules");
+                    startActivity(intentSearch);
+                    closeNv();
+                }
                 break;
             case R.id.item11:
                 Intent intentPharma = new Intent(this, ActivityCategories.class);

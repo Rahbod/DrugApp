@@ -76,6 +76,7 @@ public class viewDrug extends AppCompatActivity {
             tabLayout.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
             RelativeLayout rel = findViewById(R.id.header);
             rel.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
+            imgOpenNvDraw.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setStatusBarColor(getResources().getColor(R.color.greenVegetalStatus));
             }

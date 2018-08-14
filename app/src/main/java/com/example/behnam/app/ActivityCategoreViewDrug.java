@@ -176,8 +176,8 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                                     if (wifiManager != null)
                                         wifiManager.setWifiEnabled(true);
 
-                                    if (Speech.getInstance().isListening()) {
-                                        Speech.getInstance().stopListening();
+                                    if (speechInstance.isListening()) {
+                                        speechInstance.stopListening();
                                     } else {
                                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                             onRecordAudioPermissionGranted();
@@ -195,8 +195,8 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                     })
                             .show();
                 } else {
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    if (speechInstance.isListening()) {
+                        speechInstance.stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
@@ -215,8 +215,8 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
-            Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress, ActivityCategoreViewDrug.this);
+            speechInstance.stopTextToSpeech();
+            speechInstance.startListening(progress, ActivityCategoreViewDrug.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -301,13 +301,15 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         if (!result.isEmpty()) {
             text.setText(result);
         } else {
-            Speech.getInstance().say(getString(R.string.repeat));
+            speechInstance.say(getString(R.string.repeat));
         }
     }
 
     @Override
     protected void onStop() {
         if (speechInstance != null) {
+            progress.setVisibility(View.INVISIBLE);
+            btnListen.setVisibility(View.VISIBLE);
             speechInstance.shutdown();
             speechInstance.stopListening();
             speechInstance = null;

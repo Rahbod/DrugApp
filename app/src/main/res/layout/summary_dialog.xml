@@ -21,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/background_focus"
             android:padding="12dp"
-            android:src="@drawable/close_icon_dialog"
+            android:src="@drawable/close_icon"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp" />
 

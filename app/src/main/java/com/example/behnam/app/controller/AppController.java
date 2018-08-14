@@ -285,9 +285,4 @@ public class AppController extends Application {
         }
         return false;
     }
-
-    public void destroyConnectivityBroadCast() {
-        if (checkConnectedNetwork != null)
-            unregisterReceiver(checkConnectedNetwork);
-    }
 }

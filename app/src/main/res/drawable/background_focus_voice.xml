@@ -3,13 +3,6 @@
     <item android:state_pressed="true">
         <shape android:shape="oval">
             <solid android:color="@color/Gray2" />
-            <size android:width="15dp" android:height="15dp" />
-        </shape>
-    </item>
-    <item android:state_focused="true">
-        <shape android:shape="oval">
-            <solid android:color="@color/Gray2" />
-            <size android:width="15dp" android:height="15dp" />
         </shape>
     </item>
 </selector>

@@ -70,6 +70,14 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         dbHelper = new DbHelper(this);
         showDrugs();
 
@@ -130,6 +138,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
             }
         });
 
+        // open navigation
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
@@ -185,8 +194,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                             if (wifiManager != null)
                                 wifiManager.setWifiEnabled(true);
 
-                            else if (Speech.getInstance().isListening()) {
-                                Speech.getInstance().stopListening();
+                            else if (speechInstance.isListening()) {
+                                speechInstance.stopListening();
                             } else {
                                 if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                     onRecordAudioPermissionGranted();
@@ -207,8 +216,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
                     });
                     dialog.show();
                 } else {
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    if (speechInstance.isListening()) {
+                        speechInstance.stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
@@ -325,8 +334,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
-            Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress, ActivityHome.this);
+            speechInstance.stopTextToSpeech();
+            speechInstance.startListening(progress, ActivityHome.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -351,7 +360,7 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
         if (!result.isEmpty()) {
             text.setText(result);
         } else {
-            Speech.getInstance().say(getString(R.string.repeat));
+            speechInstance.say(getString(R.string.repeat));
         }
     }
 
@@ -438,6 +447,8 @@ public class ActivityHome extends AppCompatActivity implements SpeechDelegate {
     @Override
     protected void onStop() {
         if (speechInstance != null) {
+            progress.setVisibility(View.INVISIBLE);
+            btnListen.setVisibility(View.VISIBLE);
             speechInstance.shutdown();
             speechInstance.stopListening();
             speechInstance = null;

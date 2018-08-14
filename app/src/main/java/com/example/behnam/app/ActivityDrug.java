@@ -60,6 +60,7 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
     private ImageView btnListen;
     private DrawerLayout drawerLayout;
     private Speech speechInstance;
+    private ImageView imgOpenNvDraw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
 
         TextView txtTitle = findViewById(R.id.txtTitle);
         ImageView btnBack = findViewById(R.id.btnBack);
+        imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         //Back
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +126,7 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
 
             // set ColorBackGround btnBack
             btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
+            imgOpenNvDraw.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
         }
 
         // search
@@ -196,8 +199,8 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
                             dialog.dismiss();
                             if (wifiManager != null)
                                 wifiManager.setWifiEnabled(true);
-                            else if (Speech.getInstance().isListening()) {
-                                Speech.getInstance().stopListening();
+                            else if (speechInstance.isListening()) {
+                                speechInstance.stopListening();
                             } else {
                                 if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                                     onRecordAudioPermissionGranted();
@@ -218,8 +221,8 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
                     });
                     dialog.show();
                 } else {
-                    if (Speech.getInstance().isListening()) {
-                        Speech.getInstance().stopListening();
+                    if (speechInstance.isListening()) {
+                        speechInstance.stopListening();
                     } else {
                         if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
                             onRecordAudioPermissionGranted();
@@ -234,7 +237,6 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
 
         //NavigationView
         drawerLayout = findViewById(R.id.DrawerLayout);
-        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,8 +262,8 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
         btnListen.setVisibility(View.GONE);
         progress.setVisibility(View.VISIBLE);
         try {
-            Speech.getInstance().stopTextToSpeech();
-            Speech.getInstance().startListening(progress, ActivityDrug.this);
+            speechInstance.stopTextToSpeech();
+            speechInstance.startListening(progress, ActivityDrug.this);
 
         } catch (SpeechRecognitionNotAvailable exc) {
             showSpeechNotSupportedDialog();
@@ -343,13 +345,15 @@ public class ActivityDrug extends AppCompatActivity implements SpeechDelegate {
         if (!result.isEmpty()) {
             text.setText(result);
         } else {
-            Speech.getInstance().say(getString(R.string.repeat));
+            speechInstance.say(getString(R.string.repeat));
         }
     }
 
     @Override
     protected void onStop() {
         if (speechInstance != null) {
+            progress.setVisibility(View.INVISIBLE);
+            btnListen.setVisibility(View.VISIBLE);
             speechInstance.shutdown();
             speechInstance.stopListening();
             speechInstance = null;
