@@ -125,8 +125,9 @@ public class ActivityReminderList extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item7:
-                Intent goToAbout = new Intent(this, ActivityAbout.class);
-                startActivity(goToAbout);
+                Intent intentAbout = new Intent(this, ActivityAbout.class);
+                intentAbout.putExtra("type", "about");
+                startActivity(intentAbout);
                 closeNv();
                 break;
             case R.id.item8:
@@ -140,9 +141,9 @@ public class ActivityReminderList extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item10:
-                Intent intentSearch = new Intent(this, ActivityDrug.class);
-                intentSearch.putExtra("search", "search");
-                startActivity(intentSearch);
+                Intent intentRules = new Intent(this, ActivityAbout.class);
+                intentRules.putExtra("type", "rules");
+                startActivity(intentRules);
                 closeNv();
                 break;
             case R.id.item11:

@@ -171,6 +171,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                         dialog.dismiss();
                     }
                 });
+                dialog.setCancelable(false);
                 dialog.show();
             }
 
@@ -268,7 +269,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("مکان فعلی شما");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         //move map camera
@@ -395,8 +397,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 closeNv();
                 break;
             case R.id.item7:
-                Intent goToAbout = new Intent(this, ActivityAbout.class);
-                startActivity(goToAbout);
+                Intent intentAbout = new Intent(this, ActivityAbout.class);
+                intentAbout.putExtra("type", "about");
+                startActivity(intentAbout);
                 closeNv();
                 break;
             case R.id.item8:
@@ -408,9 +411,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
             case R.id.item10:
-                Intent intentSearch = new Intent(this, ActivityDrug.class);
-                intentSearch.putExtra("search", "search");
-                startActivity(intentSearch);
+                Intent intentRules = new Intent(this, ActivityAbout.class);
+                intentRules.putExtra("type", "rules");
+                startActivity(intentRules);
                 closeNv();
                 break;
             case R.id.item11:

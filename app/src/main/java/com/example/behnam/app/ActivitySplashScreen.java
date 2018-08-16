@@ -3,12 +3,20 @@ package com.example.behnam.app;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +39,6 @@ import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.DbHelper;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,8 +49,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class ActivitySplashScreen extends AppCompatActivity {
     private LottieAnimationView animSplashScreen;
@@ -76,9 +84,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (AppController.getInstance().isConnected()) {
-                    downloadFile();
+                spin.setVisibility(View.VISIBLE);
+                btnDownload.setVisibility(View.INVISIBLE);
+                if (isConnected()) {
+                    download();
                 } else {
+                    spin.setVisibility(View.INVISIBLE);
+                    btnDownload.setVisibility(View.VISIBLE);
                     Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 }
             }
@@ -110,13 +122,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation fadeProgress = AnimationUtils.loadAnimation(ActivitySplashScreen.this, R.anim.fade_anim);
+                final Animation fadeProgress = AnimationUtils.loadAnimation(ActivitySplashScreen.this, R.anim.fade_anim);
                 fadeProgress.setStartOffset(200);
                 fadeProgress.setDuration(700);
-                spin.setVisibility(View.VISIBLE);
                 spin.setAnimation(fadeProgress);
                 ThreeBounce threeBounce = new ThreeBounce();
                 spin.setIndeterminateDrawable(threeBounce);
+                spin.setVisibility(View.VISIBLE);
             }
         }, 1750);
 
@@ -132,13 +144,16 @@ public class ActivitySplashScreen extends AppCompatActivity {
     public void getData() {
         if (dbHelper.getCount("indexes") == 0) {
             if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if (AppController.getInstance().isConnected())
-                    downloadFile();
+                if (isConnected())
+                    download();
                 else if (wifi.isWifiEnabled()) {
                     Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                     btnDownload.setVisibility(View.VISIBLE);
                     spin.setVisibility(View.INVISIBLE);
-                } else showWifiDialog();
+                } else
+                    showWifiDialog();
+
+
             } else ActivityCompat.requestPermissions(ActivitySplashScreen.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         } else {
@@ -152,9 +167,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (wifi.isWifiEnabled() || AppController.getInstance().isConnected())
-                downloadFile();
-            else if (wifi.isWifiEnabled() && !(AppController.getInstance().isConnected())) {
+            if (isConnected()) {
+                download();
+            } else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
                 spin.setVisibility(View.INVISIBLE);
@@ -183,9 +198,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                wifi.setWifiEnabled(true);
-                btnDownload.setVisibility(View.VISIBLE);
+                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                 spin.setVisibility(View.INVISIBLE);
+                btnDownload.setVisibility(View.VISIBLE);
             }
         });
         Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
@@ -193,22 +208,23 @@ public class ActivitySplashScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if (AppController.getInstance().isConnected())
+                if (isConnected())
                     getData();
                 else finish();
             }
         });
+        dialog.setCancelable(false);
         dialog.show();
     }
 
-    private void downloadFile() {
-        final String url = "android/api/download?id=1";
-        new DownloadFile().execute("http://rahbod.com/" + url);
-    }
+//    private void downloadFile() {
+//        final String url = "android/api/download?id=1";
+//        new DownloadFile().execute("http://rahbod.com/" + url);
+//    }
 
     private void insertDatabase() {
         try {
-            FileInputStream drug = new FileInputStream(new File(Environment.getExternalStorageDirectory() + File.separator + "sina/", "drug.sql"));
+            FileInputStream drug = new FileInputStream(new File(String.valueOf(getExternalFilesDir("sina/drug.sql"))));
             InputStreamReader reader = new InputStreamReader(drug);
             BufferedReader buffer = new BufferedReader(reader);
             //StringBuilder strDrug = new StringBuilder();
@@ -221,9 +237,12 @@ public class ActivitySplashScreen extends AppCompatActivity {
             startActivity(intent);
 
             //delete file
-            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "sina/drug.sql");
+            File file = new File(String.valueOf(getExternalFilesDir("sina/drug.sql")));
             if (file.exists()) {
                 file.delete();
+                file.isHidden();
+                file.setReadable(false);
+                file.deleteOnExit();
             }
 
         } catch (FileNotFoundException e) {
@@ -233,98 +252,95 @@ public class ActivitySplashScreen extends AppCompatActivity {
         }
     }
 
-    private class DownloadFile extends AsyncTask<String, String, String> {
-        File directory;
-        private String folder;
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+            return false;
+        } else
+            return true;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            txtDownload.setVisibility(View.VISIBLE);
-            btnDownload.setVisibility(View.INVISIBLE);
-            spin.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.setMax(100);
-            txtPercent.setVisibility(View.VISIBLE);
-        }
+    private void download() {
+        txtDownload.setVisibility(View.VISIBLE);
+        btnDownload.setVisibility(View.INVISIBLE);
+        spin.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setMax(100);
+        txtPercent.setVisibility(View.VISIBLE);
+        String url = "http://rahbod.com/android/api/download?id=1";
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
+//        request.setDestinationInExternalPublicDir("sina", "/drug.sql");
+        request.setDestinationInExternalFilesDir(this,"sina", "/drug.sql");
+        final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        final long downloadId = manager.enqueue(request);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean downloading = true;
+                while (downloading) {
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    final Cursor cursor = manager.query(query);
+                    cursor.moveToFirst();
+                    int bytes_downloaded = cursor.getInt(cursor
+                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
-        @Override
-        protected String doInBackground(String... f_url) {
-            int count;
-            try {
-                URL url = new URL(f_url[0]);
-                URLConnection connection = url.openConnection();
-                connection.connect();
-                // getting file length
-                int lengthOfFile = connection.getContentLength();
+                    if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+                        downloading = false;
+                    }
 
-                // input stream to read file - with 8k buffer
-                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+                    final int dl_progress = (int) ((bytes_downloaded * 100L) / bytes_total);
 
-                //External directory path to save file
-                folder = Environment.getExternalStorageDirectory() + File.separator + "sina/";
+                    runOnUiThread(new Runnable() {
 
-                //Create androiddeft folder if it does not exist
-                directory = new File(folder);
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(dl_progress);
+                            txtPercent.setText("% " + dl_progress);
+                        }
+                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            statusMessage(cursor);
+                            cursor.close();
+                        }
+                    });
 
-                if (!directory.exists()) {
-                    directory.mkdirs();
                 }
 
-                // Output stream to write file
-                OutputStream output = new FileOutputStream(folder + "drug.sql");
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lengthOfFile));
-
-                    // writing data to file
-                    output.write(data, 0, count);
-                }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-                return "Downloaded at: " + folder + "drug.sql";
-
-            } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
             }
+        }).start();
+    }
 
-            return "Something went wrong";
-        }
-
-        protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            progressBar.setProgress(Integer.parseInt(progress[0]));
-            txtPercent.setText(" %" + progress[0]);
-        }
-
-
-        @Override
-        protected void onPostExecute(String message) {
-            progressBar.setVisibility(View.INVISIBLE);
-            txtPercent.setVisibility(View.INVISIBLE);
-            txtDownload.setVisibility(View.VISIBLE);
-            spin.setVisibility(View.VISIBLE);
-            txtDownload.setText("در حال پردازش اطلاعات...");
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    insertDatabase();
-                }
-            };
-            thread.start();
+    private void statusMessage(Cursor c) {
+        switch (c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+            case DownloadManager.STATUS_PAUSED:
+                txtDownload.setText("دستگاه شما به اینترنت دسترسی ندارد.");
+                txtDownload.setTextColor(getResources().getColor(R.color.red));
+                break;
+            case DownloadManager.STATUS_SUCCESSFUL:
+                progressBar.setVisibility(View.INVISIBLE);
+                txtPercent.setVisibility(View.INVISIBLE);
+                txtDownload.setVisibility(View.VISIBLE);
+                spin.setVisibility(View.VISIBLE);
+                txtDownload.setText("در حال پردازش اطلاعات...");
+                txtDownload.setTextColor(getResources().getColor(R.color.sina));
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        insertDatabase();
+                    }
+                };
+                thread.start();
+                break;
+            case DownloadManager.STATUS_RUNNING:
+                txtDownload.setText("در حال دریافت اطلاعات، لطفا منتظر بمانید...");
+                txtDownload.setTextColor(getResources().getColor(R.color.sina));
+                break;
         }
     }
 }

@@ -1,19 +1,11 @@
 package com.example.behnam.app;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Process;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,29 +23,19 @@ import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.map.MapActivity;
 
-import net.gotev.speech.GoogleVoiceTypingDisabledException;
-import net.gotev.speech.Speech;
-import net.gotev.speech.SpeechDelegate;
-import net.gotev.speech.SpeechRecognitionNotAvailable;
-import net.gotev.speech.SpeechUtil;
-import net.gotev.speech.ui.SpeechProgressView;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ActivityCategoreViewDrug extends AppCompatActivity implements SpeechDelegate {
+public class ActivityCategoreViewDrug extends AppCompatActivity{
 
     private TextView text;
-    private ConnectivityManager connectivityManager;
-    private SpeechProgressView progress;
-    private ImageView btnListen;
-    private AdapterInterferenceDrug adapterCategoryDrug;
-    private List<Drug> listDrug;
     private DrawerLayout drawerLayout;
-    private Speech speechInstance;
+    //    private ImageView btnListen;
+    //    private SpeechProgressView progress;
+    //    private ConnectivityManager connectivityManager;
+    //    private Speech speechInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +82,8 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
         RecyclerView recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHelper dbHelper = new DbHelper(this);
-        listDrug = dbHelper.getCategoryDrug(id);
-        adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
+        List<Drug> listDrug = dbHelper.getCategoryDrug(id);
+        AdapterInterferenceDrug adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
         recyclerView.setAdapter(adapterCategoryDrug);
 
         // search
@@ -136,8 +118,6 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                         }
                     });
                 }
-//                    filterDrug(s.toString());
-
             }
         });
 
@@ -149,179 +129,181 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
             }
         });
 
-        //voice search
-        progress = findViewById(R.id.progressBar);
-        btnListen = findViewById(R.id.imgVoice);
-        speechInstance = Speech.init(this, getPackageName());
-        btnListen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //hide keyboard
-                Class<? extends View.OnClickListener> view = this.getClass();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-                }
 
-                //voiceSearch
-                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCategoreViewDrug.this);
-                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (wifiManager != null)
-                                        wifiManager.setWifiEnabled(true);
-
-                                    if (speechInstance.isListening()) {
-                                        speechInstance.stopListening();
-                                    } else {
-                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                            onRecordAudioPermissionGranted();
-                                        else {
-                                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
-                                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                                    1);
-                                        }
-                                    }
-                                }
-                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                            .show();
-                } else {
-                    if (speechInstance.isListening()) {
-                        speechInstance.stopListening();
-                    } else {
-                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                            onRecordAudioPermissionGranted();
-                        else {
-                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    1);
-                        }
-                    }
-                }
-            }
-        });
+        ///////////////////////////////
+//        //voice search
+//        progress = findViewById(R.id.progressBar);
+//        btnListen = findViewById(R.id.imgVoice);
+//        speechInstance = Speech.init(this, getPackageName());
+//        btnListen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //hide keyboard
+//                Class<? extends View.OnClickListener> view = this.getClass();
+//                if (view != null) {
+//                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    assert imm != null;
+//                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+//                }
+//
+//                //voiceSearch
+//                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+//                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCategoreViewDrug.this);
+//                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
+//                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    if (wifiManager != null)
+//                                        wifiManager.setWifiEnabled(true);
+//
+//                                    if (speechInstance.isListening()) {
+//                                        speechInstance.stopListening();
+//                                    } else {
+//                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+//                                            onRecordAudioPermissionGranted();
+//                                        else {
+//                                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
+//                                                    new String[]{Manifest.permission.RECORD_AUDIO},
+//                                                    1);
+//                                        }
+//                                    }
+//                                }
+//                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                        }
+//                    })
+//                            .show();
+//                } else {
+//                    if (speechInstance.isListening()) {
+//                        speechInstance.stopListening();
+//                    } else {
+//                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+//                            onRecordAudioPermissionGranted();
+//                        else {
+//                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
+//                                    new String[]{Manifest.permission.RECORD_AUDIO},
+//                                    1);
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
-    private void onRecordAudioPermissionGranted() {
-        btnListen.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
-        try {
-            speechInstance.stopTextToSpeech();
-            speechInstance.startListening(progress, ActivityCategoreViewDrug.this);
+//    private void onRecordAudioPermissionGranted() {
+//        btnListen.setVisibility(View.GONE);
+//        progress.setVisibility(View.VISIBLE);
+//        try {
+//            speechInstance.stopTextToSpeech();
+//            speechInstance.startListening(progress, ActivityCategoreViewDrug.this);
+//
+//        } catch (SpeechRecognitionNotAvailable exc) {
+//            showSpeechNotSupportedDialog();
+//
+//        } catch (GoogleVoiceTypingDisabledException exc) {
+//            showEnableGoogleVoiceTyping();
+//        }
+//    }
 
-        } catch (SpeechRecognitionNotAvailable exc) {
-            showSpeechNotSupportedDialog();
-
-        } catch (GoogleVoiceTypingDisabledException exc) {
-            showEnableGoogleVoiceTyping();
-        }
-    }
-
-    private void showSpeechNotSupportedDialog() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityCategoreViewDrug.this);
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
-                }
-            }
-        };
-
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setMessage(R.string.speech_not_available)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, dialogClickListener)
-                .setNegativeButton(R.string.no, dialogClickListener)
-                .show();
-    }
-
-    private void showEnableGoogleVoiceTyping() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
-        builder.setMessage(R.string.enable_google_voice_typing)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // do nothing
-                    }
-                })
-                .show();
-    }
-
-    private void filterDrug(String str) {
-        ArrayList<Drug> filterDrug = new ArrayList<>();
-        for (Drug drug : listDrug) {
-            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getFaName().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
-                filterDrug.add(drug);
-            }
-        }
-        adapterCategoryDrug.filterList(filterDrug);
-    }
-
-    @Override
-    public void onStartOfSpeech() {
-
-    }
-
-    @Override
-    public void onSpeechRmsChanged(float value) {
-
-    }
-
-    @Override
-    public void onSpeechPartialResults(List<String> results) {
-        text.setText("");
-        for (String partial : results) {
-            text.append(partial + " ");
-        }
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-        btnListen.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (!result.isEmpty()) {
-            text.setText(result);
-        } else {
-            speechInstance.say(getString(R.string.repeat));
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        if (speechInstance != null) {
-            progress.setVisibility(View.INVISIBLE);
-            btnListen.setVisibility(View.VISIBLE);
-            speechInstance.shutdown();
-            speechInstance.stopListening();
-            speechInstance = null;
-        }
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        speechInstance = Speech.init(this, getPackageName());
-        super.onResume();
-    }
+//    private void showSpeechNotSupportedDialog() {
+//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                switch (which) {
+//                    case DialogInterface.BUTTON_POSITIVE:
+//                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityCategoreViewDrug.this);
+//                        break;
+//
+//                    case DialogInterface.BUTTON_NEGATIVE:
+//                        break;
+//                }
+//            }
+//        };
+//
+//        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+//        builder.setMessage(R.string.speech_not_available)
+//                .setCancelable(false)
+//                .setPositiveButton(R.string.yes, dialogClickListener)
+//                .setNegativeButton(R.string.no, dialogClickListener)
+//                .show();
+//    }
+//
+//    private void showEnableGoogleVoiceTyping() {
+//        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+//        builder.setMessage(R.string.enable_google_voice_typing)
+//                .setCancelable(false)
+//                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        // do nothing
+//                    }
+//                })
+//                .show();
+//    }
+//
+//    private void filterDrug(String str) {
+//        ArrayList<Drug> filterDrug = new ArrayList<>();
+//        for (Drug drug : listDrug) {
+//            if (drug.getName().toLowerCase().contains(str.toLowerCase())) {
+//                filterDrug.add(drug);
+//            } else if (drug.getFaName().toLowerCase().contains(str.toLowerCase())) {
+//                filterDrug.add(drug);
+//            } else if (drug.getBrand().toLowerCase().contains(str.toLowerCase())) {
+//                filterDrug.add(drug);
+//            }
+//        }
+//        adapterCategoryDrug.filterList(filterDrug);
+//    }
+//
+//    @Override
+//    public void onStartOfSpeech() {
+//
+//    }
+//
+//    @Override
+//    public void onSpeechRmsChanged(float value) {
+//
+//    }
+//
+//    @Override
+//    public void onSpeechPartialResults(List<String> results) {
+//        text.setText("");
+//        for (String partial : results) {
+//            text.append(partial + " ");
+//        }
+//    }
+//
+//    @Override
+//    public void onSpeechResult(String result) {
+//        btnListen.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.GONE);
+//        if (!result.isEmpty()) {
+//            text.setText(result);
+//        } else {
+//            speechInstance.say(getString(R.string.repeat));
+//        }
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        if (speechInstance != null) {
+//            progress.setVisibility(View.INVISIBLE);
+//            btnListen.setVisibility(View.VISIBLE);
+//            speechInstance.shutdown();
+//            speechInstance.stopListening();
+//            speechInstance = null;
+//        }
+//        super.onStop();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        speechInstance = Speech.init(this, getPackageName());
+//        super.onResume();
+//    }
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {
@@ -354,8 +336,9 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                 closeNv();
                 break;
             case R.id.item7:
-                Intent goToAbout = new Intent(this, ActivityAbout.class);
-                startActivity(goToAbout);
+                Intent intentAbout = new Intent(this, ActivityAbout.class);
+                intentAbout.putExtra("type", "about");
+                startActivity(intentAbout);
                 closeNv();
                 break;
             case R.id.item8:
@@ -369,9 +352,9 @@ public class ActivityCategoreViewDrug extends AppCompatActivity implements Speec
                 closeNv();
                 break;
             case R.id.item10:
-                Intent intentSearch = new Intent(this, ActivityDrug.class);
-                intentSearch.putExtra("search", "search");
-                startActivity(intentSearch);
+                Intent intentRules = new Intent(this, ActivityAbout.class);
+                intentRules.putExtra("type", "rules");
+                startActivity(intentRules);
                 closeNv();
                 break;
             case R.id.item11:

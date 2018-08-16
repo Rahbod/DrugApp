@@ -1,53 +1,32 @@
 package com.example.behnam.app;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
-import android.os.Process;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.behnam.app.adapter.AdapterSearch;
 import com.example.behnam.app.map.MapActivity;
 
-import net.gotev.speech.GoogleVoiceTypingDisabledException;
-import net.gotev.speech.Speech;
-import net.gotev.speech.SpeechDelegate;
-import net.gotev.speech.SpeechRecognitionNotAvailable;
-import net.gotev.speech.SpeechUtil;
-import net.gotev.speech.ui.SpeechProgressView;
-
 import java.io.File;
-import java.util.List;
 
-public class ActivityIndex extends AppCompatActivity implements SpeechDelegate {
-    private Speech speechInstance;
+public class ActivityIndex extends AppCompatActivity{
     private static long BackPressed;
     private EditText text;
-    private SpeechProgressView progress;
-    private ImageView btnListen;
-    private ConnectivityManager connectivityManager;
+//    private Speech speechInstance;
+//    private SpeechProgressView progress;
+//    private ImageView btnListen;
+//    private ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +42,24 @@ public class ActivityIndex extends AppCompatActivity implements SpeechDelegate {
         text.setText("");
         final ImageView searchIcon = findViewById(R.id.searchIcon);
         final ImageView closeIcon = findViewById(R.id.closeIcon);
-        searchIcon.setVisibility(View.VISIBLE);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!text.getText().toString().equals("")) {
+                    Intent intent = new Intent(ActivityIndex.this, ActivitySearch.class);
+                    intent.putExtra("item", text.getText().toString());
+                    startActivity(intent);
+                }else {
+                    //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    }
+                }
+            }
+        });
         text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -78,15 +74,13 @@ public class ActivityIndex extends AppCompatActivity implements SpeechDelegate {
                 String strText = text.getText().toString();
                 if (strText.matches("")) {
                     closeIcon.setVisibility(View.INVISIBLE);
-                    searchIcon.setVisibility(View.VISIBLE);
                 } else {
-                    searchIcon.setVisibility(View.INVISIBLE);
+
                     closeIcon.setVisibility(View.VISIBLE);
                     closeIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             text.setText("");
-                            searchIcon.setVisibility(View.VISIBLE);
                             closeIcon.setVisibility(View.INVISIBLE);
                         }
                     });
@@ -113,74 +107,74 @@ public class ActivityIndex extends AppCompatActivity implements SpeechDelegate {
             }
         });
 
-        btnListen = findViewById(R.id.imgVoice);
-        progress = findViewById(R.id.progressBar);
-        speechInstance = Speech.init(this, getPackageName());
-        btnListen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //hide keyboard
-                Class<? extends View.OnClickListener> view = this.getClass();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-                }
-
-                //voiceSearch
-                View viewDialogMassage = LayoutInflater.from(ActivityIndex.this).inflate(R.layout.massage_dialog, null);
-                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-                    final Dialog dialog = new Dialog(ActivityIndex.this);
-                    dialog.setContentView(viewDialogMassage);
-                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
-                    linMassageDialog.setVisibility(View.VISIBLE);
-                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
-                    txt.setText(R.string.enable_wifi);
-                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
-                    btnOk.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                            if (wifiManager != null)
-                                wifiManager.setWifiEnabled(true);
-
-                            else if (speechInstance.isListening()) {
-                                speechInstance.stopListening();
-                            } else {
-                                if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                                    onRecordAudioPermissionGranted();
-                                else {
-                                    ActivityCompat.requestPermissions(ActivityIndex.this,
-                                            new String[]{Manifest.permission.RECORD_AUDIO},
-                                            1);
-                                }
-                            }
-                        }
-                    });
-                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-                } else {
-                    if (speechInstance.isListening()) {
-                        speechInstance.stopListening();
-                    } else {
-                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                            onRecordAudioPermissionGranted();
-                        else {
-                            ActivityCompat.requestPermissions(ActivityIndex.this,
-                                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
-                        }
-                    }
-                }
-            }
-        });
+//        btnListen = findViewById(R.id.imgVoice);
+//        progress = findViewById(R.id.progressBar);
+//        speechInstance = Speech.init(this, getPackageName());
+//        btnListen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //hide keyboard
+//                Class<? extends View.OnClickListener> view = this.getClass();
+//                if (view != null) {
+//                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    assert imm != null;
+//                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+//                }
+//
+//                //voiceSearch
+//                View viewDialogMassage = LayoutInflater.from(ActivityIndex.this).inflate(R.layout.massage_dialog, null);
+//                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+//                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+//                    final Dialog dialog = new Dialog(ActivityIndex.this);
+//                    dialog.setContentView(viewDialogMassage);
+//                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
+//                    linMassageDialog.setVisibility(View.VISIBLE);
+//                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
+//                    txt.setText(R.string.enable_wifi);
+//                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
+//                    btnOk.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                            if (wifiManager != null)
+//                                wifiManager.setWifiEnabled(true);
+//
+//                            else if (speechInstance.isListening()) {
+//                                speechInstance.stopListening();
+//                            } else {
+//                                if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+//                                    onRecordAudioPermissionGranted();
+//                                else {
+//                                    ActivityCompat.requestPermissions(ActivityIndex.this,
+//                                            new String[]{Manifest.permission.RECORD_AUDIO},
+//                                            1);
+//                                }
+//                            }
+//                        }
+//                    });
+//                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
+//                    btnCancel.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    dialog.show();
+//                } else {
+//                    if (speechInstance.isListening()) {
+//                        speechInstance.stopListening();
+//                    } else {
+//                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+//                            onRecordAudioPermissionGranted();
+//                        else {
+//                            ActivityCompat.requestPermissions(ActivityIndex.this,
+//                                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
     public void openActivity(View view) {
@@ -262,104 +256,104 @@ public class ActivityIndex extends AppCompatActivity implements SpeechDelegate {
         }
     }
 
-    private void onRecordAudioPermissionGranted() {
-        btnListen.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
-        try {
-            speechInstance.stopTextToSpeech();
-            speechInstance.startListening(progress, ActivityIndex.this);
-
-        } catch (SpeechRecognitionNotAvailable exc) {
-            showSpeechNotSupportedDialog();
-
-        } catch (GoogleVoiceTypingDisabledException exc) {
-            showEnableGoogleVoiceTyping();
-        }
-    }
-
-    private void showSpeechNotSupportedDialog() {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityIndex.this);
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.speech_not_available)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, dialogClickListener)
-                .setNegativeButton(R.string.no, dialogClickListener)
-                .show();
-    }
-
-    private void showEnableGoogleVoiceTyping() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.enable_google_voice_typing)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // do nothing
-                    }
-                })
-                .show();
-    }
-
-    @Override
-    public void onStartOfSpeech() {
-
-    }
-
-    @Override
-    public void onSpeechRmsChanged(float value) {
-
-    }
-
-    @Override
-    public void onSpeechPartialResults(List<String> results) {
-        text.setText("");
-        for (String partial : results) {
-            text.append(partial + "");
-        }
-    }
-
-    @Override
-    public void onSpeechResult(String result) {
-        btnListen.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (!result.isEmpty()) {
-            text.setText(result);
-            Intent intent = new Intent(ActivityIndex.this, ActivitySearch.class);
-            intent.putExtra("item", text.getText().toString());
-            startActivity(intent);
-        } else {
-            speechInstance.say(getString(R.string.repeat));
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        if (speechInstance != null) {
-            progress.setVisibility(View.INVISIBLE);
-            btnListen.setVisibility(View.VISIBLE);
-            speechInstance.shutdown();
-            speechInstance.stopListening();
-            speechInstance = null;
-        }
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        speechInstance = Speech.init(this, getPackageName());
-        text.setText("");
-        super.onResume();
-    }
+//    private void onRecordAudioPermissionGranted() {
+//        btnListen.setVisibility(View.GONE);
+//        progress.setVisibility(View.VISIBLE);
+//        try {
+//            speechInstance.stopTextToSpeech();
+//            speechInstance.startListening(progress, ActivityIndex.this);
+//
+//        } catch (SpeechRecognitionNotAvailable exc) {
+//            showSpeechNotSupportedDialog();
+//
+//        } catch (GoogleVoiceTypingDisabledException exc) {
+//            showEnableGoogleVoiceTyping();
+//        }
+//    }
+//
+//    private void showSpeechNotSupportedDialog() {
+//        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                switch (which) {
+//                    case DialogInterface.BUTTON_POSITIVE:
+//                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityIndex.this);
+//                        break;
+//                    case DialogInterface.BUTTON_NEGATIVE:
+//                        break;
+//                }
+//            }
+//        };
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage(R.string.speech_not_available)
+//                .setCancelable(false)
+//                .setPositiveButton(R.string.yes, dialogClickListener)
+//                .setNegativeButton(R.string.no, dialogClickListener)
+//                .show();
+//    }
+//
+//    private void showEnableGoogleVoiceTyping() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage(R.string.enable_google_voice_typing)
+//                .setCancelable(false)
+//                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        // do nothing
+//                    }
+//                })
+//                .show();
+//    }
+//
+//    @Override
+//    public void onStartOfSpeech() {
+//
+//    }
+//
+//    @Override
+//    public void onSpeechRmsChanged(float value) {
+//
+//    }
+//
+//    @Override
+//    public void onSpeechPartialResults(List<String> results) {
+//        text.setText("");
+//        for (String partial : results) {
+//            text.append(partial + "");
+//        }
+//    }
+//
+//    @Override
+//    public void onSpeechResult(String result) {
+//        btnListen.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.GONE);
+//        if (!result.isEmpty()) {
+//            text.setText(result);
+//            Intent intent = new Intent(ActivityIndex.this, ActivitySearch.class);
+//            intent.putExtra("item", text.getText().toString());
+//            startActivity(intent);
+//        } else {
+//            speechInstance.say(getString(R.string.repeat));
+//        }
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        if (speechInstance != null) {
+//            progress.setVisibility(View.INVISIBLE);
+//            btnListen.setVisibility(View.VISIBLE);
+//            speechInstance.shutdown();
+//            speechInstance.stopListening();
+//            speechInstance = null;
+//        }
+//        super.onStop();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        speechInstance = Speech.init(this, getPackageName());
+//        text.setText("");
+//        super.onResume();
+//    }
 }

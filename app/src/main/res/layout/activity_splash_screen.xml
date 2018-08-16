@@ -65,9 +65,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:textColor="@color/sina"
+        android:textDirection="ltr"
         android:text="% 0"
         android:textSize="11dp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:targetApi="jelly_bean_mr1" />
 
     <ProgressBar
         android:id="@+id/progressBarDownload"
@@ -83,7 +85,9 @@
         android:minWidth="220dp"
         android:progress="1"
         android:progressDrawable="@drawable/progress_bar_background"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:textDirection="ltr"
+        tools:targetApi="jelly_bean_mr1" />
 
     <com.example.behnam.fonts.FontTextView
         android:id="@+id/txtDownload"
@@ -92,7 +96,7 @@
         android:layout_below="@+id/progressBarDownload"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="در حال دانلود دیتا، لطفا منتظر بمانید..."
+        android:text="در حال دریافت اطلاعات، لطفا منتظر بمانید..."
         android:textColor="@color/sina"
         android:textSize="11dp"
         android:visibility="invisible" />
@@ -106,7 +110,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:background="@drawable/shape_button_stroke"
-        android:text="دانلود مجدد"
+        android:text="دریافت اطلاعات"
         android:textColor="@color/blue"
         android:visibility="invisible" />
 

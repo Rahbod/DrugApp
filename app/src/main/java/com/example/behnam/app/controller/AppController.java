@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -58,6 +59,7 @@ import java.net.InetAddress;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class AppController extends Application {
     ProgressDialog pd;
@@ -262,27 +264,5 @@ public class AppController extends Application {
             Log.e("ResponseError", "خطای پردازش پاسخ سرور رخ داده است.");
         } else
             Log.e("ResponseError", error.getMessage());
-    }
-
-
-
-    public boolean isWifiConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert cm != null;
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        Log.e("qqqq", "isWifiConnected");
-        return (netInfo != null && netInfo.isConnected());
-    }
-
-    public boolean isConnected() {
-        String command = "ping -c 1 google.com";
-        try {
-            return (Runtime.getRuntime().exec(command).waitFor() == 0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

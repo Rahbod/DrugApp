@@ -5,8 +5,7 @@
     android:gravity="center"
     android:layout_height="match_parent"
     tools:context="com.example.behnam.app.ActivityHome"
-    android:background="@drawable/radius"
-    >
+    android:background="@drawable/radius">
 
     <com.example.behnam.fonts.FontTextView
         android:id="@+id/line1"
@@ -17,6 +16,7 @@
         android:textSize="20sp"
         android:textColor="@color/black"
         android:layout_alignParentRight="true"/>
+
     <com.example.behnam.fonts.FontTextView
         android:id="@+id/line2"
         android:layout_width="match_parent"

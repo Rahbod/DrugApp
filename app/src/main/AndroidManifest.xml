@@ -91,7 +91,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.android.net.wifi.WIFI_STATE_CHANGE" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
