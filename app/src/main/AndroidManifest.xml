@@ -31,7 +31,8 @@
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
         <activity
             android:name=".ActivityLog"
             android:windowSoftInputMode="stateHidden" />

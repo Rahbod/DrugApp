@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.behnam.app.R;
 import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class FragmentDrug extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recInterference);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         DbHelper dbHelper = new DbHelper(getActivity());
-        List<Drug> list = dbHelper.getAllDrugInterference(ID);
+        List<Index> list = dbHelper.getAllDrugInterference(ID);
         AdapterInterferenceDrug adapter = new AdapterInterferenceDrug(getActivity(), list);
         recyclerView.setAdapter(adapter);
 

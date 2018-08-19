@@ -105,15 +105,16 @@ html, body{
 .table-responsive{
     min-height: .01%;
     overflow-x: auto;
-    padding-bottom:15px;
+    margin-bottom:15px;
+    padding-bottom:1px;
 }
 .text table{
     border:none;
     width: 100%;
-    margin-bottom: 15px;
     max-width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
+    height: auto !important;
 }
 .text table tr td{
     padding: 5px 0;
@@ -151,4 +152,30 @@ ul{
     height:18px;
     margin-right: 10px;
     vertical-align: middle;
+}
+.pregnancy-group{
+    color: #2012c0;
+    font-weight: bold;
+    font-size: 14px;
+}
+.table-responsive::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.table-responsive::-webkit-scrollbar:vertical {
+    width: 5px;
+}
+
+.table-responsive::-webkit-scrollbar:horizontal {
+    height: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .13);
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #ffffff;
 }

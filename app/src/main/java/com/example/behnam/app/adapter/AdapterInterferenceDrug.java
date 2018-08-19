@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.viewDrug;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import java.util.List;
 public class AdapterInterferenceDrug extends RecyclerView.Adapter<AdapterInterferenceDrug.listViewHolder> {
 
     Context context;
-    List<Drug> list;
+    List<Index> list;
 
-    public AdapterInterferenceDrug(Context context, List<Drug> list) {
+    public AdapterInterferenceDrug(Context context, List<Index> list) {
         this.context = context;
         this.list = list;
     }
@@ -66,7 +67,7 @@ public class AdapterInterferenceDrug extends RecyclerView.Adapter<AdapterInterfe
             rel = itemView.findViewById(R.id.relativeLayoutRecHome);
         }
     }
-    public void filterList(ArrayList<Drug> filterdNames) {
+    public void filterList(ArrayList<Index> filterdNames) {
         this.list = filterdNames;
         notifyDataSetChanged();
     }

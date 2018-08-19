@@ -3,6 +3,7 @@ package com.example.behnam.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,7 +175,7 @@ public class FragmentViewDrug extends Fragment {
             if (groupPregnancy.length() != 0 || (!textPregnancy.equals("") && !(textPregnancy.equals("null")))) {
                 try {
                     if (groupPregnancy.length() != 0) {
-                        strPregnancy += "<span>گروه ";
+                        strPregnancy += "<span class=\"pregnancy-group\">گروه ";
                         for (int i = 0; i < groupPregnancy.length(); i++) {
                             if (i != 0)
                                 strPregnancy += " و ";
@@ -186,11 +187,10 @@ public class FragmentViewDrug extends Fragment {
                     }
                     if (!textPregnancy.equals("") && !(textPregnancy.equals("null")))
                         strPregnancy += textPregnancy;
-                    String groupPregnancyStr = "";
                     if (VEGETAL == 1)
-                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری و شیردهی:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
+                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری و شیردهی:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
                     else
-                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری:</h4><div class=\"text\">" + groupPregnancyStr + strPregnancy + "</div></div>";
+                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -281,7 +281,8 @@ public class FragmentViewDrug extends Fragment {
         try {
             jsonDescription = new JSONObject(drug.getDescription());
             codeDescription = jsonDescription.getJSONArray("code");
-            textDescription = jsonDescription.getString("text");
+//            textDescription = jsonDescription.getString("text");
+            textDescription = "<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF0000\"><strong>هشدار: </strong></span>دیدانوزین نباید به صورت درمان منفرد به كار رود.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF0000\"><strong>هشدار: </strong></span>به دلیل میزان بالای شكست ویرولوژیكی و ایجاد مقاومت برای مبتلایان به عفونت <span dir=\"LTR\">HIV</span> درمان تركیبی لامیوودین، دیدانوزین و تنوفوویر را آغاز نكنید. اگر بیمار قبلاً این رژیم درمانی را داشته تغییر آن را در نظر بگیرید.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF0000\"><strong>هشدار: </strong></span>دارو را با سایر آنتی<span dir=\"LTR\">&zwnj;</span>رتروویرال<span dir=\"LTR\">&zwnj;</span>ها اشتباه نگیرید.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>مسمومیت اصلی حین مصرف دارو پانكراتیت است كه می<span dir=\"LTR\">&zwnj;</span>تواند كشنده باشد و باید هنگام ابتلا به درد شكم، <span dir=\"LTR\">&zwnj;</span>تهوع و استفراغ یا افزایش شاخص<span dir=\"LTR\">&zwnj;</span>های شیمیایی بررسی شود.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>تا زمانی كه احتمال پانكراتیت رد شود مصرف دارو را قطع كنید. اگر پانكراتیت تأیید شده است، مجدداً از دارو استفاده نكنید.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>بیمار را از نظر علایم اسیدوز لاكتیك و سمیت كبدی از جمله ضعف، لتارژی، درد شكم،<span dir=\"LTR\">&zwnj;</span> احساس سرما، سرگیجه، احساس سبكی سر و ضربان قلب نامنظم یا آهسته مانیتور كنید.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>اسیدوز لاكتیك عموماً در خانم<span dir=\"LTR\">&zwnj;</span>ها اتفاق می<span dir=\"LTR\">&zwnj;</span>افتد.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>به صورت دوره<span dir=\"LTR\">&zwnj;</span>ای تست<span dir=\"LTR\">&zwnj;</span>های مربوط به شبكیه را انجام دهید تا تغییرات شبكیه یا التهاب عصب چشم را بررسی كنید.</p>\r\n\r\n<p dir=\"RTL\" style=\"margin-right:-.05pt\"><span style=\"color:#FF8C00\"><strong>&gt;&gt; </strong></span>به بیمار بگویید دارو را با معده<span dir=\"LTR\">&zwnj;</span>ی خالی و حداقل با &nbsp;<span dir=\"LTR\">ml</span>۳۰ آب میل كند و كپسول<span dir=\"LTR\">&zwnj;</span>ها را خُرد نكند.</p>\r\n";
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -297,7 +298,6 @@ public class FragmentViewDrug extends Fragment {
                         strDescription += "<span style=\"color:#FF8C00;\"><strong>&gt;&gt; </strong></span>" + getResources().getStringArray(R.array.descriptionGroup)[codeDescription.getInt(i) - 1];
                     }
                 }
-
                 if (!textDescription.equals(""))
                     strDescription += textDescription;
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-description\"></i>اطلاعات کلی برای پزشک، پرستار و بیمار:</h4><div class=\"text\">" + strDescription + "</div></div></div>";
@@ -349,10 +349,16 @@ public class FragmentViewDrug extends Fragment {
                 }
             }
         });
+
         linearfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareText(drug.getName(), drug.getName() + "\n" + drug.getFaName());
+                String text = drug.getName() + "\n \n";
+                text += drug.getFaName();
+                text += getHealingShare(String.valueOf(dbHelper.getHealingCategory(ID)));
+                text += stripHtml(drug.getUsage());
+                text += "http://www.google.com";
+                shareText(drug.getName(), text);
             }
         });
 
@@ -365,6 +371,28 @@ public class FragmentViewDrug extends Fragment {
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         share.putExtra(Intent.EXTRA_SUBJECT, subject);
         share.putExtra(Intent.EXTRA_TEXT, text);
-        startActivity(Intent.createChooser(share, "Share link!"));
+        startActivity(Intent.createChooser(share, "ارسال به دوستان"));
+    }
+
+    private String stripHtml(String html) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return getUsageShare(String.valueOf(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)));
+        } else {
+            return getUsageShare(String.valueOf(Html.fromHtml(html)));
+        }
+    }
+
+    private String getHealingShare(String text) {
+        if (!(text.equals("[]"))) {
+            return "\n \n" + "طبقه بندی درمانی: " + text + "\n \n";
+        } else
+            return "";
+    }
+
+    private String getUsageShare(String text) {
+        if (!(text.equals(""))) {
+            return "\n \n" + "موارد مصرف: " + "\n" + text;
+        } else
+            return "";
     }
 }

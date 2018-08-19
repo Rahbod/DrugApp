@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.text.TextUtilsCompat;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +15,9 @@ import com.example.behnam.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class AdapterTabBar extends FragmentPagerAdapter{
+public class AdapterTabBar extends FragmentPagerAdapter {
 
     Context context;
 
@@ -40,21 +43,22 @@ public class AdapterTabBar extends FragmentPagerAdapter{
         return fragmentList.size();
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, String title) {
         fragmentList.add(fragment);
         titleList.add(title);
     }
 
-    public View getTabView(int position){
-        String tabTitles[] = new String[] {"تداخل با دارو", "تداخل با طبقه بندی"};
+    public View getTabView(int position) {
+        String tabTitles[];
+        tabTitles = new String[]{"تداخل با دارو", "تداخل با طبقه بندی"};
         View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
         TextView txt = view.findViewById(R.id.txtTitle);
         txt.setText(tabTitles[position]);
         return view;
     }
 
-    public View getTabViewDrug(int position){
-        String tabTitles[] = new String[] {"توضیحات دارو", "تداخل با دارو"};
+    public View getTabViewDrug(int position) {
+        String tabTitles[] = new String[]{"توضیحات دارو", "تداخل با دارو"};
         View view = LayoutInflater.from(context).inflate(R.layout.tab, null);
         TextView txt = view.findViewById(R.id.txtTitle);
         txt.setText(tabTitles[position]);

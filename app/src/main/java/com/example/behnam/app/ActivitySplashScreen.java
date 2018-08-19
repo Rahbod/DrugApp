@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import java.io.BufferedInputStream;
@@ -64,6 +65,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView txtDownload;
     private TextView txtPercent;
+    private DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
         dbHelper = new DbHelper(ActivitySplashScreen.this);
         activitySplashScreen = this;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+
+        //cancel Download Previous
+        if (SessionManager.getExtrasPref(this).getLong("downloadId") != 0)
+            manager.remove(SessionManager.getExtrasPref(this).getLong("downloadId"));
+
 
         btnDownload = findViewById(R.id.btnDownload);
         wifi = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
@@ -237,13 +246,12 @@ public class ActivitySplashScreen extends AppCompatActivity {
             startActivity(intent);
 
             //delete file
-            File file = new File(String.valueOf(getExternalFilesDir("sina/drug.sql")));
-            if (file.exists()) {
-                file.delete();
-                file.isHidden();
-                file.setReadable(false);
-                file.deleteOnExit();
-            }
+            manager.remove(SessionManager.getExtrasPref(this).getLong("downloadId"));
+            SessionManager.getExtrasPref(this).remove("downloadId");
+//            File file = new File(String.valueOf(getExternalFilesDir("sina/drug.sql")));
+//            if (file.exists()) {
+//                file.delete();
+//            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -270,10 +278,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
         String url = "http://rahbod.com/android/api/download?id=1";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-//        request.setDestinationInExternalPublicDir("sina", "/drug.sql");
         request.setDestinationInExternalFilesDir(this,"sina", "/drug.sql");
-        final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         final long downloadId = manager.enqueue(request);
+        SessionManager.getExtrasPref(this).putExtra("downloadId", downloadId);
         new Thread(new Runnable() {
             @Override
             public void run() {

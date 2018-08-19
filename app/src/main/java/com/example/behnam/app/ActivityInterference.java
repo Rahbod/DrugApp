@@ -9,25 +9,42 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.behnam.app.adapter.AdapterCategories;
 import com.example.behnam.app.adapter.AdapterTabBar;
+import com.example.behnam.app.database.Category;
+import com.example.behnam.app.helper.Components;
+import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fragment.FragmentCategory;
 import com.example.behnam.fragment.FragmentDrug;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ActivityInterference extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    private static String currentTab = "Drug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference);
+
+        Log.e("qqqqq", "onCreate: " + SessionManager.getExtrasPref(this).getString("interferenceIdList"));
+        if (SessionManager.getExtrasPref(this).getString("interferenceIdList") != null) {
+            SessionManager.getExtrasPref(this).remove("interferenceIdList");
+        }
 
         TextView txtTitle = findViewById(R.id.txtTitle);
         txtTitle.setText(getIntent().getStringExtra("name"));
@@ -60,17 +77,33 @@ public class ActivityInterference extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupViewPager(viewPager);
         AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
-        for (int i = 0; i< tabLayout.getTabCount(); i++){
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(adapter.getTabView(i));
         }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                currentTab = (String) tab.getText();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
         AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
-
-        adapter.addFragment(new FragmentDrug(), "تداخل با دارو");
-        adapter.addFragment(new FragmentCategory(), "تداخل با طبقه بندی");
+        adapter.addFragment(new FragmentDrug(), "Drug");
+        adapter.addFragment(new FragmentCategory(), "Category");
         viewPager.setAdapter(adapter);
     }
 
@@ -159,5 +192,19 @@ public class ActivityInterference extends AppCompatActivity {
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
         startActivity(Intent.createChooser(intent, "Share app via"));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentTab.equals("Category")) {
+            if (!FragmentCategory.goBack(this))
+                super.onBackPressed();
+        } else
+            super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

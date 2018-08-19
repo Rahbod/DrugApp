@@ -40,7 +40,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.li
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else parentIDList = new JSONArray();
+        }else
+            parentIDList = new JSONArray();
 
     }
 

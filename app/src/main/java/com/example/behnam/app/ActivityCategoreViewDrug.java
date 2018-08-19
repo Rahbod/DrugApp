@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.map.MapActivity;
 
@@ -82,7 +83,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
         RecyclerView recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHelper dbHelper = new DbHelper(this);
-        List<Drug> listDrug = dbHelper.getCategoryDrug(id);
+        List<Index> listDrug = dbHelper.getCategoryDrug(id);
         AdapterInterferenceDrug adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
         recyclerView.setAdapter(adapterCategoryDrug);
 
@@ -122,9 +123,9 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
         });
 
         //        sort item
-        Collections.sort(listDrug, new Comparator<Drug>() {
+        Collections.sort(listDrug, new Comparator<Index>() {
             @Override
-            public int compare(Drug o1, Drug o2) {
+            public int compare(Index o1, Index o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         });
