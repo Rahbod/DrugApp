@@ -95,11 +95,11 @@
                     android:id="@+id/searchHome"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:src="@drawable/search_icon"
                     android:visibility="invisible" />
 
@@ -107,8 +107,8 @@
                     android:id="@+id/closeIcon"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/background_focus_voice"
                     android:padding="10dp"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="35dp"
-                    android:layout_marginRight="35dp"
+                    android:layout_marginStart="35dp"
                     android:background="@drawable/edit_text_radius"
                     android:hint="جستجو کنید..."
                     android:imeOptions="actionDone"
@@ -133,17 +133,17 @@
                     android:textSize="13dp" />
 
                 <!--<ImageView-->
-                    <!--android:id="@+id/imgVoice"-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="4dp"-->
-                    <!--android:layout_marginStart="4dp"-->
-                    <!--android:background="@drawable/background_focus_voice"-->
-                    <!--android:padding="7dp"-->
-                    <!--android:src="@drawable/microphone_icon" />-->
+                <!--android:id="@+id/imgVoice"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginStart="4dp"-->
+                <!--android:background="@drawable/background_focus_voice"-->
+                <!--android:padding="7dp"-->
+                <!--android:src="@drawable/microphone_icon" />-->
 
             </RelativeLayout>
 
@@ -167,31 +167,31 @@
             app:setPreviewPadding="0" />
 
         <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:orientation="vertical">-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:orientation="vertical">-->
 
-            <!--<ProgressBar-->
-                <!--android:id="@+id/loading_drugs"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:visibility="gone" />-->
+        <!--<ProgressBar-->
+        <!--android:id="@+id/loading_drugs"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="gone" />-->
 
-            <!--<com.example.behnam.fonts.FontTextView-->
-                <!--android:id="@+id/loading_text"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="درحال بارگذاری اطلاعات"-->
-                <!--android:visibility="gone" />-->
+        <!--<com.example.behnam.fonts.FontTextView-->
+        <!--android:id="@+id/loading_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="درحال بارگذاری اطلاعات"-->
+        <!--android:visibility="gone" />-->
 
-            <!--<net.gotev.speech.ui.SpeechProgressView-->
-                <!--android:id="@+id/progressBarHome"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:visibility="gone" />-->
+        <!--<net.gotev.speech.ui.SpeechProgressView-->
+        <!--android:id="@+id/progressBarHome"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:visibility="gone" />-->
 
         <!--</LinearLayout>-->
 
@@ -207,10 +207,10 @@
         tools:ignore="RtlHardcoded">
 
         <ScrollView
-            android:layout_marginTop="150dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginTop="150dp"
             android:fillViewport="true"
             android:layoutDirection="rtl"
             android:scrollbars="none"

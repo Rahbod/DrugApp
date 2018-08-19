@@ -51,6 +51,7 @@
                 android:layout_alignParentStart="true" />
 
             <com.example.behnam.fonts.FontTextView
+                android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -96,21 +97,22 @@
                     android:id="@+id/searchIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:src="@drawable/search_icon"
                     android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/closeIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginRight="3dp"
+                    android:padding="10dp"
                     android:background="@drawable/background_focus_voice"
                     android:src="@drawable/close_icon"
                     android:visibility="invisible" />
@@ -120,15 +122,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginStart="35dp"
                     android:background="@drawable/edit_text_radius"
                     android:hint="جستجو کنید..."
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:lines="1"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
                     android:textColor="@color/sina"
                     android:textSize="13dp" />
 

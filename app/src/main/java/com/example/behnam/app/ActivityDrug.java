@@ -436,4 +436,12 @@ public class ActivityDrug extends AppCompatActivity{
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
         startActivity(Intent.createChooser(intent, "Share app via"));
     }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else
+            super.onBackPressed();
+    }
 }

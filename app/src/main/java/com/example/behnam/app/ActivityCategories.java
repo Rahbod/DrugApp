@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ActivityCategories extends AppCompatActivity{
+public class ActivityCategories extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView text;
@@ -303,7 +303,9 @@ public class ActivityCategories extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        if (SessionManager.getExtrasPref(this).getString("idList").isEmpty())
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else if (SessionManager.getExtrasPref(this).getString("idList").isEmpty())
             super.onBackPressed();
         String strList = SessionManager.getExtrasPref(this).getString("idList");
         try {

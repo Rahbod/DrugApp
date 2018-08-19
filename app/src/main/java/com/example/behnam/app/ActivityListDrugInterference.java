@@ -278,6 +278,13 @@ public class ActivityListDrugInterference extends AppCompatActivity {
         adapter.filterList(filterDrug);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else
+            super.onBackPressed();
+    }
 //    private void onRecordAudioPermissionGranted() {
 //        btnListen.setVisibility(View.GONE);
 //        progress.setVisibility(View.VISIBLE);

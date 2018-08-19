@@ -419,7 +419,8 @@ public class ActivityHome extends AppCompatActivity{
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
-        else super.onBackPressed();
+        else
+            super.onBackPressed();
     }
 
 //    @Override

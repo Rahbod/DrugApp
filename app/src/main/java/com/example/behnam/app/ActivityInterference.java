@@ -41,7 +41,6 @@ public class ActivityInterference extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference);
 
-        Log.e("qqqqq", "onCreate: " + SessionManager.getExtrasPref(this).getString("interferenceIdList"));
         if (SessionManager.getExtrasPref(this).getString("interferenceIdList") != null) {
             SessionManager.getExtrasPref(this).remove("interferenceIdList");
         }
@@ -196,7 +195,9 @@ public class ActivityInterference extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (currentTab.equals("Category")) {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else if (currentTab.equals("Category")) {
             if (!FragmentCategory.goBack(this))
                 super.onBackPressed();
         } else

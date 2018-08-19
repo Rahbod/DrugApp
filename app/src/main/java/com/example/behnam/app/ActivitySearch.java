@@ -30,7 +30,7 @@ import java.io.File;
 import java.util.List;
 
 public class ActivitySearch extends AppCompatActivity {
-//    private ImageView btnListen;
+    //    private ImageView btnListen;
 //    private SpeechProgressView progress;
 //    private ConnectivityManager connectivityManager;
 //    private Speech speechInstance;
@@ -445,5 +445,13 @@ public class ActivitySearch extends AppCompatActivity {
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
         startActivity(Intent.createChooser(intent, "Share app via"));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else
+            super.onBackPressed();
     }
 }

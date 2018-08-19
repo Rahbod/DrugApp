@@ -350,10 +350,10 @@ public class ActivityIndex extends AppCompatActivity{
 //        super.onStop();
 //    }
 //
-//    @Override
-//    protected void onResume() {
+    @Override
+    protected void onResume() {
 //        speechInstance = Speech.init(this, getPackageName());
-//        text.setText("");
-//        super.onResume();
-//    }
+        text.setText("");
+        super.onResume();
+    }
 }

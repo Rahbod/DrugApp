@@ -13,12 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterReminder;
 import com.example.behnam.app.database.Index;
@@ -57,6 +59,8 @@ public class ActivityReminderStep1 extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        TextView txtTitle = findViewById(R.id.txtTitle);
+        txtTitle.setText("داروی مورد نظر را انتخاب کنید");
 
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
@@ -299,13 +303,13 @@ public class ActivityReminderStep1 extends AppCompatActivity {
 //                .show();
 //    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+//            finish();
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 //    @Override
 //    protected void onStop() {
@@ -409,5 +413,14 @@ public class ActivityReminderStep1 extends AppCompatActivity {
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
         startActivity(Intent.createChooser(intent, "Share app via"));
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else
+            super.onBackPressed();
     }
 }

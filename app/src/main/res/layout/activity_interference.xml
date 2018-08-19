@@ -74,8 +74,10 @@
                 android:background="@color/blue"
                 app:tabIndicatorColor="@color/white"
                 app:tabMode="fixed"
+                android:layoutDirection="ltr"
                 app:tabSelectedTextColor="@color/sina"
-                app:tabTextColor="@color/white" />
+                app:tabTextColor="@color/white"
+                tools:targetApi="jelly_bean_mr1" />
 
         </android.support.design.widget.AppBarLayout>
 
