@@ -20,8 +20,8 @@ public class Components extends AppController {
         return newList;
     }
 
-    public static String decrypt(String encrypted){
-        MCrypt mCrypt = new MCrypt();
+    public static String decrypt(String encrypted, String key, String iv){
+        MCrypt mCrypt = new MCrypt(key, iv);
         String data = "";
         try {
             byte[] cod =mCrypt.decrypt(encrypted);

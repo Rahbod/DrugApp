@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="com.example.behnam.app.map.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -31,8 +32,7 @@
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ActivityLog"
             android:windowSoftInputMode="stateHidden" />
@@ -88,14 +88,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ActivitySplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ActivitySplashScreen"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -122,10 +115,22 @@
             android:name=".ActivityDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".viewDrug" />
-        <activity android:name=".ActivityIndex"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ActivitySearch"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ActivityIndex"
+            android:windowSoftInputMode="stateHidden">
+            </activity>
+        <activity
+            android:name=".ActivitySearch"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ActivityRegister">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ActivityActivation"></activity>
     </application>
 
 </manifest>

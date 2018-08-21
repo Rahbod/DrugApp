@@ -104,7 +104,8 @@ public class AppController extends Application {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         }
-
+        if (withProgress)
+            pd.dismiss();
         return mRequestQueue;
     }
 

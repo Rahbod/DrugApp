@@ -1,10 +1,9 @@
 package com.example.behnam.app.helper;
 
-import android.util.Base64;
+
 import android.util.Log;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -13,17 +12,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 
 public class MCrypt {
-    private String iv = "670ef3315bcd17d5";//Dummy iv (CHANGE IT!)
+
+    private String iv;
+    private String key;
     private IvParameterSpec ivspec;
     private SecretKeySpec keyspec;
     private Cipher cipher;
 
-    private String SecretKey = "a21d50711c78e6a6900c30463eede10e";//Dummy secretKey (CHANGE IT!)
+    public MCrypt(String KEY, String IV) {
+        key = KEY;
+        iv = IV;
 
-    public MCrypt() {
         ivspec = new IvParameterSpec(iv.getBytes());
-
-        keyspec = new SecretKeySpec(SecretKey.getBytes(), "AES");
+        keyspec = new SecretKeySpec(key.getBytes(), "AES");
 
         try {
             cipher = Cipher.getInstance("AES/CBC/NoPadding");

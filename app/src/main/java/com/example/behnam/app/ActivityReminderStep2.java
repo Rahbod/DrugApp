@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.database.Drug;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.map.MapActivity;

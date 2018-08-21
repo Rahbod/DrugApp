@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityActivation">
+
+    <com.example.behnam.fonts.EditTextFont
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="نام*"
+        android:inputType="text" />
+
+    <com.example.behnam.fonts.EditTextFont
+        android:id="@+id/study"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:hint="رشته تحصیلی*"
+        android:inputType="text" />
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/crossSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/study"
+        android:hint="مقطع*"
+        android:inputType="text" />
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/department"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/crossSection"
+        android:text="گروه تحصیلی*"/>
+
+    <com.example.behnam.fonts.EditTextFont
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/department"
+        android:hint="ایمیل"
+        android:inputType="textEmailAddress" />
+
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/presenter"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/email"
+        android:hint="معرف"
+        android:textSize="18dp"
+        />
+
+    <com.example.behnam.fonts.ButtonFont
+        android:id="@+id/activ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/presenter"
+        android:background="@color/blue"
+        android:text="فعال سازی"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

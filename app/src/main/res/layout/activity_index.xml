@@ -65,8 +65,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/search_icon"
-                android:background="@drawable/background_focus_voice" />
+                android:background="@drawable/background_focus_voice"
+                android:src="@drawable/search_icon" />
 
             <ImageView
                 android:id="@+id/closeIcon"
@@ -581,28 +581,42 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.example.behnam.fonts.ButtonFont
+                    android:id="@+id/activ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="فعال سازی"
+                    android:background="@color/red"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
 
     <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/relHome1"-->
-        <!--android:orientation="vertical">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/relHome1"-->
+    <!--android:orientation="vertical">-->
 
-        <!--<ProgressBar-->
-            <!--android:id="@+id/loading_drugs"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="gone" />-->
+    <!--<ProgressBar-->
+    <!--android:id="@+id/loading_drugs"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:visibility="gone" />-->
 
-        <!--<net.gotev.speech.ui.SpeechProgressView-->
-            <!--android:id="@+id/progressBar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:visibility="invisible" />-->
+    <!--<net.gotev.speech.ui.SpeechProgressView-->
+    <!--android:id="@+id/progressBar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:visibility="invisible" />-->
 
     <!--</LinearLayout>-->
 

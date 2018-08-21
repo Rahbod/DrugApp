@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.database.Drug;
@@ -62,8 +63,11 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_MODEL_ID = "modelID";
     private static final String KEY_TEXT = "text";
 
-    public DbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    private Context context;
+
+    public DbHelper(Context con) {
+        super(con, DATABASE_NAME, null, DATABASE_VERSION);
+        context = con;
     }
 
     @Override
@@ -556,8 +560,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private JSONObject getDrugContent(String data) {
         JSONObject object = null;
+        String key = SessionManager.getExtrasPref(context).getString("key");
+        String iv = SessionManager.getExtrasPref(context).getString("iv");
         try {
-            object = new JSONObject(Components.decrypt(data));
+            object = new JSONObject(Components.decrypt(data, key, iv));
         } catch (JSONException e) {
             e.printStackTrace();
         }

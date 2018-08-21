@@ -46,7 +46,6 @@ public class SummaryDialog extends Dialog {
         });
 
         TextView txtTitle = findViewById(R.id.txtTitle);
-
         if (A.equals("http://localhost/#pregnancy")) {
             txtTitle.setText("گروه های بارداری");
             pregnancyGroupsText();

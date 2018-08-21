@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="crossSection">
+        <item>کاردانی</item>
+        <item>کارشناسی</item>
+        <item>کارشناسی ارشد</item>
+        <item>دکتری  تخصصی ـ PHD</item>
+        <item>علوم پایه</item>
+        <item>پزشک</item>
+    </string-array>
+    
+<string-array name="txtDepartment">
+    <item>دانشجوی پزشکی</item>
+    <item>پزشک عمومی</item>
+    <item>رزیدنت</item>
+    <item>متخصص</item>
+    <item>فوق تخصص</item>
+    <item>دندانپزشکی</item>
+    <item>داروسازی</item>
+    <item>پرستاری</item>
+    <item>مامایی</item>
+    <item>پیراپزشکی</item>
+    <item>روانشناسی</item>
+    <item>علوم پایه</item>
+    <item>سایر</item>
+</string-array>
+
+</resources>

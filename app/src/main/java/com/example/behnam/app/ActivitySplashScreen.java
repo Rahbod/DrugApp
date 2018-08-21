@@ -66,6 +66,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtDownload;
     private TextView txtPercent;
     private DownloadManager manager;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        userId = getIntent().getStringExtra("userId");
 
         //cancel Download Previous
         if (SessionManager.getExtrasPref(this).getLong("downloadId") != 0)
@@ -96,7 +98,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 spin.setVisibility(View.VISIBLE);
                 btnDownload.setVisibility(View.INVISIBLE);
                 if (isConnected()) {
-                    download();
+                    download(userId);
                 } else {
                     spin.setVisibility(View.INVISIBLE);
                     btnDownload.setVisibility(View.VISIBLE);
@@ -154,7 +156,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (dbHelper.getCount("indexes") == 0) {
             if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 if (isConnected())
-                    download();
+                    download(userId);
                 else if (wifi.isWifiEnabled()) {
                     Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                     btnDownload.setVisibility(View.VISIBLE);
@@ -177,7 +179,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (isConnected()) {
-                download();
+                download(userId);
             } else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -268,17 +270,17 @@ public class ActivitySplashScreen extends AppCompatActivity {
             return true;
     }
 
-    private void download() {
+    private void download(String id) {
         txtDownload.setVisibility(View.VISIBLE);
         btnDownload.setVisibility(View.INVISIBLE);
         spin.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
         txtPercent.setVisibility(View.VISIBLE);
-        String url = "http://rahbod.com/android/api/download?id=1";
+        String url = "http://rahbod.com/android/api/download?id=" + id;
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-        request.setDestinationInExternalFilesDir(this,"sina", "/drug.sql");
+        request.setDestinationInExternalFilesDir(this, "sina", "/drug.sql");
         final long downloadId = manager.enqueue(request);
         SessionManager.getExtrasPref(this).putExtra("downloadId", downloadId);
         new Thread(new Runnable() {
