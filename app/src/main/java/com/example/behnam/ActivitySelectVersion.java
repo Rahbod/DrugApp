@@ -31,6 +31,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySelectVersion.this, ActivitySplashScreen.class);
+                intent.putExtra("action", "sampleDownload");
                 startActivity(intent);
             }
         });
@@ -53,6 +54,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
                                 Intent intent = new Intent(ActivitySelectVersion.this, PaymentActivity.class);
                                 intent.putExtra("url", url);
                                 intent.putExtra("id", id);
+                                intent.putExtra("action", "fullDownload");
                                 startActivity(intent);
                             } catch (JSONException e) {
                                 e.printStackTrace();

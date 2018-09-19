@@ -60,7 +60,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String KEY_ID_INTERFERENCE = "id";
     private static final String KEY_MODEL = "model";
-    private static final String KEY_MODEL_ID = "modelID";
+    private static final String KEY_MODEL_ID = "model_id";
     private static final String KEY_TEXT = "text";
 
     private Context context;
@@ -565,9 +565,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String iv = SessionManager.getExtrasPref(context).getString("iv");
         try {
             object = new JSONObject(Components.decrypt(data, key, iv));
-            Log.e("qqqq", "getDrugContent: " + object );
         } catch (JSONException e) {
-            Log.e("qqqq", "getDrugContent: catch");
             e.printStackTrace();
         }
         return object;

@@ -18,12 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.example.behnam.ActivitySelectVersion;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
@@ -57,7 +59,7 @@ public class ActivityIndex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!SessionManager.getExtrasPref(this).getBoolean("versionSelected")) {
+        if (!SessionManager.getExtrasPref(this).getBoolean("selectedVersion")) {
             setContentView(R.layout.activity_regester);
             onCreateRegister();
         } else {
@@ -70,11 +72,35 @@ public class ActivityIndex extends AppCompatActivity {
         checkUpdateDatabase(System.currentTimeMillis() / 1000);
         text = findViewById(R.id.editTextSearch);
         Button btnActiv = findViewById(R.id.activ);
+        if (SessionManager.getExtrasPref(this).getInt("activated") == 1)
+            btnActiv.setVisibility(View.INVISIBLE);
         btnActiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityIndex.this, PaymentActivity.class);
-                startActivity(intent);
+
+                @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                JSONObject params = new JSONObject();
+                try {
+                    params.put("id", idNumber);
+                    AppController.getInstance(ActivityIndex.this).sendRequest("android/api/activate", params, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String url = response.getString("url");
+                                int id = response.getInt("id");
+                                Intent intent = new Intent(ActivityIndex.this, PaymentActivity.class);
+                                intent.putExtra("action", "activateDownload");
+                                intent.putExtra("url", url);
+                                intent.putExtra("id", id);
+                                startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -142,7 +168,7 @@ public class ActivityIndex extends AppCompatActivity {
                     //hide keyboard
                     Class<? extends TextView.OnEditorActionListener> view = this.getClass();
                     if (view != null) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(ActivityIndex.this.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         assert imm != null;
                         imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
                     }
@@ -223,10 +249,35 @@ public class ActivityIndex extends AppCompatActivity {
 
 
     private void checkUpdateDatabase(long now) {
-//        long week = lastCheck + 604800;
-        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 10;
+        @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+//        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 604800;
+        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 60;
         if (now > week) {
             //send request & save time & update database
+            JSONObject params = new JSONObject();
+            try {
+                params.put("id", idNumber);
+                params.put("last_sync", SessionManager.getExtrasPref(this).getLong("lastSync"));
+                AppController.getInstance(ActivityIndex.this).sendRequest("dataCheckUpdate", params, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")){
+                                ///////////////////////
+                            }else {
+                                long now = System.currentTimeMillis() / 1000;
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("updateCheck", now);
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("lastSync", now);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             SessionManager.getExtrasPref(this).remove("updateCheck");
             SessionManager.getExtrasPref(this).putExtra("updateCheck", System.currentTimeMillis() / 1000);
         }
@@ -408,15 +459,8 @@ public class ActivityIndex extends AppCompatActivity {
     @Override
     protected void onResume() {
 //        speechInstance = Speech.init(this, getPackageName());
-        if (!SessionManager.getExtrasPref(this).getBoolean("versionSelected")) {
-            setContentView(R.layout.activity_regester);
-            onCreateRegister();
-        } else {
-            setContentView(R.layout.activity_index);
-            onCreateIndex();
-        }
-
-//        text.setText("");
+        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
+            text.setText("");
         super.onResume();
     }
 
@@ -426,9 +470,46 @@ public class ActivityIndex extends AppCompatActivity {
         etField = findViewById(R.id.field);
         etEmail = findViewById(R.id.email);
         txtGrade = findViewById(R.id.grade);
+        TextView txtCheckBox = findViewById(R.id.txtCheckBox);
         txtDepartment = findViewById(R.id.department);
-
+        final CheckBox checkBox = findViewById(R.id.checkBox);
+        final Button btnSave = findViewById(R.id.save);
         gradeID = new ArrayList<>();
+        departmentID = new ArrayList<>();
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBox.isChecked())
+                    btnSave.setEnabled(true);
+                else
+                    btnSave.setEnabled(false);
+            }
+        });
+
+        txtCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(ActivityIndex.this);
+                View view = LayoutInflater.from(ActivityIndex.this).inflate(R.layout.summary_dialog, null);
+                dialog.setContentView(view);
+                RecyclerView recyclerView = view.findViewById(R.id.recSummaryDialog);
+                recyclerView.setVisibility(View.INVISIBLE);
+                TextView txtTitle = view.findViewById(R.id.txtTitle);
+                TextView txtMessage = view.findViewById(R.id.txtMessage);
+                txtMessage.setVisibility(View.VISIBLE);
+                txtMessage.setText("متن قوانین و مقررات");
+                txtTitle.setText("قوانین و مقررات");
+                ImageView imgClose = view.findViewById(R.id.imgCloseDialog);
+                imgClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
 
         txtDepartment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -442,7 +523,6 @@ public class ActivityIndex extends AppCompatActivity {
                 getGrade(txtGrade);
             }
         });
-        Button btnSave = findViewById(R.id.save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -451,6 +531,14 @@ public class ActivityIndex extends AppCompatActivity {
                     Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
                 else if (!checkMobileNumber(etNumberMobile.getText().toString()))
                     Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
+                else if (etName.getText().toString().trim().isEmpty())
+                    Toast.makeText(ActivityIndex.this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                else if (etField.getText().toString().trim().isEmpty())
+                    Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                else if (gradeID.isEmpty())
+                    Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                else if (departmentID.isEmpty())
+                    Toast.makeText(ActivityIndex.this, "لطفا گروه تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
                 else {
                     JSONObject object = new JSONObject();
                     JSONObject params = new JSONObject();
@@ -461,7 +549,7 @@ public class ActivityIndex extends AppCompatActivity {
                         object.put("field", etField.getText().toString());
                         object.put("grade", gradeID.get(0));
                         object.put("department", departmentID.get(0));
-                        if (!etEmail.getText().toString().isEmpty())
+                        if (!etEmail.getText().toString().trim().isEmpty())
                             object.put("email", etEmail.getText().toString());
                         params.put("User", object);
                         AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
@@ -469,7 +557,6 @@ public class ActivityIndex extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 try {
                                     if (response.getBoolean("status")) {
-                                        Log.e("qqqq", "onResponse: " + response);
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getString("activated"));
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
@@ -536,7 +623,6 @@ public class ActivityIndex extends AppCompatActivity {
 
     private void getDepartment(TextView txtDepartment) {
         departmentList = new ArrayList<>();
-        departmentID = new ArrayList<>();
         String[] strCrossSection = getResources().getStringArray(R.array.txtDepartment);
         JSONObject object = createJSONObject(strCrossSection, "txtDepartment");
         try {

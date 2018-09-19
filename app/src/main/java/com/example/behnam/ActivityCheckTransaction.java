@@ -34,6 +34,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
                 // activeAccount
                 SessionManager.getExtrasPref(ActivityCheckTransaction.this).putExtra("activated", 1);
                 Intent intent = new Intent(ActivityCheckTransaction.this, ActivitySplashScreen.class);
+                intent.putExtra("action", getIntent().getStringExtra("action"));
                 startActivity(intent);
             }
         });

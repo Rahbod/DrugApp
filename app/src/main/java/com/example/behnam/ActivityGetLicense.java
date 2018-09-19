@@ -74,6 +74,7 @@ public class ActivityGetLicense extends AppCompatActivity {
 
                                     //download Data
                                     Intent intent = new Intent(ActivityGetLicense.this, ActivitySplashScreen.class);
+                                    intent.putExtra("action", "fullDownload");
                                     startActivity(intent);
                                 }
                                 else

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class ActivityRegister extends AppCompatActivity {
     private TextView txtGrade, txtDepartment;
     private List<Integer> gradeID, departmentID;
     private List<DropList> gradeList, departmentList;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,14 @@ public class ActivityRegister extends AppCompatActivity {
         etEmail = findViewById(R.id.email);
         txtGrade = findViewById(R.id.grade);
         txtDepartment = findViewById(R.id.department);
-
+        CheckBox checkBox = findViewById(R.id.checkBox);
+        btnSave = findViewById(R.id.save);
         gradeID = new ArrayList<>();
+
+        if (checkBox.isChecked())
+            btnSave.setEnabled(true);
+        else
+            btnSave.setEnabled(false);
 
         txtDepartment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +70,6 @@ public class ActivityRegister extends AppCompatActivity {
                 getGrade(txtGrade);
             }
         });
-        Button btnSave = findViewById(R.id.save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +96,6 @@ public class ActivityRegister extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 try {
                                     if (response.getBoolean("status")){
-                                        Log.e("qqqq", "onResponse: " + response );
                                         SessionManager.getExtrasPref(ActivityRegister.this).putExtra("activated", response.getString("activated"));
                                         SessionManager.getExtrasPref(ActivityRegister.this).putExtra("key", response.getString("key"));
                                         SessionManager.getExtrasPref(ActivityRegister.this).putExtra("iv", response.getString("iv"));

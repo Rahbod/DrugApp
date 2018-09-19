@@ -32,6 +32,7 @@ public class PaymentActivity extends AppCompatActivity {
                 if (url.equals("http://rahbod.com/android/api/verify")){
                     Intent intent = new Intent(PaymentActivity.this, ActivityCheckTransaction.class);
                     intent.putExtra("id", id);
+                    intent.putExtra("action", getIntent().getStringExtra("action"));
                     startActivity(intent);
                 }
                 super.onPageFinished(view, url);

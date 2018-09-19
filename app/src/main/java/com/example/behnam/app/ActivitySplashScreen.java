@@ -36,24 +36,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.URL;
 
 public class ActivitySplashScreen extends AppCompatActivity {
     private LottieAnimationView animSplashScreen;
@@ -67,7 +59,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtDownload;
     private TextView txtPercent;
     private DownloadManager manager;
-    private String idNumber;
+    private String idNumber, action;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -80,6 +72,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        action = getIntent().getStringExtra("action");
 
         //cancel Download Previous
         if (SessionManager.getExtrasPref(this).getLong("downloadId") != 0)
@@ -100,7 +93,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 spin.setVisibility(View.VISIBLE);
                 btnDownload.setVisibility(View.INVISIBLE);
                 if (isConnected()) {
-                    download(idNumber);
+                    download(idNumber, action);
                 } else {
                     spin.setVisibility(View.INVISIBLE);
                     btnDownload.setVisibility(View.VISIBLE);
@@ -157,7 +150,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     public void getData() {
         if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (isConnected())
-                download(idNumber);
+                download(idNumber, action);
             else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -174,7 +167,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (isConnected()) {
-                download(idNumber);
+                download(idNumber, action);
             } else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -234,12 +227,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
             while ((line = buffer.readLine()) != null) {
                 dbHelper.execSQL(line);
             }
-            SessionManager.getExtrasPref(this).putExtra("versionSelected", true);
             Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);
             startActivity(intent);
             long now = System.currentTimeMillis() / 1000;
             SessionManager.getExtrasPref(this).putExtra("updateCheck", now);
             SessionManager.getExtrasPref(this).putExtra("lastSync", now);
+            SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
+
 
             //delete file
             manager.remove(SessionManager.getExtrasPref(this).getLong("downloadId"));
@@ -260,14 +254,14 @@ public class ActivitySplashScreen extends AppCompatActivity {
             return true;
     }
 
-    private void download(String id) {
+    private void download(String id, String action) {
         txtDownload.setVisibility(View.VISIBLE);
         btnDownload.setVisibility(View.INVISIBLE);
         spin.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
         txtPercent.setVisibility(View.VISIBLE);
-        String url = "http://rahbod.com/android/api/download?id=" + id;
+        String url = "http://rahbod.com/android/api/"+ action +"?id=" + id;
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
         request.setDestinationInExternalFilesDir(this, "sina", "/drug.sql");

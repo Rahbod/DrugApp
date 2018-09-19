@@ -3,23 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityRegister">
+    tools:context=".ActivityIndex">
 
     <com.example.behnam.fonts.EditTextFont
         android:id="@+id/numberMobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="شماره تماس"
         android:inputType="number"
-        android:maxLength="11"
-        android:hint="شماره تماس"/>
+        android:maxLength="11" />
 
     <com.example.behnam.fonts.EditTextFont
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/numberMobile"
         android:hint="نام*"
-        android:inputType="text"
-        android:layout_below="@id/numberMobile"/>
+        android:inputType="text" />
 
     <com.example.behnam.fonts.EditTextFont
         android:id="@+id/field"
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@+id/grade"
-        android:text="گروه تحصیلی*"/>
+        android:text="گروه تحصیلی*" />
 
     <com.example.behnam.fonts.EditTextFont
         android:id="@+id/email"
@@ -52,11 +52,34 @@
         android:hint="ایمیل"
         android:inputType="textEmailAddress" />
 
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/email"
+        android:orientation="horizontal"
+        android:layoutDirection="rtl"
+        tools:targetApi="jelly_bean_mr1">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.example.behnam.fonts.FontTextView
+            android:id="@+id/txtCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="قوانین و مقررات را مطالعه کردم" />
+
+    </LinearLayout>
+
     <com.example.behnam.fonts.ButtonFont
         android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/email"
+        android:layout_below="@+id/lin"
+        android:enabled="false"
         android:text="save" />
 
 </RelativeLayout>

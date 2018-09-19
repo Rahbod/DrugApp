@@ -48,4 +48,15 @@
         android:layout_below="@+id/header"
         android:scrollbars="vertical" />
 
+    <com.example.behnam.fonts.FontTextView
+        android:id="@+id/txtMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:visibility="invisible"
+        android:textColor="@color/sina"
+        android:textSize="13dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"/>
+
 </RelativeLayout>
