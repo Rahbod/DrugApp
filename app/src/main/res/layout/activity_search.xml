@@ -69,11 +69,11 @@
         <RelativeLayout
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="43dp"
             android:layout_below="@id/relHome1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="-22.1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="-18dp"
             android:background="@drawable/search_shadow"
             android:layoutDirection="rtl">
 

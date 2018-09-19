@@ -1,9 +1,11 @@
 package com.example.behnam.fragment;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.dialog.SummaryDialog;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.fonts.FontTextView;
+import com.example.behnam.fonts.FontTextViewBold;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,6 +115,10 @@ public class FragmentViewDrug extends Fragment {
 
         final DbHelper dbHelper = new DbHelper(getActivity());
         final Drug drug = dbHelper.getDrug(ID);
+        FontTextViewBold nameDrug = getActivity().findViewById(R.id.name_drug);
+        FontTextView persianName = getActivity().findViewById(R.id.persian_name);
+        nameDrug.setText(drug.getName());
+        persianName.setText(drug.getFaName());
 
         //Get healing category
         List<Category> categoryList = dbHelper.getHealingCategory(ID);
@@ -219,6 +227,7 @@ public class FragmentViewDrug extends Fragment {
             if (!drug.getHowToUse().isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
             webViewHtml += "</div>";
+            Log.e("qqq", "onCreateView: " + drug.getHowToUse() );
         }
 
         if (!drug.getProduct().isEmpty()) {
@@ -318,6 +327,9 @@ public class FragmentViewDrug extends Fragment {
         }
         webViewHtml += "</div>";
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
+
+        EditText eee=view.findViewById(R.id.eee);
+        eee.setText(webViewHtml);
 
 //        check exist in favorite
         if (dbHelper.checkFavorite(ID)) {

@@ -43,6 +43,8 @@ public class Drug {
     boolean checked = false;
     int favorite;
 
+    String TAG = "qqqq";
+
     public Drug(){
 
     }
@@ -345,11 +347,10 @@ public class Drug {
             this.vegetal = object.getString("vegetal");
             this.status = object.getInt("status");
             this.lastModified = object.getString("last_modified");
-            this.categoryName = object.getString("category_name");
-            this.categoryType = object.getInt("category_type");
-            this.checked = object.getBoolean("checked");
-            this.favorite = object.getInt("favorite");
-            Log.e("TAG", "setContent: "+ name );
+//            this.categoryName = object.getString("category_name");
+//            this.categoryType = object.getInt("category_type");
+//            this.checked = object.getBoolean("checked");
+//            this.favorite = object.getInt("favorite");
         } catch (JSONException e) {
             e.printStackTrace();
         }

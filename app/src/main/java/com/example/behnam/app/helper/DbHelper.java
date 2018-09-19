@@ -79,10 +79,11 @@ public class DbHelper extends SQLiteOpenHelper {
         String
                 CREATE_TABLE_CATEGORIES = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORIES + " ( "
                 + KEY_ID_CATEGORY + " INTEGER ," + KEY_PARENT_ID_CATEGORY + " INTEGER , " + KEY_NAME_CATEGORY + " TEXT , "
-                + KEY_TYPE_CATEGORY + " INTEGER" + ")";
+                + KEY_TYPE_CATEGORY + " INTEGER)";
 
         String CREATE_TABLE_CATEGORY_DRUG = "CREATE TABLE IF NOT EXISTS " + TABLE_CATEGORY_DRUG + " ( "
-                + KEY_ID_CATEGORY_DRUG + " INTEGER , " + KEY_DRUG_ID + " INTEGER, " + KEY_CATEGORY_ID + " INTEGER )";
+                + KEY_ID_CATEGORY_DRUG + " INTEGER , " + KEY_DRUG_ID + " INTEGER, " + KEY_CATEGORY_ID +
+                " INTEGER )";
 
 
         String CREATE_TABLE_REMINDERS = "CREATE TABLE IF NOT EXISTS " + TABLE_REMINDER + " ( "
@@ -158,8 +159,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public int getMaxID() {
-        String query = "SELECT MAX(id) FROM " + TABLE_REMINDER;
+    public int getMaxID(String table) {
+        String query = "SELECT MAX(id) FROM " + table;
         db = this.getReadableDatabase();
         int MaxID = 0;
         Cursor cursor = db.rawQuery(query, null);
@@ -414,7 +415,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<Index> getCategoryDrug(int ID) {
         List<Index> list = new ArrayList<>();
         db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " = " + ID+ ")";
+        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE " + KEY_ID_DRUG + " IN (SELECT " + KEY_DRUG_ID + " FROM " + TABLE_CATEGORY_DRUG + " WHERE " + KEY_CATEGORY_ID + " = " + ID + ")";
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             Index index = new Index();
@@ -564,7 +565,9 @@ public class DbHelper extends SQLiteOpenHelper {
         String iv = SessionManager.getExtrasPref(context).getString("iv");
         try {
             object = new JSONObject(Components.decrypt(data, key, iv));
+            Log.e("qqqq", "getDrugContent: " + object );
         } catch (JSONException e) {
+            Log.e("qqqq", "getDrugContent: catch");
             e.printStackTrace();
         }
         return object;

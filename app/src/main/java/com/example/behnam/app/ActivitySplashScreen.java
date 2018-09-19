@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
@@ -66,8 +67,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtDownload;
     private TextView txtPercent;
     private DownloadManager manager;
-    private String userId;
+    private String idNumber;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        userId = getIntent().getStringExtra("userId");
+        idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         //cancel Download Previous
         if (SessionManager.getExtrasPref(this).getLong("downloadId") != 0)
@@ -98,7 +100,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 spin.setVisibility(View.VISIBLE);
                 btnDownload.setVisibility(View.INVISIBLE);
                 if (isConnected()) {
-                    download(userId);
+                    download(idNumber);
                 } else {
                     spin.setVisibility(View.INVISIBLE);
                     btnDownload.setVisibility(View.VISIBLE);
@@ -153,24 +155,17 @@ public class ActivitySplashScreen extends AppCompatActivity {
     }
 
     public void getData() {
-        if (dbHelper.getCount("indexes") == 0) {
-            if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                if (isConnected())
-                    download(userId);
-                else if (wifi.isWifiEnabled()) {
-                    Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
-                    btnDownload.setVisibility(View.VISIBLE);
-                    spin.setVisibility(View.INVISIBLE);
-                } else
-                    showWifiDialog();
-
-
-            } else ActivityCompat.requestPermissions(ActivitySplashScreen.this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-        } else {
-            Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);
-            startActivity(intent);
-        }
+        if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (isConnected())
+                download(idNumber);
+            else if (wifi.isWifiEnabled()) {
+                Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
+                btnDownload.setVisibility(View.VISIBLE);
+                spin.setVisibility(View.INVISIBLE);
+            } else
+                showWifiDialog();
+        } else ActivityCompat.requestPermissions(ActivitySplashScreen.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
     }
 
     @Override
@@ -179,7 +174,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (isConnected()) {
-                download(userId);
+                download(idNumber);
             } else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -228,11 +223,6 @@ public class ActivitySplashScreen extends AppCompatActivity {
         dialog.show();
     }
 
-//    private void downloadFile() {
-//        final String url = "android/api/download?id=1";
-//        new DownloadFile().execute("http://rahbod.com/" + url);
-//    }
-
     private void insertDatabase() {
         try {
             FileInputStream drug = new FileInputStream(new File(String.valueOf(getExternalFilesDir("sina/drug.sql"))));
@@ -244,16 +234,16 @@ public class ActivitySplashScreen extends AppCompatActivity {
             while ((line = buffer.readLine()) != null) {
                 dbHelper.execSQL(line);
             }
+            SessionManager.getExtrasPref(this).putExtra("versionSelected", true);
             Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);
             startActivity(intent);
+            long now = System.currentTimeMillis() / 1000;
+            SessionManager.getExtrasPref(this).putExtra("updateCheck", now);
+            SessionManager.getExtrasPref(this).putExtra("lastSync", now);
 
             //delete file
             manager.remove(SessionManager.getExtrasPref(this).getLong("downloadId"));
             SessionManager.getExtrasPref(this).remove("downloadId");
-//            File file = new File(String.valueOf(getExternalFilesDir("sina/drug.sql")));
-//            if (file.exists()) {
-//                file.delete();
-//            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

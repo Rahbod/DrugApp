@@ -10,170 +10,118 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/relRem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layoutDirection="ltr"
-        tools:context="com.example.behnam.app.ActivityHome"
-        tools:targetApi="jelly_bean_mr1">
+        tools:context=".ActivityInterference">
+
+        <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appBar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white">-->
 
         <!--actionBar-->
         <RelativeLayout
-
-            android:id="@+id/actionBarFavorite"
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:background="@drawable/background_gradient"
-            app:layout_scrollFlags="scroll">
-
-            <ImageView
-                android:id="@+id/btnOpenNvDraw"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/background_focus"
-                android:padding="13dp"
-                android:src="@drawable/menu_icon" />
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/background_focus"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:src="@drawable/back_icon"
-                android:layout_alignParentStart="true" />
-
-            <com.example.behnam.fonts.FontTextView
-                android:id="@+id/txtTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="یاد آور مصرف دارو"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relHome1"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/actionBarFavorite"
-            android:background="@drawable/background_gradient"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-        <RelativeLayout
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:layout_below="@id/relHome1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="-18dp"
-            android:background="@drawable/search_shadow"
-            android:layoutDirection="rtl">
-
+            android:layoutDirection="ltr"
+            tools:targetApi="jelly_bean_mr1">
 
             <RelativeLayout
+                android:id="@+id/name_and_back_linear"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="2.5dp"
-                android:layoutDirection="ltr"
-                android:paddingEnd="10dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"
-                android:paddingStart="5dp"
-                tools:targetApi="jelly_bean_mr1">
+                android:layout_height="50dp"
+                android:weightSum="10">
 
                 <ImageView
-                    android:id="@+id/searchIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
+                    android:id="@+id/btnOpenNvDraw"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/search_icon"
-                    android:visibility="invisible" />
+                    android:background="@drawable/background_focus"
+                    android:padding="13dp"
+                    android:src="@drawable/menu_icon" />
 
                 <ImageView
-                    android:id="@+id/closeIcon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
+                    android:id="@+id/btnBack"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:padding="10dp"
-                    android:background="@drawable/background_focus_voice"
-                    android:src="@drawable/close_icon"
-                    android:visibility="invisible" />
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/background_focus"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@drawable/back_icon" />
 
-                <com.example.behnam.fonts.EditTextFont
-                    android:id="@+id/editTextSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginStart="35dp"
-                    android:background="@drawable/edit_text_radius"
-                    android:hint="جستجو کنید..."
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
+                <com.example.behnam.fonts.FontTextViewBold
+                    android:id="@+id/name_drug"
+                    android:layout_width="220dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:gravity="center"
                     android:lines="1"
-                    android:textColor="@color/sina"
-                    android:textSize="13dp" />
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/imgVoice"-->
-                    <!--android:layout_width="35dp"-->
-                    <!--android:layout_height="35dp"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:background="@drawable/background_focus_voice"-->
-                    <!--android:padding="5dp"-->
-                    <!--android:src="@drawable/microphone_icon" />-->
+                    android:textColor="@color/mdtp_background_color"
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_and_back_linear"
+                android:layout_centerHorizontal="true"
+                android:gravity="center">
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/persian_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recCategoryList"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cardView"
-            android:layout_marginTop="5dp"
-            android:layoutDirection="ltr"
-            android:textDirection="ltr"
-            tools:targetApi="jelly_bean_mr1">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header">
 
-        </android.support.v7.widget.RecyclerView>
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
 
-        <!--<LinearLayout-->
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tabBar"-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0.45"-->
-            <!--android:orientation="vertical">-->
+            <!--android:layout_height="45dp"-->
+            <!--android:background="@color/blue"-->
+            <!--android:layoutDirection="rtl"-->
+            <!--app:tabIndicatorColor="@color/white"-->
+            <!--app:tabMode="fixed"-->
+            <!--app:tabSelectedTextColor="@color/sina"-->
+            <!--app:tabTextColor="@color/white"-->
+            <!--tools:targetApi="jelly_bean_mr1" />-->
 
-            <!--<net.gotev.speech.ui.SpeechProgressView-->
-                <!--android:id="@+id/progressBarHome"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:visibility="gone" />-->
+        <!--</android.support.design.widget.AppBarLayout>-->
 
-        <!--</LinearLayout>-->
-
+        <!--<com.example.behnam.app.MyViewPager-->
+        <!--android:id="@+id/viewPager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/appBar" />-->
 
     </RelativeLayout>
 
@@ -186,10 +134,10 @@
         tools:ignore="RtlHardcoded">
 
         <ScrollView
-            android:layout_marginTop="150dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginTop="150dp"
             android:fillViewport="true"
             android:layoutDirection="rtl"
             android:scrollbars="none"

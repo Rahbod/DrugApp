@@ -10,11 +10,17 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header">
 
+        <com.example.behnam.fonts.EditTextFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/eee"/>
+
         <WebView
             android:id="@+id/web_view_drug"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/relative_bottom" />
+            android:layout_above="@+id/relative_bottom"
+            android:layout_below="@+id/eee"/>
 
         <LinearLayout
             android:id="@+id/relative_bottom"

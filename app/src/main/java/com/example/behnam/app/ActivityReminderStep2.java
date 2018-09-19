@@ -198,7 +198,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                     dbHelper.addReminder(new Reminder(drugId, startTime, count, period, 0));
 
                     //max id
-                    int id = dbHelper.getMaxID();
+                    int id = dbHelper.getMaxID("reminders");
                     dbHelper.getReminder(id);
 
                     // Start service

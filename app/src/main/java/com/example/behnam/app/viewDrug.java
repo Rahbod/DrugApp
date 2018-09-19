@@ -1,5 +1,7 @@
 package com.example.behnam.app;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -32,7 +34,7 @@ public class viewDrug extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_drug);
+        setContentView(R.layout.activity_vegetal_view_drug);
 
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
@@ -57,23 +59,29 @@ public class viewDrug extends AppCompatActivity {
             }
         });
 
-        // create TabBar
-        TabLayout tabLayout = findViewById(R.id.tabBar);
-        MyViewPager viewPager = findViewById(R.id.viewPager);
-        viewPager.setEnableSwipe(false);
-        tabLayout.setupWithViewPager(viewPager);
-        setupViewPager(viewPager);
-        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabViewDrug(i));
-        }
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentViewDrug fragment = new FragmentViewDrug();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+
+//        // create TabBar
+//        TabLayout tabLayout = findViewById(R.id.tabBar);
+//        MyViewPager viewPager = findViewById(R.id.viewPager);
+//        viewPager.setEnableSwipe(false);
+//        tabLayout.setupWithViewPager(viewPager);
+//        setupViewPager(viewPager);
+//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
+//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+//            TabLayout.Tab tab = tabLayout.getTabAt(i);
+//            tab.setCustomView(adapter.getTabViewDrug(i));
+//        }
 
         int VEGETAL = getIntent().getIntExtra("vegetal", 0);
 
         if (VEGETAL == 1) {
             btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
-            tabLayout.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
+//            tabLayout.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
             RelativeLayout rel = findViewById(R.id.header);
             rel.setBackgroundColor(getResources().getColor(R.color.greenVegetal));
             imgOpenNvDraw.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));
@@ -82,24 +90,24 @@ public class viewDrug extends AppCompatActivity {
             }
         }
 
-        //set TextTitle
-        FontTextViewBold nameDrug = findViewById(R.id.name_drug);
-        FontTextView persianName = findViewById(R.id.persian_name);
-        final int ID = getIntent().getIntExtra("id", 0);
-        DbHelper dbHelper = new DbHelper(this);
-        final Drug drug = dbHelper.getDrug(ID);
-        nameDrug.setText(drug.getName());
-        persianName.setText(drug.getFaName());
+//        //set TextTitle
+//        FontTextViewBold nameDrug = findViewById(R.id.name_drug);
+//        FontTextView persianName = findViewById(R.id.persian_name);
+//        final int ID = getIntent().getIntExtra("id", 0);
+//        DbHelper dbHelper = new DbHelper(this);
+//        final Drug drug = dbHelper.getDrug(ID);
+//        nameDrug.setText(drug.getName());
+//        persianName.setText(drug.getFaName());
 
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
-
-        adapter.addFragment(new FragmentViewDrug(), "توضیحات دارو");
-        adapter.addFragment(new FragmentInterferenceDrug(), "تداخل با دارو");
-        viewPager.setAdapter(adapter);
-    }
+//    private void setupViewPager(ViewPager viewPager) {
+//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
+//
+//        adapter.addFragment(new FragmentViewDrug(), "توضیحات دارو");
+//        adapter.addFragment(new FragmentInterferenceDrug(), "تداخل با دارو");
+//        viewPager.setAdapter(adapter);
+//    }
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {

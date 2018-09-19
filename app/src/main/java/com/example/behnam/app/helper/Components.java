@@ -1,5 +1,7 @@
 package com.example.behnam.app.helper;
 
+import android.util.Log;
+
 import com.example.behnam.app.controller.AppController;
 import org.json.JSONArray;
 import org.json.JSONException;

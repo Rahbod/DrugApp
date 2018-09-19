@@ -111,13 +111,17 @@ public class AppController extends Application {
 
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        getRequestQueue().add(req);
+        RequestQueue queue = getRequestQueue();
+        queue.getCache().clear();
+        queue.add(req);
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, socketRetries, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         req.setRetryPolicy(policy);
-        getRequestQueue().add(req);
+        RequestQueue queue = getRequestQueue();
+        queue.getCache().clear();
+        queue.add(req);
     }
 
     /**
@@ -154,8 +158,6 @@ public class AppController extends Application {
         if (!isNetworkConnected())
             Toast.makeText(getApplicationContext(), "No internet access. Please check it.", Toast.LENGTH_LONG).show();
         else {
-            if (withProgress)
-                pd.show();
             final JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, BASE_URL + url, params, resListener, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
