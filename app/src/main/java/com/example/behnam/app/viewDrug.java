@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,10 +17,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fonts.FontTextView;
 import com.example.behnam.fonts.FontTextViewBold;
@@ -35,6 +38,14 @@ public class viewDrug extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vegetal_view_drug);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.viewDrugNavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);

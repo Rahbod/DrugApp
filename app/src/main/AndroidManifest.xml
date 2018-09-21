@@ -105,7 +105,7 @@
             android:name=".ActivityCategories"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ActivityCategoreViewDrug"
+            android:name=".ActivityCategoryViewDrug"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityInterference" />
         <activity

@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.database.Drug;
 import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
 import java.io.File;
@@ -29,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ActivityCategoreViewDrug extends AppCompatActivity{
+public class ActivityCategoryViewDrug extends AppCompatActivity{
 
     private TextView text;
     private DrawerLayout drawerLayout;
@@ -42,6 +44,14 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_list);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.categoryDrugListNavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         ImageView imgBack = findViewById(R.id.btnBack);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +161,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
 //                final WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 //                connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 //                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCategoreViewDrug.this);
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityCategoryViewDrug.this);
 //                    builder.setMessage(R.string.enable_wifi).setCancelable(false)
 //                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 //                                @Override
@@ -165,7 +175,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
 //                                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
 //                                            onRecordAudioPermissionGranted();
 //                                        else {
-//                                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
+//                                            ActivityCompat.requestPermissions(ActivityCategoryViewDrug.this,
 //                                                    new String[]{Manifest.permission.RECORD_AUDIO},
 //                                                    1);
 //                                        }
@@ -184,7 +194,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
 //                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
 //                            onRecordAudioPermissionGranted();
 //                        else {
-//                            ActivityCompat.requestPermissions(ActivityCategoreViewDrug.this,
+//                            ActivityCompat.requestPermissions(ActivityCategoryViewDrug.this,
 //                                    new String[]{Manifest.permission.RECORD_AUDIO},
 //                                    1);
 //                        }
@@ -199,7 +209,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
 //        progress.setVisibility(View.VISIBLE);
 //        try {
 //            speechInstance.stopTextToSpeech();
-//            speechInstance.startListening(progress, ActivityCategoreViewDrug.this);
+//            speechInstance.startListening(progress, ActivityCategoryViewDrug.this);
 //
 //        } catch (SpeechRecognitionNotAvailable exc) {
 //            showSpeechNotSupportedDialog();
@@ -215,7 +225,7 @@ public class ActivityCategoreViewDrug extends AppCompatActivity{
 //            public void onClick(DialogInterface dialog, int which) {
 //                switch (which) {
 //                    case DialogInterface.BUTTON_POSITIVE:
-//                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityCategoreViewDrug.this);
+//                        SpeechUtil.redirectUserToGoogleAppOnPlayStore(ActivityCategoryViewDrug.this);
 //                        break;
 //
 //                    case DialogInterface.BUTTON_NEGATIVE:

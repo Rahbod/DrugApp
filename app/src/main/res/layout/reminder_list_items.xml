@@ -45,10 +45,9 @@
             android:id="@+id/deleteItem"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_delete"
+            android:src="@drawable/delete_icon"
             android:layout_gravity="center"
-            android:padding="12dp"
-            android:background="@drawable/gray_background_button"/>
+            android:padding="12dp"/>
 
         </LinearLayout>
 

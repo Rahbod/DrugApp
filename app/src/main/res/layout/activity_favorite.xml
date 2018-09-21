@@ -69,14 +69,14 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:orientation="vertical"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:background="#fff">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/star_icon" />
+                android:src="@drawable/empty_favorite_icon" />
 
             <com.example.behnam.fonts.FontTextView
                 android:id="@+id/txtFavorite"
@@ -109,6 +109,7 @@
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_header"
+        android:id="@+id/favoriteNavView"
         tools:ignore="RtlHardcoded">
 
         <ScrollView
@@ -144,7 +145,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/sina_icon" />
+                        android:src="@drawable/drug_icon" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"
@@ -169,7 +170,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/sina_icon" />
+                        android:src="@drawable/vegetal_drug" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"
@@ -204,30 +205,30 @@
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/item12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/select_recycler_view_item"
-                    android:gravity="right"
-                    android:layoutDirection="rtl"
-                    android:onClick="openNv"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/item12"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@drawable/select_recycler_view_item"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layoutDirection="rtl"-->
+                    <!--android:onClick="openNv"-->
+                    <!--android:paddingBottom="12dp"-->
+                    <!--android:paddingTop="12dp">-->
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/sina_icon" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:src="@drawable/sina_icon" />-->
 
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:text="طبقه بندی درمانی"
-                        android:textColor="@color/sina" />
-                </LinearLayout>
+                    <!--<com.example.behnam.fonts.FontTextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginRight="20dp"-->
+                        <!--android:text="طبقه بندی درمانی"-->
+                        <!--android:textColor="@color/sina" />-->
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/item11"
@@ -244,7 +245,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/sina_icon" />
+                        android:src="@drawable/healing_icon" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"
@@ -254,30 +255,30 @@
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/item2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/select_recycler_view_item"
-                    android:gravity="right"
-                    android:layoutDirection="rtl"
-                    android:onClick="openNv"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/item2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@drawable/select_recycler_view_item"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layoutDirection="rtl"-->
+                    <!--android:onClick="openNv"-->
+                    <!--android:paddingBottom="12dp"-->
+                    <!--android:paddingTop="12dp">-->
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/location_icon" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="20dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:src="@drawable/location_icon" />-->
 
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:text="داروخانه های نزدیک"
-                        android:textColor="@color/sina" />
-                </LinearLayout>
+                    <!--<com.example.behnam.fonts.FontTextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginRight="20dp"-->
+                        <!--android:text="داروخانه های نزدیک"-->
+                        <!--android:textColor="@color/sina" />-->
+                <!--</LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/item3"
@@ -317,7 +318,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/star_icon" />
+                        android:src="@drawable/favorite_icon" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"
@@ -417,7 +418,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/sina_icon" />
+                        android:src="@drawable/shake_icon" />
 
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"

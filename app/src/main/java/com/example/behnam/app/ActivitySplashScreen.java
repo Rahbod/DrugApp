@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -189,6 +190,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         assert wifi != null;
         View viewDialogMassage = LayoutInflater.from(this).inflate(R.layout.massage_dialog, null);
         final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(viewDialogMassage);
         LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
         linMassageDialog.setVisibility(View.VISIBLE);

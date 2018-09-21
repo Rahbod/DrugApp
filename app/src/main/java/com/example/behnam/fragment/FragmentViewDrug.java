@@ -156,7 +156,7 @@ public class FragmentViewDrug extends Fragment {
         if (!drug.getBrand().isEmpty() && VEGETAL == 0)
             webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
 
-        if (!healingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
+        /*if (!healingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
             webViewHtml += "<div class=\"section\">";
             if (!healingStr.isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی درمانی:</h4><div class=\"text\">" + healingStr + "</div></div>";
@@ -165,7 +165,7 @@ public class FragmentViewDrug extends Fragment {
             if (!sicknessStr.isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
             webViewHtml += "</div>";
-        }
+        }*/
 
         JSONObject jsonPregnancy = null;
         JSONArray groupPregnancy = new JSONArray();
