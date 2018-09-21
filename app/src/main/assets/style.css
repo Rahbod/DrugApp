@@ -58,6 +58,14 @@ html, body{
     background: url("html-icons/product.svg") no-repeat center;
     background-size: 25px;
 }
+.row h4 i.icon-kids{
+    background: url("html-icons/kids.svg") no-repeat center;
+    background-size: 25px;
+}
+.row h4 i.icon-seniors{
+    background: url("html-icons/seniors.svg") no-repeat center;
+    background-size: 25px;
+}
 .row h4 i.icon-pharmacy{
     background: url("html-icons/pharmacy.svg") no-repeat center;
     background-size: 25px;

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,10 +17,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterListReminder;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fonts.FontTextView;
 
@@ -39,6 +42,14 @@ public class ActivityReminderList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_list);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.reminderListNavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         activityFinish =this;
 

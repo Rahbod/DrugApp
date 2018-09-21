@@ -23,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -149,6 +150,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 View view = LayoutInflater.from(this).inflate(R.layout.massage_dialog, null);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(view);
                 TextView txt = view.findViewById(R.id.txt);
                 txt.setText("مکان یاب دستگاه شما غیرفعال است، برای یافتن مکان مورد نظر باید فعال گردد. آیا مایل به فعال کردن آن هستید؟"

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -321,20 +322,20 @@ public class ActivityIndex extends AppCompatActivity {
                 Intent intentDrug = new Intent(ActivityIndex.this, ActivityHome.class);
                 startActivity(intentDrug);
                 break;
-            case R.id.healing:
-                Intent intentHealing = new Intent(ActivityIndex.this, ActivityCategories.class);
-                intentHealing.putExtra("type", 0);
-                startActivity(intentHealing);
-                break;
+//            case R.id.healing:
+//                Intent intentHealing = new Intent(ActivityIndex.this, ActivityCategories.class);
+//                intentHealing.putExtra("type", 0);
+//                startActivity(intentHealing);
+//                break;
             case R.id.pharma:
                 Intent intentPharma = new Intent(ActivityIndex.this, ActivityCategories.class);
                 intentPharma.putExtra("type", 1);
                 startActivity(intentPharma);
                 break;
-            case R.id.location:
-                Intent intentLocation = new Intent(ActivityIndex.this, MapActivity.class);
-                startActivity(intentLocation);
-                break;
+//            case R.id.location:
+//                Intent intentLocation = new Intent(ActivityIndex.this, MapActivity.class);
+//                startActivity(intentLocation);
+//                break;
             case R.id.reminder:
                 Intent intentReminder = new Intent(ActivityIndex.this, ActivityReminderList.class);
                 startActivity(intentReminder);
@@ -517,6 +518,7 @@ public class ActivityIndex extends AppCompatActivity {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(ActivityIndex.this);
                 View view = LayoutInflater.from(ActivityIndex.this).inflate(R.layout.summary_dialog, null);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(view);
                 RecyclerView recyclerView = view.findViewById(R.id.recSummaryDialog);
                 recyclerView.setVisibility(View.INVISIBLE);
@@ -629,6 +631,7 @@ public class ActivityIndex extends AppCompatActivity {
         }
         final Dialog dialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.summary_dialog, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
         RecyclerView recyclerView = view.findViewById(R.id.recSummaryDialog);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -665,6 +668,7 @@ public class ActivityIndex extends AppCompatActivity {
         }
         final Dialog dialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.summary_dialog, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
         RecyclerView recyclerView = view.findViewById(R.id.recSummaryDialog);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

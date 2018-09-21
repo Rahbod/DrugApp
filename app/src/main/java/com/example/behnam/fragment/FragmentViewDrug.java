@@ -156,7 +156,7 @@ public class FragmentViewDrug extends Fragment {
         if (!drug.getBrand().isEmpty() && VEGETAL == 0)
             webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
 
-        if (!healingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
+        /*if (!healingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
             webViewHtml += "<div class=\"section\">";
             if (!healingStr.isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی درمانی:</h4><div class=\"text\">" + healingStr + "</div></div>";
@@ -165,7 +165,7 @@ public class FragmentViewDrug extends Fragment {
             if (!sicknessStr.isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
             webViewHtml += "</div>";
-        }
+        }*/
 
         JSONObject jsonPregnancy = null;
         JSONArray groupPregnancy = new JSONArray();
@@ -209,18 +209,33 @@ public class FragmentViewDrug extends Fragment {
             webViewHtml += "</div>";
         }
 
-        if ((!drug.getKids().isEmpty() || !drug.getSeniors().isEmpty() || !drug.getHowToUse().isEmpty()) && VEGETAL == 0) {
+        if (!drug.getHowToUse().isEmpty() && VEGETAL == 0) {
             webViewHtml += "<div class=\"section\">";
-            if (!drug.getKids().isEmpty())
-                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div>";
-
-            if (!drug.getSeniors().isEmpty())
-                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div>";
 
             if (!drug.getHowToUse().isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
             webViewHtml += "</div>";
         }
+
+
+
+
+
+
+        if(VEGETAL == 0) {
+            if (!drug.getKids().isEmpty())
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-kids\"></i>مصرف در کودکان:</h4><div class=\"text\">" + drug.getKids() + "</div></div></div>";
+
+            if (!drug.getSeniors().isEmpty())
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-seniors\"></i>مصرف در سالمندان:</h4><div class=\"text\">" + drug.getSeniors() + "</div></div></div>";
+        }
+
+
+
+
+
+
+
 
         if (VEGETAL == 1) {
             webViewHtml += "<div class=\"section\">";

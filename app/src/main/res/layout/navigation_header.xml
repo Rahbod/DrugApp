@@ -7,6 +7,7 @@
     <com.example.behnam.fonts.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/txtNameNav"
         android:text="نام و نام خانوادگی"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
@@ -18,6 +19,7 @@
     <com.example.behnam.fonts.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/txtMobileNav"
         android:text="09331234567"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"

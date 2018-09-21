@@ -6,11 +6,11 @@ import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.behnam.app.database.Drug;
-import com.example.behnam.app.database.Index;
 import com.example.behnam.app.database.Reminder;
 import com.example.behnam.app.helper.DbHelper;
+import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.app.service.ReminderService;
 import com.example.behnam.fonts.ButtonFont;
@@ -52,6 +52,14 @@ public class ActivityReminderStep2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reminder_step_2);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.reminderStep2NavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +175,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                         if (!txtPeriod.getText().toString().equals(""))
                             txtPeriod.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         else
-                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                            txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.fill_attention_icon), null, null, null);
                     }
                 });
                 txtCount.addTextChangedListener(new TextWatcher() {
@@ -186,7 +194,7 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                         if (!txtCount.getText().toString().equals(""))
                             txtCount.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                         else
-                            txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                            txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.fill_attention_icon), null, null, null);
                     }
                 });
 
@@ -213,20 +221,20 @@ public class ActivityReminderStep2 extends AppCompatActivity {
                 } else {
                     if (date.getText().equals("")) {
                         date.requestFocus();
-                        date.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_atten, 0);
+                        date.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.fill_attention_icon, 0);
                         Toast.makeText(ActivityReminderStep2.this, "تاریخ نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
                     } else if (time.getText().equals("")) {
                         time.requestFocus();
                         Toast.makeText(ActivityReminderStep2.this, "زمان نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
-                        time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_atten, 0, 0, 0);
+                        time.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fill_attention_icon, 0, 0, 0);
                     } else if (txtPeriod.getText().toString().equals("")) {
                         txtPeriod.requestFocus();
                         Toast.makeText(ActivityReminderStep2.this, "دوره مصرف نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
-                        txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                        txtPeriod.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.fill_attention_icon), null, null, null);
                     } else if (txtCount.getText().toString().equals("")) {
                         txtCount.requestFocus();
                         Toast.makeText(ActivityReminderStep2.this, "تعداد مصرف نمی تواند خالی باشد", Toast.LENGTH_SHORT).show();
-                        txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_atten), null, null, null);
+                        txtCount.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.fill_attention_icon), null, null, null);
                     }
                 }
             }

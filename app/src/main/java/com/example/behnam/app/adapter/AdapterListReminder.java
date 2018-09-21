@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ public class AdapterListReminder extends RecyclerView.Adapter<AdapterListReminde
         holder.drugName.setText(dbHelper.getDrug(reminderList.get(position).getDrugID()).getName());
         final View view = LayoutInflater.from(context).inflate(R.layout.massage_dialog, null);
         final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(view);
         holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override

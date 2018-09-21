@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -49,6 +50,14 @@ public class ActivityInterference extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interference);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.interferenceNavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         if (SessionManager.getExtrasPref(this).getString("interferenceIdList") != null) {
             SessionManager.getExtrasPref(this).remove("interferenceIdList");

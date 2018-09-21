@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.behnam.app.ActivityCategoreViewDrug;
+import com.example.behnam.app.ActivityCategoryViewDrug;
 import com.example.behnam.app.R;
 import com.example.behnam.app.database.Category;
 import com.example.behnam.app.helper.DbHelper;
@@ -63,7 +63,7 @@ public class AdapterCategoryInterference extends RecyclerView.Adapter<AdapterCat
                 DbHelper dbHelper = new DbHelper(context);
                 list = dbHelper.getCategories(0, condition);
                 if (list.isEmpty()) {
-                    Intent intent = new Intent(context, ActivityCategoreViewDrug.class);
+                    Intent intent = new Intent(context, ActivityCategoryViewDrug.class);
                     intent.putExtra("id", ID);
                     context.startActivity(intent);
                     SessionManager.getExtrasPref(context).putExtra("interferenceIdList", parentIDList.toString());

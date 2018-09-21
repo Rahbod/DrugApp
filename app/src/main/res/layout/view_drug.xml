@@ -43,7 +43,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/star_icon" />
+                    android:src="@drawable/favorite_icon" />
 
                 <com.example.behnam.fonts.FontTextView
                     android:id="@+id/add_basket_item"
