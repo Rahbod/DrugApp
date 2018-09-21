@@ -129,7 +129,8 @@
             android:name=".ActivitySearch"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityRegister" />
-        <activity android:name=".ActivityCheckCode" />
+        <activity android:name=".ActivityCheckCode"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".PaymentActivity" />
         <activity android:name="com.example.behnam.ActivityCheckTransaction" />
         <activity android:name="com.example.behnam.ActivitySelectVersion" />

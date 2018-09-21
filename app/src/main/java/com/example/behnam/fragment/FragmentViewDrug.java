@@ -1,8 +1,8 @@
 package com.example.behnam.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import android.text.Html;
 import android.util.Log;
@@ -327,9 +327,6 @@ public class FragmentViewDrug extends Fragment {
         }
         webViewHtml += "</div>";
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);
-
-        EditText eee=view.findViewById(R.id.eee);
-        eee.setText(webViewHtml);
 
 //        check exist in favorite
         if (dbHelper.checkFavorite(ID)) {

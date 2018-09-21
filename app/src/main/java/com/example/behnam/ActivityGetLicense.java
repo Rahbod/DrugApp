@@ -77,8 +77,10 @@ public class ActivityGetLicense extends AppCompatActivity {
                                     intent.putExtra("action", "fullDownload");
                                     startActivity(intent);
                                 }
-                                else
-                                    showMassage(response);
+                                else {
+                                    String massage = response.getString("message");
+                                    Toast.makeText(ActivityGetLicense.this, massage, Toast.LENGTH_LONG).show();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -90,16 +92,5 @@ public class ActivityGetLicense extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void showMassage(JSONObject response) {
-        try {
-            String massage = response.getString("message");
-            TextView txtMassage = findViewById(R.id.txtMessage);
-            txtMassage.setVisibility(View.VISIBLE);
-            txtMassage.setText(massage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

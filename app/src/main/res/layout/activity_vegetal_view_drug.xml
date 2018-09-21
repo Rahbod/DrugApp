@@ -14,11 +14,11 @@
         android:layout_height="match_parent"
         tools:context=".ActivityInterference">
 
-        <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:id="@+id/appBar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/white">-->
+        <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <!--actionBar-->
         <RelativeLayout
@@ -103,25 +103,25 @@
                 android:layout_height="match_parent"/>
         </RelativeLayout>
 
-        <!--<android.support.design.widget.TabLayout-->
-            <!--android:id="@+id/tabBar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:background="@color/blue"-->
-            <!--android:layoutDirection="rtl"-->
-            <!--app:tabIndicatorColor="@color/white"-->
-            <!--app:tabMode="fixed"-->
-            <!--app:tabSelectedTextColor="@color/sina"-->
-            <!--app:tabTextColor="@color/white"-->
-            <!--tools:targetApi="jelly_bean_mr1" />-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabBar"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/blue"
+            android:layoutDirection="rtl"
+            app:tabIndicatorColor="@color/white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/sina"
+            app:tabTextColor="@color/white"
+            tools:targetApi="jelly_bean_mr1" />
 
-        <!--</android.support.design.widget.AppBarLayout>-->
+        </android.support.design.widget.AppBarLayout>
 
-        <!--<com.example.behnam.app.MyViewPager-->
-        <!--android:id="@+id/viewPager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/appBar" />-->
+        <com.example.behnam.app.MyViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appBar" />
 
     </RelativeLayout>
 
