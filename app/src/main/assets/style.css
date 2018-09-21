@@ -45,70 +45,71 @@ html, body{
 .row h4 i{
     border-radius: 50%;
     /*border:1px solid #adc7d3;*/
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     float: right;
     margin-left: 10px;
+    border: 1px solid #ccc;
 }
 .section.iconic-field .text{
      padding-right: 10px;
     margin-top: 5px;
  }
 .row h4 i.icon-product{
-    background: url("html-icons/product.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/product.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-kids{
     background: url("html-icons/kids.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 12px;
 }
 .row h4 i.icon-seniors{
     background: url("html-icons/seniors.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 10px;
 }
 .row h4 i.icon-pharmacy{
-    background: url("html-icons/pharmacy.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/pharmacy.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-usage{
     background: url("html-icons/usage.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 11px;
 }
 .row h4 i.icon-prohibition{
-    background: url("html-icons/prohibition.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/prohibition.png") no-repeat center;
+    background-size: 15px;
 }
 .row h4 i.icon-caution{
-    background: url("html-icons/caution.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/caution.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-dose-adjustment{
     background: url("html-icons/dose-adjustment.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 12px;
 }
 .row h4 i.icon-complication{
-    background: url("html-icons/complication.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/complication.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-interference{
-    background: url("html-icons/interference.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/interference.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-effect{
     background: url("html-icons/effect.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 10px;
 }
 .row h4 i.icon-overdose{
-    background: url("html-icons/overdose.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/overdose.png") no-repeat center;
+    background-size: 12px;
 }
 .row h4 i.icon-description{
     background: url("html-icons/description.svg") no-repeat center;
-    background-size: 25px;
+    background-size: 12px;
 }
 .row h4 i.icon-relation-with-food{
-    background: url("html-icons/relation-with-food.svg") no-repeat center;
-    background-size: 25px;
+    background: url("html-icons/relation-with-food.png") no-repeat center;
+    background-size: 12px;
 }
 .table-responsive{
     min-height: .01%;

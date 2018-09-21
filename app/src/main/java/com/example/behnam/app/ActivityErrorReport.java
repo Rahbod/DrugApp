@@ -3,6 +3,7 @@ package com.example.behnam.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -110,37 +111,48 @@ public class ActivityErrorReport extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etReport.getWindowToken(), 0);
 
-                    JSONObject params = new JSONObject();
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("subject", "0");
-                        jsonObject.put("text", etReport.getText().toString());
-                        jsonObject.put("drug_id", 0);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        params.put("Report", jsonObject);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    AppController.getInstance().sendRequest("android/api/report?cache=", params, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                if (response.getBoolean("status")) {
-                                    final String massage = response.getString("message");
-                                    Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                    if (isConnected()) {
+                        JSONObject params = new JSONObject();
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("subject", "0");
+                            jsonObject.put("text", etReport.getText().toString());
+                            jsonObject.put("drug_id", 0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-                    etReport.setText("");
+                        try {
+                            params.put("Report", jsonObject);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        AppController.getInstance().sendRequest("android/api/report?cache=", params, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    if (response.getBoolean("status")) {
+                                        final String massage = response.getString("message");
+                                        Toast.makeText(ActivityErrorReport.this, massage, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        etReport.setText("");
+                    }else
+                        Toast.makeText(ActivityErrorReport.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+            return false;
+        } else
+            return true;
     }
 
     public void openNv(View view) {

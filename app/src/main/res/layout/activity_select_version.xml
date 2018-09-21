@@ -111,7 +111,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="این نسخه شامل داروهای نمونه می باشد" />
+                        android:text="این نسخه شامل دارو های نمونه می باشد" />
 
                 </LinearLayout>
 
@@ -146,7 +146,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="با وارد کردن کد ویژه، همه داروها را دریافت کنید" />
+                        android:text="با وارد کردن کد ویژه، همه دارو ها را دریافت کنید" />
 
                 </LinearLayout>
 
