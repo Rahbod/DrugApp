@@ -2,8 +2,10 @@ package com.example.behnam.app;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import com.example.behnam.ActivitySelectVersion;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
+import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
@@ -250,36 +253,52 @@ public class ActivityIndex extends AppCompatActivity {
 
     private void checkUpdateDatabase(long now) {
         @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-//        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 604800;
-        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 60;
+        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 604800;
         if (now > week) {
-            //send request & save time & update database
-            JSONObject params = new JSONObject();
-            try {
-                params.put("id", idNumber);
-                params.put("last_sync", SessionManager.getExtrasPref(this).getLong("lastSync"));
-                AppController.getInstance(ActivityIndex.this).sendRequest("dataCheckUpdate", params, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (response.getBoolean("status")){
-                                ///////////////////////
-                            }else {
-                                long now = System.currentTimeMillis() / 1000;
-                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("updateCheck", now);
-                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("lastSync", now);
-                            }
+            if (isConnected()) {
+                //send request & save time & update database
+                JSONObject params = new JSONObject();
+                try {
+                    params.put("id", idNumber);
+                    params.put("last_sync", SessionManager.getExtrasPref(this).getLong("lastSync"));
+                    AppController.getInstance(ActivityIndex.this).sendRequest("android/api/dataCheckUpdate", params, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.getBoolean("hasUpdate")) {
+                                    DbHelper dbHelper = new DbHelper(ActivityIndex.this);
+                                    @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                                    long last_sync = SessionManager.getExtrasPref(ActivityIndex.this).getLong("lastSync");
+                                    int last_drug_id = dbHelper.getMaxID("drugs");
+                                    int last_category_drug_id = dbHelper.getMaxID("category_drug");
+                                    int last_category_id = dbHelper.getMaxID("categories");
+                                    int last_interference_id = dbHelper.getMaxID("interference");
+                                    int last_index_id = dbHelper.getMaxID("indexes");
+                                    String id = idNumber + "&last_sync=" + last_sync +
+                                            "&did=" + last_drug_id + "&cid=" + last_category_id + "&cdid=" + last_category_drug_id +
+                                            "&intid=" + last_interference_id + "&indid=" + last_index_id;
+                                    Intent intent = new Intent(ActivityIndex.this, ActivitySplashScreen.class);
+                                    intent.putExtra("id", id);
+                                    intent.putExtra("action", "getUpdatedData");
+                                    intent.putExtra("referer", "update");
+                                    startActivity(intent);
+                                } else {
+                                    long now = System.currentTimeMillis() / 1000;
+                                    SessionManager.getExtrasPref(ActivityIndex.this).putExtra("updateCheck", now);
+                                    SessionManager.getExtrasPref(ActivityIndex.this).putExtra("lastSync", now);
+                                }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SessionManager.getExtrasPref(this).remove("updateCheck");
+                SessionManager.getExtrasPref(this).putExtra("updateCheck", System.currentTimeMillis() / 1000);
             }
-            SessionManager.getExtrasPref(this).remove("updateCheck");
-            SessionManager.getExtrasPref(this).putExtra("updateCheck", System.currentTimeMillis() / 1000);
         }
     }
 
@@ -557,7 +576,7 @@ public class ActivityIndex extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 try {
                                     if (response.getBoolean("status")) {
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getString("activated"));
+                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
                                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("name", response.getString("name"));
@@ -676,5 +695,13 @@ public class ActivityIndex extends AppCompatActivity {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+            return false;
+        } else
+            return true;
     }
 }

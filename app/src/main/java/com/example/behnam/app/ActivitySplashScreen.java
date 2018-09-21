@@ -72,6 +72,8 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (getIntent().getStringExtra("id") != null)
+            idNumber = getIntent().getStringExtra("id");
         action = getIntent().getStringExtra("action");
 
         //cancel Download Previous
@@ -261,7 +263,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
         txtPercent.setVisibility(View.VISIBLE);
-        String url = "http://rahbod.com/android/api/"+ action +"?id=" + id;
+        String url = "http://rahbod.com/android/api/" + action + "?id=" + id;
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
         request.setDestinationInExternalFilesDir(this, "sina", "/drug.sql");
@@ -331,7 +333,10 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 thread.start();
                 break;
             case DownloadManager.STATUS_RUNNING:
-                txtDownload.setText("در حال دریافت اطلاعات، لطفا منتظر بمانید...");
+                if (getIntent().getStringExtra("referer") != null)
+                    txtDownload.setText("درحال بروزرسانی اطلاعات، لطفا منتظر بمانید...");
+                else
+                    txtDownload.setText("در حال دریافت اطلاعات، لطفا منتظر بمانید...");
                 txtDownload.setTextColor(getResources().getColor(R.color.sina));
                 break;
         }

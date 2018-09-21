@@ -196,7 +196,7 @@ public class SessionManager {
         return ExtrasPref.getStringSet(key, null);
     }
 
-    public Integer getInt(String key) {
+    public int getInt(String key) {
         return ExtrasPref.getInt(key, 0);
     }
 

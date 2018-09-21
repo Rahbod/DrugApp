@@ -134,7 +134,7 @@
         <activity android:name="com.example.behnam.ActivityCheckTransaction" />
         <activity android:name="com.example.behnam.ActivitySelectVersion" />
         <activity android:name="com.example.behnam.ActivityGetLicense" />
-        <activity android:name=".ActivtyUpdateDatabase"></activity>
+        <activity android:name=".ActivityUpdateDatabase"></activity>
     </application>
 
 </manifest>
