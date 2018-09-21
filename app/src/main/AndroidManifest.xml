@@ -134,7 +134,8 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name="com.example.behnam.ActivityCheckTransaction" />
         <activity android:name="com.example.behnam.ActivitySelectVersion" />
-        <activity android:name="com.example.behnam.ActivityGetLicense" />
+        <activity android:name="com.example.behnam.ActivityGetLicense"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".ActivityUpdateDatabase"></activity>
     </application>
 

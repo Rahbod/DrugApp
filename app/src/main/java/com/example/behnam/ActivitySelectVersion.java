@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.android.volley.Response;
 import com.example.behnam.app.ActivitySplashScreen;
@@ -26,7 +27,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
         setContentView(R.layout.activity_select_version);
 
         // TrialVersion
-        Button btnTrialVersion = findViewById(R.id.btnTrialVersion);
+        LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
         btnTrialVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +38,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
         });
 
         // FullVersion
-        Button btnFullVersion = findViewById(R.id.btnFullVersion);
+        LinearLayout btnFullVersion = findViewById(R.id.btnFullVersion);
         btnFullVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +69,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
         });
 
         // LicenseVersion
-        Button btnLicenseVersion = findViewById(R.id.btnLicenseVersion);
+        LinearLayout btnLicenseVersion = findViewById(R.id.btnLicenseVersion);
         btnLicenseVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

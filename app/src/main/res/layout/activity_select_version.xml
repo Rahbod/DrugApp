@@ -1,28 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.behnam.ActivitySelectVersion"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.example.behnam.fonts.ButtonFont
-        android:id="@+id/btnTrialVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="نسخه آزمایشی"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.example.behnam.fonts.ButtonFont
-        android:id="@+id/btnFullVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="نسخه فعال"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.example.behnam.fonts.ButtonFont
-        android:id="@+id/btnLicenseVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="نسخه رایگان"/>
+            <RelativeLayout
+                android:id="@+id/relLogo"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:background="@color/blue">
 
-</LinearLayout>
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/card_view_heart" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLogo"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="-50dp"
+                android:background="@drawable/corner_shape">
+
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="لطفا نسخه مورد نظر خود را انتخاب کنید"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/sina"
+                    android:textSize="13dp"/>
+
+                <LinearLayout
+                    android:layout_below="@+id/text"
+                    android:id="@+id/btnFullVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/select_version_border"
+                    android:layoutDirection="rtl"
+                    android:orientation="vertical"
+                    tools:targetApi="jelly_bean_mr1">
+
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="نسخه کامل"
+                        android:textColor="@color/sina"
+                        android:textSize="14dp"/>
+
+                    <com.example.behnam.fonts.FontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="این نسخه شامل همه دارو ها می باشد" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnTrialVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnFullVersion"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/select_version_border"
+                    android:layoutDirection="rtl"
+                    android:orientation="vertical"
+                    tools:targetApi="jelly_bean_mr1">
+
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="نسخه نمونه"
+                        android:textColor="@color/sina"
+                        android:textSize="14dp"/>
+
+                    <com.example.behnam.fonts.FontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="این نسخه شامل داروهای نمونه می باشد" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnLicenseVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnTrialVersion"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/select_version_border"
+                    android:layoutDirection="rtl"
+                    android:orientation="vertical"
+                    tools:targetApi="jelly_bean_mr1">
+
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="نسخه ویژه"
+                        android:textColor="@color/sina"
+                        android:textSize="14dp"/>
+
+                    <com.example.behnam.fonts.FontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="با وارد کردن کد ویژه، همه داروها را دریافت کنید" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

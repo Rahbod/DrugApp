@@ -52,10 +52,8 @@
                         android:layout_marginRight="50dp"
                         android:background="@drawable/edit_text_border"
                         android:gravity="right"
-                        android:hint="لطفا کد تخفیف خود را وارد کنید"
-                        android:inputType="number"
+                        android:hint="لطفا کد ویژه را وارد کنید"
                         android:lines="1"
-                        android:maxLength="4"
                         android:textSize="13dp"
                         tools:ignore="RtlCompat,RtlHardcoded" />
 

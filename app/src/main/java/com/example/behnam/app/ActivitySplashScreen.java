@@ -341,4 +341,9 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
