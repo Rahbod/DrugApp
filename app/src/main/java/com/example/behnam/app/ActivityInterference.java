@@ -1,5 +1,7 @@
 package com.example.behnam.app;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -10,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,14 +21,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.behnam.app.adapter.AdapterCategories;
+import com.example.behnam.app.adapter.AdapterInterferenceDrug;
 import com.example.behnam.app.adapter.AdapterTabBar;
 import com.example.behnam.app.database.Category;
+import com.example.behnam.app.database.Index;
 import com.example.behnam.app.helper.Components;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 import com.example.behnam.fragment.FragmentCategory;
 import com.example.behnam.fragment.FragmentDrug;
+import com.example.behnam.fragment.FragmentInterferenceDrug;
+import com.example.behnam.fragment.FragmentViewDrug;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +40,7 @@ import org.json.JSONException;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ActivityInterference extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -80,40 +89,57 @@ public class ActivityInterference extends AppCompatActivity {
             }
         });
 
-        TabLayout tabLayout = findViewById(R.id.tabBar);
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-        setupViewPager(viewPager);
-        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i));
+//        TabLayout tabLayout = findViewById(R.id.tabBar);
+//        ViewPager viewPager = findViewById(R.id.viewPager);
+//        tabLayout.setupWithViewPager(viewPager);
+//        setupViewPager(viewPager);
+//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
+//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+//            TabLayout.Tab tab = tabLayout.getTabAt(i);
+//            tab.setCustomView(adapter.getTabView(i));
+//        }
+
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                currentTab = (String) tab.getText();
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+
+        //حذف این قسمت در هنگام تداخل با طبقه بندی
+        int ID = getIntent().getIntExtra("id", 0);
+
+        //set recyclerView
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DbHelper dbHelper = new DbHelper(this);
+        List<Index> list = dbHelper.getAllInterferenceDrug(ID);
+        AdapterInterferenceDrug adapter = new AdapterInterferenceDrug(this, list);
+        recyclerView.setAdapter(adapter);
+
+        if (list.isEmpty()){
+            TextView txt = findViewById(R.id.txt);
+            recyclerView.setVisibility(View.INVISIBLE);
+            txt.setVisibility(View.VISIBLE);
         }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                currentTab = (String) tab.getText();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
-        adapter.addFragment(new FragmentDrug(), "Drug");
-        adapter.addFragment(new FragmentCategory(), "Category");
-        viewPager.setAdapter(adapter);
-    }
+//    private void setupViewPager(ViewPager viewPager) {
+//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
+//        adapter.addFragment(new FragmentDrug(), "Drug");
+//        adapter.addFragment(new FragmentCategory(), "Category");
+//        viewPager.setAdapter(adapter);
+//    }
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {

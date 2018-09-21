@@ -14,11 +14,11 @@
         android:layout_height="match_parent"
         tools:context=".ActivityInterference">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/appBar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white">-->
 
             <!--actionBar-->
             <RelativeLayout
@@ -67,25 +67,31 @@
 
             </RelativeLayout>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabBar"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/blue"
-                app:tabIndicatorColor="@color/white"
-                app:tabMode="fixed"
-                android:layoutDirection="ltr"
-                app:tabSelectedTextColor="@color/sina"
-                app:tabTextColor="@color/white"
-                tools:targetApi="jelly_bean_mr1" />
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/appBar" />
+            android:layout_below="@id/actionBarInterference"/>
+
+            <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tabBar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:background="@color/blue"-->
+                <!--app:tabIndicatorColor="@color/white"-->
+                <!--app:tabMode="fixed"-->
+                <!--android:layoutDirection="ltr"-->
+                <!--app:tabSelectedTextColor="@color/sina"-->
+                <!--app:tabTextColor="@color/white"-->
+                <!--tools:targetApi="jelly_bean_mr1" />-->
+
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/viewPager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/appBar" />-->
 
     </RelativeLayout>
 

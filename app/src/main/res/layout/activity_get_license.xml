@@ -1,104 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.behnam.ActivityGetLicense">
+    android:layout_height="match_parent">
 
-    <com.example.behnam.fonts.EditTextFont
-        android:id="@+id/etCodeLicense"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <com.example.behnam.fonts.ButtonFont
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etCodeLicense"
-        android:text="تایید" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.example.behnam.fonts.FontTextView
-        android:id="@+id/txtMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/save"
-        android:visibility="invisible" />
+            <RelativeLayout
+                android:id="@+id/relLogo"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:background="@color/blue">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/save"
-        android:visibility="invisible">
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/card_view_heart" />
 
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin"
-            style="@style/SpinKitView.Small.ThreeBounce"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/txtNameSplash"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:visibility="invisible"
-            app:SpinKit_Color="@color/blue" />
+            </RelativeLayout>
 
-        <com.example.behnam.fonts.FontTextView
-            android:id="@+id/txtPercent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtNameSplash"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:text="% 0"
-            android:textColor="@color/sina"
-            android:textDirection="ltr"
-            android:textSize="11dp"
-            android:visibility="invisible"
-            tools:targetApi="jelly_bean_mr1" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLogo"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="-50dp"
+                android:background="@drawable/corner_shape">
 
-        <ProgressBar
-            android:id="@+id/progressBarDownload"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="2.6dp"
-            android:layout_below="@+id/txtPercent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:minHeight="50dp"
-            android:minWidth="220dp"
-            android:progress="1"
-            android:progressDrawable="@drawable/progress_bar_background"
-            android:textDirection="ltr"
-            android:visibility="invisible"
-            tools:targetApi="jelly_bean_mr1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical">
 
-        <com.example.behnam.fonts.FontTextView
-            android:id="@+id/txtDownload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/progressBarDownload"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="در حال دریافت اطلاعات، لطفا منتظر بمانید..."
-            android:textColor="@color/sina"
-            android:textSize="11dp"
-            android:visibility="invisible" />
+                    <com.example.behnam.fonts.EditTextFont
+                        android:id="@+id/etCodeLicense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="right"
+                        android:hint="لطفا کد تخفیف خود را وارد کنید"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:maxLength="4"
+                        android:textSize="13dp"
+                        tools:ignore="RtlCompat,RtlHardcoded" />
 
-        <com.example.behnam.fonts.ButtonFont
-            android:id="@+id/btnDownload"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="220dp"
-            android:layout_height="45dp"
-            android:layout_below="@+id/txtNameSplash"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/shape_button_stroke"
-            android:text="دریافت اطلاعات"
-            android:textColor="@color/blue"
-            android:visibility="invisible" />
+                    <com.example.behnam.fonts.ButtonFont
+                        android:id="@+id/save"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/shape_button_blue"
+                        android:text="ثبت"
+                        android:layout_marginBottom="30dp"
+                        android:textColor="@color/white" />
 
-    </RelativeLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

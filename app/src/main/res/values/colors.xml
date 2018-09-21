@@ -9,6 +9,7 @@
     <color name="Gray2">#dddddd</color>
     <color name="blue2">#2bd0ff</color>
     <color name="blue">#31a9ff</color>
+    <color name="blue_disable">#278ad1</color>
     <color name="red">#ff432a</color>
     <color name="green">#49bd1b</color>
     <color name="table_link">#d63a3a</color>

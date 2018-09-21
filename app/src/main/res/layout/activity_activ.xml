@@ -179,7 +179,6 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="25dp"
                             android:background="@drawable/edit_text_border"
-                            android:drawableLeft="@drawable/email_icon"
                             android:inputType="textEmailAddress"
                             android:paddingBottom="2dp"
                             android:paddingLeft="0dp"

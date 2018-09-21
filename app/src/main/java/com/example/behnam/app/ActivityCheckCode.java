@@ -67,7 +67,7 @@ public class ActivityCheckCode extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }else
-                    Toast.makeText(ActivityCheckCode.this, "کد ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityCheckCode.this, "کد وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
             }
         });
     }

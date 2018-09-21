@@ -500,10 +500,16 @@ public class ActivityIndex extends AppCompatActivity {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBox.isChecked())
+                if (checkBox.isChecked()) {
                     btnSave.setEnabled(true);
-                else
+                    btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                    btnSave.setTextColor(getResources().getColor(R.color.white));
+                }
+                else {
                     btnSave.setEnabled(false);
+                    btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
+                    btnSave.setTextColor(getResources().getColor(R.color.Gray2));
+                }
             }
         });
 

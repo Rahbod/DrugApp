@@ -1,45 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityCheckCode"
-    tools:ignore="MissingConstraints">
+    tools:context=".ActivityIndex">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_height="match_parent">
 
-        <com.example.behnam.fonts.EditTextFont
-            android:id="@+id/code"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_border"
-            android:gravity="right"
-            android:lines="1"
-            android:maxLength="4"
-            android:textSize="13dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            tools:ignore="RtlCompat,RtlHardcoded"/>
+            android:layout_height="wrap_content">
 
-        <com.example.behnam.fonts.ButtonFont
-            android:id="@+id/save"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/shape_button_blue"
-            android:text="ثبت"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            android:layout_marginTop="40dp"/>
+            <RelativeLayout
+                android:id="@+id/relLogo"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:background="@color/blue">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/card_view_heart" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLogo"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="-50dp"
+                android:background="@drawable/corner_shape">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical">
+
+                    <com.example.behnam.fonts.EditTextFont
+                        android:id="@+id/code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="right"
+                        android:hint="لطفا کد تایید را وارد کنید"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:maxLength="4"
+                        android:textSize="13dp"
+                        tools:ignore="RtlCompat,RtlHardcoded" />
+
+                    <com.example.behnam.fonts.ButtonFont
+                        android:id="@+id/save"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/shape_button_blue"
+                        android:text="ثبت"
+                        android:layout_marginBottom="30dp"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
