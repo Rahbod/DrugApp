@@ -235,31 +235,31 @@ public class FragmentViewDrug extends Fragment {
 
         if (!drug.getProduct().isEmpty()) {
             if (VEGETAL == 1)
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text\">" + drug.getProduct() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">فرآورده های دارویی:</h4><div class=\"text\">" + drug.getProduct() + "</div></div></div>";
             else
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>فرآورده های دارویی:</h4><div class=\"text direction-ltr\">" + drug.getProduct() + "</div></div></div>";
         }
 
         if (VEGETAL == 1) {
             if (!drug.getCompounds().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>ترکیبات موجود:</h4><div class=\"text\">" + drug.getCompounds() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">ترکیبات موجود:</h4><div class=\"text\">" + drug.getCompounds() + "</div></div></div>";
 
             if (!drug.getEffectiveIngredients().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>مواد موثره:</h4><div class=\"text\">" + drug.getEffectiveIngredients() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">مواد موثره:</h4><div class=\"text\">" + drug.getEffectiveIngredients() + "</div></div></div>";
 
             if (!drug.getStandardized().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-product\"></i>استاندارد شده:</h4><div class=\"text\">" + drug.getStandardized() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">استاندارد شده:</h4><div class=\"text\">" + drug.getStandardized() + "</div></div></div>";
         }
 
         if (!drug.getPharmacodynamic().isEmpty())
             if (VEGETAL == 1)
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-pharmacy\"></i>مکانیسم احتمالی اثر:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">مکانیسم احتمالی اثر:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div></div></div>";
             else
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-pharmacy\"></i>فارماکودینامیک و فارماکوکینتیک:</h4><div class=\"text\">" + drug.getPharmacodynamic() + "</div></div></div>";
 
         if (!drug.getUsage().isEmpty())
             if (VEGETAL == 1)
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-usage\"></i>موارد مصرف:</h4><div class=\"text\">" + drug.getUsage() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">موارد مصرف:</h4><div class=\"text\">" + drug.getUsage() + "</div></div></div>";
             else
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-usage\"></i>موارد مصرف و دوزاژ:</h4><div class=\"text\">" + drug.getUsage() + "</div></div></div>";
 
@@ -268,18 +268,26 @@ public class FragmentViewDrug extends Fragment {
 
         if (!drug.getProhibition().isEmpty())
             if (VEGETAL == 1)
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-prohibition\"></i>موارد منع مصرف و احتیاط:</h4><div class=\"text\">" + drug.getProhibition() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">موارد منع مصرف و احتیاط:</h4><div class=\"text\">" + drug.getProhibition() + "</div></div></div>";
             else
                 webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-prohibition\"></i>موارد منع مصرف:</h4><div class=\"text\">" + drug.getProhibition() + "</div></div></div>";
 
         if (!drug.getCaution().isEmpty() && VEGETAL == 0)
             webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-caution\"></i>موارد احتیاط:</h4><div class=\"text\">" + drug.getCaution() + "</div></div></div>";
 
-        if (!drug.getComplication().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-complication\"></i>عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div></div></div>";
+        if (!drug.getComplication().isEmpty()){
+            if(VEGETAL == 0)
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-complication\"></i>عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div></div></div>";
+            else
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">عوارض جانبی:</h4><div class=\"text\">" + drug.getComplication() + "</div></div></div>";
+        }
 
-        if (!drug.getInterference().isEmpty())
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-interference\"></i>تداخلات دارویی:</h4><div class=\"text\">" + drug.getInterference() + "</div></div></div>";
+        if (!drug.getInterference().isEmpty()){
+            if(VEGETAL == 0)
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-interference\"></i>تداخلات دارویی:</h4><div class=\"text\">" + drug.getInterference() + "</div></div></div>";
+            else
+                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\">تداخلات دارویی:</h4><div class=\"text\">" + drug.getInterference() + "</div></div></div>";
+        }
 
         if (!drug.getEffectOnTest().isEmpty() && VEGETAL == 0)
             webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-effect\"></i>اثر بر تست های آزمایشگاهی:</h4><div class=\"text\">" + drug.getEffectOnTest() + "</div></div></div>";
@@ -323,10 +331,10 @@ public class FragmentViewDrug extends Fragment {
 
         if (VEGETAL == 1) {
             if (!drug.getMaintenance().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>شرایط نگهداری:</h4><div class=\"text\">" + drug.getMaintenance() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">شرایط نگهداری:</h4><div class=\"text\">" + drug.getMaintenance() + "</div></div></div>";
 
             if (!drug.getCompany().isEmpty())
-                webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-relation-with-food\"></i>شرکت سازنده:</h4><div class=\"text\">" + drug.getCompany() + "</div></div></div>";
+                webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">شرکت سازنده:</h4><div class=\"text\">" + drug.getCompany() + "</div></div></div>";
         }
         webViewHtml += "</div>";
         webView.loadDataWithBaseURL("file:///android_asset/", webViewHtml, "text/html", "UTF-8", null);

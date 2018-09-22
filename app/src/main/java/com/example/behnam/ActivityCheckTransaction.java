@@ -62,7 +62,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -70,7 +70,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -83,6 +83,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
                 Intent intent = new Intent(ActivityCheckTransaction.this, ActivitySplashScreen.class);
                 intent.putExtra("action", getIntent().getStringExtra("action"));
                 startActivity(intent);
+                finish();
             }
         });
 

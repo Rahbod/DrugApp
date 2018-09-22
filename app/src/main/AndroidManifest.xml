@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -52,18 +50,7 @@
         <activity
             android:name=".ActivityReminderStep1"
             android:windowSoftInputMode="stateHidden" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="@string/google_maps_key" /> -->
-        <!-- <activity android:name=".ActivityInterferenceStep3"></activity> -->
+
         <activity
             android:name=".map.MapActivity"
             android:label="@string/title_activity_map"
@@ -129,14 +116,19 @@
             android:name=".ActivitySearch"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityRegister" />
-        <activity android:name=".ActivityCheckCode"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".ActivityCheckCode"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".PaymentActivity" />
         <activity android:name="com.example.behnam.ActivityCheckTransaction" />
         <activity android:name="com.example.behnam.ActivitySelectVersion" />
-        <activity android:name="com.example.behnam.ActivityGetLicense"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ActivityUpdateDatabase"></activity>
+        <activity
+            android:name="com.example.behnam.ActivityGetLicense"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".ActivityUpdateDatabase" />
+        <activity
+            android:name="com.example.behnam.ActivityMap"
+            android:label="@string/title_activity_map"></activity>
     </application>
 
 </manifest>
