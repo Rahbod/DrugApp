@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.example.behnam.ActivityMap;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
