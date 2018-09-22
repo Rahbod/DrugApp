@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,14 +9,12 @@ import android.content.pm.ApplicationInfo;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +28,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.example.behnam.ActivitySelectVersion;
+import com.example.behnam.ActivityMap;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
-import com.example.behnam.app.map.MapActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +42,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.bloder.magic.view.MagicButton;
 
 public class ActivityIndex extends AppCompatActivity {
     private static long BackPressed;
@@ -56,6 +52,7 @@ public class ActivityIndex extends AppCompatActivity {
     private TextView txtGrade, txtDepartment;
     private List<Integer> gradeID, departmentID;
     private List<DropList> gradeList, departmentList;
+    public static Activity activityIndex = null;
 
 //    private Speech speechInstance;
 //    private SpeechProgressView progress;
@@ -66,7 +63,8 @@ public class ActivityIndex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        text = findViewById(R.id.editTextSearch);
+        activityIndex = this;
+
         if (!SessionManager.getExtrasPref(this).getBoolean("selectedVersion")) {
             setContentView(R.layout.activity_regester);
             onCreateRegister();
@@ -77,6 +75,18 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateIndex() {
+        Button btn = findViewById(R.id.map);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ActivityIndex.this, ActivityMap.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
         checkUpdateDatabase(System.currentTimeMillis() / 1000);
         text = findViewById(R.id.editTextSearch);
         Button btnActive = findViewById(R.id.active);

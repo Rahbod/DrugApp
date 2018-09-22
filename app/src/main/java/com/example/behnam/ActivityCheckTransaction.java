@@ -1,6 +1,7 @@
 package com.example.behnam;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -44,6 +45,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private LinearLayout linText;
     private Button btnBack;
+    public static Activity activityCheckTransaction = null;
 
     @SuppressLint("HardwareIds")
     @Override
@@ -60,7 +62,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -68,7 +70,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
@@ -81,6 +83,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
                 Intent intent = new Intent(ActivityCheckTransaction.this, ActivitySplashScreen.class);
                 intent.putExtra("action", getIntent().getStringExtra("action"));
                 startActivity(intent);
+                finish();
             }
         });
 
