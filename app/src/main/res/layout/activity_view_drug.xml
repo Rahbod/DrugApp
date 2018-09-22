@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="داروهای شیمیایی"
+                        android:text="دارو های شیمیایی"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
@@ -335,7 +335,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="سبد داروهای من"
+                        android:text="سبد دارو های من"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 

@@ -48,7 +48,7 @@
             android:layout_below="@+id/txtTitle"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/text_view"
-            android:text="داروهای ژنریک ایران"
+            android:text="دارو های ژنریک ایران"
             android:textColor="@color/Gray"
             android:textSize="11dp" />
 
