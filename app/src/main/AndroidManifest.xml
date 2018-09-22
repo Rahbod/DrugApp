@@ -126,9 +126,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityUpdateDatabase" />
         <activity
-            android:name="com.example.behnam.ActivityMap"
-            android:label="@string/title_activity_map" />
-        <activity
             android:name="com.example.behnam.map_test.MapTest"
             android:label="@string/title_activity_map_test"></activity>
     </application>
