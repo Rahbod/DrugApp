@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.example.behnam.ActivityMap;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
@@ -75,14 +74,14 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateIndex() {
-        Button btn = findViewById(R.id.map);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityIndex.this, ActivityMap.class);
-                startActivity(intent);
-            }
-        });
+//        Button btn = findViewById(R.id.map);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(ActivityIndex.this, ActivityMap.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
 

@@ -624,12 +624,12 @@
         android:text="فعال سازی"
         android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/active"
-        android:text="map"
-        android:visibility="visible"/>
+    <!--<Button-->
+        <!--android:id="@+id/map"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/active"-->
+        <!--android:text="map"-->
+        <!--android:visibility="visible"/>-->
 
 </RelativeLayout>
