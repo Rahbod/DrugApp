@@ -251,13 +251,14 @@ public class ActivitySplashScreen extends AppCompatActivity {
             while ((line = buffer.readLine()) != null) {
                 dbHelper.execSQL(line);
             }
-            Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);
-            startActivity(intent);
+
             long now = System.currentTimeMillis() / 1000;
             SessionManager.getExtrasPref(this).putExtra("updateCheck", now);
             SessionManager.getExtrasPref(this).putExtra("lastSync", now);
             SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
 
+            Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);
+            startActivity(intent);
 
             //delete file
             manager.remove(SessionManager.getExtrasPref(this).getLong("downloadId"));
