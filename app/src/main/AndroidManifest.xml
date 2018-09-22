@@ -27,6 +27,7 @@
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityActiv"
@@ -128,9 +129,6 @@
         <activity
             android:name="com.example.behnam.ActivityMap"
             android:label="@string/title_activity_map" />
-        <activity
-            android:name="com.example.behnam.map_test.MapTest"
-            android:label="@string/title_activity_map_test"></activity>
     </application>
 
 </manifest>

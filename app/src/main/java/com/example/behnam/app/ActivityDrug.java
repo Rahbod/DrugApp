@@ -112,7 +112,7 @@ public class ActivityDrug extends AppCompatActivity{
             }
 
             //set Text Title
-            txtTitle.setText("گیاهان دارویی");
+            txtTitle.setText("داروهای گیاهی");
 
             // set ColorBackGround btnBack
             btnBack.setBackground(getResources().getDrawable(R.drawable.background_focus_vegetal));

@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +35,6 @@ import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
-import com.example.behnam.map_test.MapTest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,14 +76,14 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateIndex() {
-        Button btn = findViewById(R.id.map);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityIndex.this, MapTest.class);
-                startActivity(intent);
-            }
-        });
+//        Button btn = findViewById(R.id.map);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(ActivityIndex.this, MapTest.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
 
@@ -270,7 +270,8 @@ public class ActivityIndex extends AppCompatActivity {
 
     private void checkUpdateDatabase(long now) {
         @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 86400;
+//        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 86400;
+        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 60;
         if (now > week) {
             if (isConnected()) {
                 //send request & save time & update database
@@ -385,6 +386,7 @@ public class ActivityIndex extends AppCompatActivity {
         intent.setType("*/*");
 
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, "Share app via"));
     }
 

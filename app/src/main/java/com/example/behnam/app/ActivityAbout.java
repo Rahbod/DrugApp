@@ -39,7 +39,7 @@ public class ActivityAbout extends AppCompatActivity {
         if (getIntent().getStringExtra("type").equals("rules")) {
             TextView txtTitle = findViewById(R.id.txtTitle);
             TextView txt = findViewById(R.id.txt);
-            txtTitle.setText("ضوابط و توافق نامه حقوقی");
+            txtTitle.setText("قوانین و مقررات");
             txt.setText("متن ضوابط و توافق نامه حقوقی");
         }
 
