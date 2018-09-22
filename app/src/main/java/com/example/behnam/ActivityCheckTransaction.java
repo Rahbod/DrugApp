@@ -66,16 +66,6 @@ public class ActivityCheckTransaction extends AppCompatActivity {
             }
         });
 
-        // open navigation
-        drawerLayout = findViewById(R.id.DrawerLayout);
-        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
-        imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(Gravity.RIGHT);
-            }
-        });
-
         btnBack = findViewById(R.id.back);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,93 +148,5 @@ public class ActivityCheckTransaction extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void openNv(View view) {
-        switch (findViewById(view.getId()).getId()) {
-            case R.id.item1:
-                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
-                startActivity(goToListDrugInteractions);
-                closeNv();
-                break;
-            case R.id.item2:
-                startActivity(new Intent(this, MapActivity.class));
-                closeNv();
-                break;
-            case R.id.item3:
-                Intent goToReminder = new Intent(this, ActivityReminderList.class);
-                startActivity(goToReminder);
-                closeNv();
-                break;
-            case R.id.item4:
-                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
-                startActivity(goToFavorite);
-                closeNv();
-                break;
-            case R.id.item5:
-                shareApplication();
-                closeNv();
-                break;
-            case R.id.item6:
-                Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
-                startActivity(goToErrorReport);
-                closeNv();
-                break;
-            case R.id.item7:
-                Intent intentAbout = new Intent(this, ActivityAbout.class);
-                intentAbout.putExtra("type", "about");
-                startActivity(intentAbout);
-                closeNv();
-                break;
-            case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
-                startActivity(intentVegetalDrug);
-                closeNv();
-                break;
-            case R.id.item9:
-                Intent intentHome = new Intent(this, ActivityHome.class);
-                startActivity(intentHome);
-                drawerLayout.closeDrawer(Gravity.RIGHT);
-                break;
-            case R.id.item10:
-                Intent intentRules = new Intent(this, ActivityAbout.class);
-                intentRules.putExtra("type", "rules");
-                startActivity(intentRules);
-                closeNv();
-                break;
-            case R.id.item11:
-                Intent intentPharma = new Intent(this, ActivityCategories.class);
-                intentPharma.putExtra("type", 1);
-                startActivity(intentPharma);
-                closeNv();
-                break;
-            case R.id.item12:
-                Intent intentHealing = new Intent(this, ActivityCategories.class);
-                intentHealing.putExtra("type", 0);
-                startActivity(intentHealing);
-                closeNv();
-                break;
-        }
-    }
-
-    private void closeNv() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                drawerLayout.closeDrawer(Gravity.RIGHT);
-            }
-        }, 250);
-    }
-
-    private void shareApplication() {
-        ApplicationInfo app = getApplicationContext().getApplicationInfo();
-        String filePath = app.sourceDir;
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-
-        intent.setType("*/*");
-
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
-        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 }

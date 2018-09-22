@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.bloder.magic.view.MagicButton;
+
 public class ActivityIndex extends AppCompatActivity {
     private static long BackPressed;
     private EditText text;
@@ -65,6 +68,7 @@ public class ActivityIndex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        text = findViewById(R.id.editTextSearch);
         activityIndex = this;
 
         if (!SessionManager.getExtrasPref(this).getBoolean("selectedVersion")) {
@@ -79,13 +83,12 @@ public class ActivityIndex extends AppCompatActivity {
     private void onCreateIndex() {
         checkUpdateDatabase(System.currentTimeMillis() / 1000);
         text = findViewById(R.id.editTextSearch);
-        Button btnActiv = findViewById(R.id.activ);
+        Button btnActive = findViewById(R.id.active);
         if (SessionManager.getExtrasPref(this).getInt("activated") == 1)
-            btnActiv.setVisibility(View.INVISIBLE);
-        btnActiv.setOnClickListener(new View.OnClickListener() {
+            btnActive.setVisibility(View.INVISIBLE);
+        btnActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                 JSONObject params = new JSONObject();
                 try {
@@ -127,6 +130,7 @@ public class ActivityIndex extends AppCompatActivity {
                     Intent intent = new Intent(ActivityIndex.this, ActivitySearch.class);
                     intent.putExtra("item", text.getText().toString());
                     startActivity(intent);
+                    text.setText("");
                 } else {
                     //hide keyboard
                     Class<? extends View.OnClickListener> view = this.getClass();
@@ -172,6 +176,7 @@ public class ActivityIndex extends AppCompatActivity {
                     Intent intent = new Intent(ActivityIndex.this, ActivitySearch.class);
                     intent.putExtra("item", text.getText().toString());
                     startActivity(intent);
+                    text.setText("");
                 } else {
                     //hide keyboard
                     Class<? extends TextView.OnEditorActionListener> view = this.getClass();
@@ -258,7 +263,7 @@ public class ActivityIndex extends AppCompatActivity {
 
     private void checkUpdateDatabase(long now) {
         @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 604800;
+        long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 86400;
         if (now > week) {
             if (isConnected()) {
                 //send request & save time & update database
@@ -482,9 +487,10 @@ public class ActivityIndex extends AppCompatActivity {
 //
     @Override
     protected void onResume() {
+//        text = findViewById(R.id.editTextSearch);
 //        speechInstance = Speech.init(this, getPackageName());
-        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
-            text.setText("");
+//        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
+//            text.setText("");
         super.onResume();
     }
 
@@ -508,8 +514,7 @@ public class ActivityIndex extends AppCompatActivity {
                     btnSave.setEnabled(true);
                     btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
                     btnSave.setTextColor(getResources().getColor(R.color.white));
-                }
-                else {
+                } else {
                     btnSave.setEnabled(false);
                     btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
                     btnSave.setTextColor(getResources().getColor(R.color.Gray2));
@@ -557,54 +562,71 @@ public class ActivityIndex extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                if (etNumberMobile.getText().toString().isEmpty())
-                    Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
-                else if (!checkMobileNumber(etNumberMobile.getText().toString()))
-                    Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
-                else if (etName.getText().toString().trim().isEmpty())
-                    Toast.makeText(ActivityIndex.this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                else if (etField.getText().toString().trim().isEmpty())
-                    Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                else if (gradeID.isEmpty())
-                    Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                else if (departmentID.isEmpty())
-                    Toast.makeText(ActivityIndex.this, "لطفا گروه تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                else {
-                    JSONObject object = new JSONObject();
-                    JSONObject params = new JSONObject();
-                    try {
-                        object.put("mobile", etNumberMobile.getText().toString());
-                        object.put("id", idNumber);
-                        object.put("name", etName.getText().toString());
-                        object.put("field", etField.getText().toString());
-                        object.put("grade", gradeID.get(0));
-                        object.put("department", departmentID.get(0));
-                        if (!etEmail.getText().toString().trim().isEmpty())
-                            object.put("email", etEmail.getText().toString());
-                        params.put("User", object);
-                        AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if (response.getBoolean("status")) {
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("name", response.getString("name"));
-                                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("mobile", response.getString("mobile"));
-                                        Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
-                                        startActivity(intent);
+                if (isConnected()) {
+                    @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                    if (etNumberMobile.getText().toString().isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
+                    else if (!checkMobileNumber(etNumberMobile.getText().toString()))
+                        Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
+                    else if (etName.getText().toString().trim().isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    else if (etField.getText().toString().trim().isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    else if (gradeID.isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    else if (departmentID.isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا گروه تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    else {
+                        btnSave.setEnabled(false);
+                        btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
+                        btnSave.setTextColor(getResources().getColor(R.color.Gray2));
+                        btnSave.setText("در حال ارسال اطلاعات...");
+                        JSONObject object = new JSONObject();
+                        JSONObject params = new JSONObject();
+                        try {
+                            object.put("mobile", etNumberMobile.getText().toString());
+                            object.put("id", idNumber);
+                            object.put("name", etName.getText().toString());
+                            object.put("field", etField.getText().toString());
+                            object.put("grade", gradeID.get(0));
+                            object.put("department", departmentID.get(0));
+                            if (!etEmail.getText().toString().trim().isEmpty())
+                                object.put("email", etEmail.getText().toString());
+                            params.put("User", object);
+                            AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if (response.getBoolean("status")) {
+                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
+                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
+                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
+                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("name", response.getString("name"));
+                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("mobile", response.getString("mobile"));
+                                            Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
+                                            startActivity(intent);
+                                            btnSave.setTextColor(getResources().getColor(R.color.white));
+                                            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                                            btnSave.setEnabled(true);
+                                            btnSave.setText("ثبت");
+                                        }
+                                        else {
+                                            btnSave.setTextColor(getResources().getColor(R.color.white));
+                                            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                                            btnSave.setEnabled(true);
+                                            btnSave.setText("ثبت");
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        });
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
+                } else
+                    Toast.makeText(ActivityIndex.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
     }

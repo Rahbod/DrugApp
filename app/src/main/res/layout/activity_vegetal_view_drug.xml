@@ -53,8 +53,8 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/background_focus"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:src="@drawable/back_icon" />
 
                 <com.example.behnam.fonts.FontTextViewBold
@@ -446,7 +446,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="ضوابط و مقررات حقوقی"
+                        android:text="قوانین و مقررات"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 

@@ -58,14 +58,15 @@
 
             <ImageView
                 android:id="@+id/searchIcon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/background_focus_voice"
+                android:padding="3dp"
                 android:src="@drawable/search_icon" />
 
             <ImageView
@@ -117,485 +118,479 @@
         android:layout_below="@+id/cardView"
         android:layout_marginTop="-6.6dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="ltr"
-            android:orientation="vertical"
-            tools:targetApi="jelly_bean_mr1">
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/lin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal"
-                android:layoutDirection="rtl"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layoutDirection="ltr"
+                android:orientation="vertical"
+                tools:targetApi="jelly_bean_mr1">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/drg"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/drug_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="دارو های شیمیایی"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/vegetalDrug"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/vegetal_drug" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="دارو های گیاهی"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/interference"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/interference_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="تداخلات دارویی"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <!--<LinearLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/location"-->
-                        <!--android:layout_width="70dp"-->
-                        <!--android:layout_height="70dp"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/background_icon_index"-->
-                        <!--android:gravity="center"-->
-                        <!--android:onClick="openActivity">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="28dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:src="@drawable/location_icon" />-->
-
-                    <!--</LinearLayout>-->
-
-                    <!--<com.example.behnam.fonts.FontTextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:text="داروخانه های نزدیک"-->
-                        <!--android:textColor="@color/sina"-->
-                        <!--android:textSize="12dp" />-->
-
-                <!--</LinearLayout>-->
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/favorite"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/favorite_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="سبد دارو های من"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/reminder"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity"
-                        tools:ignore="OnClick">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/clock_icon" />
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="یادآور مصرف دارو"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/pharma"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity"
-                        tools:ignore="OnClick">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/healing_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="طبقه بندی بیماری"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <!--<LinearLayout-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/healing"-->
-                        <!--android:layout_width="70dp"-->
-                        <!--android:layout_height="70dp"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:background="@drawable/background_icon_index"-->
-                        <!--android:gravity="center"-->
-                        <!--android:onClick="openActivity">-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="40dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:src="@drawable/star_icon" />-->
-
-                    <!--</LinearLayout>-->
-
-                    <!--<com.example.behnam.fonts.FontTextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:text="طبقه بندی درمانی"-->
-                        <!--android:textColor="@color/sina"-->
-                        <!--android:textSize="12dp" />-->
-
-                <!--</LinearLayout>-->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/aboutUs"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:src="@drawable/about_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="درباره سینا دارو"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/share"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginRight="5dp"
-                            android:src="@drawable/share_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="ارسال برنامه"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/reportError"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:id="@+id/imgReport"
-                            android:layout_width="35dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:src="@drawable/flag_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="گزارش خطا"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/rules"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/background_icon_index"
-                        android:gravity="center"
-                        android:onClick="openActivity">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/shake_icon" />
-
-                    </LinearLayout>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:lines="1"
-                        android:text="توافق نامه حقوقی"
-                        android:textColor="@color/sina"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.example.behnam.fonts.ButtonFont
-                    android:id="@+id/activ"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="فعال سازی"
-                    android:background="@color/red"
-                    android:textColor="@color/white"/>
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/drg"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/drug_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="داروهای شیمیایی"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/vegetalDrug"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/vegetal_drug" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="داروهای گیاهی"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/interference"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="45dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/interference_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="تداخلات دارویی"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<LinearLayout-->
+                    <!--android:id="@+id/location"-->
+                    <!--android:layout_width="70dp"-->
+                    <!--android:layout_height="70dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/background_icon_index"-->
+                    <!--android:gravity="center"-->
+                    <!--android:onClick="openActivity">-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="28dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/location_icon" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:text="داروخانه های نزدیک"-->
+                    <!--android:textColor="@color/sina"-->
+                    <!--android:textSize="12dp" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/favorite"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/favorite_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="سبد داروهای من"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/reminder"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity"
+                            tools:ignore="OnClick">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/clock_icon" />
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="یادآور مصرف دارو"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/pharma"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity"
+                            tools:ignore="OnClick">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/healing_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="طبقه بندی بیماری"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<LinearLayout-->
+                    <!--android:id="@+id/healing"-->
+                    <!--android:layout_width="70dp"-->
+                    <!--android:layout_height="70dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@drawable/background_icon_index"-->
+                    <!--android:gravity="center"-->
+                    <!--android:onClick="openActivity">-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/star_icon" />-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:text="طبقه بندی درمانی"-->
+                    <!--android:textColor="@color/sina"-->
+                    <!--android:textSize="12dp" />-->
+
+                    <!--</LinearLayout>-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/aboutUs"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:src="@drawable/about_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="درباره سینا دارو"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/share"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/share_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="ارسال برنامه"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/reportError"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:id="@+id/imgReport"
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:src="@drawable/flag_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="گزارش خطا"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/rules"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/shake_icon" />
+
+                        </LinearLayout>
+
+                        <com.example.behnam.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:lines="1"
+                            android:text="قوانین و مقررات"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
 
@@ -619,5 +614,14 @@
     <!--android:visibility="invisible" />-->
 
     <!--</LinearLayout>-->
+
+    <com.example.behnam.fonts.ButtonFont
+        android:id="@+id/active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red"
+        android:text="فعال سازی"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
