@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -25,10 +26,14 @@ import org.json.JSONObject;
 
 public class ActivityCheckCode extends AppCompatActivity {
 
+    public static Activity activityCheckCode = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_code);
+
+        activityCheckCode = this;
+
         @SuppressLint("HardwareIds") final String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         final EditText etCode = findViewById(R.id.code);
         final Button btnSave = findViewById(R.id.save);

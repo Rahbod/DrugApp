@@ -1,6 +1,7 @@
 package com.example.behnam;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -44,6 +45,7 @@ public class ActivityCheckTransaction extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private LinearLayout linText;
     private Button btnBack;
+    public static Activity activityCheckTransaction = null;
 
     @SuppressLint("HardwareIds")
     @Override

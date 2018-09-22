@@ -1,6 +1,7 @@
 package com.example.behnam;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -21,10 +22,14 @@ import org.json.JSONObject;
 
 public class ActivitySelectVersion extends AppCompatActivity {
 
+    public static Activity activitySelectVersion = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_version);
+
+        activitySelectVersion = this;
 
         // TrialVersion
         LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);

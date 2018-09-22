@@ -37,6 +37,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.behnam.ActivityCheckTransaction;
+import com.example.behnam.ActivityGetLicense;
+import com.example.behnam.ActivitySelectVersion;
 import com.example.behnam.app.helper.DbHelper;
 import com.example.behnam.app.helper.SessionManager;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
@@ -71,8 +74,25 @@ public class ActivitySplashScreen extends AppCompatActivity {
         activitySplashScreen = this;
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+        //close activity
+        if (ActivityIndex.activityIndex != null)
+            ActivityIndex.activityIndex.finish();
+
+        if (ActivityCheckCode.activityCheckCode != null)
+            ActivityCheckCode.activityCheckCode.finish();
+
+        if (ActivitySelectVersion.activitySelectVersion != null)
+            ActivitySelectVersion.activitySelectVersion.finish();
+
+        if (ActivityCheckTransaction.activityCheckTransaction != null)
+            ActivityCheckTransaction.activityCheckTransaction.finish();
+
+        if (ActivityGetLicense.activityGetLicense != null)
+            ActivityGetLicense.activityGetLicense.finish();
+
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
         if (getIntent().getStringExtra("id") != null)
             idNumber = getIntent().getStringExtra("id");
         action = getIntent().getStringExtra("action");

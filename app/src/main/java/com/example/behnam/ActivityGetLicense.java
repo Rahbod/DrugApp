@@ -2,6 +2,7 @@ package com.example.behnam;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -46,12 +47,15 @@ import java.io.InputStreamReader;
 public class ActivityGetLicense extends AppCompatActivity {
     private String idNumber;
     private EditText etCodeLicense;
+    public static Activity activityGetLicense = null;
 
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_license);
+
+        activityGetLicense = this;
 
         etCodeLicense = findViewById(R.id.etCodeLicense);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);

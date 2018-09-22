@@ -1,6 +1,7 @@
 package com.example.behnam.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,7 @@ public class ActivityIndex extends AppCompatActivity {
     private TextView txtGrade, txtDepartment;
     private List<Integer> gradeID, departmentID;
     private List<DropList> gradeList, departmentList;
+    public static Activity activityIndex = null;
 
 //    private Speech speechInstance;
 //    private SpeechProgressView progress;
@@ -62,6 +64,8 @@ public class ActivityIndex extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        activityIndex = this;
 
         if (!SessionManager.getExtrasPref(this).getBoolean("selectedVersion")) {
             setContentView(R.layout.activity_regester);
