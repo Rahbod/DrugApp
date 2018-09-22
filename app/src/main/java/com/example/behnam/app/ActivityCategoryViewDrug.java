@@ -27,6 +27,7 @@ import com.example.behnam.app.helper.SessionManager;
 import com.example.behnam.app.map.MapActivity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,6 +36,8 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
 
     private TextView text;
     private DrawerLayout drawerLayout;
+    private List<Index> listDrug;
+    private AdapterInterferenceDrug adapterCategoryDrug;
     //    private ImageView btnListen;
     //    private SpeechProgressView progress;
     //    private ConnectivityManager connectivityManager;
@@ -93,8 +96,8 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
         RecyclerView recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         DbHelper dbHelper = new DbHelper(this);
-        List<Index> listDrug = dbHelper.getCategoryDrug(id);
-        AdapterInterferenceDrug adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
+        listDrug = dbHelper.getCategoryDrug(id);
+        adapterCategoryDrug = new AdapterInterferenceDrug(this, listDrug);
         recyclerView.setAdapter(adapterCategoryDrug);
 
         // search
@@ -129,6 +132,7 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
                         }
                     });
                 }
+                filter(s.toString());
             }
         });
 
@@ -315,6 +319,20 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
 //        speechInstance = Speech.init(this, getPackageName());
 //        super.onResume();
 //    }
+
+    private void filter(String str) {
+        ArrayList<Index> filterDrug = new ArrayList<>();
+        for (Index index : listDrug) {
+            if (index.getName().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getFa_name().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            }
+        }
+        adapterCategoryDrug.filterList(filterDrug);
+    }
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {

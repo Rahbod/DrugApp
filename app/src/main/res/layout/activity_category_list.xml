@@ -42,8 +42,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/background_focus"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/back_icon" />
 
             <com.example.behnam.fonts.FontTextView
@@ -86,13 +86,14 @@
 
                 <ImageView
                     android:id="@+id/searchIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:padding="2dp"
                     android:src="@drawable/search_icon"
                     android:visibility="invisible" />
 
@@ -510,7 +511,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="ضوابط و مقررات حقوقی"
+                        android:text="قوانین و مقررات"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 

@@ -56,41 +56,59 @@ public class ActivityGetLicense extends AppCompatActivity {
         etCodeLicense = findViewById(R.id.etCodeLicense);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Button btnSave = findViewById(R.id.save);
+        final Button btnSave = findViewById(R.id.save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject params = new JSONObject();
-                try {
-                    params.put("id", idNumber);
-                    params.put("code", etCodeLicense.getText().toString());
-                    AppController.getInstance(ActivityGetLicense.this).sendRequest("android/api/checkLicense", params, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                if (response.getBoolean("status")){
-                                    // activeAccount
-                                    SessionManager.getExtrasPref(ActivityGetLicense.this).putExtra("activated", 1);
+                if (isConnected()) {
+                    btnSave.setEnabled(false);
+                    btnSave.setText("در حال ارسال اطلاعات...");
+                    btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
+                    btnSave.setTextColor(getResources().getColor(R.color.Gray2));
+                    JSONObject params = new JSONObject();
+                    try {
+                        params.put("id", idNumber);
+                        params.put("code", etCodeLicense.getText().toString());
+                        AppController.getInstance(ActivityGetLicense.this).sendRequest("android/api/checkLicense", params, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    if (response.getBoolean("status")) {
+                                        // activeAccount
+                                        SessionManager.getExtrasPref(ActivityGetLicense.this).putExtra("activated", 1);
 
-                                    //download Data
-                                    Intent intent = new Intent(ActivityGetLicense.this, ActivitySplashScreen.class);
-                                    intent.putExtra("action", "fullDownload");
-                                    startActivity(intent);
+                                        //download Data
+                                        Intent intent = new Intent(ActivityGetLicense.this, ActivitySplashScreen.class);
+                                        intent.putExtra("action", "fullDownload");
+                                        startActivity(intent);
+                                    } else {
+                                        btnSave.setEnabled(true);
+                                        btnSave.setText("ثبت");
+                                        btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                                        btnSave.setTextColor(getResources().getColor(R.color.white));
+                                        String massage = response.getString("message");
+                                        Toast.makeText(ActivityGetLicense.this, massage, Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                else {
-                                    String massage = response.getString("message");
-                                    Toast.makeText(ActivityGetLicense.this, massage, Toast.LENGTH_LONG).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else
+                    Toast.makeText(ActivityGetLicense.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
+            return false;
+        } else
+            return true;
     }
 }

@@ -122,7 +122,6 @@ public class ActivityHome extends AppCompatActivity{
                     });
                 }
                 filter(s.toString());
-
             }
         });
 

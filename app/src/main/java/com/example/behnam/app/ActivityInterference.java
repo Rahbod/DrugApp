@@ -126,12 +126,6 @@ public class ActivityInterference extends AppCompatActivity {
         List<Index> list = dbHelper.getAllInterferenceDrug(ID);
         AdapterInterferenceDrug adapter = new AdapterInterferenceDrug(this, list);
         recyclerView.setAdapter(adapter);
-
-        if (list.isEmpty()){
-            TextView txt = findViewById(R.id.txt);
-            recyclerView.setVisibility(View.INVISIBLE);
-            txt.setVisibility(View.VISIBLE);
-        }
     }
 
 //    private void setupViewPager(ViewPager viewPager) {
