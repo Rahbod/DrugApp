@@ -69,7 +69,6 @@ public class ActivityHome extends AppCompatActivity{
         dbHelper = new DbHelper(this);
         showDrugs();
 
-
         text = findViewById(R.id.editText);
 
 //        help screen voice

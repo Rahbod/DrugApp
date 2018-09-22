@@ -629,7 +629,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/active"
-        android:text="map"
-        android:visibility="invisible"/>
+        android:text="map"/>
 
 </RelativeLayout>
