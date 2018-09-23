@@ -81,7 +81,7 @@ html, body{
 }
 .row h4 i.icon-caution{
     background: url("html-icons/caution.png") no-repeat center;
-    background-size: 12px;
+    background-size: 15px;
 }
 .row h4 i.icon-dose-adjustment{
     background: url("html-icons/dose-adjustment.svg") no-repeat center;
@@ -93,7 +93,7 @@ html, body{
 }
 .row h4 i.icon-interference{
     background: url("html-icons/interference.png") no-repeat center;
-    background-size: 12px;
+    background-size: 15px;
 }
 .row h4 i.icon-effect{
     background: url("html-icons/effect.svg") no-repeat center;
@@ -109,7 +109,7 @@ html, body{
 }
 .row h4 i.icon-relation-with-food{
     background: url("html-icons/relation-with-food.png") no-repeat center;
-    background-size: 12px;
+    background-size: 15px;
 }
 .table-responsive{
     min-height: .01%;
