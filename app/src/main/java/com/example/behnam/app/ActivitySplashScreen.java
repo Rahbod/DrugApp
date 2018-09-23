@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.crashlytics.android.Crashlytics;
 import com.example.behnam.ActivityCheckTransaction;
 import com.example.behnam.ActivityGetLicense;
 import com.example.behnam.ActivitySelectVersion;

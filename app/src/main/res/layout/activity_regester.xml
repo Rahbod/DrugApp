@@ -58,22 +58,22 @@
                     android:layout_below="@id/numberMobile"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:hint="نام*"
+                    android:hint="نام و نام خانوادگی*"
                     android:inputType="text"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
-                <com.example.behnam.fonts.EditTextFont
-                    android:id="@+id/field"
+                <com.example.behnam.fonts.FontTextView
+                    android:id="@+id/department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:hint="رشته تحصیلی*"
+                    android:hint="گروه تحصیلی*"
+                    android:textColor="@color/sina"
                     android:layout_marginTop="12dp"
-                    android:inputType="text"
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
@@ -81,7 +81,7 @@
                     android:id="@+id/grade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/field"
+                    android:layout_below="@+id/department"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:hint="مقطع*"
@@ -91,16 +91,16 @@
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
-                <com.example.behnam.fonts.FontTextView
-                    android:id="@+id/department"
+                <com.example.behnam.fonts.EditTextFont
+                    android:id="@+id/field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/grade"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:hint="گروه تحصیلی*"
-                    android:textColor="@color/sina"
+                    android:hint="رشته تحصیلی*"
                     android:layout_marginTop="12dp"
+                    android:inputType="text"
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
@@ -108,7 +108,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/department"
+                    android:layout_below="@+id/field"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:hint="ایمیل"
@@ -144,7 +144,7 @@
                     <com.example.behnam.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" را پذیرفتم." />
+                        android:text=" را می پذیرم." />
 
                 </LinearLayout>
 

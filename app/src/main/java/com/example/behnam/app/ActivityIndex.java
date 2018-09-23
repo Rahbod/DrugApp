@@ -577,13 +577,11 @@ public class ActivityIndex extends AppCompatActivity {
                     else if (!checkMobileNumber(etNumberMobile.getText().toString()))
                         Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
                     else if (etName.getText().toString().trim().isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا نام خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                    else if (etField.getText().toString().trim().isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivityIndex.this, "لطفا نام و نام خانوادگی خود را وارد کنید", Toast.LENGTH_SHORT).show();
                     else if (gradeID.isEmpty())
                         Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                    else if (departmentID.isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا گروه تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    else if (etField.getText().toString().trim().isEmpty())
+                        Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
                     else {
                         btnSave.setEnabled(false);
                         btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
