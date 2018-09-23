@@ -136,15 +136,9 @@
 
                     <com.example.behnam.fonts.FontTextView
                         android:id="@+id/txtCheckBox"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="قوانین و مقررات"
-                        android:textColor="@color/blue"/>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" را می پذیرم." />
+                        android:layout_marginBottom="10dp"/>
 
                 </LinearLayout>
 

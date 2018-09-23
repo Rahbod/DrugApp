@@ -69,7 +69,7 @@
             android:padding="10dp"
             android:text="متن درباره سینا دارو"
             android:textColor="@color/sina"
-            android:textSize="13dp" />
+            android:textSize="15dp" />
 
     </RelativeLayout>
 

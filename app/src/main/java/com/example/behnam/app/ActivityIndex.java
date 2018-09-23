@@ -15,7 +15,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +45,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -381,12 +391,53 @@ public class ActivityIndex extends AppCompatActivity {
         String filePath = app.sourceDir;
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-
         intent.setType("*/*");
-
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+        File file = new File(filePath);
+        Uri photoURI = Uri.fromFile(file);
+        Log.e("qqqqq", "shareApplication: " + photoURI );
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, "Share app via"));
+
+//        ApplicationInfo app = getApplicationContext().getApplicationInfo();
+//        String filePath = app.sourceDir;
+//
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//
+//        intent.setType("*/*");
+//
+//        File originalApk = new File(filePath);
+//
+//        try {
+//            File tempFile = new File(getExternalCacheDir() + "/ExtractedApk");
+//            //If directory doesn't exists create new
+//            if (!tempFile.isDirectory())
+//                if (!tempFile.mkdirs())
+//                    return;
+//            tempFile = new File(tempFile.getPath() + "/" + getString(app.labelRes).replace(" ","").toLowerCase() + ".apk");
+//            if (!tempFile.exists()) {
+//                if (!tempFile.createNewFile()) {
+//                    return;
+//                }
+//            }
+//            InputStream in = new FileInputStream(originalApk);
+//            OutputStream out = new FileOutputStream(tempFile);
+//
+//            byte[] buf = new byte[1024];
+//            int len;
+//            while ((len = in.read(buf)) > 0) {
+//                out.write(buf, 0, len);
+//            }
+//            in.close();
+//            out.close();
+//            System.out.println("File copied.");
+//            // باز کردن پنجره اشتراک گذاری
+//            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(tempFile));
+//            startActivity(Intent.createChooser(intent, "اشتراک گذاری با"));
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -530,6 +581,11 @@ public class ActivityIndex extends AppCompatActivity {
             }
         });
 
+        //txtCheckBox
+        String text = "قوانین و مقررات این اپلیکیشن را مطالعه کرده و تمامی مسئولیت آن را می پذیرم.";
+        SpannableString spannableString = new SpannableString(text);
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 0, 15, 0);
+        txtCheckBox.setText(spannableString);
         txtCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -541,8 +597,20 @@ public class ActivityIndex extends AppCompatActivity {
                 recyclerView.setVisibility(View.INVISIBLE);
                 TextView txtTitle = view.findViewById(R.id.txtTitle);
                 TextView txtMessage = view.findViewById(R.id.txtMessage);
+                String text = "قوانین و مقررات استفاده از اپلیکیشن سینادارو" + "\n" + "کلیه حقوق مادی و معنوی اپلیکیشن سینادارو، به انتشارات سیناطب و رودگون اختصاص داشته و تمامی محتویات آن" +
+                        " شامل آیکون ها، نشان تجاری داخل اپلیکیشن طبق قانون مالکیت مادی و معنوی، هرگونه استفاده از نام، متون، " +
+                        "مطالب، مستندات نرم افزار بدون اجازه کتبی از پدیدآورندگان مطابق با قوانین جرایم نرم افزاری و رایانه ای، ممنوع و " +
+                        "غیرمجاز تلقی میگردد و قابل پیگرد قانونی است.\n" +
+                        "اطلاعات دارویی ارائه شده در این نرم افزار صرفاً جهت اطلاع رسانی به کاربر است و برای هرگونه تجویز دارو به " +
+                        "بیمار لازم است تا این کار توسط پزشک معالج بر مبنای معاینه دقیق و بررسی های بالینی و پاراکلینیکی صورت گیرد و " +
+                        "این اطلاعات نمی تواند بعنوان مرجعی برای تجویز و یا مصرف خودسرانه هیچ دارویی محسوب گردد. \nبدینوسیله " +
+                        "تأکید میشود تمامی مسئولیت استفاده از محتوای اپلیکیشن و مصرف خودسرانه داروها به طور کلی به عهده کاربر " +
+                        "بوده و پدیدآورندگان این اپلیکیشن هیچ مسئولیتی در این زمینه نخواهند داشت.\n";
+                SpannableString spannableString = new SpannableString(text);
+                spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 36, 44, 0);
+                spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 77, 85, 0);
                 txtMessage.setVisibility(View.VISIBLE);
-                txtMessage.setText("متن قوانین و مقررات");
+                txtMessage.setText(spannableString);
                 txtTitle.setText("قوانین و مقررات");
                 ImageView imgClose = view.findViewById(R.id.imgCloseDialog);
                 imgClose.setOnClickListener(new View.OnClickListener() {
