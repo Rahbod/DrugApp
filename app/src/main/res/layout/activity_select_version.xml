@@ -8,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/relLogo"
@@ -28,27 +29,26 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/relLogo"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="-50dp"
-                android:background="@drawable/corner_shape">
+                android:background="@drawable/corner_shape"
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <com.example.behnam.fonts.FontTextView
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="لطفا نسخه مورد نظر خود را انتخاب کنید"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/sina"
                     android:textSize="13dp"/>
 
                 <LinearLayout
-                    android:layout_below="@+id/text"
                     android:id="@+id/btnFullVersion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,48 +82,13 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/btnTrialVersion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnFullVersion"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/select_version_border"
-                    android:layoutDirection="rtl"
-                    android:orientation="vertical"
-                    tools:targetApi="jelly_bean_mr1">
-
-                    <com.example.behnam.fonts.FontTextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="نسخه نمونه"
-                        android:textColor="@color/sina"
-                        android:textSize="14dp"/>
-
-                    <com.example.behnam.fonts.FontTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="این نسخه شامل دارو های نمونه می باشد" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/btnLicenseVersion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnTrialVersion"
-                    android:layout_marginBottom="30dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/select_version_border"
                     android:layoutDirection="rtl"
                     android:orientation="vertical"
@@ -150,10 +115,43 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/btnTrialVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/select_version_border"
+                    android:layoutDirection="rtl"
+                    android:orientation="vertical"
+                    tools:targetApi="jelly_bean_mr1">
 
-            </RelativeLayout>
+                    <com.example.behnam.fonts.FontTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="نسخه نمونه"
+                        android:textColor="@color/sina"
+                        android:textSize="14dp"/>
 
-        </RelativeLayout>
+                    <com.example.behnam.fonts.FontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="این نسخه شامل دارو های نمونه می باشد" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

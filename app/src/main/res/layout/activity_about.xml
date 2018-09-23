@@ -60,16 +60,26 @@
 
         </RelativeLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/actionBarErrorReport">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
         <com.example.behnam.fonts.FontTextView
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/actionBarErrorReport"
             android:padding="10dp"
             android:text="متن درباره سینا دارو"
             android:textColor="@color/sina"
             android:textSize="15dp" />
+
+            </RelativeLayout>
+        </ScrollView>
 
     </RelativeLayout>
 
