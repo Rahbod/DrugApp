@@ -19,6 +19,7 @@ import com.example.behnam.app.ActivitySplashScreen;
 import com.example.behnam.app.PaymentActivity;
 import com.example.behnam.app.R;
 import com.example.behnam.app.controller.AppController;
+import com.example.behnam.app.helper.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,8 @@ public class ActivitySelectVersion extends AppCompatActivity {
 
         // TrialVersion
         LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
+        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
+            btnTrialVersion.setVisibility(View.GONE);
         btnTrialVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +77,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else
+                } else
                     Toast.makeText(ActivitySelectVersion.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });

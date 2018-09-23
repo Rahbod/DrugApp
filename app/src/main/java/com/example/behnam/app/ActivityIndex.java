@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.example.behnam.ActivitySelectVersion;
 import com.example.behnam.app.adapter.AdapterDropList;
 import com.example.behnam.app.controller.AppController;
 import com.example.behnam.app.database.DropList;
@@ -108,29 +109,8 @@ public class ActivityIndex extends AppCompatActivity {
         btnActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                JSONObject params = new JSONObject();
-                try {
-                    params.put("id", idNumber);
-                    AppController.getInstance(ActivityIndex.this).sendRequest("android/api/activate", params, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                String url = response.getString("url");
-                                int id = response.getInt("id");
-                                Intent intent = new Intent(ActivityIndex.this, PaymentActivity.class);
-                                intent.putExtra("action", "activateDownload");
-                                intent.putExtra("url", url);
-                                intent.putExtra("id", id);
-                                startActivity(intent);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Intent intent = new Intent(ActivityIndex.this, ActivitySelectVersion.class);
+                startActivity(intent);
             }
         });
 
