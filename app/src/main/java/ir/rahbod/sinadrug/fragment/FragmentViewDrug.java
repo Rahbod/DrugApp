@@ -170,7 +170,7 @@ public class FragmentViewDrug extends Fragment {
             if (!pharmaStr.isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی فارماکولوژیک:</h4><div class=\"text\">" + pharmaStr + "</div></div>";
             if (!sicknessStr.isEmpty())
-                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">طبقه بندی بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
+                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">دسته بندی بر اساس بیماری:</h4><div class=\"text\">" + sicknessStr + "</div></div>";
             webViewHtml += "</div>";
         }*/
 

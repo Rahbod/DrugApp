@@ -349,10 +349,10 @@ public class ActivityIndex extends AppCompatActivity {
                 intentPharma.putExtra("type", 1);
                 startActivity(intentPharma);
                 break;
-//            case R.id.location:
+            case R.id.location:
 //                Intent intentLocation = new Intent(ActivityIndex.this, MapActivity.class);
 //                startActivity(intentLocation);
-//                break;
+                break;
             case R.id.reminder:
                 Intent intentReminder = new Intent(ActivityIndex.this, ActivityReminderList.class);
                 startActivity(intentReminder);

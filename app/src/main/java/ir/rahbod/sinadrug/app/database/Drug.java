@@ -35,7 +35,7 @@ public class Drug {
     String standardized;
     String maintenance;
     String company;
-    String vegetal;
+    int vegetal;
     int status;
     String lastModified;
     String categoryName;
@@ -261,11 +261,11 @@ public class Drug {
         this.company = company;
     }
 
-    public String getVegetal() {
+    public int getVegetal() {
         return vegetal;
     }
 
-    public void setVegetal(String vegetal) {
+    public void setVegetal(int vegetal) {
         this.vegetal = vegetal;
     }
 
@@ -344,7 +344,7 @@ public class Drug {
             this.standardized = object.getString("standardized");
             this.maintenance = object.getString("maintenance");
             this.company = object.getString("company");
-            this.vegetal = object.getString("vegetal");
+            this.vegetal = object.getInt("vegetal");
             this.status = object.getInt("status");
             this.lastModified = object.getString("last_modified");
 //            this.categoryName = object.getString("category_name");

@@ -118,7 +118,7 @@ public class ActivityCategories extends AppCompatActivity {
         TextView txtTitle = findViewById(R.id.txtTitle);
         if (type == 0)
             txtTitle.setText("طبقه بندی درمانی");
-        else txtTitle.setText("طبقه بندی بیماری");
+        else txtTitle.setText("دسته بندی بر اساس بیماری");
 
         // search
         final ImageView searchIcon = findViewById(R.id.searchIcon);
