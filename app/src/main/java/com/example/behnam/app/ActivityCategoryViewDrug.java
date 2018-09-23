@@ -89,7 +89,7 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
         });
 
         TextView txtTitle = findViewById(R.id.txtTitle);
-        txtTitle.setText("لیست دارو ها");
+        txtTitle.setText("لیست داروها");
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);

@@ -143,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="دارو های شیمیایی"
+                        android:text="داروهای شیمیایی"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
@@ -168,7 +168,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="دارو های گیاهی"
+                        android:text="داروهای گیاهی"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
@@ -316,7 +316,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="سبد دارو های من"
+                        android:text="سبد داروهای من"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 

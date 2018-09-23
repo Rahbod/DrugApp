@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "459612196254",
+    "firebase_url": "https://sina-daroo-map.firebaseio.com",
+    "project_id": "sina-daroo-map",
+    "storage_bucket": "sina-daroo-map.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459612196254:android:7f7263b4428a96d9",
+        "android_client_info": {
+          "package_name": "com.example.behnam.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459612196254-st99hlrngl45d33if6vbvmhjb39s481s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.behnam.app",
+            "certificate_hash": "17f2203909974d423d0b2c6271398a4ef0f1590d"
+          }
+        },
+        {
+          "client_id": "459612196254-hjaiu6vd2v73c8m6ru21bls05iadtct4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0YsfE-JlijG0Fkf3q-fnpo8_r0EyriCE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459612196254-hjaiu6vd2v73c8m6ru21bls05iadtct4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

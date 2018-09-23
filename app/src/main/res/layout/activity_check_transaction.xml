@@ -173,7 +173,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/shape_button_blue"
-                android:text="دانلود اطلاعات"
+                android:text="تکمیل فرآیند نصب"
                 android:textColor="@color/white"
                 android:textSize="14dp"
                 android:visibility="invisible"/>

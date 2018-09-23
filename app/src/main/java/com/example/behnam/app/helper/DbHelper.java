@@ -98,6 +98,13 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_DRUG = "CREATE TABLE IF NOT EXISTS " + TABLE_DRUGS + " ( " + KEY_ID + " INTEGER , "
                 + KEY_CONTENT + " TEXT, " + KEY_FAVORITE + " INTEGER )";
 
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
         db.execSQL(CREATE_TABLE_CATEGORY_DRUG);
