@@ -42,7 +42,7 @@ public class PaymentActivity extends AppCompatActivity {
         WebViewClient webViewClient = new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
-                if (url.equals("http://rahbod.com/android/api/verify")){
+                if (url.equals("http://rahbod.ir/android/api/verify")){
                     Intent intent = new Intent(PaymentActivity.this, ActivityCheckTransaction.class);
                     intent.putExtra("id", id);
                     intent.putExtra("action", getIntent().getStringExtra("action"));

@@ -49,7 +49,8 @@
                     android:hint="شماره تماس*"
                     android:inputType="number"
                     android:maxLength="11"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:textColor="@color/sina"/>
 
                 <com.example.behnam.fonts.EditTextFont
                     android:id="@+id/name"
@@ -62,7 +63,8 @@
                     android:inputType="text"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/edit_text_border"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:textColor="@color/sina"/>
 
                 <com.example.behnam.fonts.FontTextView
                     android:id="@+id/department"
@@ -102,7 +104,8 @@
                     android:layout_marginTop="12dp"
                     android:inputType="text"
                     android:background="@drawable/edit_text_border"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:textColor="@color/sina"/>
 
                 <com.example.behnam.fonts.EditTextFont
                     android:id="@+id/email"
@@ -115,7 +118,8 @@
                     android:layout_marginTop="12dp"
                     android:inputType="textEmailAddress"
                     android:background="@drawable/edit_text_border"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    android:textColor="@color/sina"/>
 
                 <LinearLayout
                     android:id="@+id/lin"

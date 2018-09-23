@@ -65,6 +65,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtPercent;
     private DownloadManager manager;
     private String idNumber, action;
+    private String fileName = "";
 
     @SuppressLint("HardwareIds")
     @Override
@@ -243,7 +244,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
     private void insertDatabase() {
         try {
-            FileInputStream drug = new FileInputStream(new File(String.valueOf(getExternalFilesDir("sina/drug.sql"))));
+            FileInputStream drug = new FileInputStream(new File(String.valueOf(getExternalFilesDir("sina/" + fileName))));
             InputStreamReader reader = new InputStreamReader(drug);
             BufferedReader buffer = new BufferedReader(reader);
             //StringBuilder strDrug = new StringBuilder();
@@ -287,10 +288,11 @@ public class ActivitySplashScreen extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
         txtPercent.setVisibility(View.VISIBLE);
-        String url = "http://rahbod.com/android/api/" + action + "?id=" + id;
+        String url = "http://rahbod.ir/android/api/" + action + "?id=" + id;
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-        request.setDestinationInExternalFilesDir(this, "sina", "/drug.sql");
+        fileName = "drug-"+System.currentTimeMillis()+".sql";
+        request.setDestinationInExternalFilesDir(this, "sina", "/"+fileName);
         final long downloadId = manager.enqueue(request);
         SessionManager.getExtrasPref(this).putExtra("downloadId", downloadId);
         new Thread(new Runnable() {

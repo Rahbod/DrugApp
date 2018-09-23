@@ -67,7 +67,7 @@ public class AppController extends Application {
 
     private static final int socketTimeout = 30000;
     private static final int socketRetries = 2;
-    private static final String BASE_URL = "http://rahbod.com/";
+    private static final String BASE_URL = "http://rahbod.ir/";
     //    // visit
     private static final String CLIENT_ID = "UiRgEQt91vL60-8pixMTkxplOB-jAplL24rdfgDFgS6RTSf6eBGuFZ8ckmLXFT0nBRrz_6C5rGbmmY2f";
     private static final String CLIENT_SECRET = "huHxZTH6EZ_3Y8b71wcFetW34aFGc2P1x2H_yHVh9-uxB5lbcF12ds81mM8SB5IDWGZGpasd211";

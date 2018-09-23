@@ -6,8 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -387,57 +390,23 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void shareApplication() {
-        ApplicationInfo app = getApplicationContext().getApplicationInfo();
-        String filePath = app.sourceDir;
-
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("*/*");
-        File file = new File(filePath);
-        Uri photoURI = Uri.fromFile(file);
-        Log.e("qqqqq", "shareApplication: " + photoURI );
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Share app via"));
 
-//        ApplicationInfo app = getApplicationContext().getApplicationInfo();
-//        String filePath = app.sourceDir;
-//
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//
-//        intent.setType("*/*");
-//
-//        File originalApk = new File(filePath);
-//
-//        try {
-//            File tempFile = new File(getExternalCacheDir() + "/ExtractedApk");
-//            //If directory doesn't exists create new
-//            if (!tempFile.isDirectory())
-//                if (!tempFile.mkdirs())
-//                    return;
-//            tempFile = new File(tempFile.getPath() + "/" + getString(app.labelRes).replace(" ","").toLowerCase() + ".apk");
-//            if (!tempFile.exists()) {
-//                if (!tempFile.createNewFile()) {
-//                    return;
-//                }
-//            }
-//            InputStream in = new FileInputStream(originalApk);
-//            OutputStream out = new FileOutputStream(tempFile);
-//
-//            byte[] buf = new byte[1024];
-//            int len;
-//            while ((len = in.read(buf)) > 0) {
-//                out.write(buf, 0, len);
-//            }
-//            in.close();
-//            out.close();
-//            System.out.println("File copied.");
-//            // باز کردن پنجره اشتراک گذاری
-//            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(tempFile));
-//            startActivity(Intent.createChooser(intent, "اشتراک گذاری با"));
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            ApplicationInfo app = getApplicationContext().getApplicationInfo();
+            String filePath = app.sourceDir;
+
+            intent.setType("*/*");
+
+            File file = new File(filePath);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/SinaDrug.apk");
+        }
+
+        startActivity(Intent.createChooser(intent, "Share app via"));
     }
 
     @Override

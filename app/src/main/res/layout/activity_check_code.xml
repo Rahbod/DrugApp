@@ -58,6 +58,7 @@
                         android:lines="1"
                         android:maxLength="4"
                         android:textSize="13dp"
+                        android:textColor="@color/sina"
                         tools:ignore="RtlCompat,RtlHardcoded" />
 
                     <com.example.behnam.fonts.ButtonFont

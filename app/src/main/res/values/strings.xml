@@ -10,8 +10,8 @@
     <string name="enable_google_voice_typing">Please enable Google Voice Typing to use speech recognition!</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_maps">Map</string>
-    <string name="add_to_basket">اضافه به سبد دارو</string>
-    <string name="delete_basket">حذف از سبد دارو</string>
+    <string name="add_to_basket">نشان کردن</string>
+    <string name="delete_basket">حذف از نشان شده ها</string>
     <string name="pregnancy_a">test a</string>
     <string name="pregnancy_b">test b</string>
 

@@ -342,10 +342,10 @@ public class FragmentViewDrug extends Fragment {
 //        check exist in favorite
         if (dbHelper.checkFavorite(ID)) {
             addToBasketText.setTextColor(getResources().getColor(R.color.table_link));
-            addToBasketText.setText("حذف از سبد دارو");
+            addToBasketText.setText("حذف از نشان شده ها");
             addToBasketImage.setColorFilter(getResources().getColor(R.color.table_link));
         } else {
-            addToBasketText.setText("اضافه به سبد دارو");
+            addToBasketText.setText("نشان کردن");
             addToBasketText.setTextColor(getResources().getColor(R.color.bottom_layout_text));
             addToBasketImage.setImageResource(R.drawable.star_icon_view_drug2);
         }
@@ -356,15 +356,15 @@ public class FragmentViewDrug extends Fragment {
                 if (!dbHelper.checkFavorite(ID)) {
                     dbHelper.bookMark(ID);
                     addToBasketText.setTextColor(getResources().getColor(R.color.table_link));
-                    addToBasketText.setText("حذف از سبد دارو");
+                    addToBasketText.setText("حذف از نشان شده ها");
                     addToBasketImage.setColorFilter(getResources().getColor(R.color.table_link));
-                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " به سبد دارو اضافه شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " نشان شد.", Toast.LENGTH_SHORT).show();
                 } else {
                     dbHelper.bookMark(ID);
-                    addToBasketText.setText("اضافه به سبد دارو");
+                    addToBasketText.setText("نشان کردن");
                     addToBasketText.setTextColor(getResources().getColor(R.color.bottom_layout_text));
                     addToBasketImage.setColorFilter(getResources().getColor(R.color.bottom_layout_text));
-                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " از سبد دارو حذف شد .", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "داروی " + "\"" + drug.getName() + "\"" + " از نشان شده ها حذف شد.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -376,7 +376,7 @@ public class FragmentViewDrug extends Fragment {
                 text += drug.getFaName();
                 text += getHealingShare(String.valueOf(dbHelper.getHealingCategory(ID)));
                 text += stripHtml(drug.getUsage());
-                text += "http://www.google.com";
+                text += "http://www.rahbod.ir/SinaDrug.apk";
                 shareText(drug.getName(), text);
             }
         });

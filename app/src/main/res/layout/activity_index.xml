@@ -280,7 +280,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
-                            android:text="سبد داروهای من"
+                            android:text="نشان شده ها"
                             android:textColor="@color/sina"
                             android:textSize="12dp" />
 

@@ -30,8 +30,8 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name=".helper.GenericFileProvider"
-            android:authorities="${applicationId}.my.package.name.provider"
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -137,9 +137,6 @@
             android:name="com.example.behnam.ActivityGetLicense"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityUpdateDatabase" />
-        <activity
-            android:name="com.example.behnam.ActivityMap"
-            android:label="@string/title_activity_map" />
     </application>
 
 </manifest>
