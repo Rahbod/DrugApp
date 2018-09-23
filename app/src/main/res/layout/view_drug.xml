@@ -45,7 +45,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/favorite_icon" />
 
-                <com.example.behnam.fonts.FontTextView
+                <ir.rahbod.sinadrug.fonts.FontTextView
                     android:id="@+id/add_basket_item"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -70,7 +70,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/share_icon_bottom_navigation" />
 
-                <com.example.behnam.fonts.FontTextView
+                <ir.rahbod.sinadrug.fonts.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"

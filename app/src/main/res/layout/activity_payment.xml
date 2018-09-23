@@ -28,7 +28,7 @@
             android:paddingRight="10dp"
             android:src="@drawable/back_icon" />
 
-        <com.example.behnam.fonts.FontTextView
+        <ir.rahbod.sinadrug.fonts.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

@@ -49,6 +49,50 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459612196254:android:0f3396acb95a3096",
+        "android_client_info": {
+          "package_name": "ir.rahbod.sinadrug.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459612196254-eh3fh8uf2qht40tjeg7m6k3059uvav5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ir.rahbod.sinadrug.app",
+            "certificate_hash": "33fc84df4c096192eb645393ee733cbfca9ff76a"
+          }
+        },
+        {
+          "client_id": "459612196254-hjaiu6vd2v73c8m6ru21bls05iadtct4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0YsfE-JlijG0Fkf3q-fnpo8_r0EyriCE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459612196254-hjaiu6vd2v73c8m6ru21bls05iadtct4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

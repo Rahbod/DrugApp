@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.behnam.app">
+    package="ir.rahbod.sinadrug.app">
 
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -11,10 +11,10 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
-        android:name="com.example.behnam.app.map.permission.MAPS_RECEIVE"
+        android:name="ir.rahbod.sinadrug.app.map.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="ir.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -96,7 +96,7 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
+            android:name="ir.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
@@ -131,10 +131,10 @@
             android:name=".ActivityCheckCode"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name="com.example.behnam.ActivityCheckTransaction" />
-        <activity android:name="com.example.behnam.ActivitySelectVersion" />
+        <activity android:name="ir.rahbod.sinadrug.ActivityCheckTransaction" />
+        <activity android:name="ir.rahbod.sinadrug.ActivitySelectVersion" />
         <activity
-            android:name="com.example.behnam.ActivityGetLicense"
+            android:name="ir.rahbod.sinadrug.ActivityGetLicense"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityUpdateDatabase" />
     </application>

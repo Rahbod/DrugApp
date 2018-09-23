@@ -39,7 +39,7 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <com.example.behnam.fonts.FontTextView
+                <ir.rahbod.sinadrug.fonts.FontTextView
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:orientation="vertical"
                     tools:targetApi="jelly_bean_mr1">
 
-                    <com.example.behnam.fonts.FontTextViewBold
+                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -70,14 +70,14 @@
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="این نسخه شامل همه داروها می باشد" />
+                        android:text="با دانلود و پرداخت هزینه، بصورت کامل نصب می شود." />
 
                 </LinearLayout>
 
@@ -94,7 +94,7 @@
                     android:orientation="vertical"
                     tools:targetApi="jelly_bean_mr1">
 
-                    <com.example.behnam.fonts.FontTextViewBold
+                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -104,14 +104,14 @@
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="با وارد کردن کد ویژه، همه دارو ها را دریافت کنید" />
+                        android:text="برای دریافت نسخه کامل بدون هزینه باید کد ویژه را وارد کنید." />
 
                 </LinearLayout>
 
@@ -127,7 +127,7 @@
                     android:orientation="vertical"
                     tools:targetApi="jelly_bean_mr1">
 
-                    <com.example.behnam.fonts.FontTextViewBold
+                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -137,14 +137,14 @@
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="این نسخه شامل دارو های نمونه می باشد" />
+                        android:text="بصورت رایگان بوده و شامل تعدادی از داروها است." />
 
                 </LinearLayout>
 

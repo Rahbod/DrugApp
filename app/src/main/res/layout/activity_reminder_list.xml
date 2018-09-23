@@ -55,7 +55,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/back_icon" />
 
-                <com.example.behnam.fonts.FontTextView
+                <ir.rahbod.sinadrug.fonts.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -84,7 +84,7 @@
                 android:src="@drawable/no_alarm_icon"
                 android:visibility="gone" />
 
-            <com.example.behnam.fonts.FontTextView
+            <ir.rahbod.sinadrug.fonts.FontTextView
                 android:id="@+id/no_alarm_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/drug_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -186,7 +186,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/vegetal_drug" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -211,7 +211,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/interference_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -236,7 +236,7 @@
                         <!--android:layout_marginRight="10dp"-->
                         <!--android:src="@drawable/sina_icon" />-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginRight="20dp"-->
@@ -261,7 +261,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/healing_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -286,7 +286,7 @@
                         <!--android:layout_marginRight="10dp"-->
                         <!--android:src="@drawable/location_icon" />-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginRight="20dp"-->
@@ -310,7 +310,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/clock_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -334,7 +334,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/favorite_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -359,7 +359,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/flag_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -384,7 +384,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/share_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -409,7 +409,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/sina_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -434,7 +434,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/shake_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"

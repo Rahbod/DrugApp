@@ -16,7 +16,7 @@
         android:background="@drawable/background_gradient"
         tools:targetApi="lollipop">
 
-        <com.example.behnam.fonts.FontTextViewBold
+        <ir.rahbod.sinadrug.fonts.FontTextViewBold
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:src="@drawable/black_close_icon"
                 android:visibility="invisible" />
 
-            <com.example.behnam.fonts.EditTextFont
+            <ir.rahbod.sinadrug.fonts.EditTextFont
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -198,7 +198,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -232,7 +232,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -276,7 +276,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -310,7 +310,7 @@
                                 android:src="@drawable/clock_icon" />
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -346,7 +346,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="دسته بندی براساس بیماری"
@@ -381,7 +381,7 @@
 
                     <!--</LinearLayout>-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:layout_marginTop="5dp"-->
@@ -426,7 +426,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -462,7 +462,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -498,7 +498,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -542,7 +542,7 @@
 
                     <!--</LinearLayout>-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:layout_marginTop="5dp"-->
@@ -576,7 +576,7 @@
 
                         </LinearLayout>
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -617,7 +617,7 @@
 
     <!--</LinearLayout>-->
 
-    <com.example.behnam.fonts.ButtonFont
+    <ir.rahbod.sinadrug.fonts.ButtonFont
         android:id="@+id/active"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
