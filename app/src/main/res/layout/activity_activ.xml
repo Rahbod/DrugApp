@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.behnam.app.ActivityActiv">
+    tools:context="ir.rahbod.sinadrug.app.ActivityActiv">
 
 
     <ScrollView
@@ -49,7 +49,7 @@
 
             </android.support.v7.widget.CardView>
 
-            <com.example.behnam.fonts.FontTextView
+            <ir.rahbod.sinadrug.fonts.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/cardView"
@@ -90,7 +90,7 @@
                         android:layoutDirection="rtl"
                         android:orientation="vertical">
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="-25dp"
@@ -98,7 +98,7 @@
                             android:textColor="@color/Gray"
                             android:textSize="12dp" />
 
-                        <com.example.behnam.fonts.EditTextFont
+                        <ir.rahbod.sinadrug.fonts.EditTextFont
                             android:id="@+id/userActiv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                         android:layoutDirection="rtl"
                         android:orientation="vertical">
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:id="@+id/txtMobile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                             android:textColor="@color/Gray"
                             android:textSize="12dp" />
 
-                        <com.example.behnam.fonts.EditTextFont
+                        <ir.rahbod.sinadrug.fonts.EditTextFont
                             android:id="@+id/mobilActiv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                         android:layoutDirection="rtl"
                         android:orientation="vertical">
 
-                        <com.example.behnam.fonts.FontTextView
+                        <ir.rahbod.sinadrug.fonts.FontTextView
                             android:id="@+id/txtEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                             android:textColor="@color/Gray"
                             android:textSize="12dp" />
 
-                        <com.example.behnam.fonts.EditTextFont
+                        <ir.rahbod.sinadrug.fonts.EditTextFont
                             android:id="@+id/emailActiv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                         android:layout_weight="1"
                         android:layoutDirection="rtl">
 
-                        <com.example.behnam.fonts.ButtonFont
+                        <ir.rahbod.sinadrug.fonts.ButtonFont
                             android:id="@+id/button"
                             style="?android:attr/borderlessButtonStyle"
                             android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                 android:layoutDirection="rtl"
                 android:orientation="horizontal">
 
-                <com.example.behnam.fonts.FontTextView
+                <ir.rahbod.sinadrug.fonts.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -234,7 +234,7 @@
                     android:textSize="12dp"
                     android:textStyle="bold" />
 
-                <com.example.behnam.fonts.FontTextViewBold
+                <ir.rahbod.sinadrug.fonts.FontTextViewBold
                     android:id="@+id/txtLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

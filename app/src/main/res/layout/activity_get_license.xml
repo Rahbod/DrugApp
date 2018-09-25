@@ -44,7 +44,7 @@
                     android:layout_marginTop="50dp"
                     android:orientation="vertical">
 
-                    <com.example.behnam.fonts.EditTextFont
+                    <ir.rahbod.sinadrug.fonts.EditTextFont
                         android:id="@+id/etCodeLicense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                         android:textSize="13dp"
                         tools:ignore="RtlCompat,RtlHardcoded" />
 
-                    <com.example.behnam.fonts.ButtonFont
+                    <ir.rahbod.sinadrug.fonts.ButtonFont
                         android:id="@+id/save"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"

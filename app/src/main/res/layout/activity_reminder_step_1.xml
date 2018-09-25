@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layoutDirection="ltr"
-        tools:context="com.example.behnam.app.ActivityHome"
+        tools:context="ir.rahbod.sinadrug.app.ActivityHome"
         tools:targetApi="jelly_bean_mr1">
 
         <!--actionBar-->
@@ -50,7 +50,7 @@
                 android:src="@drawable/back_icon"
                 android:layout_alignParentStart="true" />
 
-            <com.example.behnam.fonts.FontTextView
+            <ir.rahbod.sinadrug.fonts.FontTextView
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
                     android:src="@drawable/black_close_icon"
                     android:visibility="invisible" />
 
-                <com.example.behnam.fonts.EditTextFont
+                <ir.rahbod.sinadrug.fonts.EditTextFont
                     android:id="@+id/editTextSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/drug_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -247,7 +247,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/vegetal_drug" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -272,7 +272,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/interference_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -297,7 +297,7 @@
                         <!--android:layout_marginRight="10dp"-->
                         <!--android:src="@drawable/sina_icon" />-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginRight="20dp"-->
@@ -322,11 +322,11 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/healing_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="طبقه بندی بیماری"
+                        android:text="دسته بندی بر اساس بیماری"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
@@ -347,7 +347,7 @@
                         <!--android:layout_marginRight="10dp"-->
                         <!--android:src="@drawable/location_icon" />-->
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
                         <!--android:layout_width="wrap_content"-->
                         <!--android:layout_height="wrap_content"-->
                         <!--android:layout_marginRight="20dp"-->
@@ -371,7 +371,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/clock_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -395,11 +395,11 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/favorite_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="سبد داروهای من"
+                        android:text="نشان شده ها"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 
@@ -420,7 +420,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/flag_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -445,7 +445,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/share_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -470,7 +470,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/sina_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -495,7 +495,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/shake_icon" />
 
-                    <com.example.behnam.fonts.FontTextView
+                    <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"

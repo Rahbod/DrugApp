@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.example.behnam.app.ActivitySplashScreen">
+    tools:context="ir.rahbod.sinadrug.app.ActivitySplashScreen">
 
     <LinearLayout
         android:id="@+id/linSplash"
@@ -35,7 +35,7 @@
 
     </LinearLayout>
 
-    <com.example.behnam.fonts.FontTextViewBold
+    <ir.rahbod.sinadrug.fonts.FontTextViewBold
         android:id="@+id/txtNameSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:visibility="invisible"
         app:SpinKit_Color="@color/blue" />
 
-    <com.example.behnam.fonts.FontTextView
+    <ir.rahbod.sinadrug.fonts.FontTextView
         android:id="@+id/txtPercent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         android:textDirection="ltr"
         tools:targetApi="jelly_bean_mr1" />
 
-    <com.example.behnam.fonts.FontTextView
+    <ir.rahbod.sinadrug.fonts.FontTextView
         android:id="@+id/txtDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
         android:textSize="11dp"
         android:visibility="invisible" />
 
-    <com.example.behnam.fonts.ButtonFont
+    <ir.rahbod.sinadrug.fonts.ButtonFont
         android:id="@+id/btnDownload"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="220dp"
