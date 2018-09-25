@@ -6,24 +6,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.Settings;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,20 +45,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ir.rahbod.sinadrug.ActivitySelectVersion;
-import ir.rahbod.sinadrug.app.adapter.AdapterDropList;
-import ir.rahbod.sinadrug.app.controller.AppController;
-import ir.rahbod.sinadrug.app.database.DropList;
-import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
 
 public class ActivityIndex extends AppCompatActivity {
     private static long BackPressed;
