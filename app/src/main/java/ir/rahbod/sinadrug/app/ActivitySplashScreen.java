@@ -318,7 +318,11 @@ public class ActivitySplashScreen extends AppCompatActivity {
                         downloading = false;
                     }
 
-                    final int dl_progress = (int) ((bytes_downloaded * 100L) / bytes_total);
+                    final int dl_progress;
+                    if (bytes_total == 0)
+                        dl_progress = 0;
+                    else
+                        dl_progress = (int) ((bytes_downloaded * 100L) / bytes_total);
 
                     runOnUiThread(new Runnable() {
 

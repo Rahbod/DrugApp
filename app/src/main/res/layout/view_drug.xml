@@ -43,7 +43,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/favorite_icon" />
+                    android:src="@drawable/star_icon_view_drug2" />
 
                 <ir.rahbod.sinadrug.fonts.FontTextView
                     android:id="@+id/add_basket_item"

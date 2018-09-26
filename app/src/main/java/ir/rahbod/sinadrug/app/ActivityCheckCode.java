@@ -68,7 +68,8 @@ public class ActivityCheckCode extends AppCompatActivity {
                                                 intent.putExtra("action", "fullDownload");
                                                 startActivity(intent);
                                             } else {
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
+                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
+                                                intent.putExtra("action", "sampleDownload");
                                                 startActivity(intent);
                                                 btnSave.setTextColor(getResources().getColor(R.color.white));
                                                 btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
