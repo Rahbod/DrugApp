@@ -146,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Notifications> getListNotifications(){
         db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NOTIFICATION;
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION + " ORDER BY " + KEY_ID;
         Cursor cursor = db.rawQuery(query, null);
         List<Notifications> list = new ArrayList<>();
         while (cursor.moveToNext()){
