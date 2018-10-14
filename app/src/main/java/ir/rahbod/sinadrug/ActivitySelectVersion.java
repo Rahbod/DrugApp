@@ -36,17 +36,17 @@ public class ActivitySelectVersion extends AppCompatActivity {
         activitySelectVersion = this;
 
         // TrialVersion
-//        LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
-//        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
-//            btnTrialVersion.setVisibility(View.GONE);
-//        btnTrialVersion.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ActivitySelectVersion.this, ActivitySplashScreen.class);
-//                intent.putExtra("action", "sampleDownload");
-//                startActivity(intent);
-//            }
-//        });
+        LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
+        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
+            btnTrialVersion.setVisibility(View.GONE);
+        btnTrialVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySelectVersion.this, ActivitySplashScreen.class);
+                intent.putExtra("action", "sampleDownload");
+                startActivity(intent);
+            }
+        });
 
         // FullVersion
         LinearLayout btnFullVersion = findViewById(R.id.btnFullVersion);

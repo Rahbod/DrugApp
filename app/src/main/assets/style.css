@@ -43,13 +43,12 @@ html, body{
     border-bottom: none;
 }
 .row h4 i{
-    border-radius: 50%;
-    /*border:1px solid #adc7d3;*/
     width: 22px;
     height: 22px;
     float: right;
     margin-left: 10px;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 50%;*/
 }
 .section.iconic-field .text{
      padding-right: 10px;
@@ -110,6 +109,14 @@ html, body{
 .row h4 i.icon-relation-with-food{
     background: url("html-icons/relation-with-food.png") no-repeat center;
     background-size: 15px;
+}
+.row h4 i.icon-brand{
+    background: url("html-icons/brand.svg") no-repeat center;
+    background-size: 15px;
+}
+.row h4 i.icon-lactation{
+    background: url("html-icons/lactation.svg") no-repeat center;
+    background-size: 10px;
 }
 .table-responsive{
     min-height: .01%;

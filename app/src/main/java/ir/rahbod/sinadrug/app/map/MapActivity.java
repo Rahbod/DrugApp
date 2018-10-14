@@ -24,7 +24,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,9 +57,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 
-import ir.rahbod.sinadrug.app.ActivityReminderList;
-import ir.rahbod.sinadrug.fonts.ButtonFont;
-
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -76,10 +72,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(ir.rahbod.sinadrug.app.R.layout.activity_maps);
+        setContentView(R.layout.activity_maps);
 
-        drawerLayout = findViewById(ir.rahbod.sinadrug.app.R.id.DrawerLayout);
-        ImageView imgOpenNvDraw = findViewById(ir.rahbod.sinadrug.app.R.id.btnOpenNvDraw);
+        drawerLayout = findViewById(R.id.DrawerLayout);
+        ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +88,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-        ImageView btnBack = findViewById(ir.rahbod.sinadrug.app.R.id.btnBack);
+        ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,9 +104,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         //Check if Google Play Services Available or not
         if (!CheckGooglePlayServices()) {
-            linearLayoutNoConnection = findViewById(ir.rahbod.sinadrug.app.R.id.layout_no_connection);
-            linearLayoutMap = findViewById(ir.rahbod.sinadrug.app.R.id.layout_map);
-            LinearLayout linearLayoutBlank = findViewById(ir.rahbod.sinadrug.app.R.id.layout_blank);
+            linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
+            linearLayoutMap = findViewById(R.id.layout_map);
+            LinearLayout linearLayoutBlank = findViewById(R.id.layout_blank);
 
             linearLayoutBlank.setVisibility(View.VISIBLE);
             linearLayoutMap.setVisibility(View.GONE);
@@ -118,7 +114,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         } else {
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(ir.rahbod.sinadrug.app.R.id.map);
+                    .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
     }
@@ -146,21 +142,21 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        linearLayoutNoConnection = findViewById(ir.rahbod.sinadrug.app.R.id.layout_no_connection);
-        linearLayoutMap = findViewById(ir.rahbod.sinadrug.app.R.id.layout_map);
+        linearLayoutNoConnection = findViewById(R.id.layout_no_connection);
+        linearLayoutMap = findViewById(R.id.layout_map);
         if (hasInternetConnection(this)) {
 //            //check gps enabled
             LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                View view = LayoutInflater.from(this).inflate(ir.rahbod.sinadrug.app.R.layout.massage_dialog, null);
+                View view = LayoutInflater.from(this).inflate(R.layout.massage_dialog, null);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(view);
-                TextView txt = view.findViewById(ir.rahbod.sinadrug.app.R.id.txt);
+                TextView txt = view.findViewById(R.id.txt);
                 txt.setText("مکان یاب دستگاه شما غیرفعال است، برای یافتن مکان مورد نظر باید فعال گردد. آیا مایل به فعال کردن آن هستید؟"
                        );
-                Button btnOk = view.findViewById(ir.rahbod.sinadrug.app.R.id.btnOk);
-                Button btnCancel = view.findViewById(ir.rahbod.sinadrug.app.R.id.btnCancel);
-                LinearLayout linDialogMassage = view.findViewById(ir.rahbod.sinadrug.app.R.id.linDialogMassage);
+                Button btnOk = view.findViewById(R.id.btnOk);
+                Button btnCancel = view.findViewById(R.id.btnCancel);
+                LinearLayout linDialogMassage = view.findViewById(R.id.linDialogMassage);
                 linDialogMassage.setVisibility(View.VISIBLE);
                 btnOk.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -208,7 +204,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         } else {
             linearLayoutNoConnection.setVisibility(View.VISIBLE);
             linearLayoutMap.setVisibility(View.GONE);
-            ButtonFont connectButton = findViewById(ir.rahbod.sinadrug.app.R.id.btn_connection_wifi);
+            ButtonFont connectButton = findViewById(R.id.btn_connection_wifi);
             connectButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -251,7 +247,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         googlePlacesUrl.append("&radius=").append(PROXIMITY_RADIUS);
         googlePlacesUrl.append("&type=").append("pharmacy");
         googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + getString(ir.rahbod.sinadrug.app.R.string.google_maps_key));
+        googlePlacesUrl.append("&key=" + getString(R.string.google_maps_key));
         return (googlePlacesUrl.toString());
     }
 
@@ -374,60 +370,60 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {
-            case ir.rahbod.sinadrug.app.R.id.item1:
+            case R.id.item1:
                 Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
                 startActivity(goToListDrugInteractions);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item2:
+            case R.id.item2:
                 drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item3:
+            case R.id.item3:
                 Intent goToReminder = new Intent(this, ActivityReminderList.class);
                 startActivity(goToReminder);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item4:
+            case R.id.item4:
                 Intent goToFavorite = new Intent(this, ActivityFavorite.class);
                 startActivity(goToFavorite);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item5:
+            case R.id.item5:
                 shareApplication();
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item6:
+            case R.id.item6:
                 Intent goToErrorReport = new Intent(this, ActivityErrorReport.class);
                 startActivity(goToErrorReport);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item7:
+            case R.id.item7:
                 Intent intentAbout = new Intent(this, ActivityAbout.class);
                 intentAbout.putExtra("type", "about");
                 startActivity(intentAbout);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item8:
+            case R.id.item8:
                 Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item9:
+            case R.id.item9:
                 drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item10:
+            case R.id.item10:
                 Intent intentRules = new Intent(this, ActivityAbout.class);
                 intentRules.putExtra("type", "rules");
                 startActivity(intentRules);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item11:
+            case R.id.item11:
                 Intent intentPharma = new Intent(this, ActivityCategories.class);
                 intentPharma.putExtra("type", 1);
                 startActivity(intentPharma);
                 closeNv();
                 break;
-            case ir.rahbod.sinadrug.app.R.id.item12:
+            case R.id.item12:
                 Intent intentHealing = new Intent(this, ActivityCategories.class);
                 intentHealing.putExtra("type", 0);
                 startActivity(intentHealing);
