@@ -390,6 +390,31 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/item13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/select_recycler_view_item"
+                    android:gravity="right"
+                    android:layoutDirection="rtl"
+                    android:onClick="openNv"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/notification_icon" />
+
+                    <ir.rahbod.sinadrug.fonts.FontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="اطلاعیه ها"
+                        android:textColor="@color/sina" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/item7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -426,8 +451,8 @@
                     android:paddingTop="12dp">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/shake_icon" />
 

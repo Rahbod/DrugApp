@@ -11,6 +11,7 @@ import android.util.Log;
 import ir.rahbod.sinadrug.app.database.Category;
 import ir.rahbod.sinadrug.app.database.Drug;
 import ir.rahbod.sinadrug.app.database.Index;
+import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.database.Reminder;
 
 import org.json.JSONException;
@@ -18,12 +19,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import ir.rahbod.sinadrug.app.database.Category;
-import ir.rahbod.sinadrug.app.database.Drug;
-import ir.rahbod.sinadrug.app.database.Index;
-import ir.rahbod.sinadrug.app.database.Reminder;
-
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -37,6 +32,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_REMINDER = "reminders";
     private static final String TABLE_INTERFERENCE = "interference";
     private static final String TABLE_INDEX = "indexes";
+    private static final String TABLE_NOTIFICATION = "notifications";
 
     private static final String KEY_ID_CATEGORY = "id";
     private static final String KEY_NAME_CATEGORY = "name";
@@ -67,6 +63,10 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_MODEL = "model";
     private static final String KEY_MODEL_ID = "model_id";
     private static final String KEY_TEXT = "text";
+
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_MESSAGE = "text";
+    private static final String KEY_DATE = "date";
 
     private Context context;
 
@@ -103,12 +103,16 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_DRUG = "CREATE TABLE IF NOT EXISTS " + TABLE_DRUGS + " ( " + KEY_ID + " INTEGER , "
                 + KEY_CONTENT + " TEXT, " + KEY_FAVORITE + " INTEGER )";
 
+        String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
+                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
 
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
@@ -116,6 +120,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_REMINDERS);
         db.execSQL(CREATE_TABLE_INTERFERENCE);
         db.execSQL(CREATE_TABLE_INDEX);
+        db.execSQL(CREATE_TABLE_NOTIFICATION);
     }
 
     @Override
@@ -126,19 +131,50 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
         onCreate(db);
+    }
+
+    public void pushNotifications(Notifications notifications) {
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, notifications.getTitle());
+        values.put(KEY_MESSAGE, notifications.getMessage());
+        values.put(KEY_DATE, notifications.getDate());
+        db.insert(TABLE_NOTIFICATION, null, values);
+    }
+
+    public List<Notifications> getListNotifications(){
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION;
+        Cursor cursor = db.rawQuery(query, null);
+        List<Notifications> list = new ArrayList<>();
+        while (cursor.moveToNext()){
+            Notifications notifications = new Notifications();
+            notifications.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+            notifications.setMessage(cursor.getString(cursor.getColumnIndex(KEY_MESSAGE)));
+            list.add(notifications);
+        }
+        return list;
+    }
+
+    public int getLastDateNotifications() {
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION + " ORDER BY " + KEY_ID + " DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext())
+            return cursor.getInt(cursor.getColumnIndex(KEY_DATE));
+        return 0;
     }
 
     public void addReminder(Reminder reminder) {
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put(KEY_DRUG_ID, reminder.getDrugID());
         values.put(KEY_START_TIME, reminder.getStartTime());
         values.put(KEY_COUNT, reminder.getCount());
         values.put(KEY_PERIOD_TIME, reminder.getPeriodTime());
         values.put(KEY_SHOW_COUNT, reminder.getShowCount());
-
         db.insert(TABLE_REMINDER, null, values);
     }
 

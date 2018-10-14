@@ -459,6 +459,11 @@ public class ActivityCategories extends AppCompatActivity {
                     closeNv();
                 } else drawerLayout.closeDrawer(Gravity.RIGHT);
                 break;
+            case R.id.item13:
+                Intent intent = new Intent(this, ActivityListNotifications.class);
+                startActivity(intent);
+                closeNv();
+                break;
         }
     }
 

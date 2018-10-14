@@ -41,9 +41,13 @@ import com.crashlytics.android.Crashlytics;
 import ir.rahbod.sinadrug.ActivityCheckTransaction;
 import ir.rahbod.sinadrug.ActivityGetLicense;
 import ir.rahbod.sinadrug.ActivitySelectVersion;
+import ir.rahbod.sinadrug.app.controller.AppController;
+import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;

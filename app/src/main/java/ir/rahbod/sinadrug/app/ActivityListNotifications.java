@@ -1,14 +1,9 @@
 package ir.rahbod.sinadrug.app;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,63 +13,33 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import ir.rahbod.sinadrug.app.adapter.AdapterCategories;
-import ir.rahbod.sinadrug.app.adapter.AdapterInterferenceDrug;
-import ir.rahbod.sinadrug.app.adapter.AdapterTabBar;
-import ir.rahbod.sinadrug.app.database.Category;
-import ir.rahbod.sinadrug.app.database.Index;
-import ir.rahbod.sinadrug.app.helper.Components;
-import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
-import ir.rahbod.sinadrug.app.map.MapActivity;
-import ir.rahbod.sinadrug.fragment.FragmentCategory;
-import ir.rahbod.sinadrug.fragment.FragmentDrug;
-import ir.rahbod.sinadrug.fragment.FragmentInterferenceDrug;
-import ir.rahbod.sinadrug.fragment.FragmentViewDrug;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import ir.rahbod.sinadrug.app.adapter.AdapterInterferenceDrug;
-import ir.rahbod.sinadrug.app.database.Index;
+import ir.rahbod.sinadrug.app.adapter.AdapterListNotifications;
+import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
 import ir.rahbod.sinadrug.app.map.MapActivity;
-import ir.rahbod.sinadrug.fragment.FragmentCategory;
 
-public class ActivityInterference extends AppCompatActivity {
+public class ActivityListNotifications extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    private static String currentTab = "Drug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interference);
+        setContentView(R.layout.activity_list_notifications);
 
-        // Set user name and mobile
-        NavigationView navigationView = findViewById(R.id.interferenceNavView);
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
-        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
-        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
-        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-        if (SessionManager.getExtrasPref(this).getString("interferenceIdList") != null) {
-            SessionManager.getExtrasPref(this).remove("interferenceIdList");
-        }
-
-        TextView txtTitle = findViewById(R.id.txtTitle);
-        txtTitle.setText(getIntent().getStringExtra("name"));
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
-
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,65 +52,19 @@ public class ActivityInterference extends AppCompatActivity {
             }
         });
 
-        //back
-        ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-//        TabLayout tabLayout = findViewById(R.id.tabBar);
-//        ViewPager viewPager = findViewById(R.id.viewPager);
-//        tabLayout.setupWithViewPager(viewPager);
-//        setupViewPager(viewPager);
-//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager(), this);
-//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-//            TabLayout.Tab tab = tabLayout.getTabAt(i);
-//            tab.setCustomView(adapter.getTabView(i));
-//        }
-
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                currentTab = (String) tab.getText();
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-
-        //حذف این قسمت در هنگام تداخل با طبقه بندی
-        int ID = getIntent().getIntExtra("id", 0);
-
-        //set recyclerView
+        DbHelper dbHelper = new DbHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        DbHelper dbHelper = new DbHelper(this);
-        List<Index> list = dbHelper.getAllInterferenceDrug(ID);
-        AdapterInterferenceDrug adapter = new AdapterInterferenceDrug(this, list);
+        List<Notifications> list = dbHelper.getListNotifications();
+        AdapterListNotifications adapter = new AdapterListNotifications(this, list);
         recyclerView.setAdapter(adapter);
     }
-
-//    private void setupViewPager(ViewPager viewPager) {
-//        AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
-//        adapter.addFragment(new FragmentDrug(), "Drug");
-//        adapter.addFragment(new FragmentCategory(), "Category");
-//        viewPager.setAdapter(adapter);
-//    }
 
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {
             case R.id.item1:
-                onBackPressed();
+                Intent goToListDrugInteractions = new Intent(this, ActivityListDrugInterference.class);
+                startActivity(goToListDrugInteractions);
                 closeNv();
                 break;
             case R.id.item2:
@@ -183,8 +102,8 @@ public class ActivityInterference extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item9:
-                Intent intentDrug = new Intent(this, ActivityHome.class);
-                startActivity(intentDrug);
+                Intent intentHome = new Intent(this, ActivityHome.class);
+                startActivity(intentHome);
                 closeNv();
                 break;
             case R.id.item10:
@@ -206,8 +125,6 @@ public class ActivityInterference extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item13:
-                Intent intent = new Intent(this, ActivityListNotifications.class);
-                startActivity(intent);
                 closeNv();
                 break;
         }
@@ -238,15 +155,7 @@ public class ActivityInterference extends AppCompatActivity {
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
-        else if (currentTab.equals("Category")) {
-            if (!FragmentCategory.goBack(this))
-                super.onBackPressed();
-        } else
+        else
             super.onBackPressed();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

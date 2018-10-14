@@ -433,6 +433,11 @@ public class ActivitySearch extends AppCompatActivity {
                 startActivity(intentHealing);
                 closeNv();
                 break;
+            case R.id.item13:
+                Intent intent = new Intent(this, ActivityListNotifications.class);
+                startActivity(intent);
+                closeNv();
+                break;
         }
     }
 

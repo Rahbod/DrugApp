@@ -3,6 +3,9 @@ package ir.rahbod.sinadrug.app;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -10,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +22,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +42,7 @@ import ir.rahbod.sinadrug.ActivitySelectVersion;
 import ir.rahbod.sinadrug.app.adapter.AdapterDropList;
 import ir.rahbod.sinadrug.app.controller.AppController;
 import ir.rahbod.sinadrug.app.database.DropList;
+import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
 
@@ -90,9 +96,43 @@ public class ActivityIndex extends AppCompatActivity {
 //            }
 //        });
 
+        //notifications
+        final DbHelper dbHelper = new DbHelper(this);
+        JSONObject params = new JSONObject();
+        try {
+            if (dbHelper.getLastDateNotifications() == 0) {
+                params.put("last_sync", SessionManager.getExtrasPref(this).getInt("setupDate"));
+            } else {
+                params.put("last_sync", dbHelper.getLastDateNotifications());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (isConnected())
+            AppController.getInstance().sendRequest("android/api/notifications", params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("notifications");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String title = object.getString("title");
+                            String text = object.getString("text");
+                            int date = object.getInt("date");
+                            pushNotifications(title, text, i);
+                            Notifications notifications = new Notifications();
+                            notifications.setTitle(title);
+                            notifications.setMessage(text);
+                            notifications.setDate(date);
+                            dbHelper.pushNotifications(notifications);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
-
-
+        //update
         checkUpdateDatabase(System.currentTimeMillis() / 1000);
         text = findViewById(R.id.editTextSearch);
         Button btnActive = findViewById(R.id.active);
@@ -251,6 +291,21 @@ public class ActivityIndex extends AppCompatActivity {
 //        });
     }
 
+    private void pushNotifications(String title, String text, int requestCode) {
+        Intent intent = new Intent(this, ActivityNotifications.class);
+        intent.putExtra("text", text);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder notifications = new NotificationCompat.Builder(this);
+        notifications.setDefaults(NotificationCompat.DEFAULT_ALL);
+        notifications.setSmallIcon(R.drawable.heart);
+        notifications.setContentTitle("اطلاعیه");
+        notifications.setContentText(title);
+        notifications.setContentIntent(pendingIntent);
+        notifications.setAutoCancel(true);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
+        notificationManager.notify(requestCode, notifications.build());
+    }
 
     private void checkUpdateDatabase(long now) {
         @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -356,6 +411,9 @@ public class ActivityIndex extends AppCompatActivity {
                 intentAboutUs.putExtra("type", "about");
                 startActivity(intentAboutUs);
                 break;
+            case R.id.listNotifications:
+                Intent intentListNotifications = new Intent(this, ActivityListNotifications.class);
+                startActivity(intentListNotifications);
 
         }
     }
@@ -494,6 +552,12 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateRegister() {
+        //notifications
+        if (!SessionManager.getExtrasPref(this).getBoolean("firstRun")) {
+            SessionManager.getExtrasPref(this).putExtra("setupDate", (int) (System.currentTimeMillis() / 1000));
+            SessionManager.getExtrasPref(this).putExtra("firstRun", true);
+        }
+
         etNumberMobile = findViewById(R.id.numberMobile);
         etName = findViewById(R.id.name);
         etField = findViewById(R.id.field);
@@ -623,8 +687,7 @@ public class ActivityIndex extends AppCompatActivity {
                                             btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
                                             btnSave.setEnabled(true);
                                             btnSave.setText("ثبت");
-                                        }
-                                        else {
+                                        } else {
                                             btnSave.setTextColor(getResources().getColor(R.color.white));
                                             btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
                                             btnSave.setEnabled(true);

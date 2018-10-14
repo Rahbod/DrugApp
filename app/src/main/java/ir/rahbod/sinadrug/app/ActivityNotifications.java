@@ -4,55 +4,34 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import ir.rahbod.sinadrug.app.adapter.AdapterFavorite;
-import ir.rahbod.sinadrug.app.database.Drug;
-import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
-import ir.rahbod.sinadrug.app.map.MapActivity;
+import android.widget.Toast;
 
 import java.io.File;
-import java.util.List;
 
-import ir.rahbod.sinadrug.app.adapter.AdapterFavorite;
-import ir.rahbod.sinadrug.app.database.Drug;
-import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
 import ir.rahbod.sinadrug.app.map.MapActivity;
 
-public class ActivityFavorite extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private List<Drug> list;
-    private AdapterFavorite adapter;
-    private DbHelper dbHelper;
-    private LinearLayout linFavorite;
+public class ActivityNotifications extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_notifications);
 
-        // Set user name and mobile
-        NavigationView navigationView = findViewById(R.id.favoriteNavView);
-        View headerView = navigationView.getHeaderView(0);
-        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
-        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
-        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
-        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
@@ -68,47 +47,10 @@ public class ActivityFavorite extends AppCompatActivity {
             }
         });
 
-        linFavorite = findViewById(R.id.linFavorite);
-        ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        dbHelper = new DbHelper(this);
-
-        list = dbHelper.getFavorite();
-        adapter = new AdapterFavorite(this, list);
-        recyclerView = findViewById(R.id.recFavorite);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        setBackGround();
+        WebView webView = findViewById(R.id.webView);
+        String html = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"fontiran.css\" /><div class=\"container\">"+  getIntent().getStringExtra("text") +"</div>";
+        webView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
     }
-
-    public void setBackGround() {
-        if (list.isEmpty()) {
-            recyclerView.setVisibility(View.INVISIBLE);
-            linFavorite.setVisibility(View.VISIBLE);
-        } else {
-            linFavorite.setVisibility(View.INVISIBLE);
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setAdapter(adapter);
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        list = dbHelper.getFavorite();
-        adapter = new AdapterFavorite(this, list);
-        recyclerView = findViewById(R.id.recFavorite);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        setBackGround();
-    }
-
     public void openNv(View view) {
         switch (findViewById(view.getId()).getId()) {
             case R.id.item1:
@@ -126,7 +68,9 @@ public class ActivityFavorite extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item4:
-                drawerLayout.closeDrawer(Gravity.RIGHT);
+                Intent goToFavorite = new Intent(this, ActivityFavorite.class);
+                startActivity(goToFavorite);
+                closeNv();
                 break;
             case R.id.item5:
                 shareApplication();

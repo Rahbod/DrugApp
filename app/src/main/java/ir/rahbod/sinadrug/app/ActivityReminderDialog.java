@@ -57,7 +57,7 @@ public class ActivityReminderDialog extends Activity {
             }
         });
 
-        //set Notification sound for Alarm
+        //set Notifications sound for Alarm
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         if (notification != null) {
             MediaPlayer mp = MediaPlayer.create(getApplicationContext(), notification);
