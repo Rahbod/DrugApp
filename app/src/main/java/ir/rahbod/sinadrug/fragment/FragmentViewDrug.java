@@ -82,7 +82,7 @@ public class FragmentViewDrug extends Fragment {
         addToBasketText = view.findViewById(ir.rahbod.sinadrug.app.R.id.add_basket_item);
         addToBasketImage = view.findViewById(ir.rahbod.sinadrug.app.R.id.add_basket_ico);
         LinearLayout linearBasket = view.findViewById(ir.rahbod.sinadrug.app.R.id.layout_basket);
-        LinearLayout linearfriend = view.findViewById(ir.rahbod.sinadrug.app.R.id.layout_friend);
+        LinearLayout linearFriend = view.findViewById(ir.rahbod.sinadrug.app.R.id.layout_friend);
 
         Animation animationToUp = AnimationUtils.loadAnimation(getActivity(), ir.rahbod.sinadrug.app.R.anim.slide_up);
         animationToUp.setAnimationListener(new Animation.AnimationListener() {
@@ -161,7 +161,7 @@ public class FragmentViewDrug extends Fragment {
             webViewHtml += "<div class=\"container\">";
 
         if (!drug.getBrand().isEmpty() && VEGETAL == 0)
-            webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-brand\"></i>نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
 
         /*if (!healingStr.isEmpty() || !pharmaStr.isEmpty() || !sicknessStr.isEmpty()) {
             webViewHtml += "<div class=\"section\">";
@@ -211,10 +211,13 @@ public class FragmentViewDrug extends Fragment {
                 }
             }
 
-            if (!drug.getLactation().isEmpty() && VEGETAL == 0)
-                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
+//            if (!drug.getLactation().isEmpty() && VEGETAL == 0)
+//                webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div>";
             webViewHtml += "</div>";
         }
+
+        if (!drug.getLactation().isEmpty() && VEGETAL == 0)
+            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-lactation\"></i>مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div></div>";
 
         if (!drug.getHowToUse().isEmpty() && VEGETAL == 0) {
             webViewHtml += "<div class=\"section\">";
@@ -237,7 +240,6 @@ public class FragmentViewDrug extends Fragment {
             if (!drug.getHowToUse().isEmpty())
                 webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">راه مصرف:</h4><div class=\"text\">" + drug.getHowToUse() + "</div></div>";
             webViewHtml += "</div>";
-            Log.e("qqq", "onCreateView: " + drug.getHowToUse() );
         }
 
         if (!drug.getProduct().isEmpty()) {
@@ -376,7 +378,7 @@ public class FragmentViewDrug extends Fragment {
             }
         });
 
-        linearfriend.setOnClickListener(new View.OnClickListener() {
+        linearFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = drug.getName() + "\n \n";

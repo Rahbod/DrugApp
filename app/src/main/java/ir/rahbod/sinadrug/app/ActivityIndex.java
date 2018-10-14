@@ -39,6 +39,7 @@ import ir.rahbod.sinadrug.app.controller.AppController;
 import ir.rahbod.sinadrug.app.database.DropList;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
+import ir.rahbod.sinadrug.app.map.MapActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -333,8 +334,9 @@ public class ActivityIndex extends AppCompatActivity {
                 startActivity(intentPharma);
                 break;
             case R.id.location:
-//                Intent intentLocation = new Intent(ActivityIndex.this, MapActivity.class);
-//                startActivity(intentLocation);
+                Uri uri = Uri.parse("http://maps.google.com/maps?q=pharmacy");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(mapIntent);
                 break;
             case R.id.reminder:
                 Intent intentReminder = new Intent(ActivityIndex.this, ActivityReminderList.class);

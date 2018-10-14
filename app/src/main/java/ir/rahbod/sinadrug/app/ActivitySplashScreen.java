@@ -310,8 +310,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                     query.setFilterById(downloadId);
                     final Cursor cursor = manager.query(query);
                     cursor.moveToFirst();
-                    int bytes_downloaded = cursor.getInt(cursor
-                            .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int bytes_downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
                     int bytes_total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
 
                     if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {

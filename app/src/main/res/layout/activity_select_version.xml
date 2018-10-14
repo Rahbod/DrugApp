@@ -115,38 +115,38 @@
 
                 </LinearLayout>
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/btnTrialVersion"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:layout_marginRight="20dp"-->
-                    <!--android:layout_marginBottom="30dp"-->
-                    <!--android:background="@drawable/select_version_border"-->
-                    <!--android:layoutDirection="rtl"-->
-                    <!--android:orientation="vertical"-->
-                    <!--tools:targetApi="jelly_bean_mr1">-->
+                <LinearLayout
+                    android:id="@+id/btnTrialVersion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/select_version_border"
+                    android:layoutDirection="rtl"
+                    android:orientation="vertical"
+                    tools:targetApi="jelly_bean_mr1">
 
-                    <!--<com.example.behnam.fonts.FontTextViewBold-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_marginRight="10dp"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--android:text="نسخه نمونه"-->
-                        <!--android:textColor="@color/sina"-->
-                        <!--android:textSize="14dp"/>-->
+                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="نسخه نمونه"
+                        android:textColor="@color/sina"
+                        android:textSize="14dp"/>
 
-                    <!--<com.example.behnam.fonts.FontTextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginBottom="10dp"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_marginRight="10dp"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--android:text="این نسخه شامل دارو های نمونه می باشد" />-->
+                    <ir.rahbod.sinadrug.fonts.FontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="این نسخه شامل دارو های نمونه می باشد" />
 
-                <!--</LinearLayout>-->
+                </LinearLayout>
 
 
             </LinearLayout>
