@@ -128,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="ltr"
                 android:orientation="vertical"
+                android:paddingBottom="50dp"
                 tools:targetApi="jelly_bean_mr1">
 
                 <LinearLayout
@@ -545,7 +546,7 @@
                         <ir.rahbod.sinadrug.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="-7dp"
                             android:text="داروخانه های نزدیک"
                             android:textColor="@color/sina"
                             android:textSize="12dp" />
@@ -627,6 +628,15 @@
 
             </LinearLayout>
 
+            <ir.rahbod.sinadrug.fonts.ButtonFont
+                android:id="@+id/active"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/red"
+                android:text="فعال سازی"
+                android:textColor="@color/white" />
+
         </RelativeLayout>
 
     </ScrollView>
@@ -651,15 +661,6 @@
     <!--android:visibility="invisible" />-->
 
     <!--</LinearLayout>-->
-
-    <ir.rahbod.sinadrug.fonts.ButtonFont
-        android:id="@+id/active"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/red"
-        android:text="فعال سازی"
-        android:textColor="@color/white" />
 
     <!--<Button-->
         <!--android:id="@+id/map"-->
