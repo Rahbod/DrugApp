@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -349,14 +350,22 @@ public class ActivityReminderStep2 extends AppCompatActivity {
     }
 
     private void shareApplication() {
-        ApplicationInfo app = getApplicationContext().getApplicationInfo();
-        String filePath = app.sourceDir;
-
         Intent intent = new Intent(Intent.ACTION_SEND);
 
-        intent.setType("*/*");
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            ApplicationInfo app = getApplicationContext().getApplicationInfo();
+            String filePath = app.sourceDir;
 
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
+            intent.setType("*/*");
+
+            File file = new File(filePath);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/SinaDrugs.apk");
+        }
+
         startActivity(Intent.createChooser(intent, "Share app via"));
     }
 
