@@ -103,20 +103,36 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_DRUG = "CREATE TABLE IF NOT EXISTS " + TABLE_DRUGS + " ( " + KEY_ID + " INTEGER , "
                 + KEY_CONTENT + " TEXT, " + KEY_FAVORITE + " INTEGER )";
 
+        String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
+                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
+
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
         db.execSQL(CREATE_TABLE_CATEGORY_DRUG);
         db.execSQL(CREATE_TABLE_REMINDERS);
         db.execSQL(CREATE_TABLE_INTERFERENCE);
         db.execSQL(CREATE_TABLE_INDEX);
+        db.execSQL(CREATE_TABLE_NOTIFICATION);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
-                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
-
-        db.execSQL(CREATE_TABLE_NOTIFICATION);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
+        onCreate(db);
     }
 
     public void pushNotifications(Notifications notifications) {
