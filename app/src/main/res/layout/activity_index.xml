@@ -628,18 +628,18 @@
 
             </LinearLayout>
 
-            <ir.rahbod.sinadrug.fonts.ButtonFont
-                android:id="@+id/active"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/red"
-                android:text="فعال سازی"
-                android:textColor="@color/white" />
-
         </RelativeLayout>
 
     </ScrollView>
+
+    <ir.rahbod.sinadrug.fonts.ButtonFont
+        android:id="@+id/active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/red"
+        android:text="فعال سازی"
+        android:textColor="@color/white" />
 
     <!--<LinearLayout-->
     <!--android:layout_width="match_parent"-->
