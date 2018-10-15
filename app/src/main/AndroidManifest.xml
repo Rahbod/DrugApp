@@ -137,7 +137,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ActivityUpdateDatabase" />
         <activity android:name=".ActivityNotifications" />
-        <activity android:name=".ActivityListNotifications"></activity>
+        <activity android:name=".ActivityListNotifications" />
     </application>
 
 </manifest>
