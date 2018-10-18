@@ -106,14 +106,6 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
                 + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
 
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
-
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
         db.execSQL(CREATE_TABLE_CATEGORY_DRUG);
@@ -125,13 +117,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DRUGS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_DRUG);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REMINDER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERFERENCE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_INDEX);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION);
         onCreate(db);
     }
 
