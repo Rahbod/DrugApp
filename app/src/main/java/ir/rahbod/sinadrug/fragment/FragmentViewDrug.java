@@ -186,7 +186,10 @@ public class FragmentViewDrug extends Fragment {
         }
 
         if ((groupPregnancy.length() != 0 || (!textPregnancy.equals("") && !(textPregnancy.equals("null"))) || !drug.getLactation().isEmpty())) {
-            webViewHtml += "<div class=\"section\">";
+            webViewHtml += "<div class=\"section";
+            if(VEGETAL == 0)
+                webViewHtml += " iconic-field";
+            webViewHtml += "\">";
             if (groupPregnancy.length() != 0 || (!textPregnancy.equals("") && !(textPregnancy.equals("null")))) {
                 try {
                     if (groupPregnancy.length() != 0) {
@@ -205,7 +208,7 @@ public class FragmentViewDrug extends Fragment {
                     if (VEGETAL == 1)
                         webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری و شیردهی:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
                     else
-                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\">مصرف در دوران بارداری:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
+                        webViewHtml += "<div class=\"row linear\"><h4 class=\"title\"><i class=\"icon-lactation\"></i>مصرف در دوران بارداری:</h4><div class=\"text\">" + strPregnancy + "</div></div>";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -217,7 +220,7 @@ public class FragmentViewDrug extends Fragment {
         }
 
         if (!drug.getLactation().isEmpty() && VEGETAL == 0)
-            webViewHtml += "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-lactation\"></i>مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div></div>";
+            webViewHtml += "<div class=\"section\"><div class=\"row\"><h4 class=\"title\">مصرف در دوران شیردهی:</h4><div class=\"text\">" + drug.getLactation() + "</div></div></div>";
 
         if (!drug.getHowToUse().isEmpty() && VEGETAL == 0) {
             webViewHtml += "<div class=\"section\">";
