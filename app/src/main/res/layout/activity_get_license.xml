@@ -54,6 +54,7 @@
                         android:gravity="right"
                         android:hint="لطفا کد ویژه را وارد کنید"
                         android:lines="1"
+                        android:textAlignment="center"
                         android:textSize="13dp"
                         tools:ignore="RtlCompat,RtlHardcoded" />
 
