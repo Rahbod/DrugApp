@@ -1,13 +1,18 @@
 package ir.rahbod.sinadrug.app;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,9 +81,23 @@ public class ActivityRegister extends AppCompatActivity {
             }
         });
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("HardwareIds")
             @Override
             public void onClick(View v) {
                 @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                String imei = "";
+                if (ActivityCompat.checkSelfPermission(ActivityRegister.this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(ActivityRegister.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
+                else {
+                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        assert telephonyManager != null;
+                        imei = telephonyManager.getImei();
+                    } else {
+                        assert telephonyManager != null;
+                        imei = telephonyManager.getDeviceId();
+                    }
+                }
                 if (etNumberMobile.getText().toString().isEmpty())
                     Toast.makeText(ActivityRegister.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
                 else if (!checkMobileNumber(etNumberMobile.getText().toString()))
@@ -89,6 +108,7 @@ public class ActivityRegister extends AppCompatActivity {
                     try {
                         object.put("mobile", etNumberMobile.getText().toString());
                         object.put("id", idNumber);
+                        object.put("imei", imei);
                         object.put("name", etName.getText().toString());
                         object.put("field", etField.getText().toString());
                         object.put("grade", gradeID.get(0));

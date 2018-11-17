@@ -1,13 +1,18 @@
 package ir.rahbod.sinadrug.app;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,7 +36,9 @@ import ir.rahbod.sinadrug.app.helper.SessionManager;
 
 public class ActivityCheckCode extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
     public static Activity activityCheckCode = null;
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +47,23 @@ public class ActivityCheckCode extends AppCompatActivity {
         activityCheckCode = this;
 
         @SuppressLint("HardwareIds") final String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String imei = "";
+        if (ActivityCompat.checkSelfPermission(ActivityCheckCode.this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(ActivityCheckCode.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
+        else {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert telephonyManager != null;
+                imei = telephonyManager.getImei();
+            } else {
+                assert telephonyManager != null;
+                imei = telephonyManager.getDeviceId();
+            }
+        }
         final EditText etCode = findViewById(R.id.code);
         final Button btnSave = findViewById(R.id.save);
 
+        final String finalImei = imei;
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +76,7 @@ public class ActivityCheckCode extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject();
                             object.put("id", idNumber);
+                            object.put("imei", finalImei);
                             object.put("code", etCode.getText().toString());
                             JSONObject params = new JSONObject();
                             params.put("User", object);

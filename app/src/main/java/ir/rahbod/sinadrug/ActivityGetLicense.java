@@ -12,10 +12,12 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +47,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ActivityGetLicense extends AppCompatActivity {
-    private String idNumber;
+    private String idNumber, imei;
     private EditText etCodeLicense;
     public static Activity activityGetLicense = null;
 
@@ -59,6 +61,19 @@ public class ActivityGetLicense extends AppCompatActivity {
 
         etCodeLicense = findViewById(R.id.etCodeLicense);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        imei = "";
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
+        else {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert telephonyManager != null;
+                imei = telephonyManager.getImei();
+            } else {
+                assert telephonyManager != null;
+                imei = telephonyManager.getDeviceId();
+            }
+        }
 
         final Button btnSave = findViewById(R.id.save);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +87,7 @@ public class ActivityGetLicense extends AppCompatActivity {
                     JSONObject params = new JSONObject();
                     try {
                         params.put("id", idNumber);
+                        params.put("imei", imei);
                         params.put("code", etCodeLicense.getText().toString());
                         AppController.getInstance(ActivityGetLicense.this).sendRequest("android/api/checkLicense", params, new Response.Listener<JSONObject>() {
                             @Override

@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -22,6 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -74,7 +76,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     private TextView txtDownload;
     private TextView txtPercent;
     private DownloadManager manager;
-    private String idNumber, action;
+    private String idNumber, imei, action;
     private String fileName = "";
 
     @SuppressLint("HardwareIds")
@@ -104,6 +106,19 @@ public class ActivitySplashScreen extends AppCompatActivity {
 
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        imei = "";
+        if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(ActivitySplashScreen.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 0);
+        else {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert telephonyManager != null;
+                imei = telephonyManager.getImei();
+            } else {
+                assert telephonyManager != null;
+                imei = telephonyManager.getDeviceId();
+            }
+        }
 
         if (getIntent().getStringExtra("id") != null)
             idNumber = getIntent().getStringExtra("id");
@@ -128,7 +143,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 spin.setVisibility(View.VISIBLE);
                 btnDownload.setVisibility(View.INVISIBLE);
                 if (isConnected()) {
-                    download(idNumber, action);
+                    download(idNumber, imei, action);
                 } else {
                     spin.setVisibility(View.INVISIBLE);
                     btnDownload.setVisibility(View.VISIBLE);
@@ -185,7 +200,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
     public void getData() {
         if (ActivityCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             if (isConnected())
-                download(idNumber, action);
+                download(idNumber, imei, action);
             else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -202,7 +217,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (isConnected()) {
-                download(idNumber, action);
+                download(idNumber, imei, action);
             } else if (wifi.isWifiEnabled()) {
                 Toast.makeText(ActivitySplashScreen.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 btnDownload.setVisibility(View.VISIBLE);
@@ -291,18 +306,18 @@ public class ActivitySplashScreen extends AppCompatActivity {
             return true;
     }
 
-    private void download(String id, String action) {
+    private void download(String id, String imei, String action) {
         txtDownload.setVisibility(View.VISIBLE);
         btnDownload.setVisibility(View.INVISIBLE);
         spin.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setMax(100);
         txtPercent.setVisibility(View.VISIBLE);
-        String url = "http://rahbod.ir/android/api/" + action + "?id=" + id;
+        String url = "http://rahbod.ir/android/api/" + action + "?id=" + id + "&imei=" + imei;
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
-        fileName = "drug-"+System.currentTimeMillis()+".sql";
-        request.setDestinationInExternalFilesDir(this, "sina", "/"+fileName);
+        fileName = "drug-" + System.currentTimeMillis() + ".sql";
+        request.setDestinationInExternalFilesDir(this, "sina", "/" + fileName);
         final long downloadId = manager.enqueue(request);
         SessionManager.getExtrasPref(this).putExtra("downloadId", downloadId);
         new Thread(new Runnable() {

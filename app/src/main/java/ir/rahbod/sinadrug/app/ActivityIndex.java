@@ -1,30 +1,32 @@
 package ir.rahbod.sinadrug.app;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.crashlytics.android.Crashlytics;
 
 import ir.rahbod.sinadrug.ActivitySelectVersion;
 import ir.rahbod.sinadrug.app.adapter.AdapterDropList;
@@ -47,7 +48,6 @@ import ir.rahbod.sinadrug.app.database.DropList;
 import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
-import ir.rahbod.sinadrug.app.map.MapActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +59,9 @@ import java.util.List;
 
 
 public class ActivityIndex extends AppCompatActivity {
+    public static int REQUEST_READ_PHONE_STATE_REGISTER = 0;
+    public static int REQUEST_READ_PHONE_STATE_UPDATE = 1;
+
     private static long BackPressed;
     private EditText text;
 
@@ -68,6 +71,8 @@ public class ActivityIndex extends AppCompatActivity {
     private List<Integer> gradeID, departmentID;
     private List<DropList> gradeList, departmentList;
     public static Activity activityIndex = null;
+    public Button btnSave;
+    public String idNumber, imei;
 
 //    private Speech speechInstance;
 //    private SpeechProgressView progress;
@@ -90,14 +95,7 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateIndex() {
-//        Button btn = findViewById(R.id.map);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ActivityIndex.this, MapTest.class);
-//                startActivity(intent);
-//            }
-//        });
+        checkAndroidID();
 
         //notifications
         final DbHelper dbHelper = new DbHelper(this);
@@ -117,12 +115,15 @@ public class ActivityIndex extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     try {
                         JSONArray jsonArray = response.getJSONArray("notifications");
+                        if(jsonArray.length() > 1)
+                            pushNotifications(jsonArray.length() + " اطلاعیه جدید", "", 0);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             String title = object.getString("title");
                             String text = object.getString("text");
                             int date = object.getInt("date");
-                            pushNotifications(title, text, i);
+                            if(jsonArray.length() == 1)
+                                pushNotifications(title, text, i);
                             Notifications notifications = new Notifications();
                             notifications.setTitle(title);
                             notifications.setMessage(text);
@@ -136,7 +137,7 @@ public class ActivityIndex extends AppCompatActivity {
             });
 
         //update
-        checkUpdateDatabase(System.currentTimeMillis() / 1000);
+        checkUpdateDatabase();
         text = findViewById(R.id.editTextSearch);
         Button btnActive = findViewById(R.id.active);
         if (SessionManager.getExtrasPref(this).getInt("activated") == 1)
@@ -294,6 +295,28 @@ public class ActivityIndex extends AppCompatActivity {
 //        });
     }
 
+    public void checkAndroidID(){
+        String lastAID = SessionManager.getExtrasPref(this).getString("lastAID");
+        @SuppressLint("HardwareIds") String currentAID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        if(lastAID.equals(currentAID))
+            sendUnifyIDRequest(lastAID, currentAID);
+    }
+
+    public void sendUnifyIDRequest(String lastAID, String currentAID) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("last_id", lastAID);
+            params.put("current_id", currentAID);
+            AppController.getInstance(ActivityIndex.this).sendRequest("android/api/unifyId", params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {}
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void pushNotifications(String title, String text, int requestCode) {
         String NOTIFICATION_CHANNEL_ID = "10001";
         Intent intent = new Intent(this, ActivityNotifications.class);
@@ -302,7 +325,7 @@ public class ActivityIndex extends AppCompatActivity {
         NotificationCompat.Builder notifications = new NotificationCompat.Builder(this);
         notifications.setDefaults(NotificationCompat.DEFAULT_ALL);
         notifications.setSmallIcon(R.drawable.heart);
-        notifications.setContentTitle("اطلاعیه");
+        notifications.setContentTitle("سینا دارو");
         notifications.setContentText(title);
         notifications.setContentIntent(pendingIntent);
         notifications.setAutoCancel(true);
@@ -319,15 +342,34 @@ public class ActivityIndex extends AppCompatActivity {
         notificationManager.notify(requestCode, notifications.build());
     }
 
-    private void checkUpdateDatabase(long now) {
-        @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    @SuppressLint("HardwareIds")
+    private void checkUpdateDatabase() {
+        idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (ActivityCompat.checkSelfPermission(ActivityIndex.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(ActivityIndex.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_UPDATE);
+        else {
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                assert telephonyManager != null;
+                imei = telephonyManager.getImei();
+            } else {
+                assert telephonyManager != null;
+                imei = telephonyManager.getDeviceId();
+            }
+
+            sendUpdateRequest();
+        }
+    }
+
+    public void sendUpdateRequest(){
         long week = SessionManager.getExtrasPref(this).getLong("updateCheck") + 86400;
-        if (now > week) {
+        if ((System.currentTimeMillis() / 1000) > week) {
             if (isConnected()) {
                 //send request & save time & update database
                 JSONObject params = new JSONObject();
                 try {
                     params.put("id", idNumber);
+                    params.put("imei", imei);
                     params.put("last_sync", SessionManager.getExtrasPref(this).getLong("lastSync"));
                     AppController.getInstance(ActivityIndex.this).sendRequest("android/api/dataCheckUpdate", params, new Response.Listener<JSONObject>() {
                         @Override
@@ -579,7 +621,7 @@ public class ActivityIndex extends AppCompatActivity {
         TextView txtCheckBox = findViewById(R.id.txtCheckBox);
         txtDepartment = findViewById(R.id.department);
         final CheckBox checkBox = findViewById(R.id.checkBox);
-        final Button btnSave = findViewById(R.id.save);
+        btnSave = findViewById(R.id.save);
         gradeID = new ArrayList<>();
         departmentID = new ArrayList<>();
 
@@ -653,72 +695,102 @@ public class ActivityIndex extends AppCompatActivity {
             }
         });
         btnSave.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("HardwareIds")
             @Override
             public void onClick(View v) {
                 if (isConnected()) {
-                    @SuppressLint("HardwareIds") String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-                    if (etNumberMobile.getText().toString().isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
-                    else if (!checkMobileNumber(etNumberMobile.getText().toString()))
-                        Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
-                    else if (etName.getText().toString().trim().isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا نام و نام خانوادگی خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                    else if (gradeID.isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
-                    else if (etField.getText().toString().trim().isEmpty())
-                        Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+                    idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                    if (ActivityCompat.checkSelfPermission(ActivityIndex.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                        ActivityCompat.requestPermissions(ActivityIndex.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_REGISTER);
                     else {
-                        btnSave.setEnabled(false);
-                        btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
-                        btnSave.setTextColor(getResources().getColor(R.color.Gray2));
-                        btnSave.setText("در حال ارسال اطلاعات...");
-                        JSONObject object = new JSONObject();
-                        JSONObject params = new JSONObject();
-                        try {
-                            object.put("mobile", etNumberMobile.getText().toString());
-                            object.put("id", idNumber);
-                            object.put("name", etName.getText().toString());
-                            object.put("field", etField.getText().toString());
-                            object.put("grade", gradeID.get(0));
-                            object.put("department", departmentID.get(0));
-                            if (!etEmail.getText().toString().trim().isEmpty())
-                                object.put("email", etEmail.getText().toString());
-                            params.put("User", object);
-                            AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        if (response.getBoolean("status")) {
-                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
-                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
-                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
-                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("name", response.getString("name"));
-                                            SessionManager.getExtrasPref(ActivityIndex.this).putExtra("mobile", response.getString("mobile"));
-                                            Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
-                                            startActivity(intent);
-                                            btnSave.setTextColor(getResources().getColor(R.color.white));
-                                            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
-                                            btnSave.setEnabled(true);
-                                            btnSave.setText("ثبت");
-                                        } else {
-                                            btnSave.setTextColor(getResources().getColor(R.color.white));
-                                            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
-                                            btnSave.setEnabled(true);
-                                            btnSave.setText("ثبت");
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            assert telephonyManager != null;
+                            imei = telephonyManager.getImei();
+                        } else {
+                            assert telephonyManager != null;
+                            imei = telephonyManager.getDeviceId();
                         }
+
+                        sendRegisterRequest();
                     }
                 } else
                     Toast.makeText(ActivityIndex.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_PHONE_STATE_REGISTER)
+            sendRegisterRequest();
+        else if (requestCode == REQUEST_READ_PHONE_STATE_UPDATE)
+            sendUpdateRequest();
+    }
+
+    public void sendRegisterRequest() {
+        if (etNumberMobile.getText().toString().isEmpty())
+            Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
+        else if (!checkMobileNumber(etNumberMobile.getText().toString()))
+            Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
+        else if (etName.getText().toString().trim().isEmpty())
+            Toast.makeText(ActivityIndex.this, "لطفا نام و نام خانوادگی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+        else if (gradeID.isEmpty())
+            Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
+        else if (etField.getText().toString().trim().isEmpty())
+            Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
+        else {
+            btnSave.setEnabled(false);
+            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
+            btnSave.setTextColor(getResources().getColor(R.color.Gray2));
+            btnSave.setText("در حال ارسال اطلاعات...");
+            JSONObject object = new JSONObject();
+            JSONObject params = new JSONObject();
+            try {
+                object.put("mobile", etNumberMobile.getText().toString());
+                object.put("id", idNumber);
+                object.put("imei", imei);
+                object.put("brand", Build.MANUFACTURER);
+                object.put("model", Build.MODEL);
+                object.put("name", etName.getText().toString());
+                object.put("field", etField.getText().toString());
+                object.put("grade", gradeID.get(0));
+                object.put("department", departmentID.get(0));
+                if (!etEmail.getText().toString().trim().isEmpty())
+                    object.put("email", etEmail.getText().toString());
+                params.put("User", object);
+                AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("key", response.getString("key"));
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("iv", response.getString("iv"));
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("name", response.getString("name"));
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("mobile", response.getString("mobile"));
+                                SessionManager.getExtrasPref(ActivityIndex.this).putExtra("lastAID", idNumber);
+                                Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
+                                startActivity(intent);
+                                btnSave.setTextColor(getResources().getColor(R.color.white));
+                                btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                                btnSave.setEnabled(true);
+                                btnSave.setText("ثبت");
+                            } else {
+                                btnSave.setTextColor(getResources().getColor(R.color.white));
+                                btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+                                btnSave.setEnabled(true);
+                                btnSave.setText("ثبت");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private boolean checkMobileNumber(String number) {
