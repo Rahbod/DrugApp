@@ -54,7 +54,7 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="درباره سینا دارو"
+                android:text="درباره فارماسینا"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="10dp"
-            android:text="متن درباره سینا دارو"
+            android:text="متن درباره فارماسینا"
             android:textColor="@color/sina"
             android:textSize="14dp" />
 
@@ -405,7 +405,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="درباره سینا دارو"
+                        android:text="درباره فارماسینا"
                         android:textColor="@color/sina" />
                 </LinearLayout>
 

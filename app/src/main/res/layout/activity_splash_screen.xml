@@ -21,7 +21,7 @@
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_gravity="center"
-            android:src="@drawable/heart_splash" />
+            android:src="@drawable/ic_icon" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animSplashScreen"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:text="سینا دارو"
+        android:text="فارماسینا"
         android:textColor="@color/sina"
         android:textSize="22dp"
         android:visibility="invisible" />

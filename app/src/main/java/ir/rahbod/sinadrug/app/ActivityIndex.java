@@ -324,8 +324,8 @@ public class ActivityIndex extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notifications = new NotificationCompat.Builder(this);
         notifications.setDefaults(NotificationCompat.DEFAULT_ALL);
-        notifications.setSmallIcon(R.drawable.heart);
-        notifications.setContentTitle("سینا دارو");
+        notifications.setSmallIcon(R.drawable.ic_icon);
+        notifications.setContentTitle("فارماسینا");
         notifications.setContentText(title);
         notifications.setContentIntent(pendingIntent);
         notifications.setAutoCancel(true);
@@ -487,7 +487,7 @@ public class ActivityIndex extends AppCompatActivity {
 //            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/SinaDrugs.apk");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/PharmaSina.apk");
         }
 
         startActivity(Intent.createChooser(intent, "Share app via"));
@@ -656,7 +656,7 @@ public class ActivityIndex extends AppCompatActivity {
                 recyclerView.setVisibility(View.INVISIBLE);
                 TextView txtTitle = view.findViewById(R.id.txtTitle);
                 TextView txtMessage = view.findViewById(R.id.txtMessage);
-                String text = "قوانین و مقررات استفاده از اپلیکیشن سینادارو" + "\n" + "کلیه حقوق مادی و معنوی اپلیکیشن سینادارو، به انتشارات سیناطب و رودگون اختصاص داشته و تمامی محتویات آن" +
+                String text = "قوانین و مقررات استفاده از اپلیکیشن فارماسینا" + "\n" + "کلیه حقوق مادی و معنوی اپلیکیشن فارماسینا، به انتشارات سیناطب و رودگون اختصاص داشته و تمامی محتویات آن" +
                         " شامل آیکون ها، نشان تجاری داخل اپلیکیشن طبق قانون مالکیت مادی و معنوی، هرگونه استفاده از نام، متون، " +
                         "مطالب، مستندات نرم افزار بدون اجازه کتبی از پدیدآورندگان مطابق با قوانین جرایم نرم افزاری و رایانه ای، ممنوع و " +
                         "غیرمجاز تلقی میگردد و قابل پیگرد قانونی است.\n" +

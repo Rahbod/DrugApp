@@ -22,9 +22,9 @@
     <application
         android:name=".controller.AppController"
         android:allowBackup="false"
-        android:icon="@drawable/heart"
+        android:icon="@drawable/iconpng"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/heart"
+        android:roundIcon="@drawable/iconpng"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">

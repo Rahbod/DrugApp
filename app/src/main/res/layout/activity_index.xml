@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="سینا دارو"
+            android:text="فارماسینا"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
@@ -431,7 +431,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
-                            android:text="درباره سینا دارو"
+                            android:text="درباره فارماسینا"
                             android:textColor="@color/sina"
                             android:textSize="12dp" />
 

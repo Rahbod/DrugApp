@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SinaDrugs</string>
+    <string name="app_name">PharmaSina</string>
     <string name="enable_wifi">دستگاه شما به اینترنت دسترسی ندارد، آیا مایل به فعال سازی Wi-Fi هستید؟</string>
     <string name="yes">باشه</string>
     <string name="no">خیر</string>

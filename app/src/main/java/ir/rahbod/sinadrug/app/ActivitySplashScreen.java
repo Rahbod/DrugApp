@@ -153,13 +153,13 @@ public class ActivitySplashScreen extends AppCompatActivity {
         });
 
         //Lottie anim
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                animSplashScreen = findViewById(R.id.animSplashScreen);
-                animSplashScreen.playAnimation();
-            }
-        }, 300);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                animSplashScreen = findViewById(R.id.animSplashScreen);
+//                animSplashScreen.playAnimation();
+//            }
+//        }, 300);
 
         //        anim name
         new Handler().postDelayed(new Runnable() {

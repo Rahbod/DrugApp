@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/text_view"
-            android:text="سینا دارو"
+            android:text="فارماسینا"
             android:textColor="@color/sina"
             android:textSize="25dp" />
 

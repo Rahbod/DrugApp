@@ -25,7 +25,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40dp"
-                    android:src="@drawable/card_view_heart" />
+                    android:src="@drawable/ic_icon" />
 
             </RelativeLayout>
 
@@ -39,50 +39,17 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="لطفا نسخه مورد نظر خود را انتخاب کنید"
-                    android:layout_marginTop="15dp"
-                    android:textColor="@color/sina"
-                    android:textSize="13dp"/>
+                <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
+                    <!--android:id="@+id/text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="لطفا نسخه مورد نظر خود را انتخاب کنید"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:textColor="@color/sina"-->
+                    <!--android:textSize="13dp"/>-->
 
                 <LinearLayout
                     android:id="@+id/btnFullVersion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/select_version_border"
-                    android:layoutDirection="rtl"
-                    android:orientation="vertical"
-                    tools:targetApi="jelly_bean_mr1">
-
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="نسخه کامل"
-                        android:textColor="@color/sina"
-                        android:textSize="14dp"/>
-
-                    <ir.rahbod.sinadrug.fonts.FontTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="با دانلود و پرداخت هزینه، بصورت کامل نصب می شود." />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btnLicenseVersion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -100,7 +67,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="نسخه ویژه"
+                        android:textAlignment="center"
+                        android:text="نسخه کامل"
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
@@ -111,42 +79,91 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="برای دریافت نسخه کامل بدون هزینه باید کد ویژه را وارد کنید." />
+                        android:textAlignment="center"
+                        android:text="قیمت نرم افزار: 20.000 تومان\nبا احتساب تخفیف ویژه جشنواره دانشجویی\nاز تاریخ 16 الی 22 آذرماه\nمبلغ قابل پرداخت: 10.000 تومان" />
+
+                    <ir.rahbod.sinadrug.fonts.ButtonFont
+                        android:id="@+id/btnFullVersion2"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_button_blue_dark"
+                        android:text="لطفا جهت خرید اینجا کلیک کنید."
+                        android:textColor="@color/white"
+                        android:textSize="14dp"
+                        tools:ignore="RtlHardcoded" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btnTrialVersion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/select_version_border"
-                    android:layoutDirection="rtl"
-                    android:orientation="vertical"
-                    tools:targetApi="jelly_bean_mr1">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/btnLicenseVersion"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_marginBottom="20dp"-->
+                    <!--android:background="@drawable/select_version_border"-->
+                    <!--android:layoutDirection="rtl"-->
+                    <!--android:orientation="vertical"-->
+                    <!--tools:targetApi="jelly_bean_mr1">-->
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="نسخه نمونه"
-                        android:textColor="@color/sina"
-                        android:textSize="14dp"/>
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextViewBold-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="نسخه ویژه"-->
+                        <!--android:textColor="@color/sina"-->
+                        <!--android:textSize="14dp"/>-->
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="این نسخه شامل دارو های نمونه می باشد" />
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="برای دریافت نسخه کامل بدون هزینه باید کد ویژه را وارد کنید." />-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/btnTrialVersion"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="20dp"-->
+                    <!--android:layout_marginRight="20dp"-->
+                    <!--android:layout_marginBottom="30dp"-->
+                    <!--android:background="@drawable/select_version_border"-->
+                    <!--android:layoutDirection="rtl"-->
+                    <!--android:orientation="vertical"-->
+                    <!--tools:targetApi="jelly_bean_mr1">-->
+
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextViewBold-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="نسخه نمونه"-->
+                        <!--android:textColor="@color/sina"-->
+                        <!--android:textSize="14dp"/>-->
+
+                    <!--<ir.rahbod.sinadrug.fonts.FontTextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginBottom="10dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:text="این نسخه شامل دارو های نمونه می باشد" />-->
+
+                <!--</LinearLayout>-->
 
 
             </LinearLayout>

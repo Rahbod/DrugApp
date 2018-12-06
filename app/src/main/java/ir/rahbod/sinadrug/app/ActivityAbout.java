@@ -48,7 +48,7 @@ public class ActivityAbout extends AppCompatActivity {
             TextView txtTitle = findViewById(R.id.txtTitle);
 
             txtTitle.setText("قوانین و مقررات");
-            String text = "قوانین و مقررات استفاده از اپلیکیشن سینادارو" + "\n\n" + "کلیه حقوق مادی و معنوی اپلیکیشن سینادارو و تمامی محتویات آن شامل آیکون ها، نشان  تجاری داخل اپلیکیشن طبق قانون مالکیت مادی و معنوی، به انتشارات سیناطب و رودگون اختصاص داشته و هرگونه استفاده از نام، متون، مطالب، مستندات نرم افزار بدون اجازه کتبی از پدیدآورندگان مطابق با قوانین جرایم نرم افزاری و رایانه ای، ممنوع و غیرمجاز تلقی میگردد و قابل پیگرد قانونی است." +
+            String text = "قوانین و مقررات استفاده از اپلیکیشن فارماسینا" + "\n\n" + "کلیه حقوق مادی و معنوی اپلیکیشن فارماسینا و تمامی محتویات آن شامل آیکون ها، نشان  تجاری داخل اپلیکیشن طبق قانون مالکیت مادی و معنوی، به انتشارات سیناطب و رودگون اختصاص داشته و هرگونه استفاده از نام، متون، مطالب، مستندات نرم افزار بدون اجازه کتبی از پدیدآورندگان مطابق با قوانین جرایم نرم افزاری و رایانه ای، ممنوع و غیرمجاز تلقی میگردد و قابل پیگرد قانونی است." +
                     "\n" +
                     "اطلاعات دارویی ارائه شده در این نرم افزار صرفاً جهت اطلاع رسانی به کاربر است و برای هرگونه تجویز دارو به " +
                     "بیمار لازم است تا این کار توسط پزشک معالج بر مبنای معاینه دقیق و بررسی های بالینی و پاراکلینیکی صورت گیرد و " +
@@ -57,12 +57,12 @@ public class ActivityAbout extends AppCompatActivity {
                     "بوده و پدیدآورندگان این اپلیکیشن هیچ مسئولیتی در این زمینه نخواهند داشت.\n";
 
             SpannableString spannableString = new SpannableString(text);
-            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 36, 44, 0);
-            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 77, 86, 0);
-            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 180, 205, 0);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 36, 45, 0);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 79, 88, 0);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 183, 207, 0);
             txt.setText(spannableString);
         } else {
-            String text = "1- اپلیکیشن سینادارو، تنها برای استفاده کاربرانی که در رشته های داروسازی، پزشکی یا زیرگروه های پزشکی مشغول به تحصیل می باشد تهیه و به بازار ارائه شده است و برای استفاده سایر رشته ها از این نرم افزار توصیه نمی شود.\nهرگونه کپی برداری و سعی در هک کردن داده های نرم افزار طبق قوانین نرم افزاری حاکم بر جمهوری اسلامی ایران غیرمجاز و ممنوع تلقی شده و علاوه بر پیگرد قانونی، شرایط پشتیبانی و خدمات پس از فروش نرم افزار را لغو خواهد نمود." +
+            String text = "1- اپلیکیشن فارماسینا، تنها برای استفاده کاربرانی که در رشته های داروسازی، پزشکی یا زیرگروه های پزشکی مشغول به تحصیل می باشد تهیه و به بازار ارائه شده است و برای استفاده سایر رشته ها از این نرم افزار توصیه نمی شود.\nهرگونه کپی برداری و سعی در هک کردن داده های نرم افزار طبق قوانین نرم افزاری حاکم بر جمهوری اسلامی ایران غیرمجاز و ممنوع تلقی شده و علاوه بر پیگرد قانونی، شرایط پشتیبانی و خدمات پس از فروش نرم افزار را لغو خواهد نمود." +
                     "\n\n2- حفظ و نگهداری از اطلاعات نرم افزار، صرفاً بر عهده کاربر خواهد بود و در صورت کپی برداری، استفاده غیرمجاز و یا کرک از نسخه تحت مالکیت مشتری، تمامی مسئولیت های قانونی در این زمینه متوجه کاربرخواهد بود و طبق قانون حقوق مؤلفین و پدیدآورندگان نرم افزار، پیگرد قانونی خواهد داشت و بعلاوه شرایط پشتیبانی و خدمات پس از فروش نرم افزار را نیز لغو خواهد نمود. در همین راستا پدیدآورندگان هم متعهد در حفظ و نگهداری از اطلاعات کاربر هستند و نهایت دقت و امنیت را در این مورد لحاظ کرده اند." +
                     "\n\n3- استفاده از محتواى نرم افزار شامل لوگو، علائم تجارى، آیکون ها و اطلاعاتی که در این نرم افزار است، بدون اجازه کتبى پدیدآورنده، ممنوع بوده و هیچ کس نمی تواند به هر دلیلی هیچ جزئی از اطلاعات موجود در این نرم افزار را در رسانه، نرم افزار، کتاب و یا هرگونه محتواى دیجیتالی و چاپی دیگری منتشر نماید و این امر اکیداً ممنوع است." +
                     "\n\n4- اطلاعات دارویی ارائه شده در این نرم افزار صرفاً جهت اطلاع رسانی به کاربر است و برای هرگونه تجویز دارو به بیمار لازم است تا این کار توسط پزشک معالج برمبنای معاینه دقیق و بررسی های بالینی و پاراکلینیکی صورت گیرد و این اطلاعات نمی تواند بعنوان مرجعی برای تجویز و یا مصرف خودسرانه هیچ دارویی محسوب گردد. بدینوسیله تأکید می شود تمامی مسئولیت استفاده از محتوای اپلیکیشن  و مصرف خودسرانه داروها به طور کلی به عهده کاربر بوده و پدیدآورندگان این اپلیکیشن هیچ مسئولیتی در این زمینه نخواهند داشت." +
@@ -81,7 +81,7 @@ public class ActivityAbout extends AppCompatActivity {
                     "سایت:www.rodgoon.com\n" +
                     "ایمیل: rodgoonpub@gmail.com";
             SpannableString spannableString = new SpannableString(text);
-            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 12, 20, 0);
+            spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 12, 21, 0);
             txt.setText(spannableString);
         }
 
@@ -211,7 +211,7 @@ public class ActivityAbout extends AppCompatActivity {
 //            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/SinaDrugs.apk");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/PharmaSina.apk");
         }
 
         startActivity(Intent.createChooser(intent, "Share app via"));

@@ -491,7 +491,7 @@ public class ActivityCategories extends AppCompatActivity {
 //            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/SinaDrugs.apk");
+            intent.putExtra(Intent.EXTRA_TEXT, "http://www.rahbod.ir/PharmaSina.apk");
         }
 
         startActivity(Intent.createChooser(intent, "Share app via"));

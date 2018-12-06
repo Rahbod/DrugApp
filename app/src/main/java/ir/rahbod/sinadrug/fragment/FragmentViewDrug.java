@@ -388,7 +388,7 @@ public class FragmentViewDrug extends Fragment {
                 text += drug.getFaName();
                 text += getHealingShare(String.valueOf(dbHelper.getHealingCategory(ID)));
                 text += stripHtml(drug.getUsage());
-                text += "http://www.rahbod.ir/SinaDrugs.apk";
+                text += "http://www.rahbod.ir/PharmaSina.apk";
                 shareText(drug.getName(), text);
             }
         });
