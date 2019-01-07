@@ -12,10 +12,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 
+import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.map.MapActivity;
 
 public class ActivityNotifications extends AppCompatActivity {
@@ -25,6 +28,16 @@ public class ActivityNotifications extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+
+        DbHelper dbHelper = new DbHelper(this);
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +102,7 @@ public class ActivityNotifications extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

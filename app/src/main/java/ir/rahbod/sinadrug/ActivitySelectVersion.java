@@ -43,22 +43,8 @@ public class ActivitySelectVersion extends AppCompatActivity {
 
         activitySelectVersion = this;
 
-        // TrialVersion
-//        LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
-//        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
-//            btnTrialVersion.setVisibility(View.GONE);
-//        btnTrialVersion.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ActivitySelectVersion.this, ActivitySplashScreen.class);
-//                intent.putExtra("action", "sampleDownload");
-//                startActivity(intent);
-//            }
-//        });
-
         // FullVersion
-        ButtonFont btnFullVersion2 = findViewById(R.id.btnFullVersion2);
-        LinearLayout btnFullVersion = findViewById(R.id.btnFullVersion);
+        LinearLayout btnFullVersion = findViewById(R.id.btnLicenseVersion);
         btnFullVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +77,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
                                     Intent intent = new Intent(ActivitySelectVersion.this, PaymentActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("id", id);
-                                    intent.putExtra("action", "fullDownload");
+                                    intent.putExtra("action", "download");
                                     startActivity(intent);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -105,7 +91,9 @@ public class ActivitySelectVersion extends AppCompatActivity {
                     Toast.makeText(ActivitySelectVersion.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
-        btnFullVersion2.setOnClickListener(new View.OnClickListener() {
+
+        LinearLayout btnTrialVersion = findViewById(R.id.btnTrialVersion);
+        btnTrialVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isConnected()) {
@@ -137,7 +125,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
                                     Intent intent = new Intent(ActivitySelectVersion.this, PaymentActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("id", id);
-                                    intent.putExtra("action", "fullDownload");
+                                    intent.putExtra("action", "download");
                                     startActivity(intent);
                                 } catch (JSONException e) {
                                     e.printStackTrace();

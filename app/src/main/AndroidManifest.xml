@@ -138,6 +138,9 @@
         <activity android:name=".ActivityUpdateDatabase" />
         <activity android:name=".ActivityNotifications" />
         <activity android:name=".ActivityListNotifications" />
+        <activity android:name=".ActivityVegetalDrug"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name="ir.rahbod.sinadrug.ActivityTrialMessage" />
     </application>
 
 </manifest>

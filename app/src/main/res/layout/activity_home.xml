@@ -20,7 +20,6 @@
 
         <!--actionBar-->
         <RelativeLayout
-
             android:id="@+id/actionBarFavorite"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -497,6 +496,32 @@
                         android:layout_marginRight="20dp"
                         android:text="اطلاعیه ها"
                         android:textColor="@color/sina" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:id="@+id/linCountNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/background_count_notification">
+
+                        <ir.rahbod.sinadrug.fonts.FontTextView
+                            android:id="@+id/txtCountNotification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="12sp"
+                            android:paddingRight="7dp"
+                            android:paddingLeft="7dp"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

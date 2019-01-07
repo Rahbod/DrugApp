@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.List;
@@ -25,11 +27,13 @@ import ir.rahbod.sinadrug.app.map.MapActivity;
 
 public class ActivityListNotifications extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notifications);
+        dbHelper = new DbHelper(this);
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +63,19 @@ public class ActivityListNotifications extends AppCompatActivity {
         List<Notifications> list = dbHelper.getListNotifications();
         AdapterListNotifications adapter = new AdapterListNotifications(this, list);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
     }
 
     public void openNv(View view) {
@@ -98,7 +115,7 @@ public class ActivityListNotifications extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

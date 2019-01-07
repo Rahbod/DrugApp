@@ -22,7 +22,7 @@ import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "Drug";
     private SQLiteDatabase db;
 
@@ -66,6 +66,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String KEY_TITLE = "title";
     private static final String KEY_MESSAGE = "text";
+    private static final String KEY_READ = "read";
     private static final String KEY_DATE = "date";
 
     private Context context;
@@ -104,7 +105,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_CONTENT + " TEXT, " + KEY_FAVORITE + " INTEGER )";
 
         String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
-                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
+                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER, " + KEY_READ + " INTEGER DEFAULT 0)";
 
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
@@ -129,13 +130,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NOTIFICATION, null, values);
     }
 
-    public List<Notifications> getListNotifications(){
+    public List<Notifications> getListNotifications() {
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTIFICATION + " ORDER BY " + KEY_ID + " DESC";
         Cursor cursor = db.rawQuery(query, null);
         List<Notifications> list = new ArrayList<>();
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             Notifications notifications = new Notifications();
+            notifications.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             notifications.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
             notifications.setMessage(cursor.getString(cursor.getColumnIndex(KEY_MESSAGE)));
             list.add(notifications);
@@ -294,6 +296,13 @@ public class DbHelper extends SQLiteOpenHelper {
         long count = DatabaseUtils.queryNumEntries(db, table);
         db.close();
         return count;
+    }
+
+    public int getCountNotification() {
+        db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTIFICATION + " WHERE " + KEY_READ + " = 0";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor.getCount();
     }
 
     public void bookMark(int id) {
@@ -619,5 +628,17 @@ public class DbHelper extends SQLiteOpenHelper {
             list.add(index);
         }
         return list;
+    }
+
+    public void readNotification(int id) {
+        db = this.getWritableDatabase();
+        String query = "SELECT " + KEY_READ + " FROM " + TABLE_NOTIFICATION + " WHERE id =" + id;
+        Cursor cursor = db.rawQuery(query, null);
+        ContentValues values = new ContentValues();
+        if (cursor.moveToNext())
+            if (cursor.getInt(cursor.getColumnIndex(KEY_READ)) == 0) {
+                values.put(KEY_READ, 1);
+                db.update(TABLE_NOTIFICATION, values, KEY_ID + " = " + id, null);
+            }
     }
 }

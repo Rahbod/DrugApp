@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -150,6 +151,16 @@ public class ActivityErrorReport extends AppCompatActivity {
                 }
             }
         });
+
+        DbHelper dbHelper = new DbHelper(this);
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
     }
 
     public boolean isConnected() {
@@ -195,7 +206,7 @@ public class ActivityErrorReport extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

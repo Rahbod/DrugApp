@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -110,6 +111,15 @@ public class viewDrug extends AppCompatActivity {
         nameDrug.setText(drug.getName());
         persianName.setText(drug.getFaName());
 
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -157,7 +167,7 @@ public class viewDrug extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

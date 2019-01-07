@@ -23,7 +23,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+
 import ir.rahbod.sinadrug.ActivitySelectVersion;
+import ir.rahbod.sinadrug.ActivityTrialMessage;
 import ir.rahbod.sinadrug.app.controller.AppController;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
 
@@ -38,6 +40,7 @@ public class ActivityCheckCode extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public static Activity activityCheckCode = null;
+
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +88,13 @@ public class ActivityCheckCode extends AppCompatActivity {
                                 public void onResponse(JSONObject response) {
                                     try {
                                         if (response.getBoolean("status")) {
-                                            if (SessionManager.getExtrasPref(ActivityCheckCode.this).getInt("activated") == 1) {
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
-                                                intent.putExtra("action", "fullDownload");
+                                            if (SessionManager.getExtrasPref(ActivityCheckCode.this).getBoolean("useTrial")) {
+                                                Intent intent = new Intent(ActivityCheckCode.this, ActivityTrialMessage.class);
                                                 startActivity(intent);
                                             } else {
-//                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
-//                                                intent.putExtra("action", "sampleDownload");
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
+                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
+                                                intent.putExtra("action", "download");
                                                 startActivity(intent);
-                                                btnSave.setTextColor(getResources().getColor(R.color.white));
-                                                btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
-                                                btnSave.setEnabled(true);
-                                                btnSave.setText("ثبت");
                                             }
                                         } else {
                                             Toast.makeText(ActivityCheckCode.this, "کد وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
@@ -109,13 +106,39 @@ public class ActivityCheckCode extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+//                                    try {
+//                                        if (response.getBoolean("status")) {
+//                                            if (SessionManager.getExtrasPref(ActivityCheckCode.this).getInt("activated") == 1) {
+//                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
+//                                                intent.putExtra("action", "fullDownload");
+//                                                startActivity(intent);
+//                                            } else {
+//                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
+//                                                intent.putExtra("action", "trialDownload");
+//                                                //Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
+//                                                startActivity(intent);
+//                                                btnSave.setTextColor(getResources().getColor(R.color.white));
+//                                                btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+//                                                btnSave.setEnabled(true);
+//                                                btnSave.setText("ثبت");
+//                                            }
+//                                        } else {
+//                                            Toast.makeText(ActivityCheckCode.this, "کد وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
+//                                            btnSave.setEnabled(true);
+//                                            btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
+//                                            btnSave.setTextColor(getResources().getColor(R.color.white));
+//                                            btnSave.setText("ثبت");
+//                                        }
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
                                 }
                             });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else
+                    } else
                         Toast.makeText(ActivityCheckCode.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
                 } else
                     Toast.makeText(ActivityCheckCode.this, "کد وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();

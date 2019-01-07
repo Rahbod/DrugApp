@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,19 +10,23 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/relHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layoutDirection="ltr"
-        android:background="#fff">
+        tools:context="ir.rahbod.sinadrug.app.ActivityHome"
+        tools:targetApi="jelly_bean_mr1">
 
         <!--actionBar-->
         <RelativeLayout
-            android:id="@+id/actionBarErrorReport"
+            android:id="@+id/actionBarFavorite"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/background_gradient"
-            android:elevation="4dp"
-            tools:targetApi="lollipop">
+            android:background="@color/greenVegetal"
+            android:layoutDirection="ltr"
+            app:layout_scrollFlags="scroll"
+            tools:targetApi="jelly_bean_mr1">
 
             <ImageView
                 android:id="@+id/btnOpenNvDraw"
@@ -30,7 +35,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/background_focus"
+                android:background="@drawable/background_focus_vegetal"
                 android:padding="13dp"
                 android:src="@drawable/menu_icon" />
 
@@ -40,7 +45,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/background_focus"
+                android:background="@drawable/background_focus_vegetal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:src="@drawable/back_icon" />
@@ -50,35 +55,133 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="اطلاعیه"
+                android:text="داروهای گیاهی"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
         </RelativeLayout>
 
-        <WebView
-            android:id="@+id/webView"
+        <RelativeLayout
+            android:id="@+id/relHome1"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/actionBarFavorite"
+            android:background="@color/greenVegetal"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <RelativeLayout
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_below="@id/relHome1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="-18dp"
+            android:background="@drawable/search_shadow"
+            android:layoutDirection="rtl">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2.5dp"
+                android:layoutDirection="ltr"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                tools:targetApi="jelly_bean_mr1">
+
+                <ImageView
+                    android:id="@+id/searchHome"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/search_icon"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/closeIcon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/background_focus_voice"
+                    android:padding="3dp"
+                    android:src="@drawable/black_close_icon"
+                    android:visibility="invisible" />
+
+                <ir.rahbod.sinadrug.fonts.EditTextFont
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginStart="35dp"
+                    android:background="@drawable/edit_text_radius"
+                    android:hint="جستجو کنید..."
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:textColor="@color/sina"
+                    android:textSize="13dp" />
+
+                <!--<ImageView-->
+                <!--android:id="@+id/imgVoice"-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginStart="4dp"-->
+                <!--android:background="@drawable/background_focus_voice"-->
+                <!--android:padding="7dp"-->
+                <!--android:src="@drawable/microphone_icon" />-->
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView
+            android:id="@+id/fast_scroller_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/actionBarErrorReport"
-            android:layout_margin="10dp"/>
+            android:layout_below="@id/cardView"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layoutDirection="ltr"
+            android:textDirection="ltr"
+            app:setIndexBarCornerRadius="3"
+            app:setIndexBarTextColor="@color/white"
+            app:setIndexTextSize="12"
+            app:setIndexbarMargin="0"
+            app:setIndexbarWidth="15"
+            app:setPreviewPadding="0" />
 
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/homeNavView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_header"
-        android:id="@+id/reportNavView"
         tools:ignore="RtlHardcoded">
 
         <ScrollView
-            android:layout_marginTop="150dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:layout_marginTop="150dp"
             android:fillViewport="true"
             android:layoutDirection="rtl"
             android:scrollbars="none"

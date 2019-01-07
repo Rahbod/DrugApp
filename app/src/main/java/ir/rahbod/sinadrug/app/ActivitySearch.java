@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ir.rahbod.sinadrug.app.adapter.AdapterSearch;
@@ -49,6 +50,15 @@ public class ActivitySearch extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
 
         // Set user name and mobile
         NavigationView navigationView = findViewById(R.id.searchNavView);
@@ -409,7 +419,7 @@ public class ActivitySearch extends AppCompatActivity {
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

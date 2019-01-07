@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ir.rahbod.sinadrug.app.adapter.AdapterAlphabetIndexFastScroll;
@@ -35,13 +36,13 @@ import java.util.List;
 
 import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
 
-public class ActivityHome extends AppCompatActivity{
+public class ActivityHome extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private AdapterAlphabetIndexFastScroll adapterHome;
     private List<Index> drugList = new ArrayList<>();
     private DbHelper dbHelper;
     private EditText text;
-//    private ImageView btnListen;
+    //    private ImageView btnListen;
 //    private SpeechProgressView progress;
 //    private ConnectivityManager connectivityManager;
 //    private Speech speechInstance;
@@ -217,6 +218,15 @@ public class ActivityHome extends AppCompatActivity{
 //                }
 //            }
 //        });
+
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
     }
 
     public void openNv(View view) {
@@ -256,7 +266,7 @@ public class ActivityHome extends AppCompatActivity{
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

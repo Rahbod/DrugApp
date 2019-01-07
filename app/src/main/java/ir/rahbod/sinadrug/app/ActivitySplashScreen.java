@@ -282,6 +282,7 @@ public class ActivitySplashScreen extends AppCompatActivity {
             long now = System.currentTimeMillis() / 1000;
             SessionManager.getExtrasPref(this).putExtra("updateCheck", now);
             SessionManager.getExtrasPref(this).putExtra("lastSync", now);
+            SessionManager.getExtrasPref(this).putExtra("startUseTrial", now);
             SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
 
             Intent intent = new Intent(ActivitySplashScreen.this, ActivityIndex.class);

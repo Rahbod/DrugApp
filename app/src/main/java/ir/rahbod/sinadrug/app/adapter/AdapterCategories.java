@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.li
             @Override
             public void onClick(View v) {
                 int ID = listDrug.get(position).getId();
+                String title = listDrug.get(position).getName();
                 int parentID = listDrug.get(position).getParentID();
                 parentIDList.put(parentID);
                 SessionManager.getExtrasPref(context).putExtra("idList", parentIDList.toString());
@@ -71,6 +73,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.li
                 if (listDrug.isEmpty()) {
                     Intent intent = new Intent(context, ActivityCategoryViewDrug.class);
                     intent.putExtra("id", ID);
+                    intent.putExtra("title", title);
                     context.startActivity(intent);
                     SessionManager.getExtrasPref(context).putExtra("idList", parentIDList.toString());
                 } else {

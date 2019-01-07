@@ -1,11 +1,20 @@
 package ir.rahbod.sinadrug.app.database;
 
 public class Notifications {
-    String title;
-    String message;
-    int date;
+    private int id;
+    private String title;
+    private String message;
+    private int date;
 
     public Notifications() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

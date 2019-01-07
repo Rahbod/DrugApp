@@ -14,10 +14,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ir.rahbod.sinadrug.app.adapter.AdapterInterferenceDrug;
@@ -33,9 +35,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ActivityCategoryViewDrug extends AppCompatActivity{
+public class ActivityCategoryViewDrug extends AppCompatActivity {
 
-    private TextView text;
+    private TextView text, txtTitle;
     private DrawerLayout drawerLayout;
     private List<Index> listDrug;
     private AdapterInterferenceDrug adapterCategoryDrug;
@@ -69,6 +71,11 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
         drawerLayout = findViewById(R.id.DrawerLayout);
         ImageView imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
 
+        //set title action bar
+        String title = getIntent().getStringExtra("title");
+        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle.setText(title);
+
         imgOpenNvDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,9 +95,6 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
                 }, 100);
             }
         });
-
-        TextView txtTitle = findViewById(R.id.txtTitle);
-        txtTitle.setText("لیست داروها");
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
@@ -145,6 +149,14 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
             }
         });
 
+        int notificationCount = dbHelper.getCountNotification();
+        LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
+        TextView txtCountNotification = findViewById(R.id.txtCountNotification);
+        if (notificationCount > 0) {
+            linCountNotification.setVisibility(View.VISIBLE);
+            txtCountNotification.setText(notificationCount + "");
+        }else
+            linCountNotification.setVisibility(View.GONE);
 
         ///////////////////////////////
 //        //voice search
@@ -372,7 +384,7 @@ public class ActivityCategoryViewDrug extends AppCompatActivity{
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;

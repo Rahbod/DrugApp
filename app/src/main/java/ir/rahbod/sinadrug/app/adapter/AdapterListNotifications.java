@@ -3,6 +3,7 @@ package ir.rahbod.sinadrug.app.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,18 @@ import java.util.List;
 import ir.rahbod.sinadrug.app.ActivityNotifications;
 import ir.rahbod.sinadrug.app.R;
 import ir.rahbod.sinadrug.app.database.Notifications;
+import ir.rahbod.sinadrug.app.helper.DbHelper;
 
 public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNotifications.listViewHolder> {
 
-    Context context;
-    List<Notifications> list;
+    private Context context;
+    private List<Notifications> list;
+    private DbHelper dbHelper;
 
     public AdapterListNotifications(Context context, List<Notifications> list) {
         this.context = context;
         this.list = list;
+        dbHelper = new DbHelper(context);
     }
 
     @Override
@@ -39,6 +43,7 @@ public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNo
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityNotifications.class);
                 intent.putExtra("text", list.get(position).getMessage());
+                dbHelper.readNotification(list.get(position).getId());
                 context.startActivity(intent);
             }
         });

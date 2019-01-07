@@ -37,6 +37,7 @@ import ir.rahbod.sinadrug.app.ActivityErrorReport;
 import ir.rahbod.sinadrug.app.ActivityFavorite;
 import ir.rahbod.sinadrug.app.ActivityListDrugInterference;
 import ir.rahbod.sinadrug.app.ActivityReminderList;
+import ir.rahbod.sinadrug.app.ActivityVegetalDrug;
 import ir.rahbod.sinadrug.app.R;
 import ir.rahbod.sinadrug.fonts.ButtonFont;
 import com.google.android.gms.common.ConnectionResult;
@@ -404,7 +405,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 closeNv();
                 break;
             case R.id.item8:
-                Intent intentVegetalDrug = new Intent(this, ActivityDrug.class);
+                Intent intentVegetalDrug = new Intent(this, ActivityVegetalDrug.class);
                 startActivity(intentVegetalDrug);
                 closeNv();
                 break;
