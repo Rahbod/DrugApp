@@ -32,10 +32,6 @@ import ir.rahbod.sinadrug.app.helper.SessionManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ir.rahbod.sinadrug.ActivitySelectVersion;
-import ir.rahbod.sinadrug.app.controller.AppController;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
-
 public class ActivityCheckCode extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
@@ -89,11 +85,10 @@ public class ActivityCheckCode extends AppCompatActivity {
                                     try {
                                         if (response.getBoolean("status")) {
                                             if (SessionManager.getExtrasPref(ActivityCheckCode.this).getBoolean("useTrial")) {
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivityTrialMessage.class);
+                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
                                                 startActivity(intent);
                                             } else {
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
-                                                intent.putExtra("action", "download");
+                                                Intent intent = new Intent(ActivityCheckCode.this, ActivityTrialMessage.class);
                                                 startActivity(intent);
                                             }
                                         } else {

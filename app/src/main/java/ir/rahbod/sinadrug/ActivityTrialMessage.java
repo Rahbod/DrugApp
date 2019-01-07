@@ -26,6 +26,7 @@ import ir.rahbod.sinadrug.app.PaymentActivity;
 import ir.rahbod.sinadrug.app.R;
 import ir.rahbod.sinadrug.app.controller.AppController;
 import ir.rahbod.sinadrug.fonts.ButtonFont;
+import ir.rahbod.sinadrug.fonts.FontTextView;
 
 public class ActivityTrialMessage extends AppCompatActivity {
 
@@ -33,6 +34,12 @@ public class ActivityTrialMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trial_message);
+
+        FontTextView trialMessageText = findViewById(R.id.trialMessageText);
+        if (getIntent().getBooleanExtra("fromIndex", false))
+            trialMessageText.setVisibility(View.GONE);
+        else
+            trialMessageText.setVisibility(View.VISIBLE);
 
         ButtonFont btnPayment = findViewById(R.id.btnPayment);
         btnPayment.setOnClickListener(new View.OnClickListener() {

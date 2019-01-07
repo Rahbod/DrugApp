@@ -2,6 +2,7 @@ package ir.rahbod.sinadrug.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +38,13 @@ public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNo
 
     @Override
     public void onBindViewHolder(final AdapterListNotifications.listViewHolder holder, final int position) {
+        if(list.get(position).getRead() == 0){
+            Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Bold.ttf");
+            holder.txt.setTypeface(face);
+            holder.txtDate.setTypeface(face);
+        }
         holder.txt.setText(list.get(position).getTitle());
+        holder.txtDate.setText(list.get(position).getJalaliDate());
         holder.relCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,12 +62,15 @@ public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNo
     }
 
     public class listViewHolder extends RecyclerView.ViewHolder {
-        TextView txt;
+        TextView txt, txtDate;
         RelativeLayout relCategory;
         public listViewHolder(View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);
+            txtDate = itemView.findViewById(R.id.txtDate);
             relCategory = itemView.findViewById(R.id.relCategory);
+
+            txtDate.setVisibility(View.VISIBLE);
         }
     }
 }

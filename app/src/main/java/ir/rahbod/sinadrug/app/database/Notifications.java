@@ -5,6 +5,8 @@ public class Notifications {
     private String title;
     private String message;
     private int date;
+    private String jalaliDate;
+    private int read;
 
     public Notifications() {
     }
@@ -39,5 +41,21 @@ public class Notifications {
 
     public void setDate(int date) {
         this.date = date;
+    }
+
+    public String getJalaliDate() {
+        return jalaliDate;
+    }
+
+    public void setJalaliDate(String jalaliDate) {
+        this.jalaliDate = jalaliDate;
+    }
+
+    public int getRead() {
+        return read;
+    }
+
+    public void setRead(int read) {
+        this.read = read;
     }
 }

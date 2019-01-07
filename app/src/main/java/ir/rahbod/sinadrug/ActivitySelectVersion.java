@@ -44,8 +44,8 @@ public class ActivitySelectVersion extends AppCompatActivity {
         activitySelectVersion = this;
 
         // FullVersion
-        LinearLayout btnFullVersion = findViewById(R.id.btnLicenseVersion);
-        btnFullVersion.setOnClickListener(new View.OnClickListener() {
+        LinearLayout btnLicenseVersion = findViewById(R.id.btnLicenseVersion);
+        btnLicenseVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isConnected()) {
@@ -122,7 +122,7 @@ public class ActivitySelectVersion extends AppCompatActivity {
                                 try {
                                     String url = response.getString("url");
                                     int id = response.getInt("id");
-                                    Intent intent = new Intent(ActivitySelectVersion.this, PaymentActivity.class);
+                                    Intent intent = new Intent(ActivitySelectVersion.this, ActivitySplashScreen.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("id", id);
                                     intent.putExtra("action", "download");

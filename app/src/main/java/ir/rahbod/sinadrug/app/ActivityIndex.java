@@ -96,8 +96,9 @@ public class ActivityIndex extends AppCompatActivity {
             int activated = SessionManager.getExtrasPref(this).getInt("activated"),
                 setupDate = SessionManager.getExtrasPref(this).getInt("setupDate");
 
-            // if installed trial version 5 days ago go to activate page
-            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 432000) {
+            // if installed trial version 10 days ago go to activate page
+            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 864000) {
+                SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
                 Intent intent = new Intent(this, ActivityTrialMessage.class);
                 startActivity(intent);
             }else {
@@ -108,21 +109,13 @@ public class ActivityIndex extends AppCompatActivity {
     }
 
     private void onCreateIndex() {
-        //check use trial
-        if (SessionManager.getExtrasPref(this).getInt("activated") == 0) {
-            long startUseTrial = SessionManager.getExtrasPref(this).getLong("startUseTrial");
-            if (startUseTrial + 30 > (System.currentTimeMillis() / 1000)) {
-                Intent intent = new Intent(this, ActivitySelectVersion.class);
-                startActivity(intent);
-            }
-        }
-
         //notifications
         final DbHelper dbHelper = new DbHelper(this);
         checkAndroidID();
 
         JSONObject params = new JSONObject();
         try {
+            Log.e("masoud", "onCreateIndex: "+SessionManager.getExtrasPref(this).getInt("setupDate"));
             if (dbHelper.getLastDateNotifications() == 0) {
                 params.put("last_sync", SessionManager.getExtrasPref(this).getInt("setupDate"));
             } else {
@@ -144,12 +137,14 @@ public class ActivityIndex extends AppCompatActivity {
                             String title = object.getString("title");
                             String text = object.getString("text");
                             int date = object.getInt("date");
+                            String jalaliDate = object.getString("jalaliDate");
                             if (jsonArray.length() == 1)
                                 pushNotifications(title, text, i);
                             Notifications notifications = new Notifications();
                             notifications.setTitle(title);
                             notifications.setMessage(text);
                             notifications.setDate(date);
+                            notifications.setJalaliDate(jalaliDate);
                             dbHelper.pushNotifications(notifications);
                         }
                     } catch (JSONException e) {
@@ -168,7 +163,9 @@ public class ActivityIndex extends AppCompatActivity {
         btnActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityIndex.this, ActivitySelectVersion.class);
+//                Intent intent = new Intent(ActivityIndex.this, ActivitySelectVersion.class);
+                Intent intent = new Intent(ActivityIndex.this, ActivityTrialMessage.class);
+                intent.putExtra("fromIndex", true);
                 startActivity(intent);
             }
         });
@@ -247,75 +244,6 @@ public class ActivityIndex extends AppCompatActivity {
                 return true;
             }
         });
-
-//        btnListen = findViewById(R.id.imgVoice);
-//        progress = findViewById(R.id.progressBar);
-//        speechInstance = Speech.init(this, getPackageName());
-//        btnListen.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //hide keyboard
-//                Class<? extends View.OnClickListener> view = this.getClass();
-//                if (view != null) {
-//                    InputMethodManager imm = (InputMethodManager) getSystemService(ActivityIndex.this.INPUT_METHOD_SERVICE);
-//                    assert imm != null;
-//                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
-//                }
-//
-//                //voiceSearch
-//                View viewDialogMassage = LayoutInflater.from(ActivityIndex.this).inflate(R.layout.massage_dialog, null);
-//                final WifiManager wifiManager = (WifiManager) getApplicationActivityIndex.this().getSystemService(ActivityIndex.this.WIFI_SERVICE);
-//                connectivityManager = (ConnectivityManager) getApplicationActivityIndex.this().getSystemService(ActivityIndex.this.CONNECTIVITY_SERVICE);
-//                if ((connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null) == null) {
-//                    final Dialog dialog = new Dialog(ActivityIndex.this);
-//                    dialog.setContentView(viewDialogMassage);
-//                    LinearLayout linMassageDialog = viewDialogMassage.findViewById(R.id.linDialogMassage);
-//                    linMassageDialog.setVisibility(View.VISIBLE);
-//                    TextView txt = viewDialogMassage.findViewById(R.id.txt);
-//                    txt.setText(R.string.enable_wifi);
-//                    Button btnOk = viewDialogMassage.findViewById(R.id.btnOk);
-//                    btnOk.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-//                            if (wifiManager != null)
-//                                wifiManager.setWifiEnabled(true);
-//
-//                            else if (speechInstance.isListening()) {
-//                                speechInstance.stopListening();
-//                            } else {
-//                                if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-//                                    onRecordAudioPermissionGranted();
-//                                else {
-//                                    ActivityCompat.requestPermissions(ActivityIndex.this,
-//                                            new String[]{Manifest.permission.RECORD_AUDIO},
-//                                            1);
-//                                }
-//                            }
-//                        }
-//                    });
-//                    Button btnCancel = viewDialogMassage.findViewById(R.id.btnCancel);
-//                    btnCancel.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    dialog.show();
-//                } else {
-//                    if (speechInstance.isListening()) {
-//                        speechInstance.stopListening();
-//                    } else {
-//                        if (checkPermission(Manifest.permission.RECORD_AUDIO, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-//                            onRecordAudioPermissionGranted();
-//                        else {
-//                            ActivityCompat.requestPermissions(ActivityIndex.this,
-//                                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
-//                        }
-//                    }
-//                }
-//            }
-//        });
     }
 
     private void onCreateRegister() {
@@ -416,17 +344,8 @@ public class ActivityIndex extends AppCompatActivity {
                     idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
                     if (ActivityCompat.checkSelfPermission(ActivityIndex.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
                         ActivityCompat.requestPermissions(ActivityIndex.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_REGISTER);
-                    else {
-                        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            assert telephonyManager != null;
-                            imei = telephonyManager.getImei();
-                        } else {
-                            assert telephonyManager != null;
-                            imei = telephonyManager.getDeviceId();
-                        }
+                    else
                         sendRegisterRequest();
-                    }
                 } else
                     Toast.makeText(ActivityIndex.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
@@ -651,13 +570,23 @@ public class ActivityIndex extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_PHONE_STATE_REGISTER)
+        if (requestCode == REQUEST_READ_PHONE_STATE_REGISTER && (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED))
             sendRegisterRequest();
-        else if (requestCode == REQUEST_READ_PHONE_STATE_UPDATE)
+        else if (requestCode == REQUEST_READ_PHONE_STATE_UPDATE && (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED))
             sendUpdateRequest();
     }
 
+    @SuppressLint("MissingPermission")
     public void sendRegisterRequest() {
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assert telephonyManager != null;
+            imei = telephonyManager.getImei();
+        } else {
+            assert telephonyManager != null;
+            imei = telephonyManager.getDeviceId();
+        }
+
         if (etNumberMobile.getText().toString().isEmpty())
             Toast.makeText(ActivityIndex.this, "لطفا شماره تلفن خود را وارد کنید", Toast.LENGTH_LONG).show();
         else if (!checkMobileNumber(etNumberMobile.getText().toString()))
@@ -688,9 +617,11 @@ public class ActivityIndex extends AppCompatActivity {
                 if (!etEmail.getText().toString().trim().isEmpty())
                     object.put("email", etEmail.getText().toString());
                 params.put("User", object);
+                Log.e("masoud", "sendRegisterRequest: "+params);
                 AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.e("qqqq", "onResponse: " + response );
                         try {
                             if (response.getBoolean("status")) {
                                 SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));

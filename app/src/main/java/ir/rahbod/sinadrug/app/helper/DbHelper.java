@@ -68,6 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_MESSAGE = "text";
     private static final String KEY_READ = "read";
     private static final String KEY_DATE = "date";
+    private static final String KEY_JALALI_DATE = "jalaliDate";
 
     private Context context;
 
@@ -105,7 +106,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_CONTENT + " TEXT, " + KEY_FAVORITE + " INTEGER )";
 
         String CREATE_TABLE_NOTIFICATION = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION + " ( " + KEY_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
-                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER, " + KEY_READ + " INTEGER DEFAULT 0)";
+                + KEY_TITLE + " TEXT , " + KEY_MESSAGE + " TEXT , " + KEY_DATE + " INTEGER)";
+
+        // update database tables (add column)
+        String ALTER_TABLE_NOTIFICATION_ADD_JALALI_DATE = "ALTER TABLE " + TABLE_NOTIFICATION + " ADD COLUMN " + KEY_JALALI_DATE + " TEXT";
+        String ALTER_TABLE_NOTIFICATION_ADD_READ = "ALTER TABLE " + TABLE_NOTIFICATION + " ADD COLUMN " + KEY_READ + " INTEGER DEFAULT 0";
 
         db.execSQL(CREATE_TABLE_CATEGORIES);
         db.execSQL(CREATE_TABLE_DRUG);
@@ -114,6 +119,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_INTERFERENCE);
         db.execSQL(CREATE_TABLE_INDEX);
         db.execSQL(CREATE_TABLE_NOTIFICATION);
+        db.execSQL(ALTER_TABLE_NOTIFICATION_ADD_JALALI_DATE);
+        db.execSQL(ALTER_TABLE_NOTIFICATION_ADD_READ);
     }
 
     @Override
@@ -127,6 +134,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_TITLE, notifications.getTitle());
         values.put(KEY_MESSAGE, notifications.getMessage());
         values.put(KEY_DATE, notifications.getDate());
+        values.put(KEY_JALALI_DATE, notifications.getJalaliDate());
         db.insert(TABLE_NOTIFICATION, null, values);
     }
 
@@ -140,6 +148,8 @@ public class DbHelper extends SQLiteOpenHelper {
             notifications.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             notifications.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
             notifications.setMessage(cursor.getString(cursor.getColumnIndex(KEY_MESSAGE)));
+            notifications.setJalaliDate(cursor.getString(cursor.getColumnIndex(KEY_JALALI_DATE)));
+            notifications.setRead(cursor.getInt(cursor.getColumnIndex(KEY_READ)));
             list.add(notifications);
         }
         return list;
