@@ -1,55 +1,31 @@
 package ir.rahbod.sinadrug.app;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ir.rahbod.sinadrug.app.adapter.AdapterCategories;
 import ir.rahbod.sinadrug.app.adapter.AdapterInterferenceDrug;
-import ir.rahbod.sinadrug.app.adapter.AdapterTabBar;
-import ir.rahbod.sinadrug.app.database.Category;
 import ir.rahbod.sinadrug.app.database.Index;
-import ir.rahbod.sinadrug.app.helper.Components;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
 import ir.rahbod.sinadrug.app.map.MapActivity;
 import ir.rahbod.sinadrug.fragment.FragmentCategory;
-import ir.rahbod.sinadrug.fragment.FragmentDrug;
-import ir.rahbod.sinadrug.fragment.FragmentInterferenceDrug;
-import ir.rahbod.sinadrug.fragment.FragmentViewDrug;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import ir.rahbod.sinadrug.app.adapter.AdapterInterferenceDrug;
-import ir.rahbod.sinadrug.app.database.Index;
-import ir.rahbod.sinadrug.app.helper.DbHelper;
-import ir.rahbod.sinadrug.app.helper.SessionManager;
-import ir.rahbod.sinadrug.app.map.MapActivity;
-import ir.rahbod.sinadrug.fragment.FragmentCategory;
 
 public class ActivityInterference extends AppCompatActivity {
     private DrawerLayout drawerLayout;

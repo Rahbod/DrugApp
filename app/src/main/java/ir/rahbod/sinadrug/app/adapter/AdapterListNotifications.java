@@ -38,11 +38,16 @@ public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNo
 
     @Override
     public void onBindViewHolder(final AdapterListNotifications.listViewHolder holder, final int position) {
+        Typeface face = null;
         if(list.get(position).getRead() == 0){
-            Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Bold.ttf");
-            holder.txt.setTypeface(face);
-            holder.txtDate.setTypeface(face);
+            face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Bold.ttf");
+            holder.relCategory.setBackgroundColor(context.getResources().getColor(R.color.unreadNotification));
+        }else {
+            face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+            holder.relCategory.setBackground(context.getResources().getDrawable(R.drawable.select_recycler_view_item));
         }
+        holder.txt.setTypeface(face);
+        holder.txtDate.setTypeface(face);
         holder.txt.setText(list.get(position).getTitle());
         holder.txtDate.setText(list.get(position).getJalaliDate());
         holder.relCategory.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +55,14 @@ public class AdapterListNotifications extends RecyclerView.Adapter<AdapterListNo
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityNotifications.class);
                 intent.putExtra("text", list.get(position).getMessage());
-                dbHelper.readNotification(list.get(position).getId());
                 context.startActivity(intent);
+
+                dbHelper.readNotification(list.get(position).getId());
+
+                Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/IRANSans(FaNum)_Light.ttf");
+                holder.txt.setTypeface(face);
+                holder.txtDate.setTypeface(face);
+                holder.relCategory.setBackground(context.getResources().getDrawable(R.drawable.select_recycler_view_item));
             }
         });
     }

@@ -29,6 +29,7 @@ import ir.rahbod.sinadrug.fonts.FontTextView;
 import ir.rahbod.sinadrug.fonts.FontTextViewBold;
 import ir.rahbod.sinadrug.fragment.FragmentInterferenceDrug;
 import ir.rahbod.sinadrug.fragment.FragmentViewDrug;
+import ir.rahbod.sinadrug.fragment.FragmentViewDrug2;
 
 import java.io.File;
 
@@ -125,7 +126,8 @@ public class viewDrug extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         AdapterTabBar adapter = new AdapterTabBar(getSupportFragmentManager());
 
-        adapter.addFragment(new FragmentViewDrug(), "توضیحات دارو");
+//        adapter.addFragment(new FragmentViewDrug(), "توضیحات دارو");
+        adapter.addFragment(new FragmentViewDrug2(), "توضیحات دارو");
         adapter.addFragment(new FragmentInterferenceDrug(), "تداخل با دارو");
         viewPager.setAdapter(adapter);
     }

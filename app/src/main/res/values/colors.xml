@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="sina">#172b5d</color>
+    <color name="unreadNotification">#eee</color>
     <color name="Gray">#a3a5a7</color>
     <color name="Gray2">#dddddd</color>
     <color name="blue2">#2bd0ff</color>

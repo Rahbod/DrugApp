@@ -73,7 +73,7 @@
                         android:gravity="right"
                         android:textColor="@color/sina"
                         android:textAlignment="center"
-                        android:text="کابر گرامی مدت زمان استفاده از نسخه آزمایشی اپلیکیشن به پایان رسیده است." />
+                        android:text="کاربر گرامی مدت زمان استفاده از نسخه آزمایشی اپلیکیشن به پایان رسیده است." />
 
                     <ir.rahbod.sinadrug.fonts.FontTextViewBold
                         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                         android:textColor="@color/sina"
                         android:gravity="right"
                         android:textAlignment="center"
-                        android:text="شما با پرداخت 10 هزار تومان می توانید نسخه فعال این اپلیکیشن را دریافت نمایید" />
+                        android:text="شما می توانید با پرداخت 10.000 تومان نسخه اصلی این نرم افزار را فعال نمائید." />
 
                     <ir.rahbod.sinadrug.fonts.ButtonFont
                         android:id="@+id/btnPayment"

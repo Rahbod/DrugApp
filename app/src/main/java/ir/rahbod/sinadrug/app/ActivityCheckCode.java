@@ -85,8 +85,15 @@ public class ActivityCheckCode extends AppCompatActivity {
                                     try {
                                         if (response.getBoolean("status")) {
                                             if (SessionManager.getExtrasPref(ActivityCheckCode.this).getBoolean("useTrial")) {
-                                                Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
-                                                startActivity(intent);
+                                                if (SessionManager.getExtrasPref(ActivityCheckCode.this).getInt("activated") == 1) {
+                                                    Intent intent = new Intent(ActivityCheckCode.this, ActivitySplashScreen.class);
+                                                    intent.putExtra("action", "download");
+                                                    intent.putExtra("id", idNumber);
+                                                    startActivity(intent);
+                                                }else {
+                                                    Intent intent = new Intent(ActivityCheckCode.this, ActivitySelectVersion.class);
+                                                    startActivity(intent);
+                                                }
                                             } else {
                                                 Intent intent = new Intent(ActivityCheckCode.this, ActivityTrialMessage.class);
                                                 startActivity(intent);

@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ import ir.rahbod.sinadrug.app.database.DropList;
 import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
+import ir.rahbod.sinadrug.fonts.FontTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,6 +85,8 @@ public class ActivityIndex extends AppCompatActivity {
 //    private ImageView btnListen;
 //    private ConnectivityManager connectivityManager;
 
+    private static final String TAG = "ActivityIndex";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +105,7 @@ public class ActivityIndex extends AppCompatActivity {
                 SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
                 Intent intent = new Intent(this, ActivityTrialMessage.class);
                 startActivity(intent);
-            }else {
+            } else {
                 setContentView(R.layout.activity_index);
                 onCreateIndex();
             }
@@ -115,7 +119,6 @@ public class ActivityIndex extends AppCompatActivity {
 
         JSONObject params = new JSONObject();
         try {
-            Log.e("masoud", "onCreateIndex: "+SessionManager.getExtrasPref(this).getInt("setupDate"));
             if (dbHelper.getLastDateNotifications() == 0) {
                 params.put("last_sync", SessionManager.getExtrasPref(this).getInt("setupDate"));
             } else {
@@ -140,6 +143,7 @@ public class ActivityIndex extends AppCompatActivity {
                             String jalaliDate = object.getString("jalaliDate");
                             if (jsonArray.length() == 1)
                                 pushNotifications(title, text, i);
+
                             Notifications notifications = new Notifications();
                             notifications.setTitle(title);
                             notifications.setMessage(text);
@@ -147,14 +151,17 @@ public class ActivityIndex extends AppCompatActivity {
                             notifications.setJalaliDate(jalaliDate);
                             dbHelper.pushNotifications(notifications);
                         }
+
+                        showNotificationBadges();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
 
-        //update
+        // Checks
         checkUpdateDatabase();
+        checkActivated();
 
         text = findViewById(R.id.editTextSearch);
         Button btnActive = findViewById(R.id.active);
@@ -350,6 +357,54 @@ public class ActivityIndex extends AppCompatActivity {
                     Toast.makeText(ActivityIndex.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @SuppressLint({"HardwareIds", "MissingPermission"})
+    private void checkActivated() {
+        JSONObject params = new JSONObject();
+        idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assert telephonyManager != null;
+            imei = telephonyManager.getImei();
+        } else {
+            assert telephonyManager != null;
+            imei = telephonyManager.getDeviceId();
+        }
+        try {
+            params.put("id", idNumber);
+            params.put("imei", imei);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (isConnected())
+            AppController.getInstance().sendRequest("android/api/checkActivated", params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        Log.e("masoud", "onResponse: "+response.getInt("activated"));
+                        SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
+                        Button btnActive = findViewById(R.id.active);
+                        if (response.getInt("activated") == 1)
+                            btnActive.setVisibility(View.INVISIBLE);
+                        else
+                            btnActive.setVisibility(View.VISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+    }
+
+    private void showNotificationBadges() {
+        DbHelper dbHelper = new DbHelper(ActivityIndex.this);
+        int count = dbHelper.getCountNotification();
+        if(count > 0) {
+            FontTextView notificationCount = findViewById(R.id.txtCountNotification);
+            RelativeLayout relCountNotification = findViewById(R.id.relCountNotification);
+            relCountNotification.setVisibility(View.VISIBLE);
+            notificationCount.setText(String.valueOf(count));
+        }
     }
 
     public void checkAndroidID() {
@@ -565,6 +620,9 @@ public class ActivityIndex extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        showNotificationBadges();
+        checkActivated();
+
         super.onResume();
     }
 
@@ -617,11 +675,9 @@ public class ActivityIndex extends AppCompatActivity {
                 if (!etEmail.getText().toString().trim().isEmpty())
                     object.put("email", etEmail.getText().toString());
                 params.put("User", object);
-                Log.e("masoud", "sendRegisterRequest: "+params);
                 AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("qqqq", "onResponse: " + response );
                         try {
                             if (response.getBoolean("status")) {
                                 SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
