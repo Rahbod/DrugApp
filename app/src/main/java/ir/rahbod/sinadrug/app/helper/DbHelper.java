@@ -312,7 +312,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTIFICATION + " WHERE " + KEY_READ + " = 0";
         Cursor cursor = db.rawQuery(query, null);
-        return cursor.getCount();
+        if(cursor != null)
+            return cursor.getCount();
+        return 0;
     }
 
     public void bookMark(int id) {

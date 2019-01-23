@@ -84,7 +84,7 @@
                         android:textColor="@color/sina"
                         android:gravity="right"
                         android:textAlignment="center"
-                        android:text="شما می توانید با پرداخت 10.000 تومان نسخه اصلی این نرم افزار را فعال نمائید." />
+                        android:text="شما می توانید با پرداخت 10000 تومان نسخه اصلی این نرم افزار را فعال نمائید." />
 
                     <ir.rahbod.sinadrug.fonts.ButtonFont
                         android:id="@+id/btnPayment"

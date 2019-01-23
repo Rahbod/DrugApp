@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -22,9 +23,11 @@ import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ir.rahbod.sinadrug.app.ActivityIndex;
 import ir.rahbod.sinadrug.app.PaymentActivity;
 import ir.rahbod.sinadrug.app.R;
 import ir.rahbod.sinadrug.app.controller.AppController;
+import ir.rahbod.sinadrug.app.helper.SessionManager;
 import ir.rahbod.sinadrug.fonts.ButtonFont;
 import ir.rahbod.sinadrug.fonts.FontTextView;
 
@@ -34,6 +37,8 @@ public class ActivityTrialMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trial_message);
+
+        checkActivated();
 
         FontTextView trialMessageText = findViewById(R.id.trialMessageText);
         if (getIntent().getBooleanExtra("fromIndex", false))
@@ -88,6 +93,42 @@ public class ActivityTrialMessage extends AppCompatActivity {
                     Toast.makeText(ActivityTrialMessage.this, "دستگاه شما به اینترنت دسترسی ندارد", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @SuppressLint({"HardwareIds", "MissingPermission"})
+    public void checkActivated() {
+        JSONObject params = new JSONObject();
+        String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        String imei;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            assert telephonyManager != null;
+            imei = telephonyManager.getImei();
+        } else {
+            assert telephonyManager != null;
+            imei = telephonyManager.getDeviceId();
+        }
+        try {
+            params.put("id", idNumber);
+            params.put("imei", imei);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (isConnected())
+            AppController.getInstance().sendRequest("android/api/checkActivated", params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        SessionManager.getExtrasPref(ActivityTrialMessage.this).putExtra("activated", response.getInt("activated"));
+                        if (response.getInt("activated") == 1){
+                            Intent intent = new Intent(ActivityTrialMessage.this, ActivityIndex.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
     }
 
     public boolean isConnected() {

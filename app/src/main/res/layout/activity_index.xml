@@ -658,7 +658,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/red"
-        android:text="فعال سازی"
+        android:text="فعال سازی نسخه اصلی"
         android:textColor="@color/white" />
 
     <!--<LinearLayout-->

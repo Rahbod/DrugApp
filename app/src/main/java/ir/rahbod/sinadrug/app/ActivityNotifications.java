@@ -8,15 +8,19 @@ import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
 
+import ir.rahbod.sinadrug.app.dialog.SummaryDialog;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.map.MapActivity;
 
@@ -61,7 +65,25 @@ public class ActivityNotifications extends AppCompatActivity {
         });
 
         WebView webView = findViewById(R.id.webView);
+        webView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+                return true;
+            }
+
+        });
+
         String html = "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" /><link rel=\"stylesheet\" type=\"text/css\" href=\"fontiran.css\" /><div class=\"container\">"+  getIntent().getStringExtra("text") +"</div>";
+
         webView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
     }
     public void openNv(View view) {

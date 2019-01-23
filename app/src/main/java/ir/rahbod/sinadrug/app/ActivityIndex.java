@@ -3,11 +3,13 @@ package ir.rahbod.sinadrug.app;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -37,6 +39,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,7 +104,7 @@ public class ActivityIndex extends AppCompatActivity {
                 setupDate = SessionManager.getExtrasPref(this).getInt("setupDate");
 
             // if installed trial version 10 days ago go to activate page
-            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 864000) {
+            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 1/*864000*/) {
                 SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
                 Intent intent = new Intent(this, ActivityTrialMessage.class);
                 startActivity(intent);
@@ -119,11 +122,10 @@ public class ActivityIndex extends AppCompatActivity {
 
         JSONObject params = new JSONObject();
         try {
-            if (dbHelper.getLastDateNotifications() == 0) {
+            if (dbHelper.getLastDateNotifications() == 0)
                 params.put("last_sync", SessionManager.getExtrasPref(this).getInt("setupDate"));
-            } else {
+            else
                 params.put("last_sync", dbHelper.getLastDateNotifications());
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,6 +164,28 @@ public class ActivityIndex extends AppCompatActivity {
         // Checks
         checkUpdateDatabase();
         checkActivated();
+
+        // Show trial dialog
+        if (SessionManager.getExtrasPref(this).getInt("activated") == 0) {
+            View viewDialogMassage = LayoutInflater.from(this).inflate(R.layout.massage_dialog, null);
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(viewDialogMassage);
+            LinearLayout linReminder = viewDialogMassage.findViewById(R.id.linReminder);
+            linReminder.setVisibility(View.VISIBLE);
+            TextView txt = viewDialogMassage.findViewById(R.id.txt);
+            txt.setText("شما در حال استفاده از نسخه آزمایشی می باشید.");
+            Button btnOk = viewDialogMassage.findViewById(R.id.Ok);
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            btnOk.setText("باشه");
+            dialog.setCancelable(false);
+            dialog.show();
+        }
 
         text = findViewById(R.id.editTextSearch);
         Button btnActive = findViewById(R.id.active);
@@ -382,13 +406,14 @@ public class ActivityIndex extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        Log.e("masoud", "onResponse: "+response.getInt("activated"));
                         SessionManager.getExtrasPref(ActivityIndex.this).putExtra("activated", response.getInt("activated"));
                         Button btnActive = findViewById(R.id.active);
-                        if (response.getInt("activated") == 1)
-                            btnActive.setVisibility(View.INVISIBLE);
-                        else
-                            btnActive.setVisibility(View.VISIBLE);
+                        if(btnActive != null) {
+                            if (response.getInt("activated") == 1)
+                                btnActive.setVisibility(View.INVISIBLE);
+                            else
+                                btnActive.setVisibility(View.VISIBLE);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -402,8 +427,10 @@ public class ActivityIndex extends AppCompatActivity {
         if(count > 0) {
             FontTextView notificationCount = findViewById(R.id.txtCountNotification);
             RelativeLayout relCountNotification = findViewById(R.id.relCountNotification);
-            relCountNotification.setVisibility(View.VISIBLE);
-            notificationCount.setText(String.valueOf(count));
+            if(notificationCount != null && relCountNotification != null) {
+                relCountNotification.setVisibility(View.VISIBLE);
+                notificationCount.setText(String.valueOf(count));
+            }
         }
     }
 
@@ -621,7 +648,8 @@ public class ActivityIndex extends AppCompatActivity {
     @Override
     protected void onResume() {
         showNotificationBadges();
-        checkActivated();
+        if (SessionManager.getExtrasPref(this).getBoolean("selectedVersion"))
+            checkActivated();
 
         super.onResume();
     }
