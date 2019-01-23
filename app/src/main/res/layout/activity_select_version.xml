@@ -126,7 +126,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="نسخه فعال"
+                        android:text="نسخه اصلی"
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
@@ -137,7 +137,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="با دانلود و پرداخت هزینه، بصورت کامل نصب می شود." />
+                        android:text="با پرداخت هزینه و نصب برنامه، نسخه اصلی به صورت کامل فعال خواهد شد." />
 
                 </LinearLayout>
 
