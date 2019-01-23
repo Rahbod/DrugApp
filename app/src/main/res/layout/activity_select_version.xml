@@ -170,7 +170,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="این نسخه به مدت 10 روز فعال خواهد بود." />
+                        android:text="این نسخه به صورت رایگان به مدت ۱۰ روز فعال خواهد بود." />
 
                 </LinearLayout>
 

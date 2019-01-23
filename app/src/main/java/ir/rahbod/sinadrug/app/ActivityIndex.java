@@ -104,7 +104,7 @@ public class ActivityIndex extends AppCompatActivity {
                 setupDate = SessionManager.getExtrasPref(this).getInt("setupDate");
 
             // if installed trial version 10 days ago go to activate page
-            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 1/*864000*/) {
+            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 864000) {
                 SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
                 Intent intent = new Intent(this, ActivityTrialMessage.class);
                 startActivity(intent);
@@ -182,7 +182,6 @@ public class ActivityIndex extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
-            btnOk.setText("باشه");
             dialog.setCancelable(false);
             dialog.show();
         }

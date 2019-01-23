@@ -51,6 +51,7 @@ public class ActivitySearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        dbHelper = new DbHelper(this);
         int notificationCount = dbHelper.getCountNotification();
         LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
         TextView txtCountNotification = findViewById(R.id.txtCountNotification);
