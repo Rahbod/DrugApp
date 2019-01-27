@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import java.util.List;
 import ir.rahbod.sinadrug.app.adapter.AdapterListNotifications;
 import ir.rahbod.sinadrug.app.database.Notifications;
 import ir.rahbod.sinadrug.app.helper.DbHelper;
+import ir.rahbod.sinadrug.app.helper.SessionManager;
 import ir.rahbod.sinadrug.app.map.MapActivity;
 
 public class ActivityListNotifications extends AppCompatActivity {
@@ -34,6 +36,14 @@ public class ActivityListNotifications extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notifications);
         dbHelper = new DbHelper(this);
+
+        // Set user name and mobile
+        NavigationView navigationView = findViewById(R.id.notificationListNavView);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserName = headerView.findViewById(R.id.txtNameNav);
+        navUserName.setText(SessionManager.getExtrasPref(this).getString("name"));
+        TextView navUserMobile = headerView.findViewById(R.id.txtMobileNav);
+        navUserMobile.setText(SessionManager.getExtrasPref(this).getString("mobile"));
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {

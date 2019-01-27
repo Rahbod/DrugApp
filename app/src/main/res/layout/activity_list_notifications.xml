@@ -67,7 +67,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/reportNavView"
+        android:id="@+id/notificationListNavView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="right"
@@ -436,7 +436,7 @@
                     <ir.rahbod.sinadrug.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:text="قوانین و مقررات"
                         android:textColor="@color/sina" />
                 </LinearLayout>
