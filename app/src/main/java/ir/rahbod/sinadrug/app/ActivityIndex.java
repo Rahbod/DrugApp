@@ -104,7 +104,7 @@ public class ActivityIndex extends AppCompatActivity {
                 setupDate = SessionManager.getExtrasPref(this).getInt("setupDate");
 
             // if installed trial version 10 days ago go to activate page
-            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 864000) {
+            if (activated == 0 && ((int) (System.currentTimeMillis() / 1000) - setupDate) > 600/*864000*/) {
                 SessionManager.getExtrasPref(this).putExtra("selectedVersion", true);
                 Intent intent = new Intent(this, ActivityTrialMessage.class);
                 startActivity(intent);
@@ -699,6 +699,7 @@ public class ActivityIndex extends AppCompatActivity {
                 object.put("field", etField.getText().toString());
                 object.put("grade", gradeID.get(0));
                 object.put("department", departmentID.get(0));
+                object.put("setupDate", SessionManager.getExtrasPref(this).getInt("setupDate"));
                 if (!etEmail.getText().toString().trim().isEmpty())
                     object.put("email", etEmail.getText().toString());
                 params.put("User", object);

@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Response;
 import com.crashlytics.android.Crashlytics;
 import ir.rahbod.sinadrug.ActivityCheckTransaction;
 import ir.rahbod.sinadrug.ActivityGetLicense;
@@ -49,6 +50,8 @@ import ir.rahbod.sinadrug.app.helper.DbHelper;
 import ir.rahbod.sinadrug.app.helper.SessionManager;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -371,6 +374,26 @@ public class ActivitySplashScreen extends AppCompatActivity {
                 txtDownload.setTextColor(getResources().getColor(R.color.red));
                 break;
             case DownloadManager.STATUS_SUCCESSFUL:
+                if (isConnected()) {
+                    JSONObject params = new JSONObject();
+                    try {
+                        params.put("id", idNumber);
+                        params.put("imei", imei);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    AppController.getInstance().sendRequest("android/api/downloadEnd", params, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                SessionManager.getExtrasPref(ActivitySplashScreen.this).putExtra("setupDate", response.getInt("downloadDate"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
                 progressBar.setVisibility(View.INVISIBLE);
                 txtPercent.setVisibility(View.INVISIBLE);
                 txtDownload.setVisibility(View.VISIBLE);
