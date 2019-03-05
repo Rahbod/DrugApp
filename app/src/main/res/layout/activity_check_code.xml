@@ -45,7 +45,7 @@
                     android:layout_marginTop="50dp"
                     android:orientation="vertical">
 
-                    <ir.rahbod.sinadrug.fonts.EditTextFont
+                    <com.rahbod.pharmasina.fonts.EditTextFont
                         android:id="@+id/code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         android:textColor="@color/sina"
                         tools:ignore="RtlCompat,RtlHardcoded" />
 
-                    <ir.rahbod.sinadrug.fonts.ButtonFont
+                    <com.rahbod.pharmasina.fonts.ButtonFont
                         android:id="@+id/save"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"

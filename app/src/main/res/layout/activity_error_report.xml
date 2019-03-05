@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="ltr"
-        tools:context="ir.rahbod.sinadrug.app.ActivityErrorReport">
+        tools:context="com.rahbod.pharmasina.app.ActivityErrorReport">
 
         <!--actionBar-->
         <RelativeLayout
@@ -46,7 +46,7 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/back_icon" />
 
-            <ir.rahbod.sinadrug.fonts.FontTextView
+            <com.rahbod.pharmasina.fonts.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -74,7 +74,7 @@
                     android:paddingLeft="50dp"
                     android:paddingRight="50dp">
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:id="@+id/txt2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                         android:textColor="@color/Gray"
                         android:textSize="14dp" />
 
-                    <ir.rahbod.sinadrug.fonts.EditTextFont
+                    <com.rahbod.pharmasina.fonts.EditTextFont
                         android:id="@+id/etReport"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 
                 </RelativeLayout>
 
-                <ir.rahbod.sinadrug.fonts.ButtonFont
+                <com.rahbod.pharmasina.fonts.ButtonFont
                     android:id="@+id/btnSave"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/drug_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -189,7 +189,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/vegetal_drug" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -214,7 +214,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/interference_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -264,7 +264,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/healing_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -313,7 +313,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/clock_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -337,7 +337,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/favorite_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -362,7 +362,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/flag_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -387,7 +387,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/share_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -412,7 +412,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/notification_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -431,7 +431,7 @@
                         android:layout_marginRight="10dp"
                         android:background="@drawable/background_count_notification">
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:id="@+id/txtCountNotification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -462,7 +462,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/sina_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
@@ -487,7 +487,7 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/shake_icon" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"

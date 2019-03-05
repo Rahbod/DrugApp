@@ -54,7 +54,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:459612196254:android:0f3396acb95a3096",
         "android_client_info": {
-          "package_name": "ir.rahbod.sinadrug.app"
+          "package_name": "com.rahbod.pharmasina.app"
         }
       },
       "oauth_client": [
@@ -62,7 +62,7 @@
           "client_id": "459612196254-eh3fh8uf2qht40tjeg7m6k3059uvav5s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ir.rahbod.sinadrug.app",
+            "package_name": "com.rahbod.pharmasina.app",
             "certificate_hash": "33fc84df4c096192eb645393ee733cbfca9ff76a"
           }
         },

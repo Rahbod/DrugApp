@@ -16,7 +16,7 @@
         android:background="@drawable/background_gradient"
         tools:targetApi="lollipop">
 
-        <ir.rahbod.sinadrug.fonts.FontTextViewBold
+        <com.rahbod.pharmasina.fonts.FontTextViewBold
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:src="@drawable/black_close_icon"
                 android:visibility="invisible" />
 
-            <ir.rahbod.sinadrug.fonts.EditTextFont
+            <com.rahbod.pharmasina.fonts.EditTextFont
                 android:id="@+id/editTextSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -199,7 +199,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -233,7 +233,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -277,7 +277,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -311,7 +311,7 @@
                                 android:src="@drawable/clock_icon" />
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -347,7 +347,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="دسته بندی براساس بیماری"
@@ -427,7 +427,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -463,7 +463,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -499,7 +499,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -543,7 +543,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-7dp"
@@ -577,7 +577,7 @@
 
                         </LinearLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -618,7 +618,7 @@
                                 android:visibility="gone"
                                 android:background="@drawable/background_count_notification">
 
-                                <ir.rahbod.sinadrug.fonts.FontTextView
+                                <com.rahbod.pharmasina.fonts.FontTextView
                                     android:id="@+id/txtCountNotification"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -632,7 +632,7 @@
 
                         </RelativeLayout>
 
-                        <ir.rahbod.sinadrug.fonts.FontTextView
+                        <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="-10dp"
@@ -652,7 +652,7 @@
 
     </ScrollView>
 
-    <ir.rahbod.sinadrug.fonts.ButtonFont
+    <com.rahbod.pharmasina.fonts.ButtonFont
         android:id="@+id/active"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

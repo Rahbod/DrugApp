@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context="ir.rahbod.sinadrug.app.ActivityHome"
+    tools:context="com.rahbod.pharmasina.app.ActivityHome"
     android:background="@drawable/radius">
 
-    <ir.rahbod.sinadrug.fonts.FontTextView
+    <com.rahbod.pharmasina.fonts.FontTextView
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:textColor="@color/black"
         android:layout_alignParentRight="true"/>
 
-    <ir.rahbod.sinadrug.fonts.FontTextView
+    <com.rahbod.pharmasina.fonts.FontTextView
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:textSize="20sp"
         android:layout_alignParentRight="true"/>
 
-    <ir.rahbod.sinadrug.fonts.FontTextView
+    <com.rahbod.pharmasina.fonts.FontTextView
         android:id="@+id/ok_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

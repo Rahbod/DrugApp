@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ir.rahbod.sinadrug.fonts.FontTextView
+        <com.rahbod.pharmasina.fonts.FontTextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_height="1dp"
             android:layout_weight="1"/>
 
-        <ir.rahbod.sinadrug.fonts.FontTextView
+        <com.rahbod.pharmasina.fonts.FontTextView
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

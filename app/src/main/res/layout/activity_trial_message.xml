@@ -51,7 +51,7 @@
                     android:orientation="vertical"
                     tools:targetApi="jelly_bean_mr1">
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                    <com.rahbod.pharmasina.fonts.FontTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -62,7 +62,7 @@
                         android:textColor="@color/sina"
                         android:textSize="14dp"/>
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:id="@+id/trialMessageText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                         android:textAlignment="center"
                         android:text="کاربر گرامی مدت زمان استفاده از نسخه آزمایشی اپلیکیشن به پایان رسیده است." />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                    <com.rahbod.pharmasina.fonts.FontTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -86,7 +86,7 @@
                         android:textAlignment="center"
                         android:text="شما می توانید با پرداخت 10000 تومان نسخه اصلی این نرم افزار را فعال نمائید." />
 
-                    <ir.rahbod.sinadrug.fonts.ButtonFont
+                    <com.rahbod.pharmasina.fonts.ButtonFont
                         android:id="@+id/btnPayment"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"

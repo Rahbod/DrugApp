@@ -38,7 +38,7 @@
                 android:layout_marginTop="-50dp"
                 android:background="@drawable/corner_shape">
 
-                <ir.rahbod.sinadrug.fonts.EditTextFont
+                <com.rahbod.pharmasina.fonts.EditTextFont
                     android:id="@+id/numberMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                     android:textSize="14dp"
                     android:textColor="@color/sina"/>
 
-                <ir.rahbod.sinadrug.fonts.EditTextFont
+                <com.rahbod.pharmasina.fonts.EditTextFont
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                     android:textSize="14dp"
                     android:textColor="@color/sina"/>
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
+                <com.rahbod.pharmasina.fonts.FontTextView
                     android:id="@+id/department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
+                <com.rahbod.pharmasina.fonts.FontTextView
                     android:id="@+id/grade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:background="@drawable/edit_text_border"
                     android:textSize="14dp"/>
 
-                <ir.rahbod.sinadrug.fonts.EditTextFont
+                <com.rahbod.pharmasina.fonts.EditTextFont
                     android:id="@+id/field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                     android:textSize="14dp"
                     android:textColor="@color/sina"/>
 
-                <ir.rahbod.sinadrug.fonts.EditTextFont
+                <com.rahbod.pharmasina.fonts.EditTextFont
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:id="@+id/txtCheckBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
 
                 </LinearLayout>
 
-                <ir.rahbod.sinadrug.fonts.ButtonFont
+                <com.rahbod.pharmasina.fonts.ButtonFont
                     android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

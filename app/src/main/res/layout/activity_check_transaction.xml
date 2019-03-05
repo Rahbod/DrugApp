@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:layoutDirection="ltr"
-        tools:context="ir.rahbod.sinadrug.app.ActivityHome"
+        tools:context="com.rahbod.pharmasina.app.ActivityHome"
         tools:targetApi="jelly_bean_mr1">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,7 +23,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="ir.rahbod.sinadrug.ActivityCheckTransaction"
+            tools:context="com.rahbod.pharmasina.ActivityCheckTransaction"
             tools:ignore="MissingConstraints">
 
             <!--actionBar-->
@@ -48,7 +48,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/back_icon" />
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
+                <com.rahbod.pharmasina.fonts.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -59,7 +59,7 @@
 
             </RelativeLayout>
 
-            <ir.rahbod.sinadrug.fonts.FontTextViewBold
+            <com.rahbod.pharmasina.fonts.FontTextViewBold
                 android:id="@+id/txtMessageOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:textColor="@color/sina"
                 android:textSize="15dp" />
 
-            <ir.rahbod.sinadrug.fonts.ButtonFont
+            <com.rahbod.pharmasina.fonts.ButtonFont
                 android:id="@+id/back"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
@@ -105,21 +105,21 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="مبلغ:"
                         android:textColor="@color/sina" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="شماره تراکنش:"
                         android:textColor="@color/sina" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextView
+                    <com.rahbod.pharmasina.fonts.FontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -134,7 +134,7 @@
                     android:layout_weight="9"
                     android:orientation="vertical">
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                    <com.rahbod.pharmasina.fonts.FontTextViewBold
                         android:id="@+id/amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                         android:text="_ _ _"
                         android:textColor="@color/sina" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                    <com.rahbod.pharmasina.fonts.FontTextViewBold
                         android:id="@+id/orderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                         android:text="_ _ _"
                         android:textColor="@color/sina" />
 
-                    <ir.rahbod.sinadrug.fonts.FontTextViewBold
+                    <com.rahbod.pharmasina.fonts.FontTextViewBold
                         android:id="@+id/code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
 
             </LinearLayout>
 
-            <ir.rahbod.sinadrug.fonts.ButtonFont
+            <com.rahbod.pharmasina.fonts.ButtonFont
                 android:id="@+id/download"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"

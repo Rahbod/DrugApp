@@ -45,7 +45,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/star_icon_view_drug2" />
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
+                <com.rahbod.pharmasina.fonts.FontTextView
                     android:id="@+id/add_basket_item"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -70,7 +70,7 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/share_icon_bottom_navigation" />
 
-                <ir.rahbod.sinadrug.fonts.FontTextView
+                <com.rahbod.pharmasina.fonts.FontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
