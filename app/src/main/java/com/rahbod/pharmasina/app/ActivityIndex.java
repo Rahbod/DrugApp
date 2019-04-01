@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 
+import com.rahbod.pharmasina.ActivitySelectVersion;
 import com.rahbod.pharmasina.ActivityTrialMessage;
 import com.rahbod.pharmasina.app.adapter.AdapterDropList;
 import com.rahbod.pharmasina.app.controller.AppController;
@@ -709,8 +710,21 @@ public class ActivityIndex extends AppCompatActivity {
                                 SessionManager.getExtrasPref(ActivityIndex.this).putExtra("mobile", response.getString("mobile"));
                                 SessionManager.getExtrasPref(ActivityIndex.this).putExtra("lastAID", idNumber);
                                 SessionManager.getExtrasPref(ActivityIndex.this).putExtra("useTrial", response.getBoolean("useTrial"));
-                                Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
-                                startActivity(intent);
+                                //Intent intent = new Intent(ActivityIndex.this, ActivityCheckCode.class);
+                                if (response.getBoolean("useTrial")) {
+                                    if (response.getInt("activated") == 1) {
+                                        Intent intent = new Intent(ActivityIndex.this, ActivitySplashScreen.class);
+                                        intent.putExtra("action", "download");
+                                        intent.putExtra("id", idNumber);
+                                        startActivity(intent);
+                                    }else {
+                                        Intent intent = new Intent(ActivityIndex.this, ActivitySelectVersion.class);
+                                        startActivity(intent);
+                                    }
+                                } else {
+                                    Intent intent = new Intent(ActivityIndex.this, ActivityTrialMessage.class);
+                                    startActivity(intent);
+                                }
                                 btnSave.setTextColor(getResources().getColor(R.color.white));
                                 btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue));
                                 btnSave.setEnabled(true);
