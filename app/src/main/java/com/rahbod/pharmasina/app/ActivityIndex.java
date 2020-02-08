@@ -27,6 +27,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 
+import com.crashlytics.android.Crashlytics;
 import com.rahbod.pharmasina.ActivitySelectVersion;
 import com.rahbod.pharmasina.ActivityTrialMessage;
 import com.rahbod.pharmasina.app.adapter.AdapterDropList;
@@ -92,7 +94,7 @@ public class ActivityIndex extends AppCompatActivity {
         activityIndex = this;
 
         if (!SessionManager.getExtrasPref(this).getBoolean("selectedVersion")) {
-            setContentView(R.layout.activity_regester);
+            setContentView(R.layout.activity_register);
             onCreateRegister();
         } else {
             int activated = SessionManager.getExtrasPref(this).getInt("activated"),
@@ -281,10 +283,10 @@ public class ActivityIndex extends AppCompatActivity {
         etNumberMobile = findViewById(R.id.numberMobile);
         etName = findViewById(R.id.name);
         etField = findViewById(R.id.field);
-        etEmail = findViewById(R.id.email);
-        txtGrade = findViewById(R.id.grade);
+//        etEmail = findViewById(R.id.email);
+//        txtGrade = findViewById(R.id.grade);
         TextView txtCheckBox = findViewById(R.id.txtCheckBox);
-        txtDepartment = findViewById(R.id.department);
+//        txtDepartment = findViewById(R.id.department);
         final CheckBox checkBox = findViewById(R.id.checkBox);
         btnSave = findViewById(R.id.save);
         gradeID = new ArrayList<>();
@@ -347,18 +349,18 @@ public class ActivityIndex extends AppCompatActivity {
             }
         });
 
-        txtDepartment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDepartment(txtDepartment);
-            }
-        });
-        txtGrade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getGrade(txtGrade);
-            }
-        });
+//        txtDepartment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getDepartment(txtDepartment);
+//            }
+//        });
+//        txtGrade.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getGrade(txtGrade);
+//            }
+//        });
 
         // register
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -418,13 +420,16 @@ public class ActivityIndex extends AppCompatActivity {
     private void showNotificationBadges() {
         DbHelper dbHelper = new DbHelper(ActivityIndex.this);
         int count = dbHelper.getCountNotification();
-        if(count > 0) {
+        RelativeLayout relCountNotification = findViewById(R.id.relCountNotification);
+        if (count > 0) {
             FontTextView notificationCount = findViewById(R.id.txtCountNotification);
-            RelativeLayout relCountNotification = findViewById(R.id.relCountNotification);
-            if(notificationCount != null && relCountNotification != null) {
+            if (notificationCount != null && relCountNotification != null) {
                 relCountNotification.setVisibility(View.VISIBLE);
                 notificationCount.setText(String.valueOf(count));
             }
+        } else {
+            if (relCountNotification != null && relCountNotification.getVisibility() == View.VISIBLE)
+                relCountNotification.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -577,6 +582,11 @@ public class ActivityIndex extends AppCompatActivity {
                 intentPharma.putExtra("type", 1);
                 startActivity(intentPharma);
                 break;
+            case R.id.martindel:
+                Intent intentMartindel = new Intent(ActivityIndex.this, ActivityCategories.class);
+                intentMartindel.putExtra("type", 2);
+                startActivity(intentMartindel);
+                break;
             case R.id.location:
                 Uri uri = Uri.parse("http://maps.google.com/maps?q=pharmacy");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
@@ -673,10 +683,6 @@ public class ActivityIndex extends AppCompatActivity {
             Toast.makeText(ActivityIndex.this, "شماره تلفن وارد شده صحیح نمی باشد", Toast.LENGTH_LONG).show();
         else if (etName.getText().toString().trim().isEmpty())
             Toast.makeText(ActivityIndex.this, "لطفا نام و نام خانوادگی خود را وارد کنید", Toast.LENGTH_SHORT).show();
-        else if (gradeID.isEmpty())
-            Toast.makeText(ActivityIndex.this, "لطفا مقطع خود را وارد کنید", Toast.LENGTH_SHORT).show();
-        else if (etField.getText().toString().trim().isEmpty())
-            Toast.makeText(ActivityIndex.this, "لطفا رشته تحصیلی خود را وارد کنید", Toast.LENGTH_SHORT).show();
         else {
             btnSave.setEnabled(false);
             btnSave.setBackground(getResources().getDrawable(R.drawable.shape_button_blue_disable));
@@ -692,11 +698,12 @@ public class ActivityIndex extends AppCompatActivity {
                 object.put("model", Build.MODEL);
                 object.put("name", etName.getText().toString());
                 object.put("field", etField.getText().toString());
-                object.put("grade", gradeID.get(0));
-                object.put("department", departmentID.get(0));
                 object.put("setupDate", SessionManager.getExtrasPref(this).getInt("setupDate"));
-                if (!etEmail.getText().toString().trim().isEmpty())
-                    object.put("email", etEmail.getText().toString());
+                object.put("version", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+//                object.put("grade", gradeID.get(0));
+//                object.put("department", departmentID.get(0));
+//                if (!etEmail.getText().toString().trim().isEmpty())
+//                    object.put("email", etEmail.getText().toString());
                 params.put("User", object);
                 AppController.getInstance(ActivityIndex.this).sendRequest("android/api/register", params, new Response.Listener<JSONObject>() {
                     @Override
@@ -742,12 +749,15 @@ public class ActivityIndex extends AppCompatActivity {
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
 
     private boolean checkMobileNumber(String number) {
-        if (number.matches("^[0][9][0-9]{9}$"))
+        //if (number.matches("^[0][9][0-9]{9}$"))
+        if (number.length() > 10)
             return true;
         else
             return false;

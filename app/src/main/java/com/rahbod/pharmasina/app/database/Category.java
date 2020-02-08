@@ -7,6 +7,7 @@ public class Category {
     int parentID;
     public static final int TYPE_HEALING = 0;
     public static final int TYPE_SICKNESS = 1;
+    public static final int TYPE_MARTINDEL = 2;
 
     public Category() {
     }

@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -38,7 +39,7 @@ public class ActivityVegetalDrug extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ImageView imgOpenNvDraw;
-    private TextView text;
+    private TextView searchEditText;
     private IndexFastScrollRecyclerView recyclerView;
     private AdapterVegetalDrug adapter;
     private DbHelper dbHelper;
@@ -71,7 +72,7 @@ public class ActivityVegetalDrug extends AppCompatActivity {
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
-                    imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
                 }
 
                 new Handler().postDelayed(new Runnable() {
@@ -90,41 +91,9 @@ public class ActivityVegetalDrug extends AppCompatActivity {
             }
         });
 
-        final ImageView searchIcon = findViewById(R.id.searchHome);
-        final ImageView closeIcon = findViewById(R.id.closeIcon);
-        searchIcon.setVisibility(View.VISIBLE);
-        text.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String strText = text.getText().toString().trim();
-                if (strText.matches("")) {
-                    closeIcon.setVisibility(View.INVISIBLE);
-                    searchIcon.setVisibility(View.VISIBLE);
-                } else {
-                    searchIcon.setVisibility(View.INVISIBLE);
-                    closeIcon.setVisibility(View.VISIBLE);
-                    closeIcon.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            text.setText("");
-                            searchIcon.setVisibility(View.VISIBLE);
-                            closeIcon.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-                filter(text.getText().toString().trim());
-            }
-        });
+        // search
+        searchEditText = findViewById(R.id.editText);
+        search();
 
         int notificationCount = dbHelper.getCountNotification();
         LinearLayout linCountNotification = findViewById(R.id.linCountNotification);
@@ -139,7 +108,6 @@ public class ActivityVegetalDrug extends AppCompatActivity {
     private void bind() {
         drawerLayout = findViewById(R.id.DrawerLayout);
         imgOpenNvDraw = findViewById(R.id.btnOpenNvDraw);
-        text = findViewById(R.id.editText);
         recyclerView = findViewById(R.id.fast_scroller_recycler);
         dbHelper = new DbHelper(this);
         list = dbHelper.getVegetalDrug();
@@ -178,6 +146,8 @@ public class ActivityVegetalDrug extends AppCompatActivity {
             } else if (index.getFa_name().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(index);
             } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
+            } else if (index.getFaBrand().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(index);
             }
         }
@@ -293,5 +263,80 @@ public class ActivityVegetalDrug extends AppCompatActivity {
         }
 
         startActivity(Intent.createChooser(intent, "Share app via"));
+    }
+
+    public void search()
+    {
+        searchEditText.setText("");
+        final ImageView searchIcon = findViewById(R.id.searchIcon);
+        final ImageView closeIcon = findViewById(R.id.closeIcon);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!searchEditText.getText().toString().equals("")) {
+                    Intent intent = new Intent(ActivityVegetalDrug.this, ActivitySearch.class);
+                    intent.putExtra("item", searchEditText.getText().toString());
+                    intent.putExtra("vegetal", 1);
+                    startActivity(intent);
+                    searchEditText.setText("");
+                } else {
+                    //hide keyboard
+                    Class<? extends View.OnClickListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(ActivityVegetalDrug.this.INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                    }
+                }
+            }
+        });
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String strText = searchEditText.getText().toString();
+                if (strText.matches("")) {
+                    closeIcon.setVisibility(View.INVISIBLE);
+                } else {
+
+                    closeIcon.setVisibility(View.VISIBLE);
+                    closeIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            searchEditText.setText("");
+                            closeIcon.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+            }
+        });
+        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (!searchEditText.getText().toString().equals("")) {
+                    Intent intent = new Intent(ActivityVegetalDrug.this, ActivitySearch.class);
+                    intent.putExtra("item", searchEditText.getText().toString());
+                    intent.putExtra("vegetal", 1);
+                    startActivity(intent);
+                    searchEditText.setText("");
+                } else {
+                    //hide keyboard
+                    Class<? extends TextView.OnEditorActionListener> view = this.getClass();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        assert imm != null;
+                        imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                    }
+                }
+                return true;
+            }
+        });
     }
 }

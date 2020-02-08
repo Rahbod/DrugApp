@@ -12,7 +12,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -33,15 +32,17 @@ import com.rahbod.pharmasina.app.map.MapActivity;
 import java.io.File;
 import java.util.List;
 
+import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
+
 public class ActivitySearch extends AppCompatActivity {
-    //    private ImageView btnListen;
+//    private ImageView btnListen;
 //    private SpeechProgressView progress;
 //    private ConnectivityManager connectivityManager;
 //    private Speech speechInstance;
     private List<Index> list;
     private EditText text;
     private AdapterSearch adapter;
-    private RecyclerView recyclerView;
+    private IndexFastScrollRecyclerView recyclerView;
     private DbHelper dbHelper;
     private TextView txtName;
     private DrawerLayout drawerLayout;
@@ -104,7 +105,7 @@ public class ActivitySearch extends AppCompatActivity {
         //list drug
         txtName = findViewById(R.id.txtName);
         dbHelper = new DbHelper(this);
-        list = dbHelper.getSearchItem(getIntent().getStringExtra("item"));
+        list = dbHelper.getSearchItem(getIntent().getStringExtra("item"), getIntent().getIntExtra("vegetal", 0));
         adapter = new AdapterSearch(this, list);
         recyclerView = findViewById(R.id.recCategoryList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -143,7 +144,7 @@ public class ActivitySearch extends AppCompatActivity {
                         imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
                     }
                     txtName.setVisibility(View.INVISIBLE);
-                    list = dbHelper.getSearchItem(text.getText().toString());
+                    list = dbHelper.getSearchItem(text.getText().toString(), getIntent().getIntExtra("vegetal", 0));
                     adapter = new AdapterSearch(ActivitySearch.this, list);
                     recyclerView.setAdapter(adapter);
                     if (list.isEmpty()) {
@@ -203,7 +204,7 @@ public class ActivitySearch extends AppCompatActivity {
                         imm.hideSoftInputFromWindow(text.getWindowToken(), 0);
                     }
                     txtName.setVisibility(View.INVISIBLE);
-                    list = dbHelper.getSearchItem(text.getText().toString());
+                    list = dbHelper.getSearchItem(text.getText().toString(), getIntent().getIntExtra("vegetal", 0));
                     adapter = new AdapterSearch(ActivitySearch.this, list);
                     recyclerView.setAdapter(adapter);
                     if (list.isEmpty()) {

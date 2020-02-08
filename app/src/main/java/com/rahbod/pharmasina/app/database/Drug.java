@@ -11,6 +11,7 @@ public class Drug {
     String name;
     String faName;
     String brand;
+    String fa_brand;
     String pregnancy;
     String lactation;
     String kids;
@@ -40,8 +41,6 @@ public class Drug {
     int categoryType;
     boolean checked = false;
     int favorite;
-
-    String TAG = "qqqq";
 
     public Drug(){
 
@@ -79,8 +78,16 @@ public class Drug {
         return brand;
     }
 
+    public String getFaBrand() {
+        return fa_brand;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public void setFaBrand(String fa_brand) {
+        this.fa_brand = fa_brand;
     }
 
     public String getPregnancy() {
@@ -320,6 +327,7 @@ public class Drug {
             this.name = object.getString("name");
             this.faName = object.getString("fa_name");
             this.brand = object.getString("brand");
+            this.fa_brand = object.getString("fa_brand");
             this.pregnancy = object.getString("pregnancy");
             this.lactation = object.getString("lactation");
             this.kids = object.getString("kids");

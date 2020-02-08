@@ -24,9 +24,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.rahbod.pharmasina.app.R;
+import com.crashlytics.android.Crashlytics;
 
 
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class AppController extends Application {
     private static final int socketTimeout = 30000;
     private static final int socketRetries = 2;
     private static final String BASE_URL = "http://pharmasin.ir/";
+//    private static final String BASE_URL = "http://95.156.255.230/~pharmasin/";
     //    // visit
     private static final String CLIENT_ID = "UiRgEQt91vL60-8pixMTkxplOB-jAplL24rdfgDFgS6RTSf6eBGuFZ8ckmLXFT0nBRrz_6C5rGbmmY2f";
     private static final String CLIENT_SECRET = "huHxZTH6EZ_3Y8b71wcFetW34aFGc2P1x2H_yHVh9-uxB5lbcF12ds81mM8SB5IDWGZGpasd211";
@@ -54,9 +56,12 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         // change font
         mInstance = this;
+        //throw new RuntimeException("This is a crash");
     }
+
 
     public static synchronized AppController getInstance() {
         return mInstance;

@@ -166,6 +166,8 @@ public class ActivityCategoryViewDrug extends AppCompatActivity {
                 filterDrug.add(index);
             } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug.add(index);
+            } else if (index.getFaBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug.add(index);
             }
         }
         adapterCategoryDrug.filterList(filterDrug);

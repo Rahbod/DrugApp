@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.rahbod.pharmasina.app.R;
 import com.rahbod.pharmasina.app.database.Index;
 import com.rahbod.pharmasina.app.viewDrug;
 
@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.drugListViewHolder> {
+public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.drugListViewHolder>  implements SectionIndexer {
 
+    private ArrayList<Integer> mSectionPositions;
     private Context context;
     private List<Index> list;
 
@@ -36,7 +37,7 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.drugListVi
     @Override
     public void onBindViewHolder(AdapterSearch.drugListViewHolder holder, int position) {
         final int pos = position;
-        holder.drugName.setText(list.get(position).getName());
+        holder.drugName.setText(list.get(position).getShowFieldValue());
         holder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +52,30 @@ public class AdapterSearch extends RecyclerView.Adapter<AdapterSearch.drugListVi
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = list.size(); i < size; i++) {
+            String section = String.valueOf(list.get(i).getName().substring(0, 1)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSectionPositions.get(sectionIndex);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     class drugListViewHolder extends RecyclerView.ViewHolder {

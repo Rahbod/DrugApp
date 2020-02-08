@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.rahbod.pharmasina.app.database.Category;
 import com.rahbod.pharmasina.app.database.Drug;
@@ -46,6 +47,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_NAME_DRUG = "name";
     private static final String KEY_NAME_PERSIAN_DRUG = "persian";
     private static final String KEY_BRAND = "brand";
+    private static final String KEY_FA_BRAND = "fa_brand";
     private static final String KEY_VEGETAL = "vegetal";
     private static final String KEY_FAVORITE = "favorite";
 
@@ -79,7 +81,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE_INDEX = "CREATE TABLE IF NOT EXISTS " + TABLE_INDEX + " (" + KEY_ID_DRUG + " INTEGER, "
-                + KEY_NAME_DRUG + " TEXT, " + KEY_BRAND + " TEXT, " + KEY_NAME_PERSIAN_DRUG + " TEXT ," + KEY_VEGETAL +
+                + KEY_NAME_DRUG + " TEXT, " + KEY_BRAND + " TEXT, " + KEY_FA_BRAND + " TEXT, " + KEY_NAME_PERSIAN_DRUG + " TEXT ," + KEY_VEGETAL +
                 " INTEGER )";
 
         String
@@ -276,6 +278,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             drugList.add(index);
@@ -294,6 +297,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             drugList.add(index);
         }
@@ -375,6 +379,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Category> getPharmaCategory(int drugID) {
         String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = " + Category.TYPE_HEALING;
+        List<Category> list = new ArrayList<>();
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            List<Category> tempList = getPharmaParents(cursor.getInt(cursor.getColumnIndex(KEY_ID_CATEGORY)));
+            list.addAll(tempList);
+        }
+        return list;
+    }
+
+    public List<Category> getMartindelCategory(int drugID) {
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ID_CATEGORY + " IN (SELECT category_id FROM category_drug WHERE drug_id = " + drugID + ") AND type = " + Category.TYPE_MARTINDEL;
         List<Category> list = new ArrayList<>();
         db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -475,6 +491,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             list.add(index);
@@ -493,6 +510,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             list.add(index);
@@ -528,6 +546,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             list.add(index);
         }
@@ -546,6 +565,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             drugList.add(index);
         }
@@ -563,6 +583,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             list.add(index);
@@ -582,6 +603,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             list.add(index);
@@ -601,6 +623,7 @@ public class DbHelper extends SQLiteOpenHelper {
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
             list.add(index);
         }
@@ -624,18 +647,34 @@ public class DbHelper extends SQLiteOpenHelper {
         return object;
     }
 
-    public List<Index> getSearchItem(String item) {
+    public List<Index> getSearchItem(String item, int vegetal) {
         db = this.getReadableDatabase();
         List<Index> list = new ArrayList<>();
-        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE " + KEY_NAME_DRUG + " LIKE '%" + item + "%' OR " + KEY_NAME_PERSIAN_DRUG + " LIKE '%" + item + "%' OR " + KEY_BRAND + " LIKE '%" + item + "%'";
+//        String query = "SELECT * FROM " + TABLE_INDEX + " WHERE " + KEY_NAME_DRUG + " LIKE '%" + item + "%' OR " + KEY_NAME_PERSIAN_DRUG + " LIKE '%" + item + "%' OR " + KEY_BRAND + " LIKE '%" + item + "%' OR " + KEY_FA_BRAND + " LIKE '%" + item + "%'";
+        String query =
+                "SELECT " +
+                    "*, " +
+                    "(CASE WHEN "+KEY_NAME_PERSIAN_DRUG+" LIKE '%"+item+"%' THEN "+KEY_NAME_PERSIAN_DRUG+" WHEN "+KEY_NAME_DRUG+" LIKE '%"+item+"%' THEN "+KEY_NAME_DRUG+" WHEN "+KEY_BRAND+" LIKE '%"+item+"%' THEN "+KEY_BRAND+" ELSE "+KEY_FA_BRAND+" END) AS result, " +
+                    "(CASE WHEN "+KEY_NAME_PERSIAN_DRUG+" LIKE '%"+item+"%' THEN 'fa_name' WHEN "+KEY_NAME_DRUG+" LIKE '%"+item+"%' THEN 'name' WHEN "+KEY_BRAND+" LIKE '%"+item+"%' THEN 'brand' ELSE 'fa_brand' END) AS field " +
+                    //"IF ((" + KEY_NAME_PERSIAN_DRUG + " LIKE '%" + item + "%'), 'fa_name', IF ((" + KEY_NAME_DRUG + " LIKE '%" + item + "%'), 'name', IF ((" + KEY_BRAND + " LIKE '%" + item + "%'), 'brand', 'fa_brand'))) AS field " +
+                "FROM " + TABLE_INDEX + " " +
+                "WHERE " +
+                    KEY_NAME_PERSIAN_DRUG + " LIKE '%" + item + "%' " +
+                    "OR " + KEY_NAME_DRUG + " LIKE '%" + item + "%' " +
+                    "OR " + KEY_BRAND + " LIKE '%" + item + "%' " +
+                    "OR " + KEY_FA_BRAND + " LIKE '%" + item + "%'" +
+                    "AND " + KEY_VEGETAL + " = " + vegetal;
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             Index index = new Index();
             index.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME_DRUG)));
             index.setFa_name(cursor.getString(cursor.getColumnIndex(KEY_NAME_PERSIAN_DRUG)));
             index.setBrand(cursor.getString(cursor.getColumnIndex(KEY_BRAND)));
+            index.setFaBrand(cursor.getString(cursor.getColumnIndex(KEY_FA_BRAND)));
             index.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID_DRUG)));
             index.setVegetal(cursor.getInt(cursor.getColumnIndex(KEY_VEGETAL)));
+            index.setShowField(cursor.getString(cursor.getColumnIndex("field")));
+            index.setShowFieldValue(cursor.getString(cursor.getColumnIndex("result")));
             list.add(index);
         }
         return list;

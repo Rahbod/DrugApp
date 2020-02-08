@@ -17,8 +17,7 @@ import com.rahbod.pharmasina.app.R;
 import com.rahbod.pharmasina.app.database.Index;
 import com.rahbod.pharmasina.app.viewDrug;
 
-public class AdapterVegetalDrug extends RecyclerView.Adapter<AdapterVegetalDrug.ListViewHollder>
-        implements SectionIndexer {
+public class AdapterVegetalDrug extends RecyclerView.Adapter<AdapterVegetalDrug.ListViewHollder> implements SectionIndexer {
 
     private ArrayList<Integer> mSectionPositions;
     private List<Index> drug2List;

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,8 +176,17 @@ public class FragmentViewDrug2 extends Fragment {
                 companyHtml = "";
 
         // Make brand html
-        if (!drug.getBrand().isEmpty() && VEGETAL == 0)
-            brandHtml = "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-brand\"></i>نام تجاری:</h4><div class=\"text direction-ltr\">" + drug.getBrand() + "</div></div></div>";
+        if ((!drug.getBrand().isEmpty() || !drug.getFaBrand().isEmpty()) && VEGETAL == 0) {
+            brandHtml = "<div class=\"section iconic-field\"><div class=\"row\"><h4 class=\"title\"><i class=\"icon-brand\"></i>نام تجاری:</h4>";
+
+            if(!drug.getBrand().isEmpty())
+                brandHtml += "<div class=\"text direction-ltr\">" + drug.getBrand() + "</div>";
+
+            if(!drug.getFaBrand().isEmpty())
+                brandHtml += "<div class=\"text\">" + drug.getFaBrand() + "</div>";
+
+            brandHtml += "</div></div>";
+        }
 
         // Make pregnancy html
         JSONObject jsonPregnancy = null;

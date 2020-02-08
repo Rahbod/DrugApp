@@ -262,40 +262,6 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/favorite"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/background_icon_index"
-                            android:gravity="center"
-                            android:onClick="openActivity">
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/favorite_icon" />
-
-                        </LinearLayout>
-
-                        <com.rahbod.pharmasina.fonts.FontTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-10dp"
-                            android:text="نشان شده ها"
-                            android:textColor="@color/sina"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
                             android:id="@+id/reminder"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
@@ -308,16 +274,52 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/clock_icon" />
+                                android:src="@drawable/clock_icon"/>
                         </LinearLayout>
 
                         <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="-10dp"
                             android:text="یادآور مصرف دارو"
                             android:textColor="@color/sina"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:layout_marginTop="6dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/martindel"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity"
+                            tools:ignore="OnClick">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/healing_icon"/>
+
+                        </LinearLayout>
+
+                        <com.rahbod.pharmasina.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="دسته بندی مارتیندل"
+                            android:textAlignment="center"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp"
+                            android:layout_marginTop="6dp"/>
 
                     </LinearLayout>
 
@@ -342,8 +344,7 @@
                             <ImageView
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/healing_icon"
-                                android:layout_marginBottom="-15dp"/>
+                                android:src="@drawable/healing_icon"/>
 
                         </LinearLayout>
 
@@ -353,7 +354,7 @@
                             android:text="دسته بندی براساس بیماری"
                             android:textAlignment="center"
                             android:textColor="@color/sina"
-                            android:textSize="12dp"
+                            android:textSize="11dp"
                             android:layout_marginTop="6dp"/>
 
                     </LinearLayout>
@@ -401,41 +402,6 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/aboutUs"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/background_icon_index"
-                            android:gravity="center"
-                            android:onClick="openActivity">
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:src="@drawable/about_icon" />
-
-                        </LinearLayout>
-
-                        <com.rahbod.pharmasina.fonts.FontTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="-10dp"
-                            android:text="درباره فارماسینا"
-                            android:textColor="@color/sina"
-                            android:textSize="12dp" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -509,16 +475,6 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -528,7 +484,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/location"
+                            android:id="@+id/favorite"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_gravity="center"
@@ -537,21 +493,31 @@
                             android:onClick="openActivity">
 
                             <ImageView
-                                android:layout_width="28dp"
+                                android:layout_width="35dp"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/location_icon" />
+                                android:src="@drawable/favorite_icon" />
 
                         </LinearLayout>
 
                         <com.rahbod.pharmasina.fonts.FontTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="-7dp"
-                            android:text="داروخانه های نزدیک"
+                            android:layout_marginTop="-10dp"
+                            android:text="نشان شده ها"
                             android:textColor="@color/sina"
                             android:textSize="12dp" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -638,6 +604,84 @@
                             android:layout_marginTop="-10dp"
                             android:lines="1"
                             android:text="اطلاعیه ها"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/aboutUs"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:src="@drawable/about_icon" />
+
+                        </LinearLayout>
+
+                        <com.rahbod.pharmasina.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
+                            android:text="درباره فارماسینا"
+                            android:textColor="@color/sina"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/location"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_icon_index"
+                            android:gravity="center"
+                            android:onClick="openActivity">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/location_icon" />
+
+                        </LinearLayout>
+
+                        <com.rahbod.pharmasina.fonts.FontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-7dp"
+                            android:text="داروخانه های نزدیک"
                             android:textColor="@color/sina"
                             android:textSize="12dp" />
 

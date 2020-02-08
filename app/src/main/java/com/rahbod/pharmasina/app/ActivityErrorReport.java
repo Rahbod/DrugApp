@@ -7,10 +7,12 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -124,6 +126,19 @@ public class ActivityErrorReport extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
+                            String idNumber = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                            String imei;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                assert telephonyManager != null;
+                                imei = telephonyManager.getImei();
+                            } else {
+                                assert telephonyManager != null;
+                                imei = telephonyManager.getDeviceId();
+                            }
+
+                            params.put("id", idNumber);
+                            params.put("imei", imei);
                             params.put("Report", jsonObject);
                         } catch (JSONException e) {
                             e.printStackTrace();

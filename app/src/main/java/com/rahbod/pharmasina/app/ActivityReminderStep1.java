@@ -167,6 +167,8 @@ public class ActivityReminderStep1 extends AppCompatActivity {
                 filterDrug2.add(index);
             } else if (index.getBrand().toLowerCase().contains(str.toLowerCase())) {
                 filterDrug2.add(index);
+            } else if (index.getFaBrand().toLowerCase().contains(str.toLowerCase())) {
+                filterDrug2.add(index);
             }
         }
         adapterReminder.filterList(filterDrug2);

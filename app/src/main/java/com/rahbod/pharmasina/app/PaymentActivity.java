@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -36,6 +37,8 @@ public class PaymentActivity extends AppCompatActivity {
         WebViewClient webViewClient = new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.e("masoud", "verify");
+                Log.e("masoud", url);
                 if (url.equals("http://pharmasin.ir/android/api/verify")){
                     Intent intent = new Intent(PaymentActivity.this, ActivityCheckTransaction.class);
                     intent.putExtra("id", id);
